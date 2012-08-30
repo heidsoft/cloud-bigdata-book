@@ -1,0 +1,48 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="帮助文档" />
+<meta name="keywords" content="文档中心" />
+<title>帮助中心</title>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+		  #header A:visited{color:white}
+    	#header A:link{color:white}
+    	#header A:hover{color:white}
+</style>
+</head>
+<body scroll="no" id="docs">
+<div id="welcome">
+    <div class="col">
+        <div id="text" style="line-height:1.5em;">
+                   
+            <div id="search">
+            </div>
+
+            <h2>1.功能概况</h2>
+            <p>
+ 								设备部署(选择一种部署模式进行应用)。应用网口可把配置好的部署模式应用到网络中去。
+            </p>
+            <h2>2. 使用帮助</h2>
+            <p>
+ 							a.)多路网桥。
+            </p>
+            <p>每路网桥需配置内网口、外网口、虚拟通道，第三口(可以不启动)以及IP/Mask。最多可配置四路网桥。还可以配置一个管理口，并配置相对应的管理口IP和子网掩码。</p>
+            <p>
+							 b.)边缘防火墙。
+            </p>
+            <p>每条链路需配置网口、链路类型、网口IP、子网掩码、网关地址。最多可启动动两条链路。当两条链路都启动时，可设置双链路负载均衡，并配置均衡标准、链路权重以及默认出口的链路。还可以配置一个内网口，并配置相对应的IP和子网掩码。</p>
+            <p>
+							 c.)旁路部署。
+            </p>
+            <p>可启动四个监控口，若启动则需配置对应的虚拟通道、镜像网口。还需配置管理口，并配置相对应的管理口IP和子网掩码。</p>
+            <h2>3. 常见问题</h2>
+             a.)配置以后请认真检查ip地址，为了确保配置没有问题，我们建议配置保存后硬件重新启动一次。
+        </div>
+    </div>
+<iframe id="frm1" width="0" height="0" style='display:"none"'></iframe>
+  </body>
+</html>

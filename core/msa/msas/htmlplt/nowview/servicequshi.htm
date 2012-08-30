@@ -1,0 +1,155 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/extjs/resources/images/default/s.gif';
+    
+ Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+						
+   
+
+    // create the data store
+    
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msas/main.xp?Fun=msasSrvInfo',
+        fields: [
+           {name: 'sid'},
+           {name: 'sname'},
+           {name: 'sflow', type: 'int'}
+        ]
+    });
+
+    var pagingBar = new Ext.PagingToolbar({
+        pageSize: 25,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据"
+    });
+
+    xtzystore.load();
+    
+    // create the Grid
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        columns: [
+            {id:'sid',header: "服务ID", width: 30, sortable: true, dataIndex: 'sid'},
+            {header: "服务类别", width: 100, sortable: true, dataIndex: 'sname'},
+            {header: "速率", width: 100, sortable: true,  dataIndex: 'sflow'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'sid',
+        width:350,
+        height:screen.height-230,
+        title:'当前服务分布',
+        frame:true,
+		    collapsible:true,
+		    bbar: pagingBar,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+       
+			var xtzyPanel1 = new Ext.Panel({
+			        id:'xtzyPanel1id',
+			        title: '饼状分布图',
+			        height:(screen.height-260)/2,
+			        el:'xtzyPanel1div',
+			        frame:true,
+					    collapsible:true,
+					    draggable:true
+			    });
+			var xtzyPanel2 = new Ext.Panel({
+			        title: '柱状分布图',
+			        height:(screen.height-50)/2,
+			        el:'xtzyPanel2div',
+			        frame:true,
+					    collapsible:true,
+					    draggable:true
+			    });
+			
+	
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									id:'tree-xtzy-panel',
+								  layout:'table',
+									layoutConfig: {
+										columns: 2
+									},
+									defaults: {
+										bodyStyle:'padding:5px 5px,valign:top'
+									},
+								  items: [{
+								        items:xtzygrid,
+								        height:screen.height-140,
+												rowspan: 2
+								    },{
+								        height:(screen.height-260)/2,
+								        width:(screen.width-570),
+								        items:xtzyPanel1
+								    },{
+								    	height:(screen.height-50)/2,
+								    	width:(screen.width-570),
+										  items:xtzyPanel2
+									}],
+					        renderTo: Ext.getBody()
+					    });
+            
+            
+						myMask.hide();
+						 
+            var task = {
+								run: function(){
+								},
+								interval: 60000 // 每30秒一周期
+						};
+						var runner = new Ext.util.TaskRunner();
+						runner.start(task);
+  
+            
+  });
+   
+</SCRIPT>
+
+</HEAD>
+<BODY>
+
+<div style="display:none;">
+<div id="xtzyPanel2div">
+ <iframe frameborder="no"  scrolling="no"  width="100%"  height="100%"  src='/msas/nowview/servicebar.htm'></iframe>    
+</div>
+<div id="xtzyPanel1div">
+ <iframe frameborder="no"  scrolling="no"  width="100%"  height="100%"  src='/msas/nowview/servicepie.htm'></iframe>     
+</div>
+
+</div>
+
+</BODY></HTML>

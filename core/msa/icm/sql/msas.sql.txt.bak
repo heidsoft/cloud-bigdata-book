@@ -1,0 +1,383 @@
+create database icm;
+
+
+drop table icmAdminArea;
+create table icmAdminArea (
+    id           int       primary key,      
+    ipstart      varchar(16),                  
+    ipend        varchar(16)
+);
+
+drop table icmadmuser;
+create table icmadmuser (
+    name       varchar(32)   primary key,  
+    password   varchar(32),    
+    lright     varchar(128), 
+    email      varchar(64),  
+    lasttime   int,     
+    bindip    varchar(32) default ''
+);
+
+insert into icmadmuser values('admin','qoQhDpRa4xOAwkBtuS0mq0','1111111111111111111111111111','',0,'');
+
+drop table icmadmlog;
+create table icmadmlog (
+    name       varchar(32),      
+    sdate      varchar(24),
+    subject    varchar(254), 
+    loglevel   int                 /*1,2,3,4,5*/
+);
+
+drop table icmGroup;
+create table icmGroup (
+    id             int   primary key, 
+    pid            int   default 0, 
+    name           varchar(64) default 'DefaultGroup',
+    mydesc         varchar(128) default '',
+    level          int   default 0
+);
+create index icmGroup_index1 on icmGroup(id);
+create index icmGroup_index2 on icmGroup(pid);
+create index icmGroup_index3 on icmGroup(name);
+
+insert into icmGroup values('0','0','默认分组','系统默认分组','0');   
+
+drop table  icmGroupIp;
+create table icmGroupIp (
+    groupid    int,
+    lip        int(11) unsigned NOT NULL,
+	  ipadd      varchar(16),      
+	  lipend     int(11) unsigned NOT NULL,
+	  ipaddend   varchar(16)     
+);
+
+drop table icmuserinfo;
+create table icmuserinfo (
+    uid             int default 0,             /*uid */
+    username        varchar(32)  default '', 
+    groupid0        int default 0,             /*gid */
+    groupid1        int default 0,             /*gid */
+    groupid2        int default 0,             /*gid */
+    groupid3        int default 0,             /*gid */
+    groupid4        int default 0,             /*gid */
+    policyid        varchar(61)  default '000000000000000000000000000000000000000000000000000000000000', 
+    ipadd           varchar(24)  default '', 
+    macadd          varchar(16)  default '',
+    useflags        varchar(33)  default '00000000000000000000000000000000' 
+);
+create index icmuserinfo_index1 on icmuserinfo(uid);
+create index icmuserinfo_index2 on icmuserinfo(ipadd);
+
+drop table ClientCmd;
+create table ClientCmd (
+    cmdno          varchar(32)  primary key,  
+    gnmkey         varchar(32)  default '',
+    cmdpath        varchar(128)  default '',
+		cmdtype        varchar(24)  default '',
+		cmdtime        varchar(32)  default '',
+		cmdptime       varchar(32)  default '',
+		cmduploadtime  varchar(32)  default '',
+		updateflag     int default 0              /*0 1 2 3 */
+);
+create index ClientCmd_index1 on ClientCmd(cmdno);
+create index ClientCmd_index2 on ClientCmd(gnmkey);
+
+/*每小时记录一次*/
+drop table msastimeinfolog;
+create table msastimeinfolog (
+    rtime       int,               /*记录时间*/          
+    sdate       varchar(10),       
+    stime       int, 
+    gnmkey      varchar(32),       /* 序列号    */
+    sysversion  varchar(16),       /* 系统版本  */
+    cpunum      int,               /* cpu利用率 */
+    memnum      int,               /* mem利用率 */
+    sysdisknum  int,               /* 系统硬盘利用率 */
+    appdisknum  int,               /* 应用硬盘利用率 */
+    usernum     int,               /* 在线用户 */
+    p2pnum      int,               /* p2p用户 */
+    livernum    int,               /* live用户 */
+    gamenum     int,               /* game用户 */
+    soketnum    int,               /* 股票用户 */
+    tcpnum      int,               /*tcp连接数*/
+    udpnum      int,               /*udp连接数*/
+    httpnum     int,               /* http连接数 */   
+    urlnum      int,               /* 活动网址数*/
+    bytenum     bigint,            /*出口速率*/ 
+    bytenumu    bigint,            /*出口速率*/ 
+    bytenumd    bigint,            /*出口速率*/ 
+    srvflow0    bigint,
+    srvflow1    bigint,
+    srvflow2    bigint,
+    srvflow3    bigint,
+    srvflow4    bigint,
+    srvflow5    bigint,
+    srvflow6    bigint,
+    srvflow7    bigint,
+    srvflow8    bigint,
+    srvflow9    bigint,
+    srvflow10    bigint,
+    srvflow11    bigint,
+    srvflow12    bigint,
+    srvflow13    bigint,
+    srvflow14    bigint,
+    srvflow15    bigint,
+    srvflow16    bigint,
+    srvflow17    bigint,
+    srvflow18    bigint,
+    srvflow19    bigint,
+    srvflow20    bigint,
+    srvflow21    bigint,
+    srvflow22    bigint,
+    srvflow23    bigint,
+    srvflow24    bigint,
+    srvflow25    bigint, 
+    srvflow26    bigint, 
+    srvflow27    bigint,
+    srvflow28    bigint, 
+    srvflow29    bigint,
+    srvflow30    bigint, 
+    srvflow31    bigint,
+    srvflow32    bigint, 
+    srvflow33    bigint,
+    srvflow34    bigint
+); 
+
+create index msastimeinfolog_in1 on msastimeinfolog (rtime);
+create index msastimeinfolog_in2 on msastimeinfolog (sdate);
+create index msastimeinfolog_in3 on msastimeinfolog (gnmkey);
+
+/*每小时记录一次*/
+drop table msassysinfolog;
+create table msassysinfolog (
+    rtime       int,               /*记录时间*/          
+    sdate       varchar(10),       
+    stime       int, 
+    onlinehost  int,
+    cpunum      int,               /* cpu利用率 */
+    memnum      int,               /* mem利用率 */
+    sysdisknum  int,               /* 系统硬盘利用率 */
+    appdisknum  int,               /* 应用硬盘利用率 */
+    usernum     int,               /* 在线用户 */
+    p2pnum      int,               /* p2p用户 */
+    livernum    int,               /* live用户 */
+    gamenum     int,               /* game用户 */
+    soketnum    int                /* 股票用户 */
+);
+
+create index msassysinfolog_in1 on msassysinfolog (rtime);
+create index msassysinfolog_in2 on msassysinfolog (sdate);
+
+
+drop table RealIDList;
+create table RealIDList (
+    User_name         varchar(32)  default '',
+		Sex               varchar(12)  default '',
+		Certificate_type  varchar(20)  default '',
+		Certificate_code  varchar(20)  default '',
+		Org_name          varchar(128)  default '',
+		Country           varchar(32)  default '',
+		Description       varchar(64)  default '',
+		updateflag       int default 0
+);
+
+create index RealIDList_in1 on RealIDList(User_name);
+create index RealIDList_in2 on RealIDList(Certificate_type);
+create index RealIDList_in3 on RealIDList(Certificate_code);
+
+INSERT INTO RealIDList VALUES ('学历风','1','111','411081197701236858','','CHN','',0);
+INSERT INTO RealIDList VALUES ('特殊他','0','111','411081197701236859','','CHN','',0);
+INSERT INTO RealIDList VALUES ('王大帅','0','111','310081197701236858','','CHN','',0);
+INSERT INTO RealIDList VALUES ('李小美','0','111','310081197701236856','','CHN','',0);
+
+drop table NetIDBasicList;
+create table NetIDBasicList (
+    User_name         varchar(32)  default '',
+		Sex               varchar(12)  default '',
+		Certificate_type  varchar(20)  default '',
+		Certificate_code  varchar(20)  default '',
+		Org_name          varchar(128)  default '',
+		Country           varchar(32)  default '',
+		Card              varchar(32)  default '',
+		Dummy_type        varchar(32)  default '',
+		Dummy_code        varchar(128)  default '',
+		updateflag       int default 0
+);
+create index NetIDBasicList_in1 on NetIDBasicList(User_name);
+create index NetIDBasicList_in2 on NetIDBasicList(Certificate_type);
+create index NetIDBasicList_in3 on NetIDBasicList(Certificate_code);
+create index NetIDBasicList_in4 on NetIDBasicList(Dummy_type);
+
+//INSERT INTO NetIDBasicList VALUES ('李小美','0','111','310081197701236856','','CHN','','1002','375404599',0);
+//INSERT INTO NetIDBasicList VALUES ('李小美','0','111','310081197701236856','','CHN','','1001','xlf_address@hotmail.com',0);
+
+drop table NetIDTrackList;
+create table NetIDTrackList (
+    logid             varchar(32)  default '',
+    User_name         varchar(32)  default '',
+		Certificate_type  varchar(20)  default '',
+		Certificate_code  varchar(20)  default '',
+		Dummy_type        varchar(32)  default '',
+		Dummy_code        varchar(128)  default '',
+		Login_time        varchar(32)  default '',
+		Exit_time         varchar(32)  default '',
+		gnmkey            varchar(32)  default '',
+		sname             varchar(128)  default '',
+		Net_ending_ip     varchar(32)  default '',
+		updateflag        int default 0
+);
+
+create index NetIDTrackList_in1 on NetIDTrackList(logid);
+create index NetIDTrackList_in2 on NetIDTrackList(User_name);
+create index NetIDTrackList_in3 on NetIDTrackList(Certificate_type);
+create index NetIDTrackList_in4 on NetIDTrackList(Certificate_code);
+create index NetIDTrackList_in5 on NetIDTrackList(Dummy_type);
+
+INSERT INTO NetIDTrackList VALUES ('2010081100','李小美','111','310081197701236856','1002','375404599','20100800','20100801','3334-1234-1234-1234','上海宝创科技','192.168.0.l88',0);
+INSERT INTO NetIDTrackList VALUES ('2010081100','李小美','111','310081197701236856','1001','xlf_address@hotmail.com','20100800','20100802','3334-1234-1234-1234','上海宝创科技','192.168.0.l88',0);
+
+drop table ClientList;
+create table ClientList (
+    logid            varchar(32)  default '',
+    gnmkey           varchar(32)  default '',  
+    sname            varchar(128)  default '', 
+		User_name        varchar(32)  default '',
+		Certificate_type varchar(20)  default '',
+		Certificate_code varchar(20)  default '',
+		Online_time      varchar(32)  default '',
+		Offline_time     varchar(32)  default '',
+		Net_ending_ip    varchar(32)  default '',
+		Net_ending_mac   varchar(32)  default '',
+		Org_name         varchar(128)  default '',
+		Country          varchar(32)  default '',
+		updateflag       int default 0
+);
+
+create index ClientList_in0 on ClientList(gnmkey);
+create index ClientList_in1 on ClientList(logid);
+create index ClientList_in2 on ClientList(User_name);
+create index ClientList_in3 on ClientList(Certificate_type);
+create index ClientList_in4 on ClientList(Certificate_code);
+
+INSERT INTO ClientList VALUES ('2010081100','3334-1234-1234-1234','上海宝创科技','李小美','111','310081197701236856','20100800','20100802','192.168.0.l88','223344556677','','CHN',0);
+
+
+//gnmkey,Service_name,User_name,Certificate_type,Certificate_code,Net_ending_ip,
+//Net_ending_name,Net_ending_mac,Time,Destination_ip,Port,Service_type,
+//KeyWord1,KeyWord2,KeyWord3,KeyWord3 16
+
+drop table AlertList;
+create table AlertList(
+    Matching_id       int          primary key,
+    gnmkey            varchar(32)  default  '',  
+    sname             varchar(128) default  '',    
+		Rule_id           varchar(32)  default  '',
+		anjian_id         varchar(32),    
+		Rule_name         varchar(64)  default  '',
+		Matching_time     varchar(32)  default  '',
+		Net_ending_ip     varchar(24)  default  '',
+		Net_ending_code   varchar(32)  default  '',
+		Net_ending_mac    varchar(16)  default  '',
+		Destination_ip    varchar(32)  default  '',
+		Service_type      varchar(16)  default  '',
+		KeyWord1          varchar(64)  default  '',
+		KeyWord2          varchar(32)  default  '',
+		KeyWord3          varchar(24)  default  '',
+		Customer_name     varchar(32)  default  '',
+		Certificate_type  varchar(12)  default  '',
+		Certificate_code  varchar(24)  default  '',
+		Rule_type         int          default 0,
+		contenturl        varchar(128) default '',
+    updateflag       int default 0
+);
+create index AlertList_in0 on AlertList(gnmkey);
+create index AlertList_in1 on AlertList(Matching_id);
+create index AlertList_in2 on AlertList(Rule_type);
+create index AlertList_in3 on AlertList(Rule_id);
+
+INSERT INTO AlertList VALUES (1,'3334-1234-1234-1234','上海宝创科技','1','sina访问','20100810123045','192.168.0.88','test','340011223344',5,'sina','','','李小美','111','310081197701236856',7,'',0);
+
+
+drop table RuleList;
+create table RuleList(
+    Rule_id           varchar(32)  primary key,
+    anjian_id         varchar(32),    
+		Rule_name         varchar(64)  default  '',
+		Rule_type         int          default 0,    
+		KeyWord1          varchar(64)  default '',
+		KeyWord2          varchar(64)  default '',
+		KeyWord3          varchar(64)  default '',
+    Rule_endtime      varchar(32)  default '',
+    Rule_areacode     varchar(32)  default '',
+    updateflag        int default 0
+);
+create index RuleList_in0 on RuleList(Rule_id);
+create index RuleList_in1 on RuleList(Rule_type);
+
+insert into RuleList values ('1111111111','123456789','927诈骗案QQ布控',2,'3454678','2010103000000','310000',0);
+
+/*
+说明；
+Rule_id:     time(0)+getpid()
+Rule_type    int          default 0,    /*1真实身份 2-6：虚拟身份 7-9关键字 10-11网络异常*/
+1真实身份；  key1=身份类型  key2=身份号码  key3=用户名称
+2-6虚拟身份  key1=身份
+7-9:关键字   key1=关键字
+10-11：异常  key1流量>平均流量n倍
+                 时间大于平均时间n倍
+Rule_areacode: 布控区域       
+*/      
+
+drop table AnJianList;
+create table AnJianList(
+    anjian_id         varchar(32)  primary key,  
+		anjian_name       varchar(64)  default  '',
+		anjian_desc       varchar(255) default  '',
+		zerenren          varchar(64)  default '',
+		zerenrentel       varchar(32)  default '',
+		zerenrenmp        varchar(32)  default '',
+		zerenrenmail      varchar(48)  default '',
+		jingju            varchar(64)  default ''
+);
+create index AnJianList_in0 on AnJianList(anjian_id);
+create index AnJianList_in1 on AnJianList(anjian_name);
+
+insert into AnJianList values ('123456789','927网络诈骗案','','王铁锤','0513-3567888','13781996786','wtc@163.com','崇川区公安局网络监察大队');
+/*
+说明；
+anjian_id:     time(0)+getpid()
+jingju:警局      
+*/      
+
+
+/*
+策略：
+同属于该案情的全部报警策略
+查看所属案情详情
+查看该策略的全部报警记录
+查看所属案情的全部报警记录
+
+案情：
+该案情的全部报警策略
+该案情的全部报警记录
+*/
+
+/*
+报警统计
+
+	场所报警
+	每日报警
+	触发报警
+
+系统状态报表
+   shijian  cpu  mem  
+场所状态报表
+   场所     cpu  mem  出口速录 。。。。。
+场所上线率
+   时间   上线场所   上线率
+   
+场所人员上线率   
+	场所    上线人员    上线率       
+	
+*/
+

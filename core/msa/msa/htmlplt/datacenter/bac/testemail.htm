@@ -1,0 +1,26 @@
+sprintf(caTempDir,"%s/report/%d/%lu/",_datacenterdir,reporttype,ltStrGetId());
+access函数：功 能: 确定文件或文件夹的访问权限。即，检查某个文件的存取方式，
+比如说是只读方式、只写方式等。如果指定的存取方式有效，则函数返回0，否则函数返回-1。
+void *memset(void *s,int c,size_t n) 将已开辟内存空间 s 的首 n 个字节的值设为值 c。
+
+函数名: strncmp
+功 能: 串比较
+用 法: int strncmp(char *str1, char *str2, int maxlen);
+说明:比较字符串str1和str2的大小，如果str1小于str2，返回值就<0，反之如果str1大于str2，
+返回值就>0，如果str1等于str2，返回值就=0，maxlen指的是str1与str2的比较的字符数。
+此函数功能即比较字符串str1和str2的前maxlen个字符。 
+
+1。void *memset(void *s,int c,size_t n)
+总的作用：将已开辟内存空间 s 的首 n 个字节的值设为值 c。
+
+C语言中open函数
+作用:打开和创建文件。 　
+简述: 　　#include <fcntl.h> 　　int open(const char *pathname, int oflag, ... /* mode_t mode */); 　
+返回值：成功则返回文件描述符，否则返回 -1 　　对于 open 函数来说，
+第三个参数（...）仅当创建新文件时（即 使用了O_CREAT 时）才使用，
+用于指定文件的访问权限位（access permission bits）。
+pathname 是待打开/创建文件的路径名（如 C:/cpp/a.cpp）；
+oflag 用于指定文件的打开/创建模式，这个参数可由以下常量（定义于 fcntl.h）通过逻辑或构成。
+ 　　O_RDONLY 只读模式 　　O_WRONLY 只写模式 　　O_RDWR 读写模式 　　打开/创建文件时，至少得使用上述三个常量中的一个。以下常量是选用的： 　　O_APPEND 每次写操作都写入文件的末尾 　　O_CREAT 如果指定文件不存在，则创建这个文件 　　O_EXCL 如果要创建的文件已存在，则返回 -1，并且修改 errno 的值 　　O_TRUNC 如果文件存在，并且以只写/读写方式打开，则清空文件全部内容(即将其长度截短为0) 　　O_NOCTTY 如果路径名指向终端设备，不要把这个设备用作控制终端。 　　O_NONBLOCK 如果路径名指向 FIFO/块文件/字符文件，则把文件的打开和后继 I/O
+设置为非阻塞模式
+　　（nonblocking mode） 　　以下三个常量同样是选用的，它们用于同步输入输出 　　O_DSYNC 等待物理 I/O 结束后再 write。在不影响读取新写入的数据的 　　前提下，不等待文件属性更新。 　　O_RSYNC read 等待所有写入同一区域的写操作完成后再进行 　　O_SYNC 等待物理 I/O 结束后再 write，包括更新文件属性的 I/O 　　open 返回的文件描述符一定是最小的未被使用的描述符。 　　如果 NAME_MAX（文件名最大长度，不包括'\0'）是 14，而我们想在当前目录下创建文件名长度超过 14 字节的文件，早期的 System V 系统（如 SVR2）会截断超出部分，只保留前 14 个字节；而由 BSD 衍生的（BSD-derived）系统会返回错误信息，并且把 errno 置为 ENAMETOOLONG。 　　POSIX.1 引入常量 _POSIX_NO_TRUNC 用于决定是否截断长文件名/长路径名。如果_POSIX_NO_TRUNC 设定为禁止截断，并且路径名长度超过 PATH_MAX（包括 '\0'），或者组成路径名的任意文件名长度超过 NAME_MAX，则返回错误信息，并且把 errno 置为 ENAMETOOLONG。

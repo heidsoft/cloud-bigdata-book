@@ -1,0 +1,305 @@
+gcc 编译动态库和静态库 .
+
+
+1 准备工作
+Windows7+Cygwin+gcc
+
+
+在同一个目录下准备好下面3个文件，其中3-2，3-3用来生成动态库或静态库:
+
+主调用程序源代码3-1：main.c
+
+
+
+[cpp] view plaincopyprint?
+01./** 
+02. * main.c 
+03. */  
+04.#include <stdio.h>   
+05.#include <math.h>   
+06.  
+07.#include "hello_fn.h"   
+08.  
+09.int  
+10.main ()  
+11.{  
+12.  hello("cheungmine");  
+13.  printf("sqrt(2.0) = %f\n", sqrt(2.0));  
+14.  return 0;  
+15.}  
+/**
+ * main.c
+ */
+#include <stdio.h>
+#include <math.h>
+
+#include "hello_fn.h"
+
+int
+main ()
+{
+  hello("cheungmine");
+  printf("sqrt(2.0) = %f\n", sqrt(2.0));
+  return 0;
+}
+库源代码3-2：hello_fn.c
+
+[cpp] view plaincopyprint?
+01./** 
+02. * hello_fn.c 
+03. */  
+04.#include <stdio.h>   
+05.  
+06.void hello(const char *msg)  
+07.{  
+08.  printf("Hello %s!\n", msg);  
+09.}  
+10.  
+11.  
+12.   
+/**
+ * hello_fn.c
+ */
+#include <stdio.h>
+
+void hello(const char *msg)
+{
+  printf("Hello %s!\n", msg);
+}
+
+
+ 库头文件源代码3-3：hello_fn.h
+
+
+[cpp] view plaincopyprint?
+01./** 
+02. * hello_fn.h 
+03. */  
+04.void hello(const char *msg);  
+/**
+ * hello_fn.h
+ */
+void hello(const char *msg);
+
+2 编译库
+2.1 首先编译源文件生成对象(obj)文件(main.o, hello_fn.o)：
+
+[plain] view plaincopyprint?
+01.$ gcc -W -Wall -ansi -pedantic -I. -c main.c  
+02.$ gcc -W -Wall -ansi -pedantic -I. -c hello_fn.c  
+$ gcc -W -Wall -ansi -pedantic -I. -c main.c
+$ gcc -W -Wall -ansi -pedantic -I. -c hello_fn.c
+
+2.2 然后从对象文件编译动态库文件(libhello.so)和静态库(libhello.a)
+
+[plain] view plaincopyprint?
+01.$ gcc -shared hello_fn.o -o libhello.so  
+02.或者直接从源代码编译：  
+03.$ gcc -shared -I. hello_fn.c -o libhello.so  
+04.编译静态库相对简单，就是相当于目标文件归档：  
+05.$ ar r libhello.a hello_fn.o  
+$ gcc -shared hello_fn.o -o libhello.so
+或者直接从源代码编译：
+$ gcc -shared -I. hello_fn.c -o libhello.so
+编译静态库相对简单，就是相当于目标文件归档：
+$ ar r libhello.a hello_fn.o
+
+
+
+3 编译使用库的主程序
+3.1 如果不链接库的情况下编译一个主程序是：
+
+[plain] view plaincopyprint?
+01.$ gcc main.o -o main  
+02.或者  
+03.$ gcc -c main.c -o main  
+$ gcc main.o -o main
+或者
+$ gcc -c main.c -o main但是由于我们在main.c的代码中写固定了调用库的代码(hello函数)，所以，必须链接到这个库才行。
+
+3.2 链接到动态库libhello.so
+
+[plain] view plaincopyprint?
+01.$ gcc main.o -o main ./libhello.so  
+$ gcc main.o -o main ./libhello.so
+这样在当前目录下就生成了：main.exe（我的cygwin环境，Linux环境下没有扩展名）
+
+运行这个main.exe：
+
+
+[plain] view plaincopyprint?
+01.$ ./main.exe  
+$ ./main.exe删除libhello.so，再运行main.exe会报错误：error while loading shared libraries: libhello.so: cannot open shared object...
+
+3.3 链接到静态库libhello.a
+
+[plain] view plaincopyprint?
+01.$ gcc main.o -o main2 ./libhello.a  
+$ gcc main.o -o main2 ./libhello.a删除libhello.a，运行main2.exe，一切正常。说明程序的确链接到静态库了。
+
+4 查看程序依赖的库
+
+[plain] view plaincopyprint?
+01.$ file main.exe main2.exe  
+02.$ ldd main.exe main2.exe  
+$ file main.exe main2.exe
+$ ldd main.exe main2.exe如果我们的动态库libhello.so与主程序不在同一个目录下，怎么办？
+
+复制libhello.so和libhello.a到另外一个目录，比如：/cygdrive/c/temp，那么编译主程序为：
+
+
+[plain] view plaincopyprint?
+01.$ gcc main.o -o main /cygdrive/c/temp/libhello.so  
+02.执行：  
+03.$ export PATH=/cygdrive/c/temp:$PATH  
+04.$ ./main.exe   
+$ gcc main.o -o main /cygdrive/c/temp/libhello.so
+执行：
+$ export PATH=/cygdrive/c/temp:$PATH
+$ ./main.exe 
+
+5 运行时加载动态库
+修改main.c文件为如下清单：
+
+
+[cpp] view plaincopyprint?
+01./** 
+02. * main.c 
+03. */  
+04.#include <stdio.h>   
+05.#include <math.h>   
+06.#include <dlfcn.h>   
+07.#include "hello_fn.h"   
+08.  
+09.void dl_hello()  
+10.{  
+11.  void *dp;  
+12.  char *error;  
+13.  void (*fn_hello)(const char*);  
+14.  
+15.  dp = dlopen("libhello.so", RTLD_LAZY );  
+16.  if(!dp) {  
+17.    printf("%s\n", dlerror());  
+18.    exit(1);  
+19.  }  
+20.  
+21.  fn_hello = dlsym(dp, "hello");  
+22.  if(!fn_hello) {  
+23.    printf("%s\n", dlerror());  
+24.    exit(1);  
+25.  }  
+26.  
+27.  fn_hello("cheungmine: load library when running");  
+28.  
+29.  dlclose(dp);  
+30.}  
+31.      
+32.int  
+33.main ()  
+34.{  
+35.//  hello("cheungmine");   
+36.  dl_hello();  
+37.  printf("sqrt(2.0) = %f\n", sqrt(2.0));  
+38.  return 0;  
+39.}  
+/**
+ * main.c
+ */
+#include <stdio.h>
+#include <math.h>
+#include <dlfcn.h>
+#include "hello_fn.h"
+
+void dl_hello()
+{
+  void *dp;
+  char *error;
+  void (*fn_hello)(const char*);
+
+  dp = dlopen("libhello.so", RTLD_LAZY );
+  if(!dp) {
+    printf("%s\n", dlerror());
+    exit(1);
+  }
+
+  fn_hello = dlsym(dp, "hello");
+  if(!fn_hello) {
+    printf("%s\n", dlerror());
+    exit(1);
+  }
+
+  fn_hello("cheungmine: load library when running");
+
+  dlclose(dp);
+}
+    
+int
+main ()
+{
+//  hello("cheungmine");
+  dl_hello();
+  printf("sqrt(2.0) = %f\n", sqrt(2.0));
+  return 0;
+}
+
+然后重新编译main.exe和libhello.so如下：
+
+
+[cpp] view plaincopyprint?
+01.编译源文件  
+02.$ gcc -Wall -I. -c main.c  
+03.$ gcc -Wall -I. -c hello_fn.c  
+04.编译动态库  
+05.$ gcc -shared hello_fn.o -o libhello.so  
+06.链接主程序，但不链接到动态库。  
+07.$ gcc main.o -o main.exe  
+08.执行下面的代码可以看到libhello.so并不在main.exe的依存之列：  
+09.$ ldd main.exe  
+10.移动库到其他目录，通过修改环境变量，程序main.exe执行正确：   
+11.$ mv libhello.so /cygdrive/c/temp  
+12.$ export PATH=.:/cygdrive/c/temp:$PATH  
+13.$ ./main.exe  
+编译源文件
+$ gcc -Wall -I. -c main.c
+$ gcc -Wall -I. -c hello_fn.c
+编译动态库
+$ gcc -shared hello_fn.o -o libhello.so
+链接主程序，但不链接到动态库。
+$ gcc main.o -o main.exe
+执行下面的代码可以看到libhello.so并不在main.exe的依存之列：
+$ ldd main.exe
+移动库到其他目录，通过修改环境变量，程序main.exe执行正确： 
+$ mv libhello.so /cygdrive/c/temp
+$ export PATH=.:/cygdrive/c/temp:$PATH
+$ ./main.exe
+
+
+
+6 总结
+通过上面的练习，基本清楚了如何用gcc编译程序，包括静态链接库和动态链接库。通过下面的表格可以看到
+
+Linux和Windows的区别：
+
+
+                               Windows                      Unix/Linux
+
+
+----------------------------------------------------------------------
+
+
+静态链接库              hello.lib                            libhello.a
+
+
+动态链接库              hello.dll                            libhello.so
+
+延迟加载                  LoadLibrary                    dlopen
+
+                                  GetProcAddress            dlsym
+
+                                  FreeLibrary                     dlclose
+
+
+
+
+本文全部内容在cygwin上运行的，和真实的Linux环境还是存在差异的。gcc版本3.4.4。
+

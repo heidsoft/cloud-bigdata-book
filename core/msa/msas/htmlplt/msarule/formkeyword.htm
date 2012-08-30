@@ -1,0 +1,114 @@
+﻿<HTML><HEAD><TITLE>更新服务规则</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+		function checkbox(obj)
+				{	
+					if(obj.checked){
+				    obj.value=1;
+				  }else{
+				    obj.value=0;
+					}
+				}
+		function del() {
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.mainviewfrm.location.href='/msa/main.xp?Fun=editkeyword+type=[$type$]';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","删除失败!");
+          },
+          params:{Fun:'editkeyword',id:event.srcElement.name,delflag:'delflag',type:[$type$]}
+				});
+		}
+		function add() {
+				if(listform.keyword.value=="" ){
+					Ext.MessageBox.alert("提示","关键字不能为空!");
+					listform.keyword.focus();
+					return;
+				}
+				if(listform.host.value=="" ){
+					Ext.MessageBox.alert("提示","主机URL不能为空!");
+					listform.listform.focus();
+					return;
+				}
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.mainviewfrm.location.href='/msa/main.xp?Fun=editkeyword+type=[$type$]';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+          },
+          params:{Fun:'editkeyword',host:listform.host.value,keyword:listform.keyword.value,addflag:'addflag',type:listform.type.value,utf8:listform.utf8.value,web:listform.web.value}
+				});
+		}
+	</SCRIPT>
+</head>
+<body bgcolor="#DFE8F6" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mainviewdiv" valign="top" align="left" STYLE="position:absolute; top=30; left=10; z-index:1;">
+<TABLE id="mytable" width="900" border="1" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+  <form id="listform">
+  <input type="hidden" name="type" value="[$type$]">
+  <thead>
+	<tr>
+		<td width="28%" height="23" ><span class="STYLE4">主机</span></td>
+		<td height="23" colspan="2"><span class="STYLE4">关键字</span></td>
+		<td width="7%" >操作</td>
+	</tr>
+  </thead>
+  <tbody>
+		[$begintable list$]
+    <tr>
+    	<td width="28%">
+      	[$host$]</td>
+      <td colspan="2">
+      	[$keyword$] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<font color="#999999">[$code$]   </td>
+      <td width="7%">
+          <input type='button' class=input size="32" onClick="del();" maxlength="20" name="[$id$]" value="删除" style="cursor: hand">
+        </td>
+      </tr>
+    [$endtable$]
+  </tbody>
+<tfoot>
+	<tr>
+		<td width="28%">
+          <input type='text' name="host" class=input size="32" maxlength="20" value="">
+    </td>
+    <td width="26%">
+          <input type='text' name="keyword" class=input size="32" maxlength="20" value="">
+    </td>
+    <td height="22" width="39%">
+      	<input type="checkbox" name="utf8" value="0" onClick="checkbox(this)" value="0">
+        UTF-8&nbsp
+        <input type="checkbox" name="web" value="0" onClick="checkbox(this)" value="0">
+        web编码[web]&nbsp
+    </td>
+		<td width="7%">
+          <input type='button' class=input onClick="add();" size="20" maxlength="20" value="添加" style="cursor: hand">
+    </td>
+	</tr>
+</tfoot>
+</form>
+</TABLE>
+</div>
+</body>
+</html>

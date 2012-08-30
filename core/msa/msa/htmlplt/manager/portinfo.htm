@@ -1,0 +1,149 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT><SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+	function addlistfun() {
+	  var startPort=listform.bport.value;
+	  var endtPort=listform.eport.value;
+		if(startPort==""){
+			Ext.MessageBox.alert("开始端口不能为空!");
+			listform.bport.focus();
+			return;
+		}
+		if(endtPort==""){
+			alert("终止端口不能为空!");
+			listform.eport.focus();
+			return;
+		}
+		if(!(startPort>=0&&startPort<=65535)){
+			alert("开始端口必须在0~65535之间!");
+			listform.bport.select();
+			listform.bport.focus();
+			return;
+		}
+		if(!(endtPort>=0&&endtPort<=65535)){
+			alert("终止端口必须在0~65535之间!");
+			listform.eport.focus();
+			return;
+		}
+		
+		
+		listform.actiontype.value=1;
+		listform.submit();
+	}
+	
+	
+	function dellistfun() {
+		listform.actiontype.value=2;
+		listform.submit();
+	}
+	
+	function  applylistfun() {
+						Ext.Ajax.request({
+								method : 'POST', 
+						    url:'/msa/main.xp', 
+						    success: function(response, options){
+							  	 var retxt=response.responseText;
+							  	 if(retxt.substring(0,1)=="1"){
+							  	  	Ext.MessageBox.alert('提示','端口应用成功!');
+							     }else{
+							  	 	  Ext.MessageBox.alert('提示',"端口应用失败!"); 
+							  	 }
+					      },
+						    failure : function(){   
+							  	Ext.MessageBox.alert('提示',"端口应用失败!"); 
+						    },
+						    params:{Fun:'ltapplyportinfo'}
+						});
+	
+	}
+</SCRIPT>
+</head>
+
+<body oncontextmenu="return false" bgcolor="#F0f0f0" text="#000000"  topmargin="0" leftmargin="0"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<form name="listform" action="/msa/main.xp" method="POST">
+
+<table border=0 cellspacing=2 width="100%" cellpadding=0 align="center">
+
+  <tbody> 
+  <tr> 
+    <td id=clearStart height="530" valign="top" width="85%" > 
+    	<fieldset style="width:96%;height:30;border:2px groove" align=center>
+				<legend>添加端口属性</legend> 
+        <table border="0" align="center" cellpadding="4" cellspacing="0" width="96%">
+          <tr> 
+            <td colspan="5" > 起始端口 
+              <input type="text"  class="input"  name="bport" size="5" maxlength="5" >
+              终止端口
+              <input type="text"  class="input"  name="eport" size="5" maxlength="5" >
+              <select name="netflag"  class=inputsel >
+                <option value="2" > 监控并记录 </option>
+                <option value="3" > 仅仅监控 </option>
+                <option value="9" > 不监控 </option>
+                <option value="10"> 禁止连接</option> 
+              </select>
+              <select name="netprot" class=inputsel >
+                <option value="1" > TCP协议 </option>
+                <option value="2" > UDP协议 </option>
+              </select>
+               <select name="islocal" class=inputsel >
+							 	<option value="1" > 本地端口</option>
+								<option value="0" selected > 远端端口</option>
+								<option value="2" > 双向端口</option>
+           		 </select>
+              
+              <input type="button"  onclick="addlistfun();" class="input"  name="add"  value="添加" >
+              <input type="button"  onclick="dellistfun();" class="input"  name="del"   value="删除"  >
+              <input type="button"   onclick="applylistfun();" class="input"  name="app"   value="应用" >
+
+              <input type="hidden" name="actiontype" value="1" >
+              <input type="hidden" name="Fun" value="ltportinfoaction" >
+              <input type="hidden" name="allnum" value="[$allnum$]" >
+            </td>
+          </tr>
+        </table>
+    </fieldset>    
+        <table width="96%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+          <tr > 
+            <td width="32" bgcolor="#f0f0f0"  height="20" background="/images/barbg.gif">&nbsp;</td>
+            <td width="150"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;起始端口 
+            </td>
+            <td width="150" bgcolor="#f0f0f0"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;终止端口 
+            </td>
+            <td width="150" bgcolor="#f0f0f0"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;网络标示 
+            </td>
+            <td width="150" bgcolor="#f0f0f0"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;网络协议 
+            </td>
+            <td width="150" bgcolor="#f0f0f0"  height="20" valign="bottom" background="/images/barbg.gif" >&nbsp;端口标示 </td>
+          </tr>
+          [$begintable portinfolist$] 
+          <tr bgcolor="#F3F3F3"> 
+            <td width="32"> 
+              <div align="center"> 
+                <input type="checkbox" name="checkbox[$num$]" value="[$listindex$]">
+              </div>
+            </td>
+            <td width="150">&nbsp;[$bport$]</td>
+            <td width="150">&nbsp;[$eport$]</td>
+            <td width="150">&nbsp;[$listdesc$]</td>
+            <td width="150">&nbsp;[$listprot$]</td>
+            <td width="150">&nbsp;[$strlocal$]</td>
+          </tr>
+          [$endtable$] 
+        </table>
+      </td>
+    
+  </tr>
+  </tbody> 
+</table>
+</form>            
+
+</body>
+</html>

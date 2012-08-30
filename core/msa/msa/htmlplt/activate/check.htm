@@ -1,0 +1,75 @@
+<html>
+	<head>
+	  <title>MSA 帐户 获得激活码</title>
+	  <META content="text/html; charset=utf-8" http-equiv=Content-Type>
+		<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+		<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+		<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+		<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+		<SCRIPT type='text/javascript'>
+		    function jsCopy(){
+		        var e=document.getElementById('regInfo');//是content
+		        e.select(); //选择
+		        document.execCommand('Copy'); //执行浏览器复制命令
+		        alert('已复制至粘贴板');
+		    }
+		</SCRIPT>
+	  <style type="text/css">
+			html {
+			  font: 81.25% arial, helvetica, sans-serif;
+			  background: #fff;
+			  color: #333;
+			  line-height: 1;
+			  direction: ltr;
+			  font-size: 13px;
+			}
+			p {
+			  line-height: 17px;
+			  margin: 0 0 1em;
+			  font: 81.25% arial, helvetica, sans-serif;
+			}
+			td {
+			  line-height: 17px;
+			  margin: 0 0 1em;
+			  font: 81.25% arial, helvetica, sans-serif;
+			  font-size: 13px;
+			}
+		</style>
+	</head>
+  <body bgcolor="#f0f0f0" text="#000000" link="#0000cc" vlink="#551a8b" alink="#ff0000" dir='ltr'  oncontextmenu="return false">
+  	<div id="maincontent" align=center>&nbsp;</div>
+	  <div id="maincontent"  align=center>确认申请信息</div>
+		<fieldset style="width:786" height:30;border:2px groove" align=center>
+		<legend>感谢申请宝创MSA 您的用户信息如下</legend> 
+			<table role="presentation" id=signupform cellspacing="0" cellpadding="0" width="100%" bgcolor="#f0f0f0">
+			 
+				<tr>
+				  <td>注册信息：</td>
+			  	<td><textarea name="regInfo" cols="60" rows="12" style="overflow-x:hidden;" readonly>邮箱地址：[$email$]
+用户名称：[$uname$]
+联 系 人：[$linkman$]
+联系电话：[$tel$]
+机器序列号：[$number$]
+机器型号：[$loc$]
+注册类型：[$mtype$]
+注册码：[$strCodeOut$]</textarea><input type=button value="复制" onClick="jsCopy()"></td>
+				</tr>
+			  <tr>
+				  <td colspan="2"><hr></td>
+				</tr>
+			  <tr>
+			  	<td>激活方式：</td>
+			  	<td>
+			  		<p >①请把您的注册信息(↑)发送到<a href="mailto:register@baochuang.com.cn">register@baochuang.com.cn</a></p>
+			  		<p >②拨打 400-8892728 电话联系</p>
+			  		<p >我们会在第一时间为您回复</p>
+			  	</td>
+			  </tr>
+			  <tr>
+				  <td><input style="width:8em" id="activateBUT"  name="activateBUT" type="button" onclick="window.location.href='./activate/activate.htm'" value='我要激活' /></td>
+				  <td><input name="return" type="button" id="return" style="width:21em" onclick="window.location.href='/msa/main.xp?Fun=ltShowRegister'" value='信息有误?返回。'/></td>
+			  </tr>
+		  </table>
+		</fieldset>
+  </body>
+</html>

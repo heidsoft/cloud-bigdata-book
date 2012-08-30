@@ -1,0 +1,362 @@
+嵌入式linux上通过boa服务器实现cgi/html的web上网简介
+
+第一步 Boa程序的移植
+
+1．下载Boa源码
+
+2、生成Makefile文件
+
+3、修改Makefile文件
+
+4、编译
+
+第二步 Boa的配置
+
+第三步boa的执行
+
+1．将根文系统ramdisk在电脑主机上mount –o loop ramdisk 目标目录进行展开
+
+2．测试操作
+
+3．将ramdisk文件重新打包压缩下载到嵌入式板子上
+
+4．CGI脚本测试
+
+简介
+
+随着Internet技术的兴起，在嵌入式设备的管理与交互中，基于Web方式的应用成为目 前的主流，这种程序结构也就是大家非常熟悉的B/S结构，即在嵌入式设备上运行一个支持脚本或CGI功能的Web服务器，能够生成动态页面，在用户端只需 要通过Web浏览器就可以对嵌入式设备进行管理和监控，非常方便实用。本节主要介绍这种应用的开发和移植工作。
+
+嵌入式Web服务器移植 由于嵌入式设备资源一般都比较有限，并且也不需要能同时处理很多用户的请求，因此不会使用Linux下最常用的如Apache 等服务器，而需要使用一些专门为嵌入式设备设计的Web服务器，这些Web服务器在存贮空间和运行时所占有的内存空间上都会非常适合于嵌入式应用场合。
+
+典型的嵌入式Web服务器有Boa （http://www.boa.org/）和thttpd （http://www.acme.com/software/thttpd/）等，它们和Apache等高性能的Web服务器主要的区别在于它们一般是单进程服务器，只有在完成一个用户请求后才能响应另一个用户的请求，而无法并发响应，但这在嵌入式设备的应用场合里已经足够了。
+
+Boa是一个非常小巧的Web服务器，可执行代码只有约60KB。它是一个单任务Web服务 器，只能依次完成用户的请求，而不会fork出新的进程来处理并发连接请求。但Boa支持CGI，能够为CGI程序fork出一个进程来执行。Boa的设 计目标是速度和安全，在其站点公布的性能测试中，Boa的性能要好于Apache服务器。
+
+说明：下面的移植和操作是在at91rm9200芯片linux2.4.27上进行的。
+
+第一步 Boa程序的移植
+
+这一步的工作在电脑主机上完成。
+
+对于uClinux-dist而言，就是make menuconfig在应用程序选单中，在network application下面选择boa，然后到uClinux-dist目录下执行make编译即可。
+
+对于有MMU的平台，如armlinux和ppclinux，都是到网上下载一个boa的 tar包，随便找个主流的可用的版本即可，不要最新的也不要最旧的。下载到REDHAT宿主机上后，解压到任意目录，然后修改boa/src /Makefile里面的编译器，就只要加入两三行即可，如下几步操作：
+
+1．下载Boa源码
+
+下载地址: http://www.boa.org/， 或者http://sourceforge.net/
+
+最新发行版本： 0.94.13
+
+下载 boa-0.94.13.tar.gz，注意：从boa上下载的是boa-0.94.13.tar.tar，解压方式一样
+
+解压：# tar xzf boa-0.94.13.tar.gz
+
+2、生成Makefile文件
+
+boa-0.94.13.tar.gz解压后生成boa-0.94.13目录，直接运行./电脑主机目录/boa-0.94.13/src/configure文件
+
+3、修改Makefile文件
+
+a、 修改 CC = gcc
+
+为 CC = /usr/local/arm/2.95.3/bin/arm-linux-gcc （根据自己电脑主机的编译器位置定）
+
+b、 修改 CPP = gcc - E
+
+为 CPP = /usr/local/arm/2.95.3/bin/arm-linux-gcc -E
+
+注意：boa-0.94.13用3.3.2和3.4.1编译器编译不通过。没有具体研究。
+
+4、编译
+
+进入:/电脑主机目录/boa-0.94.13/src目录
+
+# make
+
+# /usr/local/arm/2.95.3/bin/arm-linux-strip boa （这是为了进行去除boa中生成的编译信息，让文件变小）
+
+第二步 Boa的配置
+
+这一步的工作也在电脑主机上完成。
+
+在电脑主机上的Boa源码boa-0.94.13目录下已有一个示例boa.conf，可以在其基础上进行修改。如下：
+
+1、Group的修改
+
+修改 Group nogroup
+
+为 Group 0
+
+由于在/etc/group文件中没有nogroup组，所以设成0。另外在/etc/passwd中有nobody用户，所以User nobody不用修改。
+
+2、ScriptAlias的修改
+
+修改 ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+
+为 ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+
+3、ServerName的设置
+
+修改 ServerName www.your.org.here
+
+为 ServerName www.your.org.here
+
+注意：该项默认为未打开，执行Boa会异常退出，提示“gethostbyname::No such file or directory”,所以必须打开。其它默认设置即可。
+
+注释：boa.conf，下面解释一下该文件的含义：
+
+#监听的端口号，缺省都是80，一般无需修改
+
+Port 80
+
+# bind调用的IP地址，一般注释掉，表明绑定到INADDR_ANY，通配于服务器的所有IP地址
+
+#Listen 192.68.0.5
+
+#作为哪个用户运行，即它拥有该用户的权限，一般都是nobody，需要/etc/passwd中有
+
+#nobody用户
+
+User nobody
+
+#作为哪个用户组运行，即它拥有该用户组的权限，一般都是nogroup，需要在/etc/group文
+
+#件中有nogroup组
+
+Group nogroup
+
+#当服务器发生问题时发送报警的email地址，目前未用，注释掉
+
+#ServerAdmin root@localhost
+
+#错误日志文件。如果没有以/开始，则表示从服务器的根路径开始。如果不需要错误日志，
+
+则用#/dev/null。在下面设置时，注意一定要建立/var/log/boa目录
+
+ErrorLog /var/log/boa/error_log
+
+#访问日志文件。如果没有以/开始，则表示从服务器的根路径开始。如果不需要错误日志，
+
+则用#/dev/null或直接注释掉。在下面设置时，注意一定要建立/var/log/boa目录
+
+#AccessLog /var/log/boa/access_log
+
+#是否使用本地时间。如果没有注释掉，则使用本地时间。注释掉则使用UTC时间
+
+#UseLocaltime
+
+#是否记录CGI运行信息，如果没有注释掉，则记录，注释掉则不记录
+
+#VerboseCGILogs
+
+#服务器名字
+
+ServerName http://www.hyesco.com/
+
+#是否启动虚拟主机功能，即设备可以有多个网络接口，每个接口都可以拥有一个虚拟的Web服
+
+#务器。一般注释掉，即不需要启动
+
+#VirtualHost
+
+#非常重要，HTML文档的主目录。如果没有以/开始，则表示从服务器的根路径开始。
+
+DocumentRoot /var/www
+
+#如果收到一个用户请求的话，在用户主目录后再增加的目录名
+
+UserDir public_html
+
+#HTML目录索引的文件名，也是没有用户只指明访问目录时返回的文件名
+
+DirectoryIndex index.html
+
+#当HTML目录没有索引文件时，用户只指明访问目录时，boa会调用该程序生成索引文件然后
+
+#返回给用户，因为该过程比较慢最好不执行，可以注释掉或者给每个HTML目录加上#DirectoryIndex指明的文件
+
+#DirectoryMaker /usr/lib/boa/boa_indexer
+
+#如果DirectoryIndex不存在，并且DirectoryMaker被注释，那么就用Boa自带的索引
+
+#生成程序来生成目录的索引文件并输出到下面目录，该目录必须是Boa能读写
+
+# DirectoryCache /var/spool/boa/dircache
+
+#一个连接所允许的HTTP持续作用请求最大数目，注释或设为0都将关闭HTTP持续作用
+
+KeepAliveMax 1000
+
+#HTTP持续作用中服务器在两次请求之间等待的时间数，以秒为单位，超时将关闭连接
+
+KeepAliveTimeout 10
+
+#指明mime.types文件位置。如果没有以/开始，则表示从服务器的根路径开始。可以注释掉
+
+#避免使用mime.types文件，此时需要用AddType在本文件里指明
+
+MimeTypes /etc/mime.types
+
+#文件扩展名没有或未知的话，使用的缺省MIME类型
+
+DefaultType text/plain
+
+#提供CGI程序的PATH环境变量值
+
+CGIPath /bin:/usr/bin:/usr/local/bin
+
+#将文件扩展名和MIME类型关联起来，和mime.types文件作用一样。如果用mime.types
+
+#文件，则注释掉，如果不使用mime.types文件，则必须使用
+
+#AddType application/x-httpd-cgi cgi
+
+#指明文档重定向路径
+
+#Redirect /bar http://elsewhere/feh/bar
+
+#为路径加上别名
+
+Alias /doc /usr/doc
+
+#非常重要，指明CGI脚本的虚拟路径对应的实际路径。一般所有的CGI脚本都要放在实际路径
+
+#里，用户访问执行时输入站点+虚拟路径+CGI脚本名
+
+ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+
+第三步boa的执行
+
+这一步的工作也在电脑主机上完成。但是操作到的目录跟嵌入式板子上的目录有关。
+
+1．将根文系统ramdisk在电脑主机上mount –o loop ramdisk 目标 目录进行展开
+
+进入展开后ramdisk的根文件夹,然后执行下面：
+
+# mkdir /var/log
+
+# mkdir /var/log/boa（创建日志文件目录）
+
+# mkdir /var/www （创建HTML文档的主目录）
+
+# mkdir /etc/boa
+
+将第二步中修改过的boa.conf文件从电脑主机上别的目录拷贝到ramdsik的相关目录下
+
+# cp /电脑主机目录/ boa-0.94.13/boa.conf /etc/boa/
+
+将mime.types文件复制到嵌入式板子ramdsik的/etc目录下，通常mime.types可以从linux电脑主机的 /etc目录下直接复制即可。
+
+# cp / etc/mime.type /etc/
+
+上面第一步骤中编译生成的boa可执行文件，将其复制到展开后ramdsik的bin目录里面。
+
+# cp /电脑主机目录/ boa-0.94.13/src/boa /bin/
+
+2．测试操作
+
+可以将主机 /usr/share/doc/HTML/目录下的index.html(这个是静态的html网页显示文件，是redhat9的欢迎主页，当在局域网的 PC的IE上输入http://嵌入式板子的IP地址时会显示这个默认的静态网页)文件和img目录复制到嵌入式ramdsik的/var/www目录下 
+
+# cp /usr/share/doc/HTML/index.html /var/www/
+
+# cp /usr/share/doc/HTML/img /var/www/
+
+# cp /usr/share/doc/HTML/index-ZH_CH.html /var/www/
+
+3．将ramdisk文件重新打包压缩下载到嵌入式板子上。
+
+Ramdisk重新大包压缩下载到板子上后，在板子的超级终端的根目录下输入./boa，看boa是否可以执行。
+
+可能提示错误如：libso.0.6 GLIB2.2版本问题，这个一般是boa执行时需要动态共享库，解决的办法是，在编译boa的时候用静态的方式进行编译，即
+
+进入：/电脑主机目录/boa-0.94.13/src目录下，修改makefile文件中：
+
+LDFLAGS = -g
+
+修改为：LDFLAGS = -static 就可以了。
+
+执行boa时，可能出现其他的错误，则可以在开发板的/var/log/boa/error_log文件中找原因。大部分是跟boa.conf配置文件的正确与否有关。如：
+
+问题：在执行./boa时出现错误：boa执行时,出错 log.c:73 unable to dup2 the error log:bad file descriptor
+
+解决方法：在log.c里注释掉那个if语句。
+
+又出现了另个问题：unable to dup2 the error log: Bad file descriptor
+
+解决方法：在boa.conf里注释掉#AccessLog /var/log/boa/access_log
+
+4．CGI脚本测试
+
+书写下面的test.c测试程序，
+
+#include <stdio.h>
+
+#include <string.h>
+
+int main(void)
+
+{
+
+printf("Contenttype:text/html\n\n");
+
+printf("<html>\n");
+
+printf("<head><title>An HTML Page From a CGI</title></head>\n");
+
+printf("<body><br>\n");
+
+printf("<h2> This is an HTML page generated from with in a CGI program..</h2>\n");
+
+printf("<hr><p>\n");
+
+printf("<a href=\"output.html#two\"><b> Go back to out put.html page </b></a>\n");
+
+printf("</body>\n");
+
+printf("</html>\n");
+
+fflush(stdout);
+
+}
+
+交叉编译生成test.cgi
+
+# /usr/local/arm/2.95.3/bin/arm-linux-gcc -o test.cgi test.c
+
+将test.cgi拷贝至嵌入式板子的/var/www/cgi-bin/下，当在局域网PC的IE上输入 http:// 嵌入式板子的IP地址/cgi-bin/test.cgi
+
+可以显示出test.cgi的网页。
+
+有关CGI的知识可以学习：用C语言实现CGI相关资料。
+
+注意：上面代码执行时，可能会出现错误提示：
+
+502 Bad Gateway
+
+The CGI was not CGI/1.1 compliant.
+
+可能出现的原因：
+
+1．测试下看是否能浏览静态网页，以保证网络是正确的。
+
+在上面“第三步的 2．测试操作”后局域网的PC的IE上输入http://嵌入式板子的IP地址，如果能显示redhat9的欢迎主页，说明静态访问是正确的了。 
+
+2．将.cgi文件拷贝至目标板上后，必须改变其权限
+
+chmod 755 test.cgi
+
+否则，上位机浏览时会提示上面错误
+
+3．最有可能是CGI程序本身的问题。
+
+我们已经看到test.c的打印开头有使用MIME头信息″Content type :text/html\n\n″来表示输出HTML源代码给Web服务器。请注意任何MIME头信息后必须有一个空行，就是加了\n\n,
+
+所以这点必须保证。
+
+4．Test.c的原文件是在文本模式下编辑的，在linux下不能执行
+
+可以改动：dos2unix test.c 改动后再进行编译
+
+5．还有一种可能，test.cgi被编译成了动态形式，然而程序执行时在嵌入式中找不到动态库文件，所以在编译程序时加上-static，编译成静态的形式，但是这样编译出来的文件很大，在嵌入式中不适宜采用这种方式。 
+

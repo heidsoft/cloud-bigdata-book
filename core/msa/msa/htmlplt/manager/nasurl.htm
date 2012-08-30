@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>URL地址库</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK href="/msa/publiccss/pubcss.css" type=text/css rel=stylesheet>
+</head>
+<body bgcolor="#F0f0f0" text="#000000" oncontextmenu="return false" topmargin="0" leftmargin="0" >
+<form name="listform" action="/msa/main.xp" method="POST">
+<table border=0 cellspacing=2 width="100%" cellpadding=0 align="center">
+  <tbody> 
+  <tr> 
+    <td id=clearStart height="530" valign="top" width="85%" > 
+      <table border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr> 
+					<td width="50" >分类名称</td>
+          <td colspan="3" > 
+	         <input type="text" class=input name="sortname" size="15" value="[$sortname$]">
+           <input type="hidden" name="sortid" value="[$sortid$]" >
+          </td>
+   			</tr>
+	 			<tr> 
+					<td width="50" >描述</td>
+			    <td colspan="3" > 
+			       <input type="text" class=input name="sortdesc" size="54"  value="[$sortdesc$]">
+			    </td>
+			  </tr>
+	 			<tr> 
+					<td width="50" >危害级别</td>
+			    <!--<td colspan="3" > 
+			       <input type="text" class=input name="level" size="54"  value="[$level$]">
+			    </td>-->
+			    <td colspan="3" ><select id="level" name="level" class=inputsel>
+	          <option value="0" [$level0sel$] >无危害</option>
+	          <option value="1" [$level1sel$] >★</option>
+	          <option value="2" [$level2sel$] >★★</option> 
+	          <option value="3" [$level3sel$] >★★★</option> 
+	          <option value="4" [$level4sel$] >★★★★</option> 
+	          <option value="5" [$level5sel$] >★★★★★</option> 
+	        	</select>
+    			</td>
+			  </tr>
+			  <tr> 
+			    <td  bgcolor="#F0f0f0"  colspan="4"> 
+			      <div align="left"> 
+			        <textarea cols=50 rows=30 class=input name="urllist" >[$urllist$]</textarea>
+			      </div>
+			    </td>
+			  </tr> 
+			</table>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+</form>   
+</body>
+</html>

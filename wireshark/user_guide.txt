@@ -1,0 +1,61 @@
+It contains the following items: 
+它包含以下项目：
+File:This menu contains items to open and merge capture files, save / print / export capture files in whole or in part, and to quit from Wireshark.
+此菜单包含打开和合并捕获文件，保存/打印/导出全部或部分捕获文件，并退出Wireshark的项目。
+
+
+
+Edit:This menu contains items to find a packet, time reference or mark one or more packets, handle configuration profiles, and set your preferences;
+此菜单中包含的项目找到一个包，参考或标记一个或多个包，处理配置描述文件，并设置您的偏好;
+
+
+
+View:This menu controls the display of the captured data, including colorization of packets, zooming the font, showing a packet in a separate window, expanding and collapsing trees in packet details
+此菜单控制显示捕获的数据，包括数据包的着色，字体放大，显示在一个单独的窗口中的一个包，展开和折叠树包细节
+
+
+
+Go:This menu contains items to go to a specific packet.
+此菜单中包含的项目到一个特定的数据包。
+
+
+Capture(捕获):This menu allows you to start and stop captures and to edit capture filters. 
+此菜单允许您启动和停止捕获，编辑捕获过滤器。
+
+
+
+Analyze(分析):This menu contains items to manipulate display filters, enable or disable the dissection of protocols, configure user specified decodes and follow a TCP stream
+此菜单中包含的项目操作显示过滤器，启用或禁用协议的剥离，配置用户指定的解码器，并按照TCP流
+
+
+Statistics(统计):This menu contains items to display various statistic windows, including a summary of the packets that have been captured, display protocol hierarchy statistics and much more. 
+此菜单包含显示各种统计窗口，包括已捕获的数据包的摘要，协议层次统计显示，更多的项目。
+summary:总结
+		encapsulation：封装
+		elapsed：过去
+		protocol hierarchy statistic：协议层次统计
+		internet protocol version：Internet协议版本
+		transmission control protocol：传输控制协议
+		hypertext control protocol：超文本控制协议
+		line-based text data：基于行的文本数据
+		protable network graphics：便携式网络图形
+		malformed packet：恶意数据包
+		jpeg file interchange format：JPEG文件交换格式
+		mime multipart media encapsulation：媒体多部分MIME封装
+		extensible markup language：可扩展标记语言
+		endpoints:端点
+		fibre channel：光纤通道
+
+
+Telephony(电话):This menu contains items to display various telephony related statistic windows, including a media analysis, flow diagrams, display protocol hierarchy statistics and much more
+此菜单中包含的项目，以显示各种电话相关的统计窗口，包括媒体分析，流程图，显示协议层次统计
+
+
+Tools:This menu contains various tools available in Wireshark, such as creating Firewall ACL Rules.
+此菜单中包含的各种工具，如创建防火墙的ACL规则，在Wireshark。
+
+
+
+Internals:This menu contains items that show information about the internals of Wireshark
+此菜单中包含的项目，显示Wireshark的内部信息
+

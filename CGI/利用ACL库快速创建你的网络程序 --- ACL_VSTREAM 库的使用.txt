@@ -1,0 +1,208 @@
+利用ACL库快速创建你的网络程序 --- ACL_VSTREAM 库的使用 .
+
+1、概述
+    操作系统在API层为我们提供了进行网络通讯的库(一组socket函数库)，但使用起来未免复杂，而且极易出错，虽然这些socket库最初起源于BSD系统，各个操作系统厂商都提供了自身平台的接口实现，但这些接口在不同OS上又略有差别，所以当你想写一个跨平台的网络通信程序时，工作量还是有的，并且如不知晓各个平台下的差异也极易出错。
+    本节向你介绍了怎样使用ACL库中的数据流(ACL_VSTREAM)来快速搭建你的网络通信程序；另外，ACL_VSTREAM 不仅是跨平台的，而且既可用于网络通信流，又可用于文件流，本节仅介绍网络流的例子。
+2、网络通信函数接口说明
+2.1）服务端接口
+
+1./**
+2. * 监听某个地址（对于UNIX，还可以监听域套接字）
+3. * @param addr {const char*} 监听地址
+4. *  如：127.0.0.1:80, 或域套接字, 如：/tmp/test.sock
+5. * @param qlen {int} 监听队列的长度
+6. * @return {ACL_VSTREAM*} 监听流指针
+7. */8.ACL_API ACL_VSTREAM *acl_vstream_listen(const char *addr, int qlen);
+9.10./**
+11. * 从监听流中接收一个客户端连接流
+12. * @param listen_stream {ACL_VSTREAM*} 监听流
+13. * @param ipbuf {char*} 如果不为空则用来存储客户端的IP地址
+14. * @param bsize {int} 如果 ipbuf 不为空，则表示 ipbuf 的空间大小
+15. * @return {ACL_VSTREAM*} 如果不为空则表示新接收的客户端流
+16. */17.ACL_API ACL_VSTREAM *acl_vstream_accept(ACL_VSTREAM *listen_stream,
+18.                    char *ipbuf,
+19.                    int bsize);
+2.2、客户端接口
+
+1./**
+2. * 远程连接服务器
+3. * @param addr {const char*} 服务器地址，格式如：127.0.0.1，
+4. *  或 域套接地址：/tmp/test.sock
+5. * @param block_mode {int} 阻塞连接还是非阻塞连接，ACL_BLOCKING, ACL_NON_BLOCKING
+6. * @param connect_timeout {int} 连接超时时间(秒)
+7. * @param rw_timeout {int} 连接流成功后的读写超时时间，单位为秒
+8. * @param rw_bufsize {int} 连接流成功后的缓冲区大小
+9. * @return {ACL_VSTREAM*} 如果不为空，则表示连接成功后的数据流
+10. */11.ACL_API ACL_VSTREAM *acl_vstream_connect(const char *addr,
+12.                    int block_mode,
+13.                    int connect_timeout,
+14.                    int rw_timeout,
+15.                    int rw_bufsize);
+2.3、读写过程接口
+
+1./**
+2. * 从数据流中一次性读取 n 个数据, 该 n 有可能会小于用户所需要的 maxlen
+3. * @param stream {ACL_VSTREAM*} 数据流 
+4. * @param vptr {void*} 用户的数据缓冲区指针地址
+5. * @param maxlen {size_t} vptr 数据缓冲区的空间大小
+6. * @return ret {int}, ret == ACL_VSTREAM_EOF: 表示出错, 应该关闭本地数据流,
+7. *  ret > 0:  表示读到了 ret 个字节的数据
+8. *  注: 如果缓冲区内有数据, 则直接把缓冲区内的数据复制到用户的缓冲区然后直接返回;
+9. *     如果缓冲区内无数据, 则需要调用系统读操作(有可能会阻塞在系统读操作上), 该
+10. *     次调用返回后则把读到数据复制到用户缓冲区返回.
+11. *     在这两种情况下都不能保证读到的字节数等于所要求的字节数, 若想读到所要求的
+12. *     字节后才返回则请调用 vstream_loop_readn() 函数.
+13. */14.ACL_API int acl_vstream_read(ACL_VSTREAM *stream, void *vptr, size_t maxlen);
+15.16./**
+17. * 从数据流中读取一行数据, 直到读到  "/n" 或读结束为止, 正常情况下包括 "/n"
+18. * @param stream {ACL_VSTREAM*} 数据流
+19. * @param vptr {void*} 用户所给的内存缓冲区指针
+20. * @param maxlen {size_t} vptr 缓冲区的大小
+21. * @return  ret {int}, ret == ACL_VSTREAM_EOF:  读出错或对方关闭了连接, 
+22. *  应该关闭本地数据流; n > 0:  读到 了 n 个字节的数据, 如果该 n 个数据
+23. *  的最后一个非 0 字符为 "/n" 表明读到了一个完整的行, 否则表明读到了 n
+24. *  个数据但对方未发送 "/n" 就关闭了连接; 还可以通过检查
+25. *  (stream->flag & ACL_VSTREAM_FLAG_TAGYES)
+26. *  不等于 0 来判断是否读到了 "/n", 如果非 0 则表示读到了 "/n".
+27. */28.ACL_API int acl_vstream_gets(ACL_VSTREAM *stream, void *vptr, size_t maxlen);
+29.30./**
+31. * 循环向数据流中写 dlen 个字节的数据直至写完或出错为止
+32. * @param stream {ACL_VSTREAM*} 数据流 
+33. * @param vptr {const char*} 数据区指针地址
+34. * @param dlen {size_t} 待写的数据区数据长度
+35. * @return ret {int}, ret == ACL_VSTREAM_EOF: 表示写出错, 应该关闭本地数据流,
+36. *  ret > 0:  表示成功写了 dlen 个字节的数据
+37. */38.ACL_API int acl_vstream_writen(ACL_VSTREAM *stream, const void *vptr, size_t dlen);
+39.40./**
+41.* 带格式的流输出, 类似于 fprintf()
+42.* @param stream {ACL_VSTREAM*} 数据流 
+43.* @param fmt {const char*} 数据格式 
+44.* @return ret {int}, ret == ACL_VSTREAM_EOF: 表示写出错, 应该关闭本地数据流,
+45.*  ret > 0:  表示成功写了 dlen 个字节的数据
+46.*/47.ACL_API int acl_vstream_fprintf(ACL_VSTREAM *stream, const char *fmt, ...);
+2.3、流关闭接口
+
+1./**
+2. * 释放一个数据流的内存空间并关闭其所携带的 socket 描述符
+3. * @param stream {ACL_VSTREAM*} 数据流
+4. */5.ACL_API int acl_vstream_close(ACL_VSTREAM *stream);
+3、网络通信实例
+3.1 一个简单的服务器程序
+
+1.#include "lib_acl.h"  /* 先包含ACL库头文件 */2.#include <stdio.h>3.#include <stdlib.h>4.5.static void echo_client(ACL_VSTREAM *client)
+6.{
+7.    char  buf[1024];
+8.    int   n;
+9.10.    /* 设置客户端流的读超时时间为30秒 */11.    ACL_VSTREAM_SET_RWTIMO(client, 30);
+12.13.    /* 循环读客户端的数据，直到其关闭或出错或超时 */14.    while (1) {
+15.        /* 等待读客户端发来的数据 */16.        n = acl_vstream_read(client, buf, sizeof(buf));
+17.        if (n == ACL_VSTREAM_EOF)
+18.            break;
+19.        /* 将读到的数据写回至客户端流 */20.        if (acl_vstream_writen(client, buf, n) == ACL_VSTREAM_EOF)
+21.            break;
+22.    }
+23.24.    /* 关闭客户端流 */25.    acl_vstream_close(client);
+26.}
+27.28.static void run(const char *addr)
+29.{
+30.    const char *myname = "run";
+31.    ACL_VSTREAM *sstream;
+32.    char  ebuf[256];
+33.34.    /* 监听一个本地地址 */35.    sstream = acl_vstream_listen(addr, 128);
+36.    if (sstream == NULL) {
+37.        printf("%s(%d): listen on %s error(%s)/r/n",
+38.            myname, __LINE__, addr,
+39.            acl_last_strerror(ebuf, sizeof(ebuf)));
+40.        return;
+41.    }
+42.43.    printf("%s: listen %s ok/r/n", myname, addr);
+44.    while (1) {
+45.        /* 等待接受客户端的连接 */46.        client = acl_vstream_accept(sstream, NULL, 0);
+47.        if (client == NULL) {
+48.            printf("%s(%d): accept error(%s)/r/n",
+49.                myname, __LINE__,
+50.                acl_last_strerror(ebuf, sizeof(ebuf)));
+51.            return;
+52.        }
+53.        printf("accept one/r/n");
+54.        /* 获得一个客户端连接流 */55.        /* 开始处理该客户端连接流 */56.        echo_client(client);
+57.    }
+58.}
+59.60.static void init(void)
+61.{
+62.    acl_init();  /* 初始化ACL库 */63.}
+64.65.static void usage(const char *procname)
+66.{
+67.    printf("usage: %s listen_addr/r/n", procname);
+68.    printf("example: %s 127.0.0.1:8081/r/n", procname);
+69.}
+70.71.int main(int argc, char *argv[])
+72.{
+73.    if (argc != 2) {
+74.        usage(argv[0]);
+75.        return (0);
+76.    }
+77.78.    init();
+79.    run(argv[1]);
+80.    return (0);
+81.}
+    由上可以看出，创建一个服务器程序是多么的简单，当然，这是一个阻塞式线程的服务器程序，如果你要想提高并发度，可以在线程里处理来自客户端的连接。
+
+3.2、一个简单的客户端程序
+
+1.#include "lib_acl.h"2.#include <stdio.h>3.#include <stdlib.h>4.5.static void run(const char *addr)
+6.{
+7.    const char *myname = "run";
+8.    ACL_VSTREAM *client;
+9.    char  ebuf[256], buf[1024];
+10.    int   n, cnt = 0;
+11.12.    /* 连接远程服务器，采用阻塞模式连接，连接超时为10秒，
+13.     * 流的读超时时间为20秒，流的缓冲区大小为1024字节
+14.     */15.    client = acl_vstream_connect(addr, ACL_BLOCKING, 10, 20, 1024);
+16.    if (client == NULL) {
+17.        printf("%s(%d): connect addr %s error(%s)/r/n",
+18.            myname, __LINE__, addr,
+19.            acl_last_strerror(ebuf, sizeof(ebuf)));
+20.        return;
+21.    }
+22.23.    printf("%s: connect %s ok/r/n", myname, addr);
+24.    while (1) {
+25.        /* 向服务器发送一行数据 */26.        n = acl_vstream_fprintf(client, ">>hi, I'm coming in...(%d)/r/n", ++cnt);
+27.        if (n == ACL_VSTREAM_EOF)
+28.            break;
+29.30.        /* 从服务器读取一行数据 */31.        n = acl_vstream_gets(client, buf, sizeof(buf));
+32.        if (n == ACL_VSTREAM_EOF)
+33.            break;
+34.35.        /* 最多循环5次 */36.        if (cnt >= 5)
+37.            break;
+38.39.        /* 休息一下 */40.        sleep(1);
+41.    }
+42.    /* 关闭流 */43.    acl_vstream_close(client);
+44.}
+45.46.static void init(void)
+47.{
+48.    acl_init();  /* 初始化ACL库 */
+
+49.}
+50.51.static void usage(const char *procname)
+52.{
+53.    printf("usage: %s server_addr/r/n", procname);
+54.    printf("example: %s 127.0.0.1:8081/r/n", procname);
+55.}
+56.57.int main(int argc, char *argv[])
+58.{
+59.    if (argc != 2) {
+60.        usage(argv[0]);
+61.        return (0);
+62.    }
+63.64.    init();
+65.    run(argv[1]);
+66.    return (0);
+67.}
+    嗯，看来创建网络客户端程序原来也这么简单。
+
+4、小结
+    由以上例子可以看出，ACL库屏蔽底层SOCKET的细节操作，使网络编程变得简单，使使用者可以专心于其应用，而不是拘泥于SOCKET操作上。
+    当然，若要完全编译通过，别忘了还需要包含ACL库的二进制版本 lib_acl.a (Unix) 或 lib_acl_vc2003.lib(Windows)。
+
+   acl 库的下载地址：http://www.sourceforge.net/projects/acl/

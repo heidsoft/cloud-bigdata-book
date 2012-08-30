@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>添加系统用户</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/bctc/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<SCRIPT type=text/javascript>
+Ext.onReady(function(){
+		Ext.QuickTips.init();
+		var servicebutton= Ext.get('add');
+		servicebutton.on('click', function(){
+				if(userform.rolename.value==""||userform.roledesc.value=="" ){
+					Ext.MessageBox.alert("角色名不能为空!");
+					return;
+				}
+				var mychr1=0,mychr2=0,mychr3=0,mychr4=0,mychr5=0,mychr6=0,mychr7=0;
+				if(userform.chr1.checked==true){
+					mychr1=1;
+				}
+				if(userform.chr2.checked==true){
+					mychr2=1;
+				}
+				if(userform.chr3.checked==true){
+					mychr3=1;
+				}
+				if(userform.chr4.checked==true){
+					mychr4=1;
+				}
+				if(userform.chr5.checked==true){
+					mychr5=1;
+				}
+				if(userform.chr6.checked==true){
+					mychr6=1;
+				}
+				if(userform.chr7.checked==true){
+					mychr7=1;
+				}
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+						parent.xtzystore.load();
+						parent.mywin.close();
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+						parent.xtzystore.load();
+          },
+          params:{Fun:'[$Fun$]',//roleupdate
+          		id:userform.id.value,
+          		rolename:userform.rolename.value,
+          		roledesc:userform.roledesc.value,
+          		chr1:mychr1,
+          		chr2:mychr2,
+          		chr3:mychr3,
+          		chr4:mychr4,
+          		chr5:mychr5,
+          		chr6:mychr6,
+          		chr7:mychr7}
+				});
+		});
+});
+</SCRIPT>
+</head>
+
+<body bgcolor="#F0F0F0" text="#000000" topmargin="0" leftmargin="0">
+<DIV id=north style="WIDTH: 100%; HEIGHT:146 CKGROUND-COLOR: transparent;">
+  <form name="userform">
+  
+  <!--<DIV style="width:100%;height:60%;overflow:scroll;overflow-x:hidden;overflow-y:scroll;">-->
+  <table width="90%" border="0" cellspacing="0" cellpadding="2" align="center">
+    <tr> 
+      <td> 
+        <div align="right">       
+		  		<input type="hidden" name="id" value="[$roleid$]">
+        </div>
+      </td>
+    </tr>
+  </table>
+  <table width="90%" border="1" cellspacing="0" cellpadding="0" align="center" bordercolor="#666666" style="BORDER-COLLAPSE: collapse" bgcolor="#F0f0f0">
+    <tr>
+      <td>
+        <table border="0" align="center" cellpadding="3" cellspacing="0" width="100%">
+          <tr> 
+            <td colspan="3" > 
+              <table width="100%" border="0" cellspacing="0" cellpadding="4">     
+                <tr> 
+                  <td width="20%" align="right">角色名: </td>
+                  <td width="80%" align="left">
+                    <input type="text" name="rolename" size="20"  value="[$rolename$]"  class=input  >
+                  </td>
+                </tr>
+				   			<tr> 
+                	<td width="20%" align="right">角色说明: </td>
+                  <td width="80%" align="left"> 
+                    <input type="text" name="roledesc" size="20"  value="[$roledesc$]"  class=input  >
+                  </td>
+                </tr>
+                
+								<tr> 
+                  <td colspan="3"> 
+                   <hr>
+                  </td>
+                </tr>
+
+                <tr> 
+                  <td width="20%" align="right">权限:</td>
+                  <td width="88%" colspan="2"> 
+                    <input type="checkbox" name="chr1" value="1" [$chsel1$] checked disabled>
+                    实时状态&nbsp;&nbsp; 
+                    <input type="checkbox" name="chr2" value="2" [$chsel2$]>
+                    数据中心&nbsp;&nbsp; 
+                    <input type="checkbox" name="chr3" value="3" [$chsel3$]>
+                    报告中心&nbsp;&nbsp; 
+                    <hr>
+                    <input type="checkbox" name="chr4" value="4" [$chsel4$]>
+                    策略中心&nbsp;&nbsp;
+                    <input type="checkbox" name="chr5" value="5" [$chsel5$]>
+                    账户中心&nbsp;&nbsp; 
+                    <input type="checkbox" name="chr6" value="5" [$chsel6$]>
+                    管理中心&nbsp;&nbsp; 
+                    <input type="checkbox" name="chr7" value="5" [$chsel7$]>
+                    网络部署&nbsp;&nbsp; 
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <br>
+	<center>
+		<input type="button" name="add" value="添加/修改"  class=input size=10  >
+	</center>
+	<!--</DIV>-->
+</form>      
+
+
+</DIV>
+</body>
+</html>

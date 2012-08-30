@@ -1,0 +1,62 @@
+问：怎样解决mysql连接过多的错误？ 
+
+答：系统不能连接数据库，关键要看两个数据： 
+
+1、数据库系统允许的最大可连接数max_connections。这个参数是可以设置的。如果不设置，默认是100。最大是16384。 
+
+2、数据库当前的连接线程数threads_connected。这是动态变化的。 
+
+查看max_connections、max_connections的办法见后。 
+
+如果 threads_connected == max_connections 时，数据库系统就不能提供更多的连接数了，这时，如果程序还想新建连接线程，数据库系统就会拒绝，如果程序没做太多的错误处理，就会出现类似强坛的报错信息。 
+
+因为创建和销毁数据库的连接，都会消耗系统的资源。而且为了避免在同一时间同时打开过多的连接线程，现在编程一般都使用所谓数据库连接池技术。 
+
+但数据库连接池技术，并不能避免程序错误导致连接资源消耗殆尽。 
+
+这种情况通常发生在程序未能及时释放数据库连接资源或其他原因造成数据库连接资源不能释放，但强坛系统估计不会发生这种低级的编程错误。 
+
+该错误的简便的检查办法是，在刷新强坛页面时，不断监视threads_connected的变化。如果max_connections足够大，而 threads_connected值不断增加以至达到max_connections，那么，就应该检查程序了。当然，如果采用数据库连接池技术， threads_connected增长到数据库连接池的最大连接线程数时，就不再增长了。 
+
+从强坛出错的情况看，更大的可能性是数据库系统没能进行适当地配置。下面提出一点建议。供参考 
+
+让你们的工程师把MySQL的最大允许连接数从默认的100调成32000。这就不会老出现连接过多的问题了。 
+
+查看max_connections 
+
+进入MySQL，用命令： show variables 
+
+查看数据库最大可连接数的变量值： max_connections 
+
+查看threads_connected 
+
+进入MySQL，用命令： show status 
+
+查看当前活动的连接线程变量值：threads_connected 
+
+设置max_connections 
+
+设置办法是在my.cnf文件中，添加下面的最后红色的一行： 
+
+[mysqld] 
+port=3306 
+#socket=MySQL 
+skip-locking 
+set-variable = key_buffer=16K 
+set-variable = max_allowed_packet=1M 
+set-variable = thread_stack=64K 
+set-variable = table_cache=4 
+set-variable = sort_buffer=64K 
+set-variable = net_buffer_length=2K 
+set-variable = max_connections=32000
+
+修改完毕后，重启MySQL即可。当然，为了确保设置正确，应该查看一下max_connections。 
+
+注意： 
+1、虽然这里写的32000。但实际MySQL服务器允许的最大连接数16384； 
+
+2、除max_connections外，上述其他配置应该根据你们系统自身需要进行配置，不必拘泥； 
+
+3、添加了最大允许连接数，对系统消耗增加不大。 
+
+4、如果你的mysql用的是my.ini作配置文件，设置类似，但设置的格式要稍作变通。

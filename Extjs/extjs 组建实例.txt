@@ -1,0 +1,16 @@
+
+  
+  /*日期组建*/
+	var startDate=new Ext.form.DateField({  
+			id:'date',  
+			applyTo:'start_time', 
+			format:'Y年m月d日',//显示日期的格式  
+			maxValue :'12/31/2008',//允许选择的最大日期  
+			minValue :'01/01/2008',//允许选择的最小日期  
+			disabledDates : ["2008年03月12日"],//禁止选择2008年03月12日  
+			disabledDatesText :'禁止选择该日期',  
+			disabledDays : [0,6],//禁止选择星期日和星期六  
+			disabledDaysText : '禁止选择该日期',  
+			width : 150,  
+			fieldLabel:'日期选择框'  
+	}); 

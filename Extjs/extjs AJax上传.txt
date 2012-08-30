@@ -1,0 +1,59 @@
+extjs AJax上传 
+
+首先需要下载哥cos组件，这是个封装好的上传组件。支持多文件同时上传
+
+jsp中代码：
+
+<script type="text/javascript" src="<%=basePath%>/ExtAjax.js">
+  </script>
+
+<form id="upform"> 
+ 请选择文件1：<br><input type="file" name="f1"><br> 
+ 请选择文件2：<br><input type="file" name="f2"><br> 
+ 文件描述：<br><textarea rows="5" cols="70" name="desc"></textarea><br> 
+ <input type="button" id="btn" value="上传"> 
+ </form>
+
+js中代码：
+
+Ext.get("btn").on("click",function(){
+ Ext.Ajax.request({ 
+  
+url:"UploadServlet.do", 
+ isUpload:true,
+ form:"up1form",
+ success: function(response, config){ 
+   
+ Ext.MessageBox.alert("result","上传成功");
+ },
+    failure: function(){  
+ Ext.MessageBox.alert("result", "请求失败"); 
+    }
+ });   
+ }); 
+
+servlet中代码：
+
+MultipartRequest multi = new MultipartRequest( 
+    request, 
+    "D:\\", //文件上传后保存的位置 
+     1024 * 1024, //允许的最大文件大小 
+    "utf-8" //编码 
+    ); 
+  Enumeration file = multi.getFileNames();  
+       
+     while (file.hasMoreElements()) {             
+         String name = (String)file.nextElement();  
+           
+         File f = multi.getFile(name);  
+           
+         if(f != null) {  
+             String fileName = multi.getFilesystemName(name);  
+               
+            System.out.println(fileName);  
+               
+            
+         }  
+     } 
+
+ 

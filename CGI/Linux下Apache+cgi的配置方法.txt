@@ -1,0 +1,50 @@
+Linux下Apache+cgi的配置方法
+1,安装apache 
+首先到apache的主页下载最新版本的apache http server,地址为 http://httpd.apache.org/
+本文写于2006.4.29,apache版本为2.2.0 .如果你也想用这一个版本的话请点击:http://mirror.vmmatrix.net/apache/httpd/httpd-2.2.0.tar.gz
+
+安装apache:
+切换到httpd-2.2.0.tar.gz所在目录,然后:
+ # tar xvzf httpd-2.2.0.tar.gz
+此时在该目录下有一个文件夹 httpd-2.2.0,切换到该文件夹:
+ # cd ./httpd-2.2.0
+我不知道你想把apache安装到哪个文件夹,我们假定想安装到 /usr/local/apache2/ 下面,则
+ 输入下面的命令:
+ # ./configure --prefix= /usr/local/apache2
+ # make 
+# make install
+执行完这3条命令之后,apache就安装到你的 /usr/local/apache2目录下了.
+切换到该目录看看有什么咚咚吧;) 
+# cd ./usr/local/apache2
+ # ls
+可以看到里面有 /bin ,/conf , /htdocs, /cgi-bin 等目录.此时apache还没有启动,我们通过/bin目录下的工具apachectl来启动,首先切换到/bin目录:
+ # cd ./bin
+然后启动:
+ # ./apachectl start
+这时候在地址栏输入 http://localhost/看看是不是有成功的信息?(笔者看到的是 "It works!") 的信息, 当然不同的版本会不同,根据你 /htdocs 下的index.html内容而定.
+把/usr/local/apache2/htdocs/index.html 替换成你的页面文件就可以了.
+ 
+到了这里,我们假定你的apache服务器已经安装成功.如果还有问题请在网上搜索一下或者联系我:
+lonestep AT gmail D。T com
+ 
+2, 配置apache使之执行cgi程序
+  默认下,cgi程序必须放在cgi-bin目录下,我们先来配置使得cgi-bin下的cgi程序能得到正确执行,
+后面将会介绍怎么让apache执行放在别的目录下的cgi程序.
+   
+  1),承上,我们已经把apache安装到 /usr/local/apache2 目录下,切换到/usr/local/apache2/conf 目录,里面有一个 httpd.conf 文件, 编辑这个文件:
+   # cd /usr/local/apache2/conf
+   # vi httpd.conf       (假定你的文本编辑器是vi, 如果你用别的编辑器如emacs, gedit, kedit 之类,把vi 替换成它们的命令即可) 
+  寻找其中一行如:
+   # ScriptAlias /cgi-bin/ "/usr/local/apache2/cgi-bin/"
+   把这行前面前面的'#'去掉,然后重新启动apache :
+   # cd ./bin   (or cd /usr/local/apache2/bin)
+   # ./apachectl restart
+ ok, 假如你放了一个cgi程序'test.cgi'到cgi-bin的话,在地址栏
+  输入 http://localhost/cgi-bin/test.cgi 看看是否能够执行>?
+   如果不能,请发邮件给我:)
+ 
+2),如果你想改变执行cgi的目录(不用默认的cgi-bin目录),则该变刚才的
+  ScriptAlias /cgi-bin/ "/usr/local/apache2/cgi-bin/" 为:
+   ScriptAlias /SomeOtherDirectory/ "/usr/local/apache2/cgi-bin/"
+   然后重新启动apache.
+ 

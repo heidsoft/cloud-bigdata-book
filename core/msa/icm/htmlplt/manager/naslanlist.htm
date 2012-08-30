@@ -1,0 +1,918 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+
+<style type="text/css">
+
+.xi{border-left-style:none;border-right-style:none;border-top-style:none;}
+
+</style>
+
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+
+<LINK rel=stylesheet type=text/css href="/icm/publiccss/pubcss.css">
+
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/ext-all.css">
+
+<link rel="stylesheet" type="text/css" href="/icm/extjs/resources/css/feed-viewer.css" />
+
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+
+<script type="text/javascript" src="/icm/extjs/adapter/ext/ext-base.js"></script>
+
+<SCRIPT type=text/javascript  src="/icm/extjs/ext-all.js"></SCRIPT>
+
+<script type=text/javascript  src="/icm/publicjs/exportexcel.js"></script>
+
+<STYLE type=text/css>HTML {
+
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+
+}
+
+BODY {
+
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+
+}
+
+P {
+
+	MARGIN: 5px
+
+}
+
+</STYLE>
+
+
+
+<SCRIPT type=text/javascript>
+
+    var northPanel;
+
+    Ext.BLANK_IMAGE_URL = '/icm/extjs/resources/images/default/s.gif';
+
+		var xtzystore;
+
+		var pagesize;
+
+		var havesearch;
+
+		pagesize=100;
+
+		havesearch=0;
+
+		
+
+    Ext.onReady(function()
+
+    {  
+
+//    	  var myMask = new Ext.LoadMask(Ext.getBody(), 
+
+//				{
+
+//						        	msg:"Please wait..."
+
+//				});	
+
+    	  
+
+    	  var mywk;
+
+    	  var mywk1=Ext.get("wk1");
+
+    	  var mywk2=Ext.get("wk2");
+
+    	  var mywk3=Ext.get("wk3");
+
+    	  var mywk4=Ext.get("wk4");
+
+    	  
+
+
+
+        
+
+    	  var mywkMenu = new Ext.menu.Menu({
+
+					    id: 'feeds-ctx',
+
+					    items: [{
+
+					        id: 'chakan',
+
+					        iconCls: 'load-icon',
+
+					        text: '查看该网口信息',
+
+					        scope: this,
+
+					        handler: function() {
+
+					         if(mywk=="wk1")
+
+					         {
+
+					         	 xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk1",start:0,limit:pagesize}});
+
+					         }
+
+					         	if(mywk=="wk2")
+
+					         {
+
+					         	 xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk2",start:0,limit:pagesize}});
+
+					         }
+
+					         	if(mywk=="wk3")
+
+					         {
+
+					         	 xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk3",start:0,limit:pagesize}});
+
+					         }
+
+					         	if(mywk=="wk4")
+
+					         {
+
+					         	 xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk4",start:0,limit:pagesize}});
+
+					         }
+
+					        }
+
+					    },{
+
+					        id: 'peizhi',
+
+					        iconCls: 'load-icon',
+
+					        text: '配置新网口信息',
+
+					        scope: this,
+
+					        handler: function() {
+
+										var hgt=(screen.height)-250;
+
+										var windowgroup = new Ext.Window({
+
+										title:'配置'+wkChange(mywk),
+
+										closeAction: 'close',
+
+										width: 400,
+
+										height:350,
+
+										minWidth: 200,
+
+										minHeight: 200,
+
+										plain:true,
+
+										bodyStyle:'padding:5px;',
+
+										buttonAlign:'center',
+
+										html: "<IFRAME id='Addfrm' name='Addfrm' target='main' width=100% height='"+ hgt + "' SRC = '/icm/manager/page.htm'  border='0' frameborder='0' scrolling='yes'></iframe>",
+
+										buttons: [
+
+										{
+
+											text: '添加',
+
+											handler: function()
+
+											{
+
+																var frm=document.all('Addfrm').contentWindow.document;
+
+																var myVlanID=frm.getElementById("vlanid").value;
+
+																var myIP=frm.getElementById("ip").value;
+
+																var mymask=frm.getElementById("mask").value;
+
+																var myListen=frm.getElementById("Listen").value;
+
+															   ///////////////////报警类型验证//////////////////////////////////////////////
+
+															   if(myVlanID=="")
+
+															   { 
+
+															   	  alert("VlanID不能为空!");
+
+	                                 	frm.getElementById("VlanID").focus();
+
+	                                 	frm.getElementById("VlanID").select();
+
+															   	 return false;
+
+															   }
+
+															   for(var i=0;i<myVlanID.length;i++)
+
+																	{
+
+																	var myChar= myVlanID.toLowerCase().charAt(i);	
+
+																	 if((!(myChar>='0' && myChar<='9')))
+
+																	  { 
+
+																		alert("VlanID必须是1-4096之间的正整数！");
+
+	                                 	frm.getElementById("vlanid").focus();
+
+	                                 	frm.getElementById("vlanid").select(); 
+
+																		return false;
+
+																	  }
+
+																	}
+
+																	if(myVlanID<0||myVlanID>4096)
+
+															   { 
+
+															   	  alert("VlanID必须是1-4096之间的正整数!");
+
+	                                 	frm.getElementById("VlanID").focus();
+
+	                                 	frm.getElementById("VlanID").select();
+
+															   	 return false;
+
+															   }
+
+															   
+
+															   if(myIP=="")
+
+															   {
+
+															   	  alert("IP地址不能为空!");
+
+	                                 	frm.getElementById("ip").focus();
+
+	                                 	frm.getElementById("ip").select();  
+
+															   	 return false;
+
+															   }
+
+															   var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+
+																	var IP_flag=false;
+
+																	if(regIP.test(myIP)){
+
+																		IP_flag = true;
+
+																		}else{
+
+																		IP_flag = false;
+
+																		}
+
+																		if (!IP_flag){
+
+																		  alert("IP地址格式错误！");
+
+	                                 	frm.getElementById("ip").focus();
+
+	                                 	frm.getElementById("ip").select(); 
+
+																		  return false;
+
+																		}
+
+																		
+
+															   if(mymask=="")
+
+															   {
+
+															   	 alert("子网掩码不能为空!"); 
+
+	                                 	frm.getElementById("mask").focus();
+
+	                                 	frm.getElementById("mask").select(); 
+
+															   	 return false;
+
+															   }
+
+																	var regMask=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+
+																		var mask_flag=false;
+
+																		if(regMask.test(mymask)){
+
+																			mask_flag = true;
+
+																			}else{
+
+																			mask_flag = false;
+
+																			}
+
+																			if (!mask_flag){
+
+																			  alert("子网掩码格式错误！"); 
+
+	                                 	     frm.getElementById("mask").focus();
+
+	                                 	     frm.getElementById("mask").select(); 
+
+																			  return false;
+
+																			}
+
+																Ext.Ajax.request({
+
+									                      method : 'POST', 
+
+									                      url:'/icm/main.xp', 
+
+								                        success: function(response, options){
+
+															            var retxt=response.responseText;
+
+															            windowgroup.close();
+
+																			  if(retxt==0){
+
+																			     Ext.MessageBox.alert('提示','网口配置成功!'); 
+
+																			     xtzystore.load({params:{Fun:'icmVLanListAction',mywk:mywk,start:0,limit:pagesize}});
+
+																			   }else{
+
+																				 Ext.MessageBox.alert('提示',"网口配置失败,VLanId已存在!");
+
+																			   }
+
+																			 },
+
+																		   failure : function(){
+
+																			  windowgroup.close();     
+
+																			  Ext.MessageBox.alert('提示',"网口配置失败!"); 
+
+																		   },
+
+																		   params:{Fun:'icmAddVlanAction',vlanid:myVlanID,ip:myIP,mask:mymask,Mywk:mywk,intercept:myListen}
+
+																		
+
+																		}); 
+
+																		}
+
+												        },{
+
+												            text: '取消',
+
+												            handler: function(){
+
+												              windowgroup.close(); 
+
+												            }
+
+												        }] 
+
+												    });
+
+												    windowgroup.show();
+
+										        //myMask.show();	
+
+												    
+
+												    
+
+					        }
+
+					    }]
+
+					});
+
+    	  mywk1.on('click', function(e){
+
+    	  	mywk="wk1";
+
+    	  	xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk1",start:0,limit:pagesize}});
+
+					mywkMenu.showAt(e.getXY());
+
+					}
+
+    	  );
+
+    	  mywk2.on('click', function(e){
+
+    	  	mywk="wk2";
+
+    	  	xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk2",start:0,limit:pagesize}});
+
+					mywkMenu.showAt(e.getXY());
+
+					}
+
+    	  );
+
+    	  mywk3.on('click', function(e){
+
+    	  	mywk="wk3";
+
+					xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk3",start:0,limit:pagesize}});
+
+					mywkMenu.showAt(e.getXY());
+
+					}
+
+    	  );
+
+    	  mywk4.on('click', function(e){
+
+    	  	mywk="wk4";
+
+					xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"wk4",start:0,limit:pagesize}});
+
+					mywkMenu.showAt(e.getXY());
+
+					}
+
+    	  );
+
+	  		Ext.QuickTips.init();
+
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+
+				{
+
+				        	msg:"Please wait..."
+
+				});
+
+				myMask.show(); 
+
+		    xtzystore = new Ext.data.JsonStore({
+
+		        root: 'Results',
+
+		        totalProperty: 'totalCount',
+
+		        url:'/icm/main.xp',
+
+		        baseParams:{Fun:'icmVLanListAction'},
+
+						fields: [
+
+								{name: 'id'},
+
+                {name: 'vlanid'},
+
+                {name: 'ip'},
+
+                {name: 'mask'},
+
+                {name: 'dev'},
+
+                {name: 'intercept'}
+
+						]
+
+		    });
+
+       xtzystore.load({params:{Fun:'icmVLanListAction',mywk:"-1",start:0,limit:pagesize}});
+
+		    
+
+		    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+
+					    displayInfo: true, 
+
+					    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+
+					    emptyMsg: "无记录", 
+
+					    initComponent : function(){ 
+
+		    	      	var pageSizeItems = [ 
+
+		                     '-','每页', 
+
+		                     this.inputItem = new Ext.form.NumberField({ 
+
+											    cls: 'x-tbar-page-number', 
+
+											    allowDecimals: false, 
+
+											    allowNegative: false, 
+
+											    enableKeyEvents: true, 
+
+											    maxValue: 500, 
+
+											    maxText: '每页不允许超过500条', 
+
+											    selectOnFocus: true, 
+
+											    value: this.pageSize, 
+
+											    submitValue: false, 
+
+											    listeners: { 
+
+											        scope: this, 
+
+											        keydown: this.onHlPagingKeyDown, 
+
+											        blur: this.onHlPagingBlur 
+
+											    } 
+
+		                     }),'条','-',{
+
+								            icon: '/icm/images/grid.png',
+
+								            enableToggle:true,
+
+								            text: '导出本页数据到Excel',
+
+								            cls: 'x-btn-text-icon details',
+
+								            toggleHandler: function(btn, pressed){
+
+								                downloadViewDataActive(this.store);
+
+								            }
+
+								        },'-']; 
+
+				         var userItems = this.items || []; 
+
+				         this.items = userItems.concat(pageSizeItems); 
+
+				         HlPagingToolbar.superclass.initComponent.call(this); 
+
+				    }, 
+
+				    onHlPagingKeyDown: function(field, e){ 
+
+				        if(field.isValid()){ 
+
+				            var k = e.getKey(); 
+
+				             if (k == e.RETURN) { 
+
+				                    e.stopEvent(); 
+
+				                    this.pageSize = field.getValue(); 
+
+				                    pagesize=this.pageSize;
+
+				                    this.doRefresh(); 
+
+				             } 
+
+				        } 
+
+				    }, 
+
+				    onHlPagingBlur: function(field){ 
+
+				        if(field.isValid()){ 
+
+				            this.pageSize = field.getValue(); 
+
+				            pagesize=this.pageSize;
+
+				            this.doRefresh(); 
+
+				        } 
+
+				    } 
+
+				});
+
+				
+
+				var pagingBar= new HlPagingToolbar({
+
+		        store: xtzystore,
+
+		        pageSize: pagesize,
+
+		        displayInfo: true});
+
+
+
+     function boolChange(val){
+
+        if(val == 0){
+
+            return '否';
+
+        }else{
+
+            return '是';
+
+        }
+
+        return val;
+
+    }
+
+    function wkChange(val){
+
+        if(parseInt(val.substr(2,1)) == 1){
+
+            return '网口一';
+
+        }else if(parseInt(val.substr(2,1)) == 2){
+
+            return '网口二';
+
+        }else if(parseInt(val.substr(2,1)) == 3){
+
+            return '网口三';
+
+        }else{
+
+            return '网口四';
+
+        }
+
+        return val;
+
+    }
+
+
+
+    var xtzygrid = new Ext.grid.GridPanel({
+
+        region:'center',
+
+        store: xtzystore,
+
+        viewConfig:{forceFit: true, scrollOffset: 0},
+
+        columns: [
+
+                {header: "ID号",width: 120,sortable: true,dataIndex: 'id'},
+
+                {id: 'VlanId',header: "VlanId",width: 120,sortable: true,dataIndex: 'vlanid'},
+
+                {header: "IP",width: 80,sortable: true,dataIndex: 'ip'},
+
+                {header: "子网掩码",width: 90,sortable: true,dataIndex: 'mask'},
+
+                {header: "绑定网口",width: 80,sortable: true,renderer:wkChange,dataIndex: 'dev'},
+
+                {header: "是否侦听",width: 80,sortable: true,renderer: boolChange,dataIndex: 'intercept'}
+
+				],
+
+        tbar: pagingBar,
+
+        stripeRows: true,
+
+        autoExpandColumn: 'VlanId',//自由设置列宽
+
+        width:280,
+
+        height:screen.height-350,
+
+        frame:true,
+
+        title:'网口信息列表',
+
+		    collapsible:true,
+
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+
+		    draggable:true
+
+    });  
+
+    
+
+					  var detailEl;
+
+					  var rightClick  = new Ext.menu.Menu({
+
+						id:'feeds-ctx',
+
+						items: [{
+
+							id:'delrealidVlanlist',
+
+							iconCls:'load-icon',
+
+							text:'删除网口信息',
+
+							scope: this,
+
+							handler:function()
+
+							{
+
+								var record = xtzygrid.getStore().getAt(detailEl);
+
+								var myId=record.get("id"); 
+
+								var deflag=1;
+
+								  Ext.MessageBox.confirm('提示','你确定要删除此网口信息吗？',function(button,text)
+
+								  {
+
+										if(button=='yes')
+
+										{
+
+											Ext.Ajax.request
+
+											({
+
+												method : 'POST', 
+
+												url:'/icm/main.xp',
+
+												success:function(response,options){
+
+													var retxt=response.responseText;
+
+													if(retxt==0)
+
+													{
+
+														   Ext.MessageBox.alert('提示','删除成功!');
+
+								               xtzystore.load({params:{Fun:'icmVLanListAction',mywk:mywk,start:0,limit:pagesize}});
+
+													}else{
+
+														Ext.MessageBox.alert('提示','删除失败!');
+
+													}
+
+												},
+
+												failure:function(){
+
+                               Ext.MessageBox.alert('提示','删除失败!');
+
+                               },
+
+                        params:{Fun:'icmDeleteAction',deflag:'1',start:0,limit:pagesize,delId:myId}
+
+											});		    
+
+								    }
+
+								   });
+
+								 }
+
+							} 
+
+           
+
+						]});
+
+					 xtzygrid.addListener('rowclick', rightClickFn); 
+
+					 function rightClickFn(client, rowIndex, e) 
+
+					 {
+
+					   rightClick.showAt(e.getXY()); 
+
+					   detailEl=  rowIndex;
+
+					 } 
+
+						var northPanelTop = new Ext.Panel({
+
+						    frame:true,
+
+						    region:'north',
+
+						    title:'设备网口',
+
+						    collapsible:true,
+
+						    contentEl:'north'
+
+						    });
+
+           
+
+					 
+
+					 var mainPanel= {
+
+										id: 'main-panel',
+
+										region:'center',
+
+                    collapsible: true,
+
+                    split:true,
+
+                    layout:'fit',
+
+                    height:screen.height-100,
+
+                    margins:'0 5 0 0',
+
+                    items:
+
+                        new Ext.TabPanel({
+
+                            border:false,
+
+                            activeTab:0,
+
+                            items:[xtzygrid]
+
+                        })
+
+           }
+
+
+
+					  new Ext.Viewport({
+
+									layout: 'border',
+
+									items: [northPanelTop,mainPanel],
+
+					        renderTo: Ext.getBody()
+
+					    });		
+
+			     myMask.hide();
+
+  });  
+
+</SCRIPT>
+
+</HEAD>
+
+		<BODY oncontextmenu="return false">
+
+			<DIV id=north>
+
+				<CENTER>
+
+						<body bgcolor="#F0f0f0" text="#000000" oncontextmenu="return false" topmargin="0" leftmargin="0" >
+
+						<table border="0" cellspacing="0" cellpadding="3" width="100%" align="center" bgcolor="#F0f0f0">
+
+							<tr align="center">
+
+							<td><img src="/icm/images/wk.jpg" value="wk1" id="wk1" style="CURSOR: hand" onClick="click()"/></td>	
+
+							<td><img src="/icm/images/wk.jpg" value="wk2" id="wk2" style="CURSOR: hand" onClick="click()"/></td>		
+
+							<td><img src="/icm/images/wk.jpg" value="wk3" id="wk3" style="CURSOR: hand" onClick="click()"/></td>	
+
+							<td><img src="/icm/images/wk.jpg" value="wk4" id="wk4" style="CURSOR: hand" onClick="click()"/></td>	
+
+							</tr>
+
+							<tr align="center">
+
+							<td><span class="STYLE1">网口一</span></td>
+
+							<td><span class="STYLE1">网口二</span></td>
+
+							<td><span class="STYLE1">网口三</span></td>
+
+							<td><span class="STYLE1">网口四</span></td>
+
+							</tr>
+
+						</table>      
+
+						</body>
+
+				<CENTER>
+
+		</DIV>
+
+	</BODY>
+
+</HTML>
+

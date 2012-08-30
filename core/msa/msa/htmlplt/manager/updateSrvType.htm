@@ -1,0 +1,209 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META 	content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link 	href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css" type="text/css">
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<script type="text/javascript">
+ function savelistfun() {
+	var mysrvid=north.srvid.value;
+	var mymatchDirect=north.matchDirect.value;
+	var mymatchAgree=north.matchAgree.value;
+	var mymatchload=north.matchload.value;
+	var mymatchportL=north.matchportL.value;
+	var mymatchportT=north.matchportT.value;
+	var mysrvdescmatch1=north.srvdescmatch1.value;
+	var mysrvdescmatch2=north.srvdescmatch2.value;
+	var mysrvdescmatch3=north.srvdescmatch3.value;
+	if(mymatchportL=="")
+	{
+		 Ext.MessageBox.alert("提示信息","匹配端口不能为空");
+		 north.matchportL.focus();
+		 return false;
+	}
+	if(mymatchportL!="")
+	{
+		if(mymatchportT<0 || mymatchportL>99999|| mymatchportT.length<5)
+		{
+			Ext.MessageBox.alert("提示信息","匹配端口号必须位于00000-99999之间");
+			north.matchportL.focus();
+		  north.matchportL.select();
+			return false;
+		}
+	}
+	if(mymatchportT=="")
+	{
+		Ext.MessageBox.alert("提示信息","匹配端口不能为空");
+		north.matchportT.focus();
+		return false;
+	}
+	if(mymatchportT!="")
+	{
+		if(mymatchportT<0 || mymatchportT>99999|| mymatchportT.length<5)
+		{
+			Ext.MessageBox.alert("提示信息","匹配端口号必须位于00000-99999之间");
+			north.matchportT.focus();
+		  north.matchportT.select();
+			return false;
+		}
+	}
+	if(mysrvdescmatch1=="")
+	{
+		Ext.MessageBox.alert("提示信息","匹配端口不能为空");
+		north.srvdescmatch1.focus();
+		return false;
+	}
+	if(mysrvdescmatch1!="")
+	{
+		if(mysrvdescmatch1<0 || mysrvdescmatch1>1560)
+		{
+			Ext.MessageBox.alert("提示信息","匹配端口号必须位于0-1560之间");
+			north.srvdescmatch1.focus();
+		  north.srvdescmatch1.select();
+			return false;
+		}
+	}
+	if(mysrvdescmatch2=="")
+	{
+		Ext.MessageBox.alert("提示信息","匹配端口不能为空");
+		north.srvdescmatch2.focus();
+		return false;
+	}
+	if(mysrvdescmatch2!="")
+	{
+		if(mysrvdescmatch2<0 || mysrvdescmatch2>99)
+		{
+			Ext.MessageBox.alert("提示信息","匹配端口号必须位于00-99之间");
+			north.srvdescmatch2.focus();
+		  north.srvdescmatch2.select();
+			return false;
+		}
+		if(mysrvdescmatch2.length==1){
+			mysrvdescmatch2='0'+mysrvdescmatch2;
+		}
+	}
+	if(mysrvdescmatch3=="")
+	{
+		Ext.MessageBox.alert("提示信息","匹配端口不能为空");
+		north.srvdescmatch3.focus();
+		return false;
+	}
+	if(mysrvdescmatch3!="")
+	{
+		if(!(mysrvdescmatch3.length==(mysrvdescmatch2)*2))
+		{
+			Ext.MessageBox.alert("提示信息","字符串长度不正确，须为字节数的2倍");
+			north.srvdescmatch3.focus();
+		  north.srvdescmatch3.select();
+			return false;
+		}
+		
+	  var regAF=/^[A-Fa-f0-9]*$/;
+	  var AF_flag=false;
+	  if(regAF.test(mysrvdescmatch3)){
+		AF_flag = true;
+		}else{
+		AF_flag = false;
+		}
+		if (!AF_flag){
+		  Ext.MessageBox.alert("提示信息","对不起，字符串必须为16进制数");
+			north.srvdescmatch3.focus();
+			north.srvdescmatch3.select();
+		  return false;
+		}
+	}
+	
+	
+	Ext.Ajax.request({
+		method : 'POST', 
+    url:'/msa/main.xp', 
+    success: function() 
+	  {
+	     Ext.MessageBox.alert("提示信息","修改服务特征成功");
+    },
+    failure : function() 
+    {   
+	  	 Ext.MessageBox.alert("提示信息","修改服务特征失败");
+    },
+    params:{Fun:'ltsaveurlsort',srvid:mysrvid,matchAgree:mymatchAgree,matchDirect:mymatchDirect,matchload:mymatchload,matchportL:mymatchportL,matchportT:mymatchportT,srvdescmatch1:mysrvdescmatch1,srvdescmatch2:mysrvdescmatch2,srvdescmatch3:mysrvdescmatch3,flag:0}
+  });
+ }
+</SCRIPT>
+<SCRIPT type=text/javascript>
+
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	new Ext.Panel({
+		renderTo:Ext.getBody(),
+		layout:'fit',
+		height:screen.height-450,
+		contentEl:'mainviewdiv'
+	});
+});
+</SCRIPT>
+</head>
+<body bgcolor="#ffffff" text="#000000"  leftmargin="1" topmargin="0"   style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+	<div id="mainviewdiv" valign="top" align="center" STYLE="position:absolute; top=30; left=30; z-index:1;">
+    <form name="north">
+    	<input type="hidden"  name="srvid" value="[$srvid$]">
+			<table  align="center">
+					<tr>
+			      <td colspan="3">修改协议的各种属性</td>
+			    </tr>
+					<tr><td colspan="3"><hr/></td></tr>
+			    <tr> 
+			      <td width="161"><div>匹配协议</div></td>
+			      <td colspan="2"> 
+			        <select name="matchAgree" id="matchAgree"  class=inputself0  >
+			          <option value="0" [$matchAgree0sel$] >全部</option>
+			          <option value="1" [$matchAgree1sel$] >TCP</option>
+			          <option value="2" [$matchAgree2sel$] >UDP</option>
+			        </select>
+			      </td>
+			    </tr>
+			    <tr> 
+			      <td><div>匹配方向</div></td>
+			      <td colspan="2"> 
+			        <select name="matchDirect" id="matchDirect"  class=inputself0  >
+			          <option value="0" [$matchdirect0sel$] >up</option>
+			          <option value="1" [$matchdirect1sel$] >down</option>
+			          <option value="2" [$matchdirect2sel$] >both</option>
+			        </select>
+			      </td>
+			    </tr>
+			    <tr> 
+			      <td><div>匹配端口</div></td>
+			      <td colspan="2"> 
+			        <input type="text" name="matchportL"  class="input" size="8" value="[$matchportL$]" maxlength="5" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">-<input type="text" name="matchportT"  class="input" size="8" value="[$matchportT$]" maxlength="5" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+			      </td>
+			    </tr>
+			    <tr>
+			      <td><div>匹配方式</div></td>
+			      <td colspan="2"> 
+			        <select name="matchload" id="matchload"  class=inputself0  >
+			          <option value="0" [$matchload0sel$] >全部包</option>
+			          <option value="1" [$matchload1sel$] >对http内容也有效</option>
+			        </select>
+			      </td>
+			    </tr>
+			    <tr> 
+			      <td><div>顺序字符匹配</div></td>
+			      <td width="801"><div id="divdesc">从第<input id="srvdescmatch1" type="text" name="srvdescmatch1"  class="input" size="3" value="[$srvdescmatch1$]" maxlength="20" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">个字节起共<input id="srvdescmatch2" type="text" name="srvdescmatch2"  class="input" size="3" value="[$srvdescmatch2$]" maxlength="2" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">个字节为<input id="srvdescmatch3" type="text" name="srvdescmatch3"  class="input" size="35"  value="[$srvdescmatch3$]" maxlength="200" ></div></td>
+			    </tr>
+					<tr><td colspan="3"><hr/></td></tr>
+					<tr><td colspan="3">
+						<input type="button" onClick="savelistfun();"  value="保存/修改"  class=inputf0 size=10>
+					</td>
+					</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

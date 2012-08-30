@@ -1,0 +1,167 @@
+#include "CFormParser.h"
+#include "CMyHtmlList.h"
+#include "cgicc/CgiDefs.h"
+#include "cgicc/Cgicc.h"
+#include "cgicc/HTTPHTMLHeader.h"
+#include "cgicc/HTMLClasses.h"
+
+using namespace cgicc; 
+
+void HandleForm()
+{
+	try{	
+		
+		Cgicc formData;
+		char strSQL[SQLLEN*2];
+		char whereSQL[SQLLEN];
+		char *keytype=NULL;
+		char *vname=NULL;
+		char *controlpointcode=NULL;
+		char *time=NULL;
+		char *start=NULL;
+		char *limit=NULL;
+		memset(strSQL,0,sizeof(strSQL));
+		memset(whereSQL,0,sizeof(whereSQL));
+
+		form_iterator fvalue = formData.getElement("keytype");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			keytype=const_cast<char*>((**fvalue).c_str());
+		}
+		printf("{\"totalCount\":\"10\",\"Results\":[{\"recno\":\"1\",\"keytype\":\"%s\",\"vname\":\"%s\",\"ips\":\"%s\",\"macs\":\"%s\",\"starttime\":\"%s\",\"endtime\":\"%s\",\"controlpointcode\":\"%s\"}]}","aa","bb","cc","dd","ee","ff","gg");
+		fvalue = formData.getElement("vname");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			vname=const_cast<char*>((**fvalue).c_str());
+		}
+
+		fvalue = formData.getElement("controlpointcode");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			controlpointcode=const_cast<char*>((**fvalue).c_str());
+		}
+
+		fvalue = formData.getElement("time");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			time=const_cast<char*>((**fvalue).c_str());
+		}
+
+		fvalue = formData.getElement("start");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			start=const_cast<char*>((**fvalue).c_str());
+		}
+
+		 fvalue = formData.getElement("limit");
+		if( !fvalue->isEmpty() && fvalue != (*formData).end()){
+			limit=const_cast<char*>((**fvalue).c_str());
+		}
+
+
+		if(strlen(keytype)>0){
+			sprintf(whereSQL,"keytype='%s'",keytype);
+		}else{
+			sprintf(whereSQL,"1=1");
+		}
+		
+		if(strlen(vname)>0){
+			sprintf(whereSQL,"%s and vname='%s'",whereSQL,vname);	
+		}
+
+		if(strlen(controlpointcode)>0){
+			sprintf(whereSQL,"%s and controlpointcode='%s'",whereSQL,controlpointcode);
+		}
+
+		if(strlen(time)>0){
+			sprintf(whereSQL,"%s and starttime='%s'",whereSQL,time);
+		}
+		
+		//printf("{\"totalCount\":\"10\",\"Results\":[{\"recno\":\"1\",\"keytype\":\"%s\",\"vname\":\"%s\",\"ips\":\"%s\",\"macs\":\"%s\",\"starttime\":\"%s\",\"endtime\":\"%s\",\"controlpointcode\":\"%s\"}]}",keytype,vname,controlpointcode,time,start,limit,strSQL);
+		MYSQL *conn=conn_init();
+
+		if(!conn){
+			printf("0\n");
+		}	
+		
+		sprintf(strSQL,"select recno,keytype,vname,ips,macs,starttime,endtime,controlpointcode from voactive WHERE %s limit %s,50;",whereSQL,start);
+		//printf("{\"totalCount\":\"10\",\"Results\":[{\"recno\":\"1\",\"keytype\":\"%s\",\"vname\":\"%s\",\"ips\":\"%s\",\"macs\":\"%s\",\"starttime\":\"%s\",\"endtime\":\"%s\",\"controlpointcode\":\"%s\"}]}",keytype,vname,controlpointcode,time,start,limit,strSQL);
+
+		//db_do_query(conn,strSQL);*/
+		
+
+	}
+	catch(...)
+	{
+		cout<<"0\n";
+	}
+
+}
+
+
+/*场所查询*/
+void db_do_query(MYSQL *db, const char *query)
+{
+	  MYSQL_RES *res;
+	  MYSQL_ROW row; 
+	  CMyHtmlList g_htmllist;
+      g_htmllist.ClearObject();
+	  if(mysql_query(db,query)){	
+		fprintf(stderr,"%s\n",mysql_error(db));
+		exit(1);
+	  } 
+	  res=mysql_use_result(db);	  
+	  g_htmllist.InitListHeaderNums(8);//设施表格头的列
+	  int Inum;
+	  char *style=NULL;
+	  while ((row = mysql_fetch_row(res))!= NULL){ 
+		Inum=g_htmllist.AddRow();	
+		g_htmllist.SetRowItem(Inum,0,"recno",(char*)row[0],0);
+		g_htmllist.SetRowItem(Inum,1,"keytype",(char*)row[1],0);		
+		g_htmllist.SetRowItem(Inum,2,"vname",(char*)row[2],0);	
+		g_htmllist.SetRowItem(Inum,3,"ips",(char*)row[3],0);
+		g_htmllist.SetRowItem(Inum,4,"macs",(char*)row[4],0);
+		g_htmllist.SetRowItem(Inum,5,"starttime",(char*)row[5],0);
+		g_htmllist.SetRowItem(Inum,6,"endtime",(char*)row[6],0);
+		g_htmllist.SetRowItem(Inum,7,"controlpointcode",(char*)row[7],0);
+		
+	  }
+	  g_htmllist.InitHtmlListContent();
+	  cout<<g_htmllist.m_phtmlbuf<<endl;	 	 
+	  mysql_commit(db);
+	  mysql_close(db);
+	  mysql_library_end();
+}
+
+
+
+/*场所删除*/
+void
+db_do_del(MYSQL *db, const char *query)
+{
+	  MYSQL_RES *res;
+	  MYSQL_ROW row; 
+	  char *output = "删除失败";
+	  printf("<table width=100%c %s=0>\n",'%',"border");
+	  if(mysql_real_query(db,query,strlen(query))!=0){ 
+		  printf("<tr><h1>%s</h1></tr>\n",output);
+	  }else{
+		  output = "删除成功";
+		  printf("<tr><h1>%s</h1></tr>\n",output);
+	  }
+	  
+	  output = "返回主页面";
+	  printf("<tr><a href=\"../cgi.html\">%s</a></tr>\n",output);
+	  printf("</table>\n");
+
+	  mysql_commit(db);
+	  mysql_close(db);
+	  mysql_library_end();
+}
+
+
+
+int main(int argc, char **argv)
+{
+	
+	printf("Contenttype:text/plain\n\n");//返回json文本
+	HandleForm();
+	//printf("{\"totalCount\":\"10\",\"Results\":[{\"recno\":\"1\",\"keytype\":\"%s\",\"vname\":\"%s\",\"ips\":\"%s\",\"macs\":\"%s\",\"starttime\":\"%s\",\"endtime\":\"%s\",\"controlpointcode\":\"%s\"}]}","aa","bb","cc","dd","ee","ff","gg");
+	return 0;
+}
+

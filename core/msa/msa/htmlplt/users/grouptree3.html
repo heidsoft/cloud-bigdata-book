@@ -1,0 +1,69 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	MARGIN: 0px; BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 0px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+
+    var tree = new Ext.tree.TreePanel({
+        renderTo:Ext.getBody(),
+        height: screen.height-300,
+        width: 230,
+        useArrows:true,
+        autoScroll:true,
+				lines: false,
+        rootVisible: false,
+        loader: new Ext.tree.TreeLoader({
+						dataUrl:'/msa/data/useraction.json'
+				}),
+				root: new Ext.tree.AsyncTreeNode()
+    });
+		tree.on('click', function(n){		
+			if(n.leaf){
+				if(n.id=='accountsearch'){
+				 	var myurl="/msa/main.xp?Fun=msaAccoutShowPage";
+		      parent.mainviewfrm.location.href=myurl;
+		    }else if(n.id=='groupexport'){
+		    	var myurl="/msa/main.xp?Fun=msaGroupExportShowPage+gid=-1";
+		      parent.mainviewfrm.location.href=myurl;
+		    }else if(n.id=='advarconfig'){
+		    	var myurl="/msa/main.xp?Fun=ltadvarconfig";
+		      parent.mainviewfrm.location.href=myurl;
+		    }else if(n.id=='ldapinport'){
+		    	var myurl="/msa/main.xp?Fun=ltldapvarconfig";
+		      parent.mainviewfrm.location.href=myurl;
+		    }else{
+				  parent.mainviewfrm.location.href=n.id+'.htm';
+				}
+		  }
+		});
+    //tree.getRootNode().expand(true);
+});
+</SCRIPT>
+<style>
+    .complete .x-tree-node-anchor span {
+        text-decoration: line-through;
+        color: #777;
+    }
+</style>
+</head>
+<BODY  oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+
+</BODY>
+</html>

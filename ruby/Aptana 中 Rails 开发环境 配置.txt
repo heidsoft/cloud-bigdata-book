@@ -1,0 +1,53 @@
+Aptana 中 Rails 开发环境 配置
+
+
+RadRails是基于eclipse平台的Ruby on Rails(ROR) IDE. 熟悉eclipse的开发人员很容易使用. 下面简单介绍一下RadRails在WindowsXP下面的安装, 配置.
+  
+1. 安装RadRails
+
+1.1 安装JRE, 下载页面http://java.sun.com/javase/downloads/index_jdk5.jsp
+1.2 安装Ruby One-Click Installer, 下载页面http://www.ruby-lang.org/en/downloads/
+1.3 安装Rails, Windows CMD(开始-->运行-->cmd) 中运行"gem install rails --include-dependencies"
+1.4 安装RadRails, 下载页面http://www.aptana.com, 最好下载standalone版本  
+
+2. 配置RadRails
+
+配置RadRails应该是最容易出问题的地方，下面将分类说明Ruby，Rails，Rake的配置方法. 本指南中Ruby安装在"D:\ruby", 根据情况修改成个人的Ruby安装目录
+
+2.1 配置Ruby
+
+2.1.1配置Interpreters
+打开"Windows-->Preferences", 选择"Ruby-->Installed Interpreters" , 点击"Add"出现的提示框中
+Java代码
+
+    //any name you like  
+    Interpreters Name: Ruby   
+    Location: D:\ruby\bin\ruby.exe  
+
+
+
+2.1.2配置Ri/rdoc
+打开"Windows-->Preferences", 选择"Ruby-->Ri/rdoc"
+Java代码
+
+    //bin目录下面的rdoc文件，没有扩展名，不是rdoc.bat  
+    RDoc path: D:\ruby\bin\rdoc  
+    //bin目录下面的ri文件，没有扩展名，不是ri.bat  
+    Ri path: D:\ruby\bin\ri  
+
+
+
+2.2 配置Rails和Rake
+打开"Windows-->Preferences", 选择"Rails-->Configuration"                       
+
+    //bin目录下面的rails文件, 没有扩展名, 不是rails.bat  
+    Rails Path: D:\ruby\bin\rails  
+    //bin目录下面的rake文件, 没有扩展名, 不是rake.bat. 如果没有rake文件,运行gem update rake(安装) 或者 gem install rake(升级)   
+    Rake Path: D:\ruby\bin\rake  
+    //bin目录下面的mongrel_rails文件, 没有扩展名. 如果没有,运行gem install mongrel 安装  
+    Mongrel Path: D:\ruby\bin\mongrel_rails  
+
+
+
+3. 总结
+安转RadRails很简单,但是配置还是很容易出问题, 特别是几个path, 除了ruby.exe有扩展名以外, 其他的都没有扩展名. 初学者很容易出问题, 再次强调一遍

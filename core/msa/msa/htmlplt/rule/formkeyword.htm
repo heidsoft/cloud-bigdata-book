@@ -1,0 +1,172 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<STYLE type=text/css>
+</STYLE>
+<SCRIPT type=text/javascript>
+		function checkbox(obj)
+	  {	
+					if(obj.checked){
+				    obj.value=1;
+				  }else{
+				    obj.value=0;
+					}
+	  }
+		function del() {
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	location.href='/msa/main.xp?Fun=editkeyword+type=[$type$]';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","删除失败!");
+          },
+          params:{Fun:'editkeyword',id:event.srcElement.name,delflag:'delflag',type:[$type$]}
+				});
+		}
+		function add() {
+			
+				if(listform.keyword.value=="" ){
+					Ext.MessageBox.alert("提示","关键字不能为空!");
+					listform.keyword.focus();
+					return;
+				}
+				
+				if(listform.host.value!="" ){
+				
+						var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+		  			var IP_flag=false;
+		  			if(regIP.test(listform.host.value)){
+								IP_flag = true;
+						}else{
+								IP_flag = false;
+						}
+						
+						if (!IP_flag){
+							  Ext.MessageBox.alert("提示","主机IP地址格式错误!");
+								listform.host.focus();
+								listform.host.select();
+							  return false;
+						}
+			  }
+				
+				
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	location.href='/msa/main.xp?Fun=editkeyword+type=[$type$]';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+          },
+          params:{Fun:'editkeyword',host:listform.host.value,keyword:listform.keyword.value,addflag:'addflag',type:listform.type.value,utf8:listform.utf8.value,web:listform.web.value}
+				});
+		}
+		
+		function Apprules() {
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+          	var txt=response.responseText;
+          	if(txt.substring(0,1)=="1"){
+          		Ext.Msg.alert('操作','应用成功 !');
+          	}else{
+          		Ext.Msg.alert('操作','应用失败 !');
+          	}
+		      	
+          },
+          failure : function(response, options){
+          	Ext.Msg.alert('操作','应用失败 !');
+          },
+          params:{Fun:'Apprules',type:0}
+				});
+		}
+    Ext.onReady(function(){
+		new Ext.Viewport({
+									layout: 'border',
+									items: [{
+										region:'center',
+					          split:false,
+					          layout:'fit',
+					          tbar:[{
+						            text: 'MSA将阻断包含以下关键字内容的表单提交'
+						           },
+						        '-',{
+						            icon: '/msa/images/warning.gif',
+						            enableToggle:true,
+						            text: '规则应用',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						            	Apprules();   
+										}},'-'],
+					          frame:false,
+					          collapsible:false,
+					          autoScroll: true,
+					          margins:'0 0 0 0',
+					          contentEl:'mainviewdiv'
+										}
+									],
+					        renderTo: Ext.getBody()
+					  });
+		});
+	</SCRIPT>
+</head>
+<body oncontextmenu="return false" bgcolor="#F0f0f0" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<div id="mainviewdiv" valign="top" align="left" STYLE="position:absolute; top=10; left=40; z-index:1;">
+<TABLE id="mytable" width="780" border="1" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+  <form id="listform">
+  <input type="hidden" name="type" value="[$type$]">
+  <thead>
+	<tr>
+		<td width="28%" height="23" ><span class="STYLE4">主机IP</span></td>
+		<td height="23" colspan="2"><span class="STYLE4">关键字</span></td>
+		<td width="7%" >操作</td>
+	</tr>
+  </thead>
+  <tbody>
+		[$begintable list$]
+    <tr>
+    	<td width="28%">
+      	[$host$]</td>
+      <td colspan="2">
+      	[$keyword$] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<font color="#999999">[$code$]   </td>
+      <td width="7%">
+          <input type='button' class=input size="32" onClick="del();" maxlength="20" name="[$id$]" value="删除" style="cursor: hand">
+        </td>
+      </tr>
+    [$endtable$]
+  </tbody>
+<tfoot>
+	<tr>
+		<td width="28%">
+          <input type='text' name="host" class=input size="32" maxlength="20" value="">
+    </td>
+    <td width="26%">
+          <input type='text' name="keyword" class=input size="32" maxlength="20" value="">
+    </td>
+    <td height="22" width="39%">
+      	<input type="checkbox" name="utf8" value="0" onClick="checkbox(this)" value="0">
+        UTF-8&nbsp
+        <input type="checkbox" name="web" value="0" onClick="checkbox(this)" value="0">
+        web编码[web]&nbsp
+    </td>
+		<td width="7%">
+          <input type='button' class=input onClick="add();" size="20" maxlength="20" value="添加" style="cursor: hand">
+    </td>
+	</tr>
+</tfoot>
+</form>
+</TABLE>
+</div>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<html>
+<head>
+	<title>VPN参数配置</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+	<style type="text/css">
+	html, body {
+        font:normal 12px verdana;
+        margin:0;
+        padding:0;
+        border:0 none;
+        overflow:hidden;
+        height:100%;
+    }
+	p {
+	    margin:5px;
+	}
+    .settings {
+        background-image:url(../shared/icons/fam/folder_wrench.png);
+    }
+    .nav {
+        background-image:url(../shared/icons/fam/folder_go.png);
+    }
+    </style>
+	<script type="text/javascript">
+    Ext.onReady(function(){
+			 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+			 var pagesize=100;
+			 var curPageNum=1;			 
+			 var start=0;
+	     var allcount=document.getElementById("allcount").value;
+       var cm=new Ext.grid.ColumnModel([
+				{header:'虚拟地址',dataIndex:'virtualaddress',sortable:true,width:80},
+				{header:'通用名称',dataIndex:'name',sortable:true,width:100},
+				{header:'连接IP ',dataIndex:'ip',sortable:true,width:80},
+			 	{header:'最后登录时间',dataIndex:'logintime',width:100}
+			]);
+
+			reportstore=new Ext.data.SimpleStore({
+			 url:'/msa/main.xp?Fun=vpnonlineuser+pagenum='+pagesize+'+CurPg='+curPageNum,
+		         fields: [
+		          {name: 'virtualaddress'},
+		          {name: 'name'},
+		          {name: 'ip'},
+		      		{name: 'logintime'}
+		         ]
+			});
+
+			reportstore.load();
+			//自定义工具条
+			function log_search(){
+			//reportstore.load({params:{Fun:'vpnonlineuser',pagenum:pagesize,CurPg:curPageNum}});
+			reportstore.load({params:{CurPg:curPageNum,Fun:'vpnonlineuser',allcount:allcount,pagenum:pagesize}});
+			}
+			var bt_first = new Ext.Toolbar.Button({
+					tooltip : "第一页",
+					overflowText : "第一页",
+					iconCls : 'x-tbar-page-first',
+					disabled : false,
+					enable : true,
+					handler : do_first
+			});
+			var bt_prev = new Ext.Toolbar.Button({
+					tooltip : "前一页",
+					overflowText : "前一页",
+					iconCls : 'x-tbar-page-prev',
+					disabled : false,
+					enable : true,
+					handler : do_prev
+			});
+			var bt_number = new Ext.form.NumberField({
+					cls : 'x-tbar-page-number',
+					allowDecimals : false,
+					allowNegative : false,
+					enableKeyEvents : true,
+					selectOnFocus : true,
+					submitValue : false,
+					listeners : {
+					change : onPagingKeyDown
+					}
+			});
+			bt_number.setValue(curPageNum);
+
+			var pglimit = new Ext.form.NumberField({
+					cls : 'x-tbar-page-number',
+					allowDecimals : false,
+					allowNegative : false,
+					enableKeyEvents : true,
+					selectOnFocus : true,
+					submitValue : false,
+					enableKeyEvents: true,
+					listeners : {
+					change: onPagingKeyDown1
+					}
+			});
+			pglimit.setValue(pagesize);
+			var bt_next = new Ext.Toolbar.Button({
+					tooltip : "下一页",
+					overflowText : "下一页",
+					iconCls : 'x-tbar-page-next',
+					disabled : false,
+					enable : true,
+					handler : do_next
+			});
+			var bt_refresh = new Ext.Toolbar.Button({
+					tooltip : "刷新",
+					overflowText : "刷新",
+					iconCls : 'x-tbar-loading',
+					disabled : false,
+					enable : true,
+					handler : do_refresh
+			});
+
+			var lb_num = new Ext.form.Label({
+					text : '0'
+			});
+
+			function do_first(){
+					start = 0;
+					curPageNum = 1;
+					bt_number.setValue(curPageNum);
+					log_search();
+			}
+
+			function do_next() {
+					start =parseInt(start)+parseInt(pagesize);
+					curPageNum = parseInt(curPageNum) + 1;
+					bt_number.setValue(curPageNum);
+					log_search();
+			}
+
+
+			function do_last() {
+					start = (maxPageCount - 1) * pagesize;
+					log_search();
+					curPageNum = maxPageCount;
+					bt_number.setValue(curPageNum);
+			}
+			function do_prev(){
+					if(start==0){
+						return;
+					}
+					start =parseInt(start)-parseInt(pagesize);
+					if(start<0){
+						start=0;
+					}
+					curPageNum = parseInt(curPageNum)-1;
+					if(curPageNum<0)curPageNum=0;
+					bt_number.setValue(curPageNum);
+					log_search();
+			}
+			function onPagingKeyDown(txtfield, e){
+					if(parseInt(txtfield.value)>0){
+						start=parseInt(pagesize)*(parseInt(txtfield.value)-1)
+					}
+					if(parseInt(txtfield.value)>parseInt(maxPageCount)){
+						start=parseInt(pagesize)*(parseInt(maxPageCount)-1)
+					}
+					log_search();
+			}
+			function onPagingKeyDown1(txtfield, e){
+					pagesize=txtfield.value;
+					start = (parseInt(bt_number.getValue()) - 1) * pagesize;
+					log_search();
+			}
+			function do_refresh() {
+					log_search();
+			}
+			var m_toolbar = new Ext.Toolbar({
+			items : [ bt_first, bt_prev,'-','每页',pglimit,'条','-',bt_next, bt_refresh,'-','第', bt_number, '页', '-']
+			});
+			var onlinegrid=new Ext.grid.GridPanel({
+				renderTo:'onlinegrid',
+	     	name:'onlinegrid',
+				layout:'fit',
+				ds:reportstore,
+				tbar:m_toolbar,
+				autoWidth :true,
+				autoHeight:true,
+				stripeRows :true,
+				viewConfig: {forceFit:true},
+				cm:cm ,
+				frame:true,
+				loadMask:{msg:'正在加载数据，请稍侯……'}
+			});
+//			onlinegrid.getStore().addListener({
+//				beforeload:function(store,records,options){
+//					store.baseParams = {
+//						CurPg:curPageNum,
+//						pagenum:pagesize
+//					};
+//				}
+//			});
+//			var propertyGrid = new Ext.grid.PropertyGrid({
+//        title: 'Properties Grid',
+//        id: 'propGrid',
+//        autoHeight: true,
+//        width: 300,
+//        renderTo: 'grid-ct',
+//        source: {} // 初始化数据源的配置对象
+//    	});
+//	    var propertyStore = new Ext.data.JsonStore({
+//	        autoLoad: true,  //自动加载数据
+//	        url: 'getproperties.php',
+//	        root: 'props',
+//	        fields: ['First name', 'Last name', 'E-mail'],
+//	        listeners: {
+//	            load: {
+//	                fn: function(store, records, options){
+//	                    // 获取propety grid组件
+//	                    var propGrid = Ext.getCmp('propGrid');
+//	                    // 保证property grid是存在的
+//	                    if (propGrid) {
+//	                        // 获得property grid 的store数据
+//	                        propGrid.setSource(store.getAt(0).data);
+//	                    }
+//	                }
+//	            }
+//	        }
+//	    });
+			var propertygrid = new Ext.grid.PropertyGrid({
+                        closable: false,
+                        source: {
+                            "是否启动": false,
+                            "端口号": '1194',
+                            "服务器类型": 'UDP server',
+                            "VPN地址池：网段": '',
+                            "VPN地址池：掩码": ''
+                        }
+			})
+			propertygrid.on('afteredit', afterEdit, this );
+			function afterEdit(e) {
+			  // execute an XHR to send/commit data to the server, in callback do (if successful):
+			  //e.record.commit();
+			  alert(propertygrid.source['端口号']);
+			};
+      var viewport = new Ext.Viewport({
+            layout:'border',
+            items:[{
+                    region:'north',
+                    title: 'VPN 基本属性',
+                    collapsible: false,
+                    split:true,
+                    height: 170,
+										autoScroll:true,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    contentEl:'vpnset'
+                 },
+                new Ext.TabPanel({
+                    region:'center',
+                    deferredRender:false,
+                    activeTab:0,
+                    items:[{
+                        title: 'VPN在线用户',
+                        closable:false,
+                        autoScroll:true,
+                        items:[onlinegrid]
+                    },{
+                        title: '添加VPN帐号',
+                        html: "<IFRAME  name='menufrm' width=100% height=100% SRC = '/msa/main.xp?Fun=msaAddVPNuser'></iframe>",
+                        autoScroll:true
+                    },{
+                        title: '设置VPN客户端经VPN的',
+                        contentEl:'vpn',
+                        autoScroll:true
+                    }]
+                })
+             ]
+        });
+        Ext.EventManager.onWindowResize(function(){
+        	onlinegrid.getView().refresh()
+    		});
+    });
+    function sub(){
+	    var ENABLEVPNvar;
+	    ENABLEVPNvar="NO";
+	    if(document.getElementById("ENABLEVPN").checked==true){
+	      ENABLEVPNvar="YES";
+	    }
+	    var port=document.getElementById("port").value;
+	    var sever=document.getElementById("sever").value;
+	    var ip=document.getElementById("ip").value;
+	    var ipmask=document.getElementById("ipmask").value;
+	    var routip1=document.getElementById("routip1").value;
+		  var routmask1=document.getElementById("routmask1").value;
+		  
+		  var routip2=document.getElementById("routip2").value;
+		  var routmask2=document.getElementById("routmask2").value;
+		  
+		  var routip3=document.getElementById("routip3").value;
+		  var routmask3=document.getElementById("routmask3").value;
+		  
+		  var routip4=document.getElementById("routip4").value;
+		  var routmask4=document.getElementById("routmask4").value;
+		  
+		  var routip5=document.getElementById("routip5").value;
+		  var routmask5=document.getElementById("routmask5").value;
+		  
+		  var routip6=document.getElementById("routip6").value;
+		  var routmask6=document.getElementById("routmask6").value;
+	
+	    
+	    if(port==""){
+	    	alert("请填写端口号！");return ;
+	    }if(sever==""){
+	    	alert("请填写服务器类型！");return ;
+	    }if(ip==""){
+	    	alert("请填写服务器IP！");return ;
+	    }if(ipmask==""){
+	    	alert("请填写网桥掩码！");return ;
+	    }if(routip1==""){
+	    	alert("请填写路由地址！");return ;
+	    }if(routmask1==""){
+	    	alert("请填写子网掩码！");return ;
+	    } 
+	    
+	    
+			Ext.Ajax.request({
+			    method : 'POST', 
+			    url:'/msa/main.xp', 
+			    success: function() { 
+			     	//Ext.MessageBox.alert('提示','VPN参数设置成功！');
+			    	location.href='/msa/main.xp?Fun=tovpnsetting';
+			    },
+			    failure: function() {     
+			     	Ext.MessageBox.alert('提示','VPN参数设置失败！'); 
+			    },
+			    params:{
+			      Fun:'vpnsetting',
+			      ENABLEVPN:ENABLEVPNvar,
+			      port:port,
+			      sever:sever,
+			      ip:ip,
+			      ipmask:ipmask,
+			      routip1:routip1,
+			      routmask1:routmask1,
+			      routip2:routip2,
+			      routmask2:routmask2,
+			      routip3:routip3,
+			      routmask3:routmask3,
+			      routip4:routip4,
+			      routmask4:routmask4,
+			      routip5:routip5,
+			      routmask5:routmask5,
+			      routip6:routip6,
+			      routmask6:routmask6
+			    } 
+			}); 
+	
+	    //document.getElementById("form1").submit();
+	 
+		}
+	</script>
+</head>
+<body oncontextmenu="return false" bgcolor="#F0f0f0" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="onlinegrid" style="width: 100%; height: 100%;">
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr> 
+    <td> 
+     <form name="form1" id="form1" method="post"  action="/msa/main.xp" >  
+	    <input type="hidden" name="Fun" value="vpnsetting">
+	    <input type="hidden" name="allcount" id="allcount" value="[$allcount$]">
+	    <div style='DISPLAY:none' additive>
+	    	<div id="vpnset">
+	 		<TABLE width="100%" border="0" cellspacing="0" cellpadding="0" >
+          <div id="plabel"> 
+			 			<tr> 
+             <td width="50" height="30"> 
+                <div align="center">&nbsp;</div>
+             </td>
+             <td> 
+                <div align="left">是否启动 :  &nbsp;&nbsp;
+                <input type='checkbox' name='ENABLEVPN' value="YES" [$echecked$] >
+              	</div>
+             </td>
+        		</tr> 
+			
+		   			<tr> 
+             <td width="50" height="30"> 
+                <div align="center">&nbsp;</div>
+             </td>
+             <td> 
+                <div align="left">端  口  号  :  &nbsp;&nbsp;
+               	<input type="text"  class=inputf0 name="port" size="12" maxlength="32" value="[$port$]"  >  
+              	</div>
+             </td>
+            </tr> 
+<!--
+			 			<tr> 
+             	<td width="50" height="30"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td> 
+                <div align="left">服务器类型:&nbsp;&nbsp;                      
+                 <select name="sever"  class=inputself0 >
+                   <option value="tcp" [$se1$]>TCP server</option>
+                   <option value="udp" [$se2$]>UDP server</option>
+              	 </select>
+              	</div>
+              </td>
+            </tr> 
+--> 
+             
+            <tr> 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td> 
+                <div align="left">VPN地址池:&nbsp;网段&nbsp;                  
+          			<input type="text"  class=inputf0 name="ip" size="15" maxlength="32" value="[$ip$]"  >  
+            			掩码  &nbsp;<input type="text"  class=inputf0 name="ipmask" size="15" maxlength="32" value="[$ipmask$]"  >
+               	</div>
+              </td>
+            </tr> 
+            <tr> 
+              <td height="50">&nbsp;</td>
+              <td height="30">
+              <hr>
+              <input type="button"  border="0"  class=inputf0 value="确定提交" onClick="sub();" > 
+              </td>
+            </tr>
+ 
+          </div>
+      </TABLE>
+     </form>
+   </div>
+    </div>
+      <div style='DISPLAY:none' additive>
+			<div id="vpn" >	
+				<table height="100" border="0" align="left">
+					<tr>  
+					  <td  height="25"  > 
+					    <div align="center"> 
+					       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网段
+							</div>
+					  </td>
+					  <td  height="25"  > 
+					    <div align="center"> 
+					       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;子网掩码
+							</div>
+					  </td>
+					</tr> 
+					 
+					<tr>
+					  <td height="25" colspan="2"> 
+					    <div align="left"> 
+					       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					        <input type="text"  class=inputf0 name="routip1" size="15" maxlength="32" value="[$routip1$]"  >  &nbsp;&nbsp; 
+					 				<input type="text"  class=inputf0 name="routmask1" size="15" maxlength="32" value="[$routmask1$]"  >
+					  	</div>
+					  </td>
+					</tr>
+					
+					<tr>
+					  <td height="25" colspan="2"> 
+					    <div align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					       <input type="text"  class=inputf0 name="routip2" size="15" maxlength="32" value="[$routip2$]"  >  &nbsp;&nbsp; 
+					 			 <input type="text"  class=inputf0 name="routmask2" size="15" maxlength="32" value="[$routmask2$]"  >
+					  	</div>
+					  </td>
+					</tr>
+					
+					<tr>
+					  <td height="35" colspan="2"> 
+					    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					      <input type="text"  class=inputf0 name="routip3" size="15" maxlength="32" value="[$routip3$]"  >  &nbsp;&nbsp; 
+					 			<input type="text"  class=inputf0 name="routmask3" size="15" maxlength="32" value="[$routmask3$]"  >
+					  	</div>
+					  </td>
+					</tr>
+					
+					<tr>
+					  <td height="35" colspan="2"> 
+					    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					       <input type="text"  class=inputf0 name="routip4" size="15" maxlength="32" value="[$routip4$]" >  &nbsp;&nbsp; 
+					 			 <input type="text"  class=inputf0 name="routmask4" size="15" maxlength="32" value="[$routmask4$]"  >
+					  	</div>
+					  </td>
+					</tr>
+					
+					<tr>
+					  <td height="35" colspan="2"> 
+					    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					       <input type="text"  class=inputf0 name="routip5" size="15" maxlength="32" value="[$routip5$]"  >  &nbsp;&nbsp; 
+					 			 <input type="text"  class=inputf0 name="routmask5" size="15" maxlength="32" value="[$routmask5$]"  >
+					  	</div>
+					  </td>
+					</tr>
+					
+					<tr>
+					  <td height="35" colspan="2"> 
+					    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					       <input type="text"  class=inputf0 name="routip6" size="15" maxlength="32" value="[$routip6$]"  >  &nbsp;&nbsp; 
+					 			 <input type="text"  class=inputf0 name="routmask6" size="15" maxlength="32" value="[$routmask6$]"  >
+					  	</div>
+					  </td>
+					</tr>
+				</table>
+			</div>
+			</div> 
+    </td>
+  </tr>
+</table>
+</body>
+</html>

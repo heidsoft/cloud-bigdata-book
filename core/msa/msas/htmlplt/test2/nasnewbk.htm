@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>新布控</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<script type=text/javascript  src="/msas/publicjs/select_time_lt.js"></script><!--调用时间控件-->
+</head>
+
+<body bgcolor="#f0f0f0" text="#000000" link="#C0C0C0">
+<form name="form1" method="post" action="/msas/main.xp">
+  <table width="100%" border="0" cellspacing="0" align="center" height="26%">      <tr> 
+      <td colspan="4" height="27">
+        <div align="left"><font  color="#000000">欢迎使用向导!本向导将指引您完成资料的输入和条件的设定。</font></div>
+      </td>
+    </tr>
+    
+     <tr> 
+      <td width="124" height="27">报警类型：</td>
+      <td colspan="3" height="27"> 
+        <input type="text" class="input" id="Rule_type" name="Rule_type"  size="24" value="" maxlength="36" > *(仅限数字)
+      </td>
+      
+     
+    </tr>
+
+    </tr>
+    <tr> 
+      <td width="124" height="32">触发规则：</td>
+      <td height="32" colspan="3"> 
+        <input type="text" class="input" id="Rule_name" name="Rule_name" size="24" value="" maxlength="36"> *
+      
+      </td>
+     
+    </tr>
+
+	
+    
+     <tr> 
+      <td width="124" height="32">触发时间:</td>
+      <td height="32" colspan="3"> 
+       
+       	<INPUT TYPE='text'  class=input id="Matching_time" NAME="Matching_time" value="" onclick="setday(this)">  
+      </td>
+
+    </tr>
+
+	 <tr> 
+      <td width="124" height="32">上网场所:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="sname" name="sname" value="" maxlength="36"> *
+      
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">IP地址:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="Net_ending_ip" name="Net_ending_ip" value="" maxlength="12"> *
+      
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">MAC地址:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="Net_ending_mac" name="Net_ending_mac" value="" maxlength="12"> *
+      
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">关键字1:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="KeyWord1" name="KeyWord1" value="" maxlength="12"> *
+      
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">关键字2:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="KeyWord2" name="KeyWord2" value="" maxlength="12"> *
+      
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">证件类型:</td>
+     <td height="32" colspan="3"> 
+         <select name="Certificate_type" id="Certificate_type" class=inputsel >
+          	  <option value="0001"  [$sel0$] >居民身份证</option>
+              <option value="0002"  [$sel1$] >出国护照</option>
+              <option value="0003"  [$sel2$] >驾驶证</option>
+              <option value="0004"  [$sel3$] >留学证</option>
+              <option value="1001"  [$sel4$] >港澳台通往大陆通行证</option>
+              <option value="1002"  [$sel5$] >大陆通往港澳台通行证</option> 
+            </select> 
+      </td>
+
+    </tr>
+	 <tr> 
+      <td width="124" height="32">证件号码:</td>
+     <td height="32" colspan="3"> 
+        <input type="text" class="input" id="Certificate_code" name="Certificate_code" value="" maxlength="20"> *
+      
+      </td>
+
+    </tr>
+
+
+    <!-- <tr> 
+      <td width="124" height="32">服务类型：</td>
+      <td height="32" colspan="3"> 
+         <select name="Service_type" class=inputsel >
+          	  <option value="0001"  [$sel0$] >HTTP</option>
+              <option value="0002"  [$sel1$] >FTP</option>
+              <option value="0003"  [$sel2$] >SMTP</option>
+              <option value="0004"  [$sel3$] >POP3</option>
+              <option value="1001"  [$sel4$] >MSN Messenger</option>
+              <option value="1002"  [$sel5$] >QQ</option> 
+			  <option value="3001"  [$sel6$] >表单关键字</option> 
+			  <option value="3002"  [$sel7$] >邮件关键字</option> 
+            </select> 
+      </td>
+
+    </tr>
+	<tr> 
+      <td width="124" height="32">关键字：</td>
+      <td height="32" colspan="3"> 
+        <input type="text" class="input" name="Keyword2" size="24" value="" maxlength="36"  > 
+       <br> 
+      </td>
+
+    </tr>
+	 
+	 <tr> 
+      <td width="124" height="32">域名或主题关键字</td>
+      <td height="32" colspan="3"> 
+        <input type="text" class="input" name="Keyword1" size="24" value="" maxlength="36"  >仅对邮件和表单有效 
+       <br> 
+      </td>
+
+    </tr>
+    
+     <tr> 
+      <td width="124" height="32">附件名关键字</td>
+      <td height="32" colspan="3"> 
+        <input type="text" class="input" name="Keyword3" size="24" value="" maxlength="36"  >仅对邮件和表单有效 
+       <br> 
+      </td>
+
+    </tr> -->
+    <tr> 
+      <td colspan="5" height="13">&nbsp;</td>
+    </tr>
+   
+  </table>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var intervaltime;
+		pagesize=100;
+    intervaltime=20;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;						
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();					
+    var runner = new Ext.util.TaskRunner();
+    
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaMDip'},
+        fields: [
+           {name: 'lStartTime'},
+           {name: 'lLastTime'},
+           {name: 'lBytes' },
+           {name: 'counts'},
+           {name: 'times' },
+           {name: 'caHost'},
+           {name: 'urlposition'}
+        ]
+    });
+
+    xtzystore.load();
+    // create the Grid
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '共{2}条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+    	   var pageSizeItems = [ 
+                     '-','每', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 300, 
+									    maxText: '不允许超过300秒', 
+									    selectOnFocus: true, 
+									    value: intervaltime, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlTimeKeyDown, 
+									        blur: this.onHlTimeBlur 
+									    } 
+                     }),'秒刷新','-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+		         var userItems = this.items || []; 
+		         this.items = userItems.concat(pageSizeItems); 
+		         HlPagingToolbar.superclass.initComponent.call(this); 
+		    }, 
+		    onHlPagingKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    this.pageSize = field.getValue(); 
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh(); 
+		             } 
+		        } 
+		    }, 
+		    onHlPagingBlur: function(field){ 
+		        if(field.isValid()){ 
+		            this.pageSize = field.getValue(); 
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh(); 
+		        } 
+		    },
+		    onHlTimeKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    intervaltime = field.getValue(); 
+		                    runner.stopAll();
+												var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+												};
+												runner.start(task);
+		             } 
+		        } 
+		    }, 
+		    onHlTimeBlur: function(field){ 
+		        if(field.isValid()){ 
+		            intervaltime = field.getValue(); 
+		            runner.stopAll();
+                var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+								};
+								runner.start(task);
+		        } 
+		    }  
+		});
+    
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        tbar: pagingBar,
+        viewConfig:{forceFit: true, scrollOffset: 0},
+        columns: [
+            {id:'caHost',header: "服务器IP地址", width: 70, sortable: true,   dataIndex: 'caHost'},
+            {header: "流量", width: 60, sortable: true,   dataIndex: 'lBytes'},
+            {header: "连接次数", width: 90, sortable: true,   dataIndex: 'counts'},
+            {header: "访问时长", width: 90, sortable: true,   dataIndex: 'times'},
+            {header: "地理位置", width: 150, sortable: true,   dataIndex: 'urlposition'},
+            {header: "开始访问时间", width: 110, sortable: true, dataIndex: 'lStartTime'},
+            {header: "最后访问时间", width: 110, sortable: true,   dataIndex: 'lLastTime'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'caHost',
+        width:screen.width-250,
+        height:screen.height-295,
+//        title:'服务器访问概况',
+		    collapsible:false,
+		    draggable:false
+    });
+//		xtzygrid.addListener('rowclick', onRowClick);
+//		function onRowClick(client, rowIndex, e) {
+//					                IP= xtzygrid.getStore().getAt(rowIndex).data.caHost;
+//					                mainviewfrm.location.href='/msa/main.xp?Fun=msaShowIpMap+ipadd='+IP+'+height='+ (screen.height-220) + '+width='+ (screen.width-800);
+//		}
+//		
+		var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [
+                 {
+                    id:'usergcon',
+                    iconCls:'load-icon',
+                    text:'地图位置显示',
+                    scope: this,
+                    handler:function(){
+
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var IP=record.get("caHost");
+                        //var IP= xtzygrid.getStore().getAt(rowIndex).data.caHost;
+					              //mainviewfrm.location.href='/msa/main.xp?Fun=msaShowIpMap+ipadd='+IP+'+height='+ (screen.height-220) + '+width='+ (screen.width-800);
+					              
+					              var mywin =new  Ext.Window(
+							          {
+		                    id: 'east-panel',
+		                    title: '察看地址位置',
+		                    height: 500,
+		                    width: 500,
+		                    closeAction: 'close',
+		                    modal: 'true',
+		                    maximizable:'true',
+		                    margins:'0 5 0 0',
+		                    html: "<IFRAME id='mapview' name='mapview' width=100% height=100% SRC = '/msa/main.xp?Fun=msaShowIpMap+ipadd="+ IP +"+height=500+width=550'></iframe>"
+							          });
+							          mywin.show();
+					              
+                    }
+                },{
+                    id:'useripcon',
+                    iconCls:'load-icon',
+                    text:'察看实时连接',
+                    scope: this,
+                    handler:function(){
+
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var IP=record.get("caHost");
+                        //location.href='/msa/main.xp?Fun=ltconquery+showtype=1';
+                        //location.href='/msa/main.xp?Fun=ltconquery+showtype=1+sip=' + IP;
+                        var mywin =new  Ext.Window(
+							          {
+		                    id: 'east-panel',
+		                    title: '实时连接',
+		                    height: 500,
+		                    width: 500,
+		                    closeAction: 'close',
+		                    modal: 'true',
+		                    maximizable:'true',
+		                    margins:'0 5 0 0',
+		                    html: "<IFRAME id='mapview' name='mapview' width=100% height=100% SRC = '/msa/main.xp?Fun=ltconquery+showtype=1+sip="+ IP +"+height=500+width=550'></iframe>"
+							          });
+							          mywin.show();
+							          mywin.maximize();
+                    }
+                }]});
+                
+    xtzygrid.addListener('rowclick', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY());
+                detailEl=  rowIndex;
+    }
+    xtzygrid.addListener('rowcontextmenu', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY());
+                detailEl=  rowIndex;
+    }
+		
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									id:'tree-xtzy-panel',
+								  layout:'fit',
+									defaults: {
+										bodyStyle:'valign:top'
+									},
+								  items: [{
+								        items:xtzygrid,
+								        width:screen.width-250,
+								        height:screen.height-260
+								    }],
+					        renderTo: Ext.getBody()
+					    });
+            
+
+						myMask.hide();
+						 
+            var task = {
+								run: function(){
+									 xtzystore.load();
+								},
+								interval: intervaltime*1000 // 每30秒一周期
+						};
+						
+						runner.start(task);
+  
+            
+  });
+  
+</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+
+
+</BODY></HTML>

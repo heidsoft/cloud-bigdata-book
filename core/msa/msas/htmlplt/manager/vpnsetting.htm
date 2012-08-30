@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>VPN参数配置</title>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<link rel="stylesheet" href="/publiccss/pubcss.css" type="text/css">  
+
+<script >
+   
+function sub(){
+  
+    var port=document.form1.port.value;
+    var ip=document.form1.ip.value;
+    var ipmask=document.form1.ipmask.value;
+    
+    if(port==""){
+    	alert("请填写端口号！");return ;
+    }
+    if(ip==""){
+    	alert("请填写服务器IP！");return ;
+    }
+    if(ipmask==""){
+    	alert("请填写掩码！");return ;
+    }
+
+    form1.submit();
+ 
+}
+</script>
+
+</head> 
+<body >
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr> 
+    <td> 
+     <form name="form1" id="form1" method="post"  action="/msas/main.xp" >  
+	    <input type="hidden" name="Fun" value="vpnsetting">
+	 		<TABLE WIDTH = 100% CELLPADDING=0 CELLSPACING=0 border=0>
+				<TR><TD WIDTH = 100% ALIGN=left VALIGN=top bgcolor='#D9E7F7'>
+					<TABLE CELLPADDING=0 CELLSPACING=0 border=0>
+					<TR><TD COLSPAN = 2 bgcolor='#D9E7F7'><BR>
+						<FONT FACE='宋体' ><B>VPN参数配置</B></FONT>
+					</TD></TR>
+					<TR><TD width = 10 bgcolor='#D9E7F7'>&nbsp;</TD>
+					<TD bgcolor='#D9E7F7'><FONT FACE='宋体' >--配置VPN</FONT>
+					</TD></TR></TABLE>
+					</TD>
+					<TD WIDTH = 5 bgcolor='#D9E7F7'>&nbsp;</TD>
+					
+                  <TD width = 74 ALIGN=right bgcolor='#D9E7F7'> 
+                  
+                  </TD>
+                </TR></TABLE>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+         <div id="plabel"> 			
+		     <tr> 
+              <td width="50" height="30"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td> 
+                <div align="left">
+                  端  口  号  :  &nbsp;&nbsp;<input type="text"  class=inputf0 name="port" size="12" maxlength="32" value="[$port$]">  
+              </div>
+              </td>
+          </tr> 
+             
+          <tr> 
+             <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td> 
+                <div align="left">VPN地址池:&nbsp;
+				    网段&nbsp;<input type="text"  class=inputf0 name="ip" size="15" maxlength="32" value="[$ip$]"  >  
+            掩码&nbsp;<input type="text"  class=inputf0 name="ipmask" size="15" maxlength="32" value="[$ipmask$]"  >
+               </div>
+              </td>
+          </tr> 
+
+           <tr> 
+              <td height="50">&nbsp; </td>
+              <td height="30">
+              <hr>
+                <input type="button"  border="0"  class=inputf0 value="确定提交" onClick="sub();" > 
+              </td>
+            </tr>
+             
+          </div>
+        </table>
+		 
+      </form>
+    </td>
+  </tr>
+
+</table>
+ 
+</body>
+</html>

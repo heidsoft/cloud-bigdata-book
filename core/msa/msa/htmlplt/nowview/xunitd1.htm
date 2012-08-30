@@ -1,0 +1,270 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var intervaltime;
+		pagesize=100;
+    intervaltime=20;
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+						
+    var runner = new Ext.util.TaskRunner();
+
+    // create the data store
+
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaPathDetailList',pathid:'1'},
+        fields: [
+           {name: 'srvname'},
+           {name: 'srvflowu',type: 'int'},
+           {name: 'flowbps'},
+           {name: 'flowp'},
+           {name: 'daytime'},
+           {name: 'dayflowu', type: 'int'},
+           {name: 'dayflow'}
+        ],
+        sortInfo:{field: 'srvname', direction: "DESC"}
+    });
+ 		
+
+    xtzystore.load();
+    // create the Grid
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '共{2}条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+    	   var pageSizeItems = [ 
+                     '-','每', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 300, 
+									    maxText: '不允许超过300秒', 
+									    selectOnFocus: true, 
+									    value: intervaltime, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlTimeKeyDown, 
+									        blur: this.onHlTimeBlur 
+									    } 
+                     }),'秒刷新','-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+		         var userItems = this.items || []; 
+		         this.items = userItems.concat(pageSizeItems); 
+		         HlPagingToolbar.superclass.initComponent.call(this); 
+		    }, 
+		    onHlPagingKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    this.pageSize = field.getValue(); 
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh(); 
+		             } 
+		        } 
+		    }, 
+		    onHlPagingBlur: function(field){ 
+		        if(field.isValid()){ 
+		            this.pageSize = field.getValue(); 
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh(); 
+		        } 
+		    },
+		    onHlTimeKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    intervaltime = field.getValue(); 
+		                    runner.stopAll();
+												var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+												};
+												runner.start(task);
+		             } 
+		        } 
+		    }, 
+		    onHlTimeBlur: function(field){ 
+		        if(field.isValid()){ 
+		            intervaltime = field.getValue(); 
+		            runner.stopAll();
+                var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+								};
+								runner.start(task);
+		        } 
+		    }  
+		});
+    
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        tbar: pagingBar,
+        columns: [
+            {id:'srvname',header:"服务名称", width:70, sortable: true,dataIndex:'srvname'},
+            {header:"速率bps", width:60, sortable: true,dataIndex: 'flowbps'},
+            {header: "占比", width:70, sortable:true,dataIndex: 'flowp'},
+            {header: "当天服务策略总流量",width:120,sortable: true,dataIndex: 'dayflow'}
+        ],
+        viewConfig:{
+			   		forceFit: true, // 注意不要用autoFill:true,那样设置的话当GridPanel的大小变化（比如你resize了它）时不会自动调整column的宽度
+			 			scrollOffset: 0 //不加这个的话，会在grid的最右边有个空白，留作滚动条的位置
+			  },
+        stripeRows: true,
+        autoExpandColumn: 'srvname',
+        width:600,
+        height:screen.height-210,
+        title:'服务策略流量速率概况',////
+		    collapsible:true,
+		    draggable:true
+    });
+    
+
+
+
+     var xtzyPanel1 = new Ext.Panel({
+			        title: '当前服务策略流量速率示意图',
+			        height:(screen.height-220)/2,
+			        el:'xtzyPanel1div',
+			        frame:true,
+					    collapsible:true,
+					    draggable:true
+			    });
+
+    
+
+		var xtzyPanel2 = new Ext.Panel({
+			        title: '当天服务策略总流量分布示意图',
+			        height:(screen.height-220)/2,
+			        el:'xtzyPanel2div',
+			        frame:true,
+					    collapsible:true,
+					    draggable:true
+			    });
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									id:'tree-xtzy-panel',
+								  layout:'table',
+									layoutConfig: {
+										columns: 2
+									},
+									defaults: {
+										bodyStyle:'valign:top'
+									},
+								  items: [{
+								        items:xtzygrid,
+								        height:screen.height-210,
+												rowspan: 3
+								    },{
+								        height:(screen.height-220)/2,
+								        width:(screen.width-800),
+								        items:xtzyPanel1
+								    },{
+								    	height:(screen.height-220)/2,
+								    	width:(screen.width-800),
+										  items:xtzyPanel2
+										}],
+					        renderTo: Ext.getBody()
+					    });
+            
+
+						myMask.hide();
+						 
+            var task = {
+								run: function(){
+									 xtzystore.load();
+								},
+								interval: intervaltime*100000000 // 每30秒一周期
+						};
+						runner.start(task);
+  });
+  
+</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return true" >
+<div style="display:none;">
+        <div id="xtzyPanel1div">
+<iframe frameborder="no"  scrolling="no"  width="100%"  height="100%"  src='/msa/nowview/pathdetailpie1.htm'></iframe>
+        </div>
+        <div id="xtzyPanel2div">
+<iframe frameborder="no"  scrolling="no"  width="100%"  height="100%"  src='/msa/nowview/pathdetailpie2.htm'></iframe>
+        </div>
+</div>
+
+</BODY></HTML>

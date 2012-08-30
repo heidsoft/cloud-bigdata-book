@@ -1,0 +1,40 @@
+﻿[{
+    text:'排序分析',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'人员流量排序',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'sort2',
+        leaf:true
+    },{
+        text:'服务流量排序',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'sort3',
+        leaf:true
+    }]
+},{
+    text:'汇总分析',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'人员汇总',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'userall',
+        leaf:true
+    }]
+},{
+    text:'趋势与比较',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'服务流量趋势比较',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'flowreport',
+        leaf:true
+    }]
+}]

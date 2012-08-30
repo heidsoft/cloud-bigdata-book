@@ -1,0 +1,294 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+
+    var northPanel;
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+		function gg(){
+			  //xtzystore.load();
+			  xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+			  havesearch=1;
+	  }
+
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(),
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+				var sm = new Ext.grid.CheckboxSelectionModel();
+        xtzystore = new Ext.data.JsonStore({
+	        root: 'Results',
+	        totalProperty: 'totalCount',
+	        url:'/msas/main.xp',
+	        baseParams:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$]},
+	        fields: [
+				           {name: 'Matching_id'},
+				           {name: 'gnmkey'},
+				           {name: 'sname'},
+				           {name: 'Rule_id'},
+				           {name: 'Rule_name'},
+				           {name: 'Matching_time'},
+				           {name: 'Net_ending_ip'},
+				           {name: 'Net_ending_code'},
+				           {name: 'Net_ending_mac'},
+				           {name: 'Destination_ip'},
+				           {name: 'Service_type'},
+				           {name: 'KeyWord1'},
+				           {name: 'KeyWord2'},
+				           {name: 'KeyWord3'},
+				           {name: 'Customer_name'},
+				           {name: 'Certificate_type'},
+				           {name: 'Certificate_code'},
+				           {name: 'Rule_type'},
+				           {name: 'cacontenturl'},
+				           {name: 'service_name'},
+				           {name: 'caupdateflag'}
+				        ]
+	   });
+		 //xtzystore.load();
+		 xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+		 xtzystore.on('beforeload',function(){
+		    Ext.apply( xtzystore.baseParams, {
+		        keyword: Ext.getDom('keyword').value
+		    });
+		 }, xtzystore);
+     var pagingBar = new Ext.PagingToolbar({
+        pageSize: pagesize,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据",
+				items:[
+            '-','每页',this.inputItem = new Ext.form.NumberField({
+				    cls: 'x-tbar-page-number',
+				    allowDecimals: false,
+				    allowNegative: false,
+				    enableKeyEvents: true,
+				    value: pagesize,
+				    maxValue: 500,
+				    maxText: '每页不允许超过500条',
+				    selectOnFocus: true,
+				    submitValue: false,
+				    listeners: { 
+				        scope: this, 
+				        keydown: function(field, e){ 
+					        if(field.isValid()){ 
+					            var k = e.getKey(); 
+					             if (k == e.RETURN) { 
+					                    e.stopEvent(); 
+					                    pagesize = field.getValue();
+					                    if(havesearch==1){ 
+					                    	gg();
+					                    }else{
+					                      xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+																xtzystore.on('beforeload',function(){
+																    Ext.apply( xtzystore.baseParams, {
+																        keyword: Ext.getDom('keyword').value
+																    });
+																}, xtzystore);
+					                    }
+					                    this.pageSize=pagesize;
+					                    this.doRefresh(); 
+					             } 
+					        } 
+				        }, 
+				        blur: function(field){
+					        if(field.isValid()){
+					            pagesize = field.getValue();
+					            if(havesearch==1){ 
+					                    	gg();
+					            }else{
+					                      xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+																xtzystore.on('beforeload',function(){
+																    Ext.apply( xtzystore.baseParams, {
+																        keyword: Ext.getDom('keyword').value
+																    });
+																}, xtzystore);
+					            }
+					            //this.pageSize=pagesize;
+					            //this.doRefresh(); 
+					        } 
+				        }
+				    }
+				    }),
+				    '条','-', {
+            //pressed: true,
+            icon: '/msas/images/grid.png',
+            enableToggle:true,
+            text: '导出本页数据到Excel',
+            cls: 'x-btn-text-icon details',
+            toggleHandler: function(btn, pressed){
+                downloadViewDataActive(xtzygrid);
+            }
+        },'-']
+    });
+
+    function conChange(val){
+	        if(val == 0){
+	            return '真实身份报警规则';
+	        }else if(val == 1){
+	            return 'MSN帐号报警规则';
+	        }else if(val == 2){
+	            return 'QQ帐号报警规则';
+	        }else if(val == 3){
+	            return 'ftp帐号报警规则';
+	        }else if(val == 4){
+	            return 'POP3帐号报警规则';
+	        }else if(val == 5){
+	            return 'SMTP帐号报警规则';
+	        }else if(val == 6){
+	            return 'HTTP网址关键字报警规则';
+	        }else if(val == 7){
+	            return '表单上传关键字报警规则';
+	        }else if(val == 8){
+	            return '邮件收发关键字报警规则';
+	        }else if(val == 9){
+	            return 'MAC地址报警规则';
+	        }
+	        return val;
+		}
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        region:'center',
+        //layout:'fit',
+        sm: sm,
+        columns: [
+           new Ext.grid.RowNumberer(),
+           sm,
+	            {id:'service_name',header: "上网场所", width: 120, sortable: true, dataIndex: 'service_name'},
+	            {header: "报警规则", width: 80, sortable: true, dataIndex: 'Rule_name'},
+	            {header: "上网ip",   width: 90, sortable: true,  dataIndex: 'Net_ending_ip'},
+	            {header: "mac地址",  width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+	            {header: "服务类型",  width: 80, sortable: true,  dataIndex: 'Service_type',renderer:conChange},
+	            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+	            {header: "关键字2",  width: 90, sortable: true,  dataIndex: 'KeyWord2'},
+	            {header: "关键字3",  width: 80, sortable: true,  dataIndex: 'KeyWord3'},
+	            {header: "触发时间",  width: 80, sortable: true,  dataIndex: 'Matching_time'}
+			    ],
+         viewConfig:{
+			   		forceFit: true, // 注意不要用autoFill:true,那样设置的话当GridPanel的大小变化（比如你resize了它）时不会自动调整column的宽度
+			 			scrollOffset: 0 //不加这个的话，会在grid的最右边有个空白，留作滚动条的位置
+			  },
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'service_name',
+        height:screen.height-100,
+        frame:true,
+        title:'策略报警列表',
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+    
+    var rightClick  = new Ext.menu.Menu({
+        id:'feeds-ctx',
+        items: [{
+            id:'delclient',
+            iconCls:'load-icon',
+            text:'删除选中报警',
+            scope: this,
+            handler:function(){
+                var record=xtzygrid.getSelectionModel().getSelections();
+								var array = new Array(record.length);
+                function confirmdelclient(btn){
+									        if(btn=='yes'){
+														for(var i=0;i<record.length;i++){	
+						                    array[i] = record[i].get('Matching_id');
+						                    Ext.Ajax.request({
+							                      method : 'POST',
+							                      url:'/msas/main.xp',
+						                        success: function(response, options){
+						                        	var retxt=response.responseText;
+						                        	if(retxt.substring(0,1)=='0' ){
+						                        		var ppp = i/record.length;
+																        Ext.MessageBox.alert("提示", "报警删除成功");
+						                        	}else{
+																			  var ppp = i/record.length;
+								                        Ext.MessageBox.alert("提示", "报警删除失败");
+						                        	}
+						                        },
+						                        failure : function(){
+												               var ppp = i/record.length;
+																       Ext.MessageBox.alert("提示", "报警删除失败");
+	                                  },
+	 					                        params:{Fun:'msasAlertAnJianAction',deflag:'1',delMatching_id:array[i]}
+						  									});
+																xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+																xtzystore.on('beforeload',function(){
+																    Ext.apply( xtzystore.baseParams, {
+																        keyword: Ext.getDom('keyword').value
+																    });
+																}, xtzystore);
+						  							}
+									        }
+							 };
+               Ext.MessageBox.confirm('Confirm', '您确认要删除该用户?', confirmdelclient);
+            }
+        }]
+    });
+    xtzygrid.addListener('rowcontextmenu', rightClickFn);
+		function rightClickFn(client, rowIndex, e) {
+        rightClick.showAt(e.getXY());
+        detailEl= rowIndex;
+		}
+		
+    var button_1 = Ext.get('keybut');
+	  button_1.on('click', function(){
+	  	//xtzystore.load();
+	  	xtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_type:[$myRule_Type$], start:0,limit:pagesize}});
+		});
+
+		var northPanelTop = new Ext.Panel({
+					frame:true,
+		    　region:'north',
+		    	title: '选择查询的条件',
+		    	collapsible:true,
+		    	contentEl:'north'
+		});
+	  new Ext.Viewport({
+					layout: 'border',
+					items: [northPanelTop,xtzygrid],
+	        renderTo: Ext.getBody()
+	  });
+
+    myMask.hide();
+  });
+	</SCRIPT>
+</HEAD>
+<BODY oncontextmenu="return false">
+	<div id="north">
+      <div align="left">关键字
+          <input type="text"  class=inputf0 name="keyword" size="20" maxlength="64" value="" >      		
+          <input type="button" name="keybut"  value="搜索"   class=inputf0 >
+
+      </div>
+</div>
+</BODY>
+</HTML>
+

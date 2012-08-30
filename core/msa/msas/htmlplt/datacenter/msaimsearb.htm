@@ -1,0 +1,686 @@
+﻿<html>
+<head>
+<title>IM查询</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css">
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/xtheme-default.css">
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js">
+<script language="Javascript" src="/msa/publicjs/select_time.js"></script>
+<script type="text/javascript" src="/msa/extjs/ext-all.js"></script>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<SCRIPT type=text/javascript src="/msa/publicjs/exportexcel.js"></SCRIPT>
+<style type="text/css">
+HTML { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN:
+0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT:
+100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+0px } BODY { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px;
+MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana;
+HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+0px } P { MARGIN: 5px } .settings { BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_wrench.png)
+} .nav { BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_go.png)
+}
+</style>
+
+<script language="JavaScript">
+var gid;	//部门id
+var gtext;	//部门名称
+var glevel;	 //部门级别
+var myuser
+function powerPage(){							
+   var treepan=new Ext.tree.TreePanel({
+    	id: 'tree-panel',
+        region:'center',
+        split: true,
+        useArrows:true,
+        autoScroll: true,
+        rootVisible: false,
+        lines: false,
+        useArrows: true,
+        loader: new Ext.tree.TreeLoader({
+        dataUrl:'/msa/main.xp?Fun=ltmsaGroupTree',
+        baseParams:{Fun:'ltmsaGroupTree',type:2}
+        }),
+        root: new Ext.tree.AsyncTreeNode(),
+        listeners: {
+            click: function(node, e){
+			       gid=node.id;
+			       gtext=node.text;
+			       glevel=node.level;     
+				     }
+				   }
+				   
+      });	 
+			var window = new Ext.Window({
+			  layout:'fit',
+	          title: '选择部门',
+	          width :200,
+	          height:250,
+	          closeAction :'hide',
+	          plain:true,
+	          items:treepan,
+	          buttons: [{
+             text: '确定',
+             handler  : function(){             
+           	//checkGValue(gid); 
+           	 if(gid=="-1" || gid==""){
+					 		return;
+			}else{				
+				localStore.load({params:{Fun:'msalocalStore',groupid:gid}});  
+              }
+             window.hide();           
+          }
+      }]
+  });
+window.show();	
+}	 
+
+function gg(){//查询
+gid=idnum.value;//从模板打印而来 部门ID
+glevel=levelnum.value;//部门级别
+	
+//var myuser=user.value;//用户ID
+//var myuser=CbId.value;//用户ID
+//var myuser
+alert(myuser);
+var myflag=tflags.value;//URL分类
+var myhost=host.value//关键字
+
+var mydtype;//日期范围类型
+var datatype=document.getElementsByName("dtype"); //日期范围类型
+for(var i=0;i <datatype.length;i++){ 
+      if(datatype[i].checked==true) 
+      mydtype=datatype[i].value; 
+} 
+var myddd=ddd.value;
+var myunit=unit.value;
+var mybef=bef.value;
+var mysdate=sdate.value;//从2010-12-01
+var myedate=edate.value;//到2010-12-09
+var mysdate3=sdate3.value;//在2010-12-15
+var mystime=stime.value;//从 00
+var myetime=etime.value;//到 23
+
+var myosort;//分组方式
+var   paiX=document.getElementsByName("osort"); 
+for(var i=0;i <paiX.length;i++){ 
+      if(paiX[i].checked==true) 
+      myosort=paiX[i].value; 
+} 
+var myorderby=orderby.value;//排序方式
+
+xtzystore.load({params:{Fun:'ltwebqueryima',
+												user:myuser,
+											    host:myhost,
+											    flag:myflag,
+											    dtype:mydtype,
+											    ddd:myddd,
+											    unit:myunit,
+											    bef:mybef,
+											    sdate:mysdate,
+											    edate:myedate,
+											    sdate3:mysdate3,
+											    stime:mystime,
+											    etime:myetime,
+											    osort:myosort,
+											    orderby:myorderby,
+											    groupid:gid,
+											    level:glevel,
+											    action:0,
+											    start:0,
+											    limit:pagesize}
+											    });
+   
+}
+
+function gg1(){//条件导出
+gid=idnum.value;//从模板打印而来 部门ID
+glevel=levelnum.value;//部门级别
+	
+var myuser=user.value;//用户ID
+var myflag=tflags.value;//URL分类
+var myhost=host.value//关键字
+
+var mydtype;//日期范围类型
+var datatype=document.getElementsByName("dtype"); //日期范围类型
+for(var i=0;i <datatype.length;i++){ 
+      if(datatype[i].checked==true) 
+      mydtype=datatype[i].value; 
+} 
+var myddd=ddd.value;
+var myunit=unit.value;
+var mybef=bef.value;
+var mysdate=sdate.value;//从2010-12-01
+var myedate=edate.value;//到2010-12-09
+var mysdate3=sdate3.value;//在2010-12-15
+var mystime=stime.value;//从 00
+var myetime=etime.value;//到 23
+
+var myosort;//分组方式
+var   paiX=document.getElementsByName("osort"); 
+for(var i=0;i <paiX.length;i++){ 
+      if(paiX[i].checked==true) 
+      myosort=paiX[i].value; 
+} 
+var myorderby=orderby.value;//排序方式
+
+var form = new Ext.form.FormPanel({
+				        baseCls: 'x-plain',
+				        layout:'absolute',
+				        defaultType: 'textfield',
+				        items: [{
+				            x: 0,
+				            y: 5,
+				            xtype:'label',
+				            text: '起始位置:'
+				        },{
+				            x: 60,
+				            y: 0,
+				            allowBlank:false,
+				            name: 'startD',
+				            anchor:'100%',
+				            id: 'startD'
+				        },{
+				            x: 0,
+				            y: 35,
+				            xtype:'label',
+				            text: '结束位置:'
+				        },{
+				            x: 60,
+				            y: 35,
+				            name: 'endD',
+				            anchor: '100%',
+				            id: 'endD'
+				        }]
+				});
+				
+var window = new Ext.Window({
+			  layout:'fit',
+	          title: '选择导出记录条数',
+	          width :200,
+	          height:150,
+	          closeAction :'hide',
+	          plain:true,
+	          items:form,
+	          buttons: [{
+             text: '确定',
+             handler  : function(){             
+              var mystart= Ext.getCmp('startD').getValue();
+			  var myend= Ext.getCmp('endD').getValue();
+			  myurl="/msa/main.xp?Fun=ltwebqueryima&user=" + myuser + "&host=" + myhost + "&flag=" + myflag+"&dtype=" + mydtype + "&ddd=" + myddd + "&unit=" + myunit + "&bef=" + mybef + "&sdate=" + mysdate + "&edate=" + myedate + "&sdate3=" + mysdate3 + "&stime=" + mystime +"&etime=" + myetime +"&osort=" + myosort +"&orderby=" + myorderby+"&groupid=" + gid+"&level=" + glevel+"&start=" + mystart+"&limit=" + myend+"&action=1";
+              downloadFile(myurl);
+             window.hide();           
+          }
+      }]
+  });
+window.show();				
+//myurl="/msa/main.xp?Fun=ltwebsitequeryhttpa&user=" + myuser + "&host=" + myhost + "&service=" + myservice+"&dtype=" + mydtype + "&ddd=" + myddd + "&unit=" + myunit + "&bef=" + mybef + "&sdate=" + mysdate + "&edate=" + myedate + "&sdate3=" + mysdate3 + "&stime=" + mystime +"&etime=" + myetime +"&btype=" + mybtype+"&bbyte=" + mybbyte+"&osort=" + myosort +"&orderby=" + myorderby+"&groupid=" + gid+"&level=" + glevel+"&start=" + mystart+"&limit=" + myend+"&action=1";
+//downloadFile(myurl);
+}
+
+function gg2(){//条件删除
+gid=idnum.value;//从模板打印而来 部门ID
+glevel=levelnum.value;//部门级别
+	
+var myuser=user.value;//用户ID
+var myflag=tflags.value;//URL分类
+var myhost=host.value//关键字
+
+var mydtype;//日期范围类型
+var datatype=document.getElementsByName("dtype"); //日期范围类型
+for(var i=0;i <datatype.length;i++){ 
+      if(datatype[i].checked==true) 
+      mydtype=datatype[i].value; 
+} 
+var myddd=ddd.value;
+var myunit=unit.value;
+var mybef=bef.value;
+var mysdate=sdate.value;//从2010-12-01
+var myedate=edate.value;//到2010-12-09
+var mysdate3=sdate3.value;//在2010-12-15
+var mystime=stime.value;//从 00
+var myetime=etime.value;//到 23
+
+var myosort;//分组方式
+var   paiX=document.getElementsByName("osort"); 
+for(var i=0;i <paiX.length;i++){ 
+      if(paiX[i].checked==true) 
+      myosort=paiX[i].value; 
+} 
+var myorderby=orderby.value;//排序方式
+var stopflag=0;
+Ext.MessageBox.show({
+				msg: '条件删除中，请稍等...',
+				progressText: 'waitting...',
+				width:300,
+				wait:true,
+				waitConfig: {interval:500},
+				icon:'ext-mb-download'
+});
+
+ Ext.Ajax.request({
+		                      method : 'POST', 
+		                      url:'/msa/main.xp', 
+	                        success: function(response, options) { 
+	                        	                       var retxt=response.responseText;
+														if(retxt!=" "){
+															Ext.MessageBox.hide();
+															Ext.MessageBox.alert('提示','条件删除成功！'); 
+														}
+	                        },
+	                        failure : function() {
+	                            Ext.MessageBox.hide();      
+	                         	Ext.MessageBox.alert('提示','条件删除失败！'); 
+                          },
+	                        params:{
+		                        Fun:'ltwebqueryima',
+												user:myuser,
+											    host:myhost,
+											    flag:myflag,
+											    dtype:mydtype,
+											    ddd:myddd,
+											    unit:myunit,
+											    bef:mybef,
+											    sdate:mysdate,
+											    edate:myedate,
+											    sdate3:mysdate3,
+											    stime:mystime,
+											    etime:myetime,
+											    osort:myosort,
+											    orderby:myorderby,
+											    groupid:gid,
+											    level:glevel,
+											    action:2
+ 					                        } 
+				});  
+
+}
+
+function checkGValue(gid){
+ if(gid=="-1" || gid==""){
+ 		return;
+ }
+ //location.href="/msa/main.xp?Fun=ltimshowwebquery+groupid="+ gid+"+level="+glevel + "+flag=" +tflags.value  ;
+ 
+ localStore.load();
+ 
+}
+
+</script>
+
+<script type="text/javascript">
+ Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+		pagesize=100;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var win;
+			
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+             
+      localStore = new Ext.data.JsonStore({
+						      root: 'Results',
+					        totalProperty: 'totalCount',
+					        url:'/msa/main.xp',
+					        baseParams:{Fun:'msalocalStore'},
+						      fields: [
+						         {name: 'uid'},
+							       {name: 'uname'}
+						      ]
+						   });
+						
+		
+      var Cb = new Ext.form.ComboBox({ 
+	         fieldLabel: '下拉框',  
+	         valueField:'uid',//json uid
+	         hiddenName:'uid',  //虚拟input hidden的name    
+	         displayField:'uname',     
+	         id:'CbId',      
+	        //blankText:'所有用户',               
+	         emptyText:'所有用户', 
+	         //renderTo: 'combobox', //渲染到div 的id位置处
+	         applyTo:'combobox',
+	         width:100,              
+	         anchor:'95.2%',   
+	         selectOnFocus:true,      
+	         triggerAction:'all',     
+	         store:localStore,    
+	         typeAhead:true,      
+	         typeAheadDelay:250,    
+	         editable:false,       
+	         forceSelection:true,   
+	         mode: 'local'
+	         listeners:{
+                "select":function(combo,record,number){
+                      var id=combo.getValue();//取得ComboBox0的选择值    
+                      myuser=id;
+                      alert(id);                  
+                         }
+            }
+
+	         
+	     }); 
+//			    listeners:{
+//		       'select':function(arg){
+//		           var d = arg.value;
+//		           alert(Ext.get("CbId").dom.value);
+//		           alert(Ext.getCmp("CbId").getValue());//CbId 组建ID号
+//		       }
+//		   }
+
+	     
+//	     Ext.getCmp('CbId').addListener('change', function(box, newv, oldv) {
+//       alert(newv);
+//       });
+
+    
+			 xtzystore = new Ext.data.JsonStore({
+					    root: 'Results',
+				        totalProperty: 'totalCount',
+				        url:'/msa/main.xp',
+				        baseParams:{Fun:'ltwebqueryima'},
+					      fields: [
+					         {name: 'uname'},
+							     {name: 'mymsgtype'},
+							     {name: 'mysdate'},
+							  	 {name: 'mystime'},
+					         {name: 'myimfrom'},
+					         {name: 'myimto'},
+					         {name:'myimcon'},
+					         {name: 'myflags'}
+					    ]
+					});
+
+  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+        var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+         var userItems = this.items || []; 
+         this.items = userItems.concat(pageSizeItems); 
+         HlPagingToolbar.superclass.initComponent.call(this); 
+    }, 
+    onHlPagingKeyDown: function(field, e){ 
+        if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            //alert(this.pageSize);
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+});
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        viewConfig:{forceFit: true, scrollOffset: 0},
+        bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+        columns: [
+           {id:'uname',header: "用户", width: 70, sortable: true, dataIndex: 'uname'},
+            {header: "访问内容",   width: 200, sortable: true,  dataIndex: 'myimcon'},
+            {header: "访问日期", width: 80, sortable: true,  dataIndex: 'mysdate'},
+            {header: "访问时间",   width: 80, sortable: true,  dataIndex: 'mystime'},
+            {header: "发送",   width: 80, sortable: true,  dataIndex: 'myimfrom'},
+            {header: "接收",   width: 80, sortable: true,  dataIndex: 'myimto'},
+            {header: "应用类型",   width: 80, sortable: true,  dataIndex: 'mymsgtype'},
+            {header: "状态",   width: 80, sortable: true,  dataIndex: 'myflags'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'sname',
+        height:screen.height-210,
+        title:'访问列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    }); 
+   
+   xtzygrid.addListener('rowclick', rightClickFn);
+		function rightClickFn(client, rowIndex, e) { 
+					 rightClick.showAt(e.getXY()); 
+					 detailEl= rowIndex;
+		}         
+　
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'detail',
+                    iconCls:'load-icon',
+                    text:'该用户详细信息',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var uid=record.get("uid");      
+                      var usrl="/msa/main.xp?Fun=msaTermInfoView+uid="+uid;
+					  
+						var hgt=(screen.height)-190;
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panelmy',
+							                    title: '表单浏览',
+							                    height: 400,
+							                    width: 550,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize();
+                        } 
+                }]
+   });
+    
+    var northPanelTop = new Ext.Panel({
+    	frame:true,
+    　region:'north',
+    	title: '选择查询的条件',
+    	collapsible:true,
+    	contentEl:'north'
+    });
+    
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+            }
+     
+           new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 northPanelTop,mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+
+						myMask.hide();
+}); 
+</script>
+</head>
+<body leftmargin="0" topmargin="0" style="overflow: scroll;" bgcolor="#f0f0f0" text="#000000" marginheight="0" marginwidth="0">
+<div id="north">
+  <table align="left" border="0" width="513" cellspacing="0" height="10%">
+    <tbody>
+     <tr> 
+      <td width="90" height="26"> 
+        <div align="right">部门</div>
+      </td>
+      <td colspan="2" height="26">
+		   <input type="button" id="department" class=inputf0 border="0" name="department" value="选择部门" onclick="powerPage();"> 
+      </td>
+      <td colspan="2" height="26">
+        <div align="right">用户</div>
+      </td>
+      <td height="26">
+		<!--<select name="user" class="inputself0">
+           <option value="-1" selected="selected"> 所有用户
+           [$begintable ulist$] 
+           </option><option value="[$uid$]" [$usel$] >[$uname$]
+           [$endtable$] 
+        </option></select-->
+         <div id="combobox"><div>
+      </td>
+              
+    </tr>
+       <tr> 
+       <td width="87" height="22"> 
+        <div align="right">类型</div>
+       </td>
+      <td colspan="5" height="22"> 
+       <select name="tflags"  class=inputself0 >
+           <option value="0"    [$tse0$]  > 所有
+           <option value="1"    [$tse1$] >MSN
+           <option value="2"    [$tse2$]>Yahoo
+           <option value="3"    [$tse3$]>AOL
+           <option value="4"    [$tse4$]>QQ
+           <option value="5"    [$tse5$]>TaoBao
+           <option value="9"    [$tse9$]>FeiXin
+        </select>
+      </td>
+    </tr>
+    
+    <tr> 
+      <td width="87" height="22"> 
+        <div align="right">关键字</div>
+      </td>
+      <td height="22" colspan="5"> 
+        <input type="text" class=inputf0  name="host" size="31" maxlength="31" value="" >
+      </td>
+    </tr>
+    
+    <tr> 
+      <td rowspan="3" height="65" width="87" valign="top"> 
+        <div align="right">日期范围</div>
+      </td>
+      <td height="32" colspan="5"> 
+        <input type="radio" name="dtype" value="unit" checked >
+        <input type="text"  class=inputf0 name="ddd" size="8" maxlength="8" value="1" >
+        <select name="unit" class=inputself0 >
+          <option value="1" selected>天</option>
+          <option value="2">周</option>
+          <option value="3">月</option>
+        </select>
+        <select name="bef" class=inputself0 >
+          <option value="1" selected>以内</option>
+          <option value="2">以前</option>
+        </select>
+      </td>
+    </tr>
+    <tr> 
+     <td colspan="5" height="33"> 
+        <input type="radio" name="dtype" value="unit2">
+        从 
+        <input type="text"  class=inputf0 name="sdate" size="10" maxlength="8"   onClick="setday(this)" >
+        到 
+        <input type="text"  class=inputf0 name="edate" size="10" maxlength="8"  onClick="setday(this)" ></td>
+    </tr>
+    <tr> 
+      <td colspan="5" height="33"> 
+        <input type="radio" name="dtype" value="unit3">
+        在 
+        <input type="text"  class=inputf0 name="sdate3" size="10" maxlength="8" onClick="setday(this)" >
+        从
+        <input type="text"  class=inputf0 name="stime" size="10" maxlength="8" value="00:00:00">-
+        <input type="text"  class=inputf0 name="etime" size="10" maxlength="8"  value="23:59:59" >
+    </td>
+    </tr>
+    
+     <tr> 
+     <td width="87" height="22"> 
+        <div align="right"> 排序方式</div>
+      </td>
+      <td height="26" colspan="5">
+        <input type="radio" name="osort" value="nosort" checked >
+        不排序
+      	<input type="radio" name="osort" value="date">
+        日期 
+        <input type="radio" name="osort" value="user"    >
+        用户         
+        <select name="orderby" class=inputself0 >
+          <option value="0" selected >升序</option>
+          <option value="1" >降序</option>
+        </select>
+      </td>
+    </tr>
+    <tr> 
+      <td width="87" height="33">&nbsp;</td>
+      <td colspan="5" height="33"> 
+        <div align="center"> 
+          <input name="ok" value="条件查询" class="inputf0" onclick="gg()" type="button">
+					<input name="exp" value="条件导出" class="inputf0" onclick="gg1()" type="button"> 
+					<input name="del" value="条件删除" class="inputf0" onclick="gg2()" type="button">
+					 [$begintable glist$]
+						<input name="idnum" value="[$gid$]" type="hidden">
+					    <input name="levelnum" value="[$glevel$]" type="hidden">
+			      [$endtable$] 	
+        </div>
+      </td>
+    </tr>
+  </tbody></table>
+</div>
+</body></html>

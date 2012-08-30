@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>系统安全</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+
+<style type="text/css">
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+-->
+</style>
+
+
+<script language="JavaScript">
+function gotoFun(){
+	
+	if(syssetok.closeping.checked){
+		syssetok.closeping.value="yes";
+	}
+	if(syssetok.noadauth.checked){
+		syssetok.noadauth.value="yes";
+	}
+
+	if(syssetok.noauthservice.checked){
+		syssetok.noauthservice.value="yes";
+	}
+	if(syssetok.closessh.checked){
+		syssetok.closessh.value="yes";
+	}
+	
+  syssetok.submit();
+}
+
+</script>
+
+
+</head>
+
+<body oncontextmenu="return false"  bgcolor="f0f0f0" >
+<form name="syssetok" method="post" action="/msa/main.xp" >
+<input type="hidden" name="Fun" value="msasecurityset">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td height="27" background="/msa/images/nn2.gif" width="180"> 
+        <div align="center"><font color="#FFFFFF"> </font><font color="#000000">
+        <font color="#FFFFFF">系统安全设置选下如下：</font></font></div>
+      </td>
+      <td height="27" background="/msa/images/nn1.gif">&nbsp; </td>
+    </tr>
+  </table>
+  
+<table width="90%" border="0" cellspacing="0" align="center" height="26%"> 
+	<tr> 
+  	<td width="39" height="27"> &nbsp;</td>
+    <td width="819" height="27">&nbsp;</td>      
+  </tr>
+
+  <tr> 
+  	<td width="39" height="27"> 
+      <input type="checkbox" name="closeping" value="yes" [$closeping$]>
+    </td>
+    <td width="819" height="27">关闭Ping</td>      
+  </tr>
+  
+  <tr> 
+  	<td height="27"> 
+      <input type="checkbox" name="noadauth" value="yes" [$noadauth$]>
+    </td>
+    <td width="819" height="27">系统启动时启动AD域验证服务[系统重新启动时生效]</td>      
+  </tr>
+ 
+  <tr> 
+  	<td height="27"> 
+      <input type="checkbox" name="noauthservice" value="yes" [$noauthservice$]>
+    </td>
+    <td width="819" height="27">系统启动时启动身份验证服务[系统重新启动时生效]</td>      
+  </tr>
+  
+  
+  <tr> 
+  	<td height="27"> 
+      <input type="checkbox" name="closessh" value="yes" [$closessh$]>
+    </td>
+    <td width="819" height="27">系统启动时启动CONSOLE服务[系统重新启动时生效]</td>      
+  </tr>
+
+  <tr> 
+    <td colspan="4" height="31"> 
+      <div align="left"> 
+        <input type="button" class=input  name="ok" value="确认" onClick="gotoFun();">
+      </div>
+    </td>
+  </tr>
+  
+</table>
+</form>
+</body>
+</html>
+

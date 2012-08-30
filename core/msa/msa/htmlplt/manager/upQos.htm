@@ -1,0 +1,63 @@
+﻿<html>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<head><title>QOS configrator</title>
+<link REL=stylesheet HREF="/msa/publiccss/listdatetable.css" TYPE="text/css">
+<script src="/msa/publicjs/tablecssall.js"></script>
+<script src="/msa/publicjs/rmenu.js"></script>
+<style type="text/css">
+<!--
+.ttt {  border-style: outset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.nnoo {  filter: Gray}
+.hand {  cursor: hand}
+td{padding-top:0px}
+-->
+</style>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+</head>
+
+<body oncontextmenu="return false" bgcolor="#F0F0F0">
+<form name="listform" method="POST">
+<input type="hidden" name="qosid" value="[$sid$]" >
+<input type="hidden" name="Fun" value="ltupdateqos" >
+<input type="hidden" name="prio"  value="0" >
+
+
+  <table width="90%" border="0" cellspacing="0" cellpadding="0" align="left" >
+      <tr align="left" >
+        <td align="left" >通道名称: 
+        <input type="text"  class=input name="qosname" value="[$qosname$]">
+        </td>
+      </tr>
+       <tr align="left" >
+        <td align="left" >&nbsp;
+        </td>
+      </tr>
+       <tr align="left" >
+        <td> 
+        	   <fieldset style="border:2px groove" align=left>
+             <legend>通道带宽峰值</legend>
+        	  下载带宽峰值：
+            <input type="text" class=input  name="qosrated"  size=6 maxlength="6" value="[$qosrated$]"   onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">KB
+            <br>上传带宽峰值：
+             <input type="text"  class=input name="qosrateu"  size=6 maxlength="6" value="[$qosrateu$]"   onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">KB
+         </fieldset>
+        </td>
+      </tr>
+
+       <tr align="left" >
+        <td align="left" >&nbsp;
+        </td>
+      </tr>
+       <tr align="left" >
+        <td><fieldset style="border:2px groove" align=left>
+             <legend>通道带宽保证，<font color=red>慎用,0表示不启动</font></legend>
+                下载带宽保证：
+           <input type="text" class=input  name="qosmixd"  size=6 maxlength="6" value="[$qosmixd$]"   onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">KB
+          <br>上传带宽保证：
+          <input type="text"  class=input name="qosmixu"  size=6 maxlength="6" value="[$qosmixu$]"   onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">KB
+          </fieldset>
+        </td>
+      </tr>
+    </table>
+</form>
+</body></html>

@@ -1,0 +1,37 @@
+mysql数据库远程访问设置方法
+
+1、修改localhost
+更改 "mysql" 数据库里的 "user" 表里的 "host" 项，从"localhost"改成"%" 
+mysql>use mysql; 
+mysql>update user set host = '%' where user = 'root'; 
+mysql>select host, user from user;
+mysql>FLUSH PRIVILEGES;
+2、指定授权
+使用myuser/mypassword从任何主机连接到mysql服务器: 
+GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'%' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
+使用myuser/mypassword从ip为192.168.225.166的主机连接到mysql服务器:
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.1.40' IDENTIFIED BY 'hdtsoft12qwaszx' WITH GRANT OPTION; 
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.1.40' IDENTIFIED BY '123456' WITH GRANT OPTION; 
+3、泛授权
+mysql -h localhost -u root 
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; //赋予任何主机上以root身份访问数据的权限 
+mysql>FLUSH PRIVILEGES;
+
+解决Mysql无法远程连接的问题 
+1、Mysql的端口是否正确
+通过netstat -ntlp 查看端口占用情况，一般情况下端口是3306。在用工具连接MySQl是要用到端口。例如My Admin\My Query Browser\MySQl Front等。
+2、检查用户权限是否正确
+mysql库的user表里有两条记录：host分别为localhost和%(为了安全，%可以换成你需要外部连接的IP)。
+3、查看/etc/mysql/my.cnf中,skip-networking 是否已被注掉
+需要注掉
+报错：ERROR 2003 (HY000): Can't connect to MySQL server on '192.168.51.112' (111)
+sudo gedit /etc/mysql/my.cnf 
+#skip-external-locking
+#bind-address        = 127.0.0.1
+skip-name-resolve
+4、查看iptables是否停掉,没关的情况下,无法连接
+通过：service iptables stop临时关闭。
+报错：ERROR 2003 (HY000): Can't connect to MySQL server on '192.168.51.112' (113)
+
+
+update user set host= '192.168.1.40' where host= '192.168.1.50';

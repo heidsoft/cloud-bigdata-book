@@ -1,0 +1,456 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	MARGIN: 0px; BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 0px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+    
+    var tree = new Ext.tree.TreePanel({
+        renderTo:Ext.getBody(),
+        height: screen.height-300,
+        width: 280,
+        useArrows:true,
+        autoScroll:true,
+        animate:true,
+        rootVisible: false,
+        root: {
+            nodeType: 'async'
+        },  
+        loader: new Ext.tree.TreeLoader({
+						dataUrl:'/msas/main.xp?Fun=msasGroupTree',
+						baseParams:{Fun:'msasGroupTree'} 
+				}),
+        contextMenu: new Ext.menu.Menu({
+        items: [{
+            id: 'delete-node',
+            text: '删除分组'
+         },{
+            id: 'update-node',
+            text: '更新分组'
+         },{
+            id: 'add-node',
+            text: '添加子组'
+         }],
+        listeners: {
+            itemclick: function(item) {
+                switch (item.id) {
+                    case 'delete-node':
+                        var n = item.parentMenu.contextNode;
+                        if (n.hasChildNodes() || n.id=='0' ) {
+                            Ext.MessageBox.alert('提示', '默认组或者有子组，不能删除', null);
+                        }else{
+                           function confirmdelgroup(btn){
+													        if(btn=='yes'){
+     																		Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	//Ext.MessageBox.alert('提示',retxt);
+							   																	if(retxt.substring(0,1)=='1' ){
+																                       Ext.MessageBox.alert('提示','删除分组失败!'); 
+																    							}else{
+																    								  n.remove();
+																    							}
+																    							window.close();		
+												                        },
+												                        failure : function() {
+												                          window.close();     
+												                         	Ext.MessageBox.alert('提示','删除分组失败!'); 
+							                                  },
+							 					                        params:{Fun:'msasGroupAction',actiontype:'2',id:n.id} 
+												  						 });
+													        }
+													 };
+                           Ext.MessageBox.confirm('Confirm', '您确认要删除该分组吗?', confirmdelgroup); 
+                        }
+                        break;
+                    case 'add-node':
+                        var n = item.parentMenu.contextNode;
+                        var nDep=n.getDepth();
+                        if( nDep>4){
+                          Ext.MessageBox.alert('提示', "部门层次不能太多", null);
+                        	break;
+                        }
+                        //Ext.MessageBox.alert('提示', n.getDepth(), null);
+                        
+				  
+						            var formgroup = new Ext.form.FormPanel({
+										        baseCls: 'x-plain',
+										        layout:'absolute',
+										        defaultType: 'textfield',
+										        items: [{
+										            x: 0,
+										            y: 5,
+										            xtype:'label',
+										            text: '组名称:'
+										        },{
+										            x: 60,
+										            y: 0,
+										            allowBlank:false,
+										            name: 'clildgname',
+										            anchor:'100%',
+										            id: 'clildgname'
+										        },{
+										            x: 0,
+										            y: 35,
+										            xtype:'label',
+										            text: '组描述:'
+										        },{
+										            x: 60,
+										            y: 35,
+										            name: 'clildgdesc',
+										            anchor: '100%',
+										            id: 'clildgdesc'
+										        },{
+										            x: 0,
+										            y: 70,
+										            xtype:'label',
+										            text: '组地区编码'
+										        },{
+										            x: 60,
+										            y: 70,
+										            name: 'clildgcode',
+										            anchor: '100%',
+										            allowBlank:false,
+										            id: 'clildgcode'
+										        }]
+										    });
+
+												    var windowgroup = new Ext.Window({
+												        title: '添加分组',
+												        closeAction: 'close',
+												        width: 250,
+												        height:200,
+												        minWidth: 200,
+												        minHeight: 200,
+												        layout: 'fit',
+												        plain:true,
+												        bodyStyle:'padding:5px;',
+												        buttonAlign:'center',
+												        items: formgroup,
+												        buttons: [{
+												            text: '添加',
+												            handler: function(){
+												                var strrootgname = Ext.getCmp('clildgname').getValue();
+												                var strrootgdesc = Ext.getCmp('clildgdesc').getValue(); 
+												                var strrootgcode = Ext.getCmp('clildgcode').getValue(); 
+												                //Ext.MessageBox.alert('提示',strrootgname);  
+												                Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	//Ext.MessageBox.alert('提示',retxt);
+							   																	if(retxt.substring(0,1)=='0' ){
+																                       Ext.MessageBox.alert('提示','添加用户失败!'); 
+																    							}else{
+																    								  n.appendChild(new Ext.tree.TreeNode({
+																    								  		text: strrootgname,
+																    								  		id: retxt,
+																    								  		draggable: false
+																    								  }));
+																    							}
+																    							windowgroup.close();		
+												                        },
+												                        failure : function() {
+												                          windowgroup.close();     
+												                         	Ext.MessageBox.alert('提示',"添加用户失败!"); 
+							                                  },
+							 					                        params:{Fun:'msasGroupAction',actiontype:'1',pid:n.id,level:n.getDepth(),name:strrootgname,mydesc:strrootgdesc,areacode:strrootgcode} 
+												               });
+												               //http://192.168.0.177/msas/main.xp?Fun=msasGroupAction+actiontype=1+pid=0+level=0+name=33333+mydesc=3333333+areacode=343434
+												            }
+												        },{
+												            text: '关闭',
+												            handler: function(){
+												              windowgroup.close(); 
+												            }
+												        }]
+												    });
+												
+												    windowgroup.show();
+												    
+                        break;
+                        
+                        case 'update-node':
+                        var n = item.parentMenu.contextNode;
+
+						            var upategroup = new Ext.form.FormPanel({
+										        baseCls: 'x-plain',
+										        layout:'absolute',
+										        defaultType: 'textfield',
+										        items: [{
+										            x: 0,
+										            y: 5,
+										            xtype:'label',
+										            text: '组名称:'
+										        },{
+										            x: 60,
+										            y: 0,
+										            allowBlank:false,
+										            name: 'updategname',
+										            anchor:'100%',
+										            id: 'updategname',
+										            value: n.text
+										        },{
+										            x: 0,
+										            y: 35,
+										            xtype:'label',
+										            text: '组描述:'
+										        },{
+										            x: 60,
+										            y: 35,
+										            name: 'updategdesc',
+										            anchor: '100%',
+										            id: 'updategdesc'
+										        },{
+										            x: 0,
+										            y: 70,
+										            xtype:'label',
+										            text: '组地区编码'
+										        },{
+										            x: 60,
+										            y: 70,
+										            name: 'updategcode',
+										            allowBlank:false,
+										            anchor: '100%',
+										            id: 'updategcode'
+										        }]
+										    });
+													
+													//upategroup.getForm().findField('updategname').setValue('11111');
+														
+												    var windowupdategroup = new Ext.Window({
+												        title: '更新分组',
+												        closeAction: 'close',
+												        width: 250,
+												        height:200,
+												        minWidth: 200,
+												        minHeight: 200,
+												        layout: 'fit',
+												        plain:true,
+												        bodyStyle:'padding:5px;',
+												        buttonAlign:'center',
+												        items: upategroup,
+												        buttons: [{
+												            text: '更新',
+												            handler: function(){
+												                var strrootgname = Ext.getCmp('updategname').getValue();
+												                var strrootgdesc = Ext.getCmp('updategdesc').getValue(); 
+												                var strrootgcode = Ext.getCmp('updategcode').getValue(); 
+												                
+												                Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	
+							   																	if(retxt.substring(0,1)=='0' ){
+																                      n.setText(strrootgname); 
+																    							}else{
+																    								  Ext.MessageBox.alert('提示','更新用户失败!');
+																    							}
+																    							windowupdategroup.close();		
+												                        },
+												                        failure : function() {
+												                          windowupdategroup.close();     
+												                         	Ext.MessageBox.alert('提示',"更新用户失败!"); 
+							                                  },
+							 					                        params:{Fun:'msasGroupAction',actiontype:'3',id:n.id,name:strrootgname,mydesc:strrootgdesc,areacode:strrootgcode} 
+												               });
+
+												            }
+												        },{
+												            text: '关闭',
+												            handler: function(){
+												              windowupdategroup.close(); 
+												            }
+												        }]
+												    });
+												    //Ext.MessageBox.alert('提示',n.text); 
+												    
+												    windowupdategroup.show();
+						               
+						            break;
+                }
+            }
+        }
+    	}),
+    	listeners: {
+        contextmenu: function(node, e) {
+		            node.select();
+		            var c = node.getOwnerTree().contextMenu;
+		            c.contextNode = node;
+		            c.showAt(e.getXY());
+		     },
+		    click: function(node, e) {
+		            var myurl="/msas/main.xp?Fun=msasShowClientList&gid=" + node.id + "&level=" + (node.getDepth()-1) ;
+		            //Ext.MessageBox.alert('提示',myurl);
+		            parent.mainviewfrm.location.href=myurl ;
+		     }        
+		   },        
+        tbar: [{
+						            icon:'/msas/extjs/resources/images/default/tree/drop-add.gif',
+						            iconCls:'drop-add',						            
+						            text:'添加终端',
+						            handler: function(){
+						               //选择分组
+						               var node=tree.getSelectionModel().getSelectedNode();    
+									         if(!node){
+									            Ext.MessageBox.alert('提示','请先选择分组！');
+									            return; 
+									         }
+						               parent.mainviewfrm.location.href='/msas/main.xp?Fun=msasShowAddClient&id=' + node.id ;
+						            },
+						            scope: this
+						        },{
+						            text:'添加根组',
+						            icon:'/msas/extjs/resources/images/default/tree/member.gif',
+						            iconCls:'icon-by-category',		
+						            handler: function(){
+						               //Ext.MessageBox.alert('提示',tree.root.firstChild.text); 
+						               var form = new Ext.form.FormPanel({
+										        baseCls: 'x-plain',
+										        layout:'absolute',
+										        defaultType: 'textfield',
+										        items: [{
+										            x: 0,
+										            y: 5,
+										            xtype:'label',
+										            text: '根组名称:'
+										        },{
+										            x: 60,
+										            y: 0,
+										            allowBlank:false,
+										            name: 'rootgname',
+										            anchor:'100%',
+										            id: 'rootgname'
+										        },{
+										            x: 0,
+										            y: 35,
+										            xtype:'label',
+										            text: '组描述:'
+										        },{
+										            x: 60,
+										            y: 35,
+										            name: 'rootgdesc',
+										            anchor: '100%',
+										            id: 'rootgdesc'
+										        },{
+										            x: 0,
+										            y: 70,
+										            xtype:'label',
+										            text: '组地区编码'
+										        },{
+										            x: 60,
+										            y: 70,
+										            name: 'rootgcode',
+										            anchor: '100%',
+										            id: 'rootgcode'
+										        }]
+										    });
+
+												    var window = new Ext.Window({
+												        title: '添加分组',
+												        closeAction: 'close',
+												        width: 250,
+												        height:200,
+												        minWidth: 200,
+												        minHeight: 200,
+												        layout: 'fit',
+												        plain:true,
+												        bodyStyle:'padding:5px;',
+												        buttonAlign:'center',
+												        items: form,
+												        buttons: [{
+												            text: '添加',
+												            handler: function(){
+												                var strrootgname = Ext.getCmp('rootgname').getValue();
+												                var strrootgdesc = Ext.getCmp('rootgdesc').getValue(); 
+												                var strrootgcode = Ext.getCmp('rootgcode').getValue(); 
+												                //Ext.MessageBox.alert('提示',strrootgname);  
+												                Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	//Ext.MessageBox.alert('提示',retxt);
+							   																	if(retxt.substring(0,1)=='0' ){
+																                       Ext.MessageBox.alert('提示','添加用户失败!'); 
+																    							}else{
+																    								  tree.root.appendChild(new Ext.tree.TreeNode({
+																    								  		text: strrootgname,
+																    								  		id: retxt,
+																    								  		draggable: false
+																    								  }));
+																    							}
+																    							window.close();		
+												                        },
+												                        failure : function() {
+												                          window.close();     
+												                         	Ext.MessageBox.alert('提示',"添加用户失败!"); 
+							                                  },
+							 					                        params:{Fun:'msasGroupAction',actiontype:'1',pid:'0',level:'0',name:strrootgname,mydesc:strrootgdesc,areacode:strrootgcode} 
+												               });
+												               
+												            }
+												        },{
+												            text: '关闭',
+												            handler: function(){
+												              window.close(); 
+												            }
+												        }]
+												    });
+												
+												    window.show();
+						               
+						            },
+						            scope: this
+						    },
+						    {xtype:"tbfill"}
+						    ,{
+						            text:'展/闭',
+						            id: 'expandclose',
+						            handler: function(){
+						               if(tree.getTopToolbar().items.item(4).text=='展/闭'){
+						                	tree.getRootNode().expand(true);
+						                	tree.getTopToolbar().items.item(4).text='关闭';
+						              }else{
+						               		tree.getRootNode().collapse(true);
+															tree.getTopToolbar().items.item(4).text='展/闭';
+					                }
+						            },
+						            scope: this
+						    }]
+    });
+
+    //tree.getRootNode().expand(true);
+});
+</SCRIPT>
+<style>
+    .complete .x-tree-node-anchor span {
+        text-decoration: line-through;
+        color: #777;
+    }
+</style>
+</head>
+<body>
+</body>
+</html>

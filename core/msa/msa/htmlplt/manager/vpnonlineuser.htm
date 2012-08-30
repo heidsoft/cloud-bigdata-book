@@ -1,0 +1,203 @@
+<html>   
+<head>
+<title>VPN在线账号</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/ext/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+
+<SCRIPT type=text/javascript>
+  var reportstore;
+	var mypagenum;
+  var ll=1
+  mypagenum=1; 
+	var srv,user,sip,allcount,pagenums;
+	var yy=(mypagenum-1)/pagenums +1 ;
+  Ext.BLANK_IMAGE_URL = '/extjs/resources/images/default/s.gif';
+
+	function gotoPage(pagenum){        
+		allcount=form1.allcount.value;
+		pagenums=form1.pagenum.value;  //每页显示条数
+    if(pagenum<1){
+      pagenum=1;   //第几页
+    }  
+    if(pagenum>yy){
+      pagenum=yy;
+    }
+    form1.curpage.value = pagenum;
+    form1.browsdopage.value= pagenum;
+    mypagenum=pagenum;
+    reportstore.load({params:{CurPg:mypagenum,Fun:'vpnonlineuser',allcount:allcount,pagenum:pagenums}});
+  }
+
+	function checkme(p){
+		var tt=p.value
+		if (tt>yy)
+		{
+			MM_changeProp('browsdopage','','value',yy,'INPUT/TEXT')
+		}
+		if (tt==0)
+		{
+			MM_changeProp('browsdopage','','value','1','INPUT/TEXT')
+		}
+	}
+
+     
+	Ext.onReady(function(){
+	
+		Ext.QuickTips.init();
+	
+		var detailEl;
+		
+		var myMask = new Ext.LoadMask(Ext.getBody(), 
+	  {
+	      	msg:"Please wait..."
+	  });
+		myMask.show();
+			 
+	
+	 	
+		var cm=new Ext.grid.ColumnModel([
+			{header:'虚拟地址',dataIndex:'virtualaddress',sortable:true,width:220},
+			{header:'通用名称',dataIndex:'name',sortable:true,width:220}, 
+			{header:'连接IP ',dataIndex:'ip',sortable:true,width:220},
+		 	{header:'最后登录时间',dataIndex:'logintime',width:250}
+		]);
+	
+		reportstore=new Ext.data.SimpleStore({
+		 url:'/msa/main.xp?Fun=vpnonlineuser',
+	         fields: [
+	          {name: 'virtualaddress'},
+	          {name: 'name'},
+	          {name: 'ip'},
+	      		{name: 'logintime'} 
+	         ] 
+		});   
+		reportstore.load();
+	
+		var reportgrid=new Ext.grid.GridPanel({
+			el:'reportgrid',
+			ds:reportstore,
+			cm:cm ,
+			title:"VPN在线账号列表",
+			frame:true,
+			autoScroll:true,
+			collapsible:true,
+			height:screen.height-225,
+			loadMask:{msg:'正在加载数据，请稍侯……'},
+			width:screen.width
+		});
+		reportgrid.render();  
+	
+	  
+		// Finally, build the main layout once all the pieces are ready.  This is also a good
+		// example of putting together a full-screen BorderLayout within a Viewport.
+	  new Ext.Viewport({
+				  id:'tree-xtzy-panel',
+				  layout:'table',
+				  defaults: {
+						bodyStyle:'padding:5px 5px 5px,valign:top'
+					},
+				  items: [
+				     reportgrid 
+				  ],
+				  height:screen.height-200,
+				  autoScroll:true,
+	        renderTo: Ext.getBody()
+	  });
+	        
+	  myMask.hide();
+	   
+	  var task = {
+				run: function(){	
+				   //xtzystore.load();
+				},
+				interval: 120000 // 每30秒一周期
+		};
+		var runner = new Ext.util.TaskRunner();
+		runner.start(task);
+							
+	});
+</SCRIPT>
+</head>
+
+
+<body bgcolor="white" text="#000000" oncontextmenu="return false"  topmargin="0" leftmargin="0"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<form name="form1" method="post" action="/msa/main.xp"  target="">
+<input type="hidden" name="curpage" value="1">
+<table align="center"  border="0" width="100%" cellpadding="0" cellspacing="0" >
+  <tbody>
+  	<tr>
+      <td align="left"  valign="middle" width="100%" height="22"> 
+        <table border="0" width="100%" cellspacing="0">
+        <tbody>
+        	<tr>
+        		
+          <td>
+           <div  align="left">
+					  <table width=272>
+					    <tr>
+								<td width="264" align=left><font color="#000000" style="font-size:12px">每页显示
+						      <input name="pagenum" value="50" size=4 class=inputf0 style="FONT-SIZE: 12px; HEIGHT: 17px;text-align:center">条&nbsp;共
+				          <input name="allcount" value="[$allcount$]" size=4 class=inputf0 style="FONT-SIZE: 12px; HEIGHT: 17px;text-align:center"> 条</font>
+				        </td>
+							</tr>
+						</table>
+           </div>
+          </td>
+
+          <td> 
+            <table align=right border=0 cellpadding=0 cellspacing=0 class=main width=111>
+                <tbody> 
+                <td width="10%">
+                	<script> 
+                    document.write("<img src='/msa/images/zbuyer-06.gif' border=0 height=17 width=35 onClick='gotoPage(1);' class='hand'>");
+                  </script>
+                </td>
+                <td width="10%">
+                	<script>
+                   document.write("<img src='/msa/images/zbuyer-03.gif' border=0 height=17 width=20 onClick='gotoPage(mypagenum-1);' class='hand'>");
+                  </script>
+                </td>
+                <td width="20%">
+                	<img src="/msa/images/zbuyer-08.gif" border=0 height=17 width=32>
+                </td>
+                <td align=middle background="" width=92> 
+                  <input class=input id=browsdopage    name=browsdopage 0 style="FONT-SIZE: 12px; HEIGHT: 18px; WIDTH: 20px" style="text-align:center" value=1 onKeyPress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" onBlur="checkme(this)" size="2">
+                </td>
+                <td width="10%">
+                	<img src="/msa/images/zbuyer-09.gif" border=0 height=17 width=16>
+                </td>
+                <td width="10%">
+                	<img src="/msa/images/zbuyer-10.gif" border=0 height=17 width=16 onClick="gotoPage(form1.browsdopage.value);">
+								</td>
+                <td width="10%">
+                	<script> 
+                   document.write("<img src='/msa/images/zbuyer-04.gif' border=0 height=17 width=20 onClick='gotoPage(mypagenum+1);' class='hand'>");
+                  </script>
+                </td>
+                <td width="10%">
+                	<script>
+                   document.write("<img src='/msa/images/zbuyer-05.gif' border=0 height=17 width=35 onClick='gotoPage(parseInt((form1.allcount.value-1)/form1.pagenum.value +1));' class='hand'>");
+                	</script>
+                </td>
+                </tbody> 
+            </table>
+          </td>
+
+        	</tr>
+      	</tbody>
+      	</table>
+    	</td>
+  	</tr>
+  </tbody>
+
+</table>
+</form>
+
+<div id="reportgrid">   
+</div>
+</body>
+</html>

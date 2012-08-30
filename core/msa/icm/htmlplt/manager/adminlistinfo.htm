@@ -1,0 +1,143 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/icm/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/icm/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/icm/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/icm/extjs/ext-all.js"></SCRIPT>
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/icm/extjs/resources/images/default/s.gif';
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/icm/main.xp?Fun=icmAdmuserList',
+        fields: [
+           {name: 'xindex'},
+           {name: 'ip'},
+           {name: 'lasttime'},
+           {name: 'trytime'},
+           {name: 'status'}
+        ]
+    });
+    xtzystore.load();
+       var pagingBar = new Ext.PagingToolbar({
+        pageSize: 25,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据"
+    });
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        columns: [
+            {id:'ip',header: "IP地址", width: 100, sortable: true, dataIndex: 'ip'},
+            {header: "最后访问时间",   width: 160, sortable: true,  dataIndex: 'lasttime'},
+            {header: "尝试次数",  width: 120, sortable: true,  dataIndex: 'trytime'},
+            {header: "状态",   width: 120, sortable: true,  dataIndex: 'status'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'ip',
+        width:280,
+        height:screen.height-350,
+        title:'在线管理员列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'liulanbaogao',
+                    iconCls:'load-icon',
+                    text:'强制下线',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("xindex"); 
+                        Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/icm/main.xp', 
+												                        success: function(response, options) {
+							   																  xtzystore.load();
+												                        },
+												                        failure : function() {
+												                          window.close();     
+												                         	Ext.MessageBox.alert('提示','强制下线调用失败!'); 
+							                                  },
+							 					                        params:{Fun:'icmCheckOutAdmin',xindex:myid} 
+												});
+                    }
+                }
+            ]});
+      xtzygrid.addListener('rowclick', rightClickFn);
+		  function rightClickFn(client, rowIndex, e) {
+					                rightClick.showAt(e.getXY()); 
+					                detailEl=  rowIndex;
+		  }    
+    var mainPanel= {
+				    id: 'main-panel',
+            region:'center',
+            collapsible: true,
+            split:true,
+                    width: 135,
+                    minSize: 400,
+                    maxSize: 600,
+                    layout:'fit',
+                    margins:'0 0 0 0',
+                    height:600,
+                    items:[xtzygrid]
+    }
+						 new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+			     myMask.hide();
+            var task = {
+								run: function(){
+								   xtzystore.load();
+								},
+								interval: 60000 // 每30秒一周期
+						};
+						var runner = new Ext.util.TaskRunner();
+						runner.start(task);
+  
+            
+  });
+	</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY>
+
+</BODY>
+</HTML>
+

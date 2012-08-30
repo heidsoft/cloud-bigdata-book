@@ -1,0 +1,453 @@
+<html>
+<head>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<style type="text/css">
+#tableFrame{
+	width:760px;
+	height:auto;
+	padding:0;
+	margin:0 auto;
+	font-size:12px;
+	margin-left:2;
+	margin-top:2;
+}
+#tableFrame ul li{
+	text-align:center;
+	position: relative;
+	top: 1px;
+	float: left;
+	padding: 0px 2px 0px 2px;
+	margin: 0px 0px 0px 0px;
+	font:1em 宋体;
+	background-color: #FFFFFF;
+	list-style: none;
+	border-left: solid 0px #D4E0F2;
+	border-bottom: solid 0px #D4E0F2;
+	border-right: solid 0px #D4E0F2;
+	border-top: solid 0px #D4E0F2;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+
+	width: 752px;
+	height:50px;
+	padding: 0;
+	margin: 0;
+}
+#infotable{
+	width: 750px;
+	padding: 0;
+	margin: 0;
+}
+#infotable td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	font-size:12px;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+</style>
+<script type='text/javascript'>
+	function loop(n,k){
+		if(n<6){
+			Ext.Ajax.request({
+	          method : 'POST',
+	          url:'/msa/main.xp',
+	          success: function(response, options){
+	          		//alert(response.responseText);
+	          		if(response.responseText==0){
+	          			//alert(response.responseText);
+	          			loop(n,k);
+	          		}else if(response.responseText==-1){
+	          			//alert(response.responseText);
+	          			n++;
+	          			loop(n,k);
+	          		}else if(response.responseText==-2){
+	          			//alert(response.responseText);
+	          			loop(n,k);
+	          		}else{
+	          			var div=document.getElementById("tableFrame");
+									var ul=div.childNodes.item(0);
+									var lis=ul.childNodes;
+									lis.item(k).innerHTML=response.responseText;
+									lis.item(k).style.textAlign="left";
+			          	n++
+	          			k++;
+			          	loop(n,k);
+	          		}
+	          },
+	          failure : function(){
+	          },
+	        	params:{Fun:'msaMainSearch',parampath:document.getElementById("path").value,path:document.getElementById("path").value+'/'+document.getElementById("filedate").value,n:n,searchdate:document.getElementById("filedate").value}
+			});
+		}else if(n>=6&&k<7){
+				for(k;k<6;k++){
+						var div=document.getElementById("tableFrame");
+						var ul=div.childNodes.item(0);
+						var lis=ul.childNodes;
+						lis.item(k).innerHTML="";
+				}
+		}
+		return -1;
+	}
+</script>
+<script type='text/javascript'>
+	function reclear(){
+		var div=document.getElementById("tableFrame");
+		var ul=div.childNodes.item(0);
+		var lis=ul.childNodes;
+		var j=0;
+		for(j=0;j<6;j++){
+				lis.item(j).innerHTML="<img src='/msa/images/load.gif' width=\"30\" height=\"30\" border=\"0\"/></br>仍在载入...";
+				lis.item(j).style.textAlign="center";
+		}
+	}
+	var datePanel;
+	function showwin(url){
+				 	var date=document.getElementById("filedate").value;
+				 	var path=document.getElementById("path").value;
+				 	var myurl=url+"+date="+date+"+path="+path;
+				 	//alert(myurl);
+					var mywin =new Ext.Window(
+          {
+                id: 'panel',
+                closeAction: 'close',
+	        			title:'搜索列表',
+                height:550,
+                width:650,
+                modal: 'true',
+                maximizable:'true',
+                margins:'0 5 0 0',
+                html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '"+myurl+"'  border='0' frameborder='0' scrolling='yes'></iframe>"
+          });
+          mywin.show();
+          mywin.maximize();
+	}
+	function showformwin(url){
+				 	var date=document.getElementById("filedate").value;
+				 	var path=document.getElementById("path").value;
+				 	var myurl=url+"+date="+date+"+path="+path;
+				 	//alert(myurl);
+					var mywin =new Ext.Window(
+          {
+                id: 'panel',
+                closeAction: 'close',
+	        			title:'表单列表',
+                height:550,
+                width:650,
+                modal: 'true',
+                maximizable:'true',
+                margins:'0 5 0 0',
+                html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '"+myurl+"'  border='0' frameborder='0' scrolling='yes'></iframe>"
+          });
+          mywin.show();
+          mywin.maximize();
+	}
+	Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+	Ext.onReady(function(){
+				 var downloadpath;
+				 var usrl;
+				 Ext.QuickTips.init();
+				 var historyStore = new Ext.data.SimpleStore({
+			        url:'/msa/main.xp',
+			        baseParams:{Fun:'historySearch'},
+				      fields: [							// text 路径 默认搜索日期 关键字	开始日期 结束日期	searchdate
+				         {name: 'text'},
+					       {name: 'path'},
+					       {name: 'date'},
+					       {name: 'keyword'},
+					       {name: 'startdate'},
+					       {name: 'enddate'},
+					       {name: 'element1'},
+					       {name: 'element2'},
+					       {name: 'element3'},
+					       {name: 'element4'},
+					       {name: 'element5'},
+					       {name: 'element6'}
+				      ]
+				 });
+				 historyStore.load();
+				 var historybox = new Ext.form.ComboBox({
+			        store: historyStore,
+			        //applyTo: 'search',
+			        valueField:'text',
+				      hiddenName:'text',
+				      displayField:'text',
+			        width: 300,
+			        id:'mysearch',
+			        emptyText:'Quick Search',
+			        fieldLabel: '下拉框',
+				      blankText:'Quick Search',
+				      maxHeight:400,
+				      minHeight:200,
+				      anchor:'95.2%',
+				      selectOnFocus:true,
+				      triggerAction:'all',
+				      typeAhead:true,
+				      typeAheadDelay:250,
+				      editable:true,
+				      forceSelection:true,
+				      mode: 'local',
+			        listeners:{
+			        	"keyup": function(textfield, e){
+							  },
+			          "select":function(combo,record,number){
+			          	document.getElementById("path").value=record.data.path;
+			          	document.getElementById("filedate").value=record.data.date;
+			          	document.getElementById("stardate").value=record.data.startdate;
+			          	document.getElementById("enddate").value=record.data.enddate;
+			          	reclear();
+			          	loop(0,0);
+			          	datePanel.root.reload();
+			          }
+			        }
+    		 });
+    		 var loader=new Ext.tree.TreeLoader({
+								dataUrl:'/msa/main.xp',
+								baseParams:{Fun:'msaSearchkeyDateTree'}
+				 });
+			   loader.on("beforeload", function(loader, node) {
+								loader.baseParams.stardate = document.getElementById('stardate').value;
+								loader.baseParams.enddate = document.getElementById('enddate').value;
+			   });
+				 datePanel = new Ext.tree.TreePanel({
+		    	  id:'forum-tree',
+		    	  title:'日期',
+		        region:'west',
+		        height:screen.height-180,
+		        width: 100,
+		        minSize: 175,
+		        maxSize: 400,
+		        margins:'0 0 5 5',
+		        useArrows:true,
+		        autoScroll:true,
+		        animate:true,
+		        rootVisible: false,
+		        root: {
+		            nodeType: 'async'
+		        },
+		        loader:loader,
+						listeners: {
+						    click: function(node, e){
+											document.getElementById("filedate").value=node.text;
+											reclear();
+											//alert(document.getElementById("filedate").value);
+											loop(0,0);
+						    }
+					  }
+		     });
+		    var centpanel = new Ext.TabPanel({
+                    region:'center',
+                    deferredRender:false,
+                    activeTab:0,
+//                    tbar: ['&nbsp', '&nbsp', {
+//                                    xtype : "label",
+//                                    text : "选择日期:"
+//                                }, '&nbsp', {
+//                                    xtype : "datefield",
+//                                    id : "stime",
+//                                    name : "chooseStartTime",
+//                                    //vtype : "daterange",
+//																		format : 'Ymd',
+//                                    endDateField : "etime",
+//                                    value : new Date(Date.parse('10/15/2006'))
+//
+//                                }, '&nbsp', {
+//                                    xtype : "label",
+//                                    text : "至"
+//                                }, '&nbsp', {
+//                                    xtype : "datefield",
+//                                    id : "etime",
+//                                    name : "chooseEndTime",
+//                                    //vtype : "daterange",
+//																		format : 'Y-m-d',
+//                                    startDateField : "stime",
+//                                    value : new Date(Date.parse('10/15/2006'))
+//                                },'&nbsp', '&nbsp',
+//										            {xtype: "panel", border: false,
+//			                          items: [new Ext.form.TwinTriggerField({
+//			                              xtype: 'twintriggerfield', emptyText: "请输入...", name: "", width: 250,
+//			                              trigger1Class: 'x-form-clear-trigger',
+//			                              trigger2Class: 'x-form-search-trigger',
+//			                              onTrigger1Click: function(e) {
+//			                                  this.reset();
+//			                              },
+//			                              onTrigger2Click: function(e) {
+//
+//			                              }
+//			                          })]
+//			                      		}],
+                    items:[{
+                        contentEl:'tableFrame',
+                        autoScroll:true
+                    }]
+        });
+        var menu = new Ext.menu.Menu({
+							    id: 'basicMenu',
+							    items: [new Ext.menu.Item({
+							    				id:'msaImDownLoad',
+							        		name:'download.xls',
+							            text: '即时通讯数据',
+							            handler: clickHandler
+							        }),
+							        new Ext.menu.Item({
+							    				id:'msaVcDownLoad',
+							        		name:'download.xls',
+							            text: '虚拟身份数据',
+							            handler: clickHandler
+							        }),
+							        new Ext.menu.Item({
+							        		id:'msaFileDownLoad',
+							        		name:'download.xls',
+							            text: '文件传输数据',
+							            handler: clickHandler
+							        }),
+							        new Ext.menu.Item({
+							        		id:'msaMailDownLoad',
+							        		name:'download.tar',
+							            text: 'Mail 数据',
+							            handler: clickHandler
+							        }),
+							        new Ext.menu.Item({
+							        		id:'msaFormDownLoad',
+							        		name:'download.tar',
+							            text: '表单数据',
+							            handler: clickHandler
+							        }),
+							        new Ext.menu.Item({
+							        		id:'msaSearchKeyDownLoad',
+							        		name:'download.xls',
+							            text: '搜索关键字数据',
+							            handler: clickHandler
+							        }),
+							        '-'
+							    ]
+				});
+				var preJson = {
+													 title:'提示',
+													 msg:'点击下载按钮开始下载？',
+													 buttons:{yes:'开始下载',no:'取消'},
+													 fn:function(btn){
+													          if (btn == 'yes') {
+													          	 location.href =usrl;
+													          }
+													 }
+				}
+				function clickHandler(item){
+											Ext.Ajax.request({
+													method : 'POST',
+													url:'/msa/main.xp',
+													success: function(response, options) {
+															downloadpath=response.responseText;
+															var runner;
+															Ext.MessageBox.show({
+																	msg: '正在查找',
+																	progressText: '正在搜集信息....',
+																	width:370,
+																	wait:true,
+																	progress:true,
+																	waitConfig: {interval:200},
+																	icon:'ext-mb-download'
+															});
+															var task = {
+															run: function(){
+																		Ext.Ajax.request({
+																					method : 'POST',
+																					url:'/msa/main.xp',
+																					success: function(response, options) {
+																							var retxt=response.responseText;
+																							if(retxt.substring(0,1)=="0"){
+																									Ext.MessageBox.updateProgress(0,"搜集条件");
+																							}
+																							if(retxt.substring(0,1)=="1"){
+																									Ext.MessageBox.updateProgress(0,"正在查找数据");
+																							}
+																							if(retxt.substring(0,1)=="2"){
+																									Ext.MessageBox.updateProgress(0,"正在生成文件");
+																							}
+																							if(retxt.substring(0,1)=="3"){
+																									Ext.MessageBox.updateProgress(0,"准备下载");
+																									runner.stopAll();
+																									Ext.MessageBox.hide();
+																									usrl='/msa/main.xp?Fun=msaDataCenetrDownLoadMore+delflag=delflag+downLoadFileName='+item.name+'+downLoadFile='+downloadpath;
+																									//alert(usrl);
+								                             			Ext.Msg.show(preJson);
+																							}
+																					},
+																					failure : function(){
+																							runner.stopAll();
+																							Ext.MessageBox.hide();
+																							Ext.MessageBox.alert('提示','正在生成 请稍后... ...');
+																					},
+																					params:{Fun:'msaReadProccess',path:'/datacenter/msa/keywordsearch/proccess'}
+																		});
+															},
+															interval:600 // 每30秒一周期
+													};
+													runner = new Ext.util.TaskRunner();
+													runner.start(task);
+													},
+													failure : function() {
+															Ext.MessageBox.hide();
+															Ext.MessageBox.alert('提示','下载失败！');
+													},
+													params:{
+															Fun:item.id,
+															path:document.getElementById("path").value,
+															stardate:document.getElementById("stardate").value,
+															enddate:document.getElementById("enddate").value
+													}
+											});
+				}
+        var contentPanel=new Ext.Panel({
+							title: '搜索结果',
+              region: 'center',
+	        		height:screen.height/2,
+              autoScroll:true,
+              collapsible: false,
+              split:true,
+              layout:'border',
+              margins:'0 5 0 0',
+							items: [datePanel,centpanel],
+							tbar:[{text:"下载搜索数据",
+        			pressed: true,
+	            icon: '/msa/images/menu-show.gif',
+	            enableToggle:true,
+	            cls: 'x-btn-text-icon details',
+        			menu:menu},'->',historybox]
+        });
+				new Ext.Viewport({
+					layout: 'border',
+					items: [contentPanel]
+	      });
+	})
+</script>
+</head>
+<body style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onload="loop(0,0);">
+ <form name="listform" action="/msa/main.xp" method="POST">
+ <input type="hidden" name="Fun" value="msaMainSearch">
+ <input type="hidden" name="path" id="path" value="[$path$]">
+ <input type="hidden" name="filedate" id="filedate" value="[$filedate$]">
+ <input type="hidden" name="stardate" id="stardate" value="[$stardate$]">
+ <input type="hidden" name="enddate" id="enddate" value="[$enddate$]">
+	<div id="tableFrame">
+	        <ul>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	            <li><img src='/msa/images/load.gif' width="30" height="30" border="0"/></br>仍在载入...</li>
+	        </ul>
+	</div>
+</form>
+</body>
+</html>

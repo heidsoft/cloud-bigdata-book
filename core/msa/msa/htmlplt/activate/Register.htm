@@ -1,0 +1,227 @@
+<HTML><HEAD><TITLE> MSA使用许可</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<style type="text/css">
+html {
+  font: 81.25% arial, helvetica, sans-serif;
+  background: #fff;
+  color: #333;
+  line-height: 1;
+  direction: ltr;
+  font-size: 13px;
+}
+p {
+  line-height: 17px;
+  margin: 0 0 1em;
+  font: 81.25% arial, helvetica, sans-serif;
+}
+td {
+  line-height: 17px;
+  margin: 0 0 1em;
+  font: 81.25% arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+</style>
+<SCRIPT type=text/javascript>
+	function subfun() {
+		var myemail=document.getElementById("email").value;     
+	 	var myuname=document.getElementById("uname").value;
+	 	var mylinkman=document.getElementById("linkman").value; 
+	 	var mytel=document.getElementById("tel").value;
+	 	var mynumber =document.getElementById("serial-number").value;
+	 	var myloc=document.getElementById("loc").value;
+	 	var mymtype=document.getElementById("mtype").value;
+		if(myemail==""){
+			Ext.MessageBox.alert("提示","电子邮件地址不能为空！");
+			return false;
+		}else if(myemail!=""){
+		  var regMail=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		  var Email_flag=false;
+		  if(regMail.test(myemail)){
+			Email_flag = true;
+			}else{
+			Email_flag = false;
+			}
+			if (!Email_flag){
+			  Ext.MessageBox.alert("提示","对不起，电子邮件地址格式错误！");
+			  return false;
+			}
+		}
+		if(myuname=="")
+		{
+			Ext.MessageBox.alert("提示","用户名称不能为空！");
+			return false;
+		}
+		if(mylinkman=="")
+		{
+			Ext.MessageBox.alert("提示","联系人不能为空！");
+			return false;
+		}  
+		if(mytel=="")
+		{
+			Ext.MessageBox.alert("提示","联系电话不能为空！");
+			return false;
+		}
+		if(mynumber=="")
+		{
+			Ext.MessageBox.alert("提示","机器序列号不能为空！");
+			return false;
+		}else if(mynumber!=""){
+		  var Num_flag=false;
+		  if(mynumber.length==19){
+				Num_flag = true;
+			}
+			if (!Num_flag){
+			  Ext.MessageBox.alert("提示","对不起，机器序列号格式错误！");
+			  return false;
+			}
+		}
+		Ext.MessageBox.show({
+																	           msg: '数据提交',
+																	           progressText: '数据正在提交中....',
+																	           width:450,
+																	           wait:true,
+																	           progress:true,
+																	           waitConfig: {interval:1000},
+																	           icon:'ext-mb-download'
+		 }); 
+		Ext.Ajax.request({
+				method : 'POST', 
+		    url:'/msa/main.xp', 
+		    success: function() 
+			  {
+			     Ext.MessageBox.hide();
+			     location.href="/msa/main.xp?Fun=ltRegister";
+	      },
+			  failure : function() 
+			  {   
+				   Ext.MessageBox.hide();
+				   Ext.MessageBox.alert("提示","申请宝创MSA许可失败!"); 
+			  },
+			 params:{Fun:'msaRegister',email:myemail,uname:myuname,linkman:mylinkman,tel:mytel,number:mynumber,loc:myloc,mtype:mymtype}
+		
+		});
+	}	
+</SCRIPT>	
+</head>
+<form id="listform"  name="listform" method="post" action="/msa/main.xp">
+<body bgcolor="#f0f0f0" text="#000000" link="#0000cc" vlink="#551a8b" alink="#ff0000" dir='ltr'  oncontextmenu="return false">
+  <div id="maincontent" align=center>&nbsp;</div>
+  <div id="maincontent" align=center>使用许可申请</div>
+	<fieldset style="width:786" height:30;border:2px groove" align=center>
+		<legend>申请宝创MSA 用户的必须信息</legend> 
+		<table width="743" bgcolor="#f0f0f0" >
+		  <tr>
+		  <td width="735">
+		  如果您已拥有 激活码，则可<a href='/msa/activate/activate.htm' >在此激活</a>。</td>
+		  </tr>
+		</table>
+	  <table role="presentation" id=signupform cellspacing="0" cellpadding="0" width="100%" bgcolor="#f0f0f0">
+		  <tr>
+			  <td width="12%" valign="top" nowrap="nowrap" style="padding-top:10px">电子邮件：</td>
+			  <td width="88%">
+				  <input  type="text" name="Email"  id="Email" size="30" value="" class="gaia sub emailtxtfield"/>激活码将发送到该电子邮件地址。 
+		    </td>
+			</tr>
+		  <tr>
+		  	<td valign="top" nowrap="nowrap" style="padding-top:10px">
+		  		用户名称：
+		  	</td>
+		  	<td>
+		  		<input  type="txt" name="uname" id="uname" size="30" class="gaia sub passwdtxtfield"/>
+				</td>
+		  </tr>
+		  <tr>
+			  <td valign="top" style="padding-top:10px">
+				  联系人：
+			  </td>
+			  <td>
+				  <input  type="txt" name="linkman" id="linkman" size="30" class="gaia sub passwdtxtfield"/>
+			  </td>
+		  </tr>
+		  <tr>
+			  <td nowrap="nowrap">联系电话：</td>
+			  <td align='left' >
+			  	<input  type="txt" name="tel" id="tel" size="30" class="gaia sub passwdtxtfield"/>
+				</td>
+		  </tr>
+		  <tr>
+		  	<td>机器序列号：</td>
+		  	<td>
+		  		<input  type="txt" name="serial-number" id="serial-number" size="30" class="gaia sub passwdtxtfield" value="[$snumber$]" />
+		  		[见机箱上面类似1111-1111-1111-1111]
+		  	</td>
+		  </tr>
+		  <tr>
+		  	<td>机器型号：</td>
+		  	<td>
+		  		<select id="loc" name="loc">
+					  <option  value="A1" selected >A1(50用户)</option>
+					  <option  value="A2">A2(100用户)</option>
+					  <option  value="A3">A3(150用户)</option>
+					  <option  value="MSA-B50">MSA-B50(50用户)</option>
+					  <option  value="MSA-B100">MSA-B100(100用户)</option>
+					  <option  value="MSA-B200">MSA-B200(200用户)</option>
+					  <option  value="MSA-B300">MSA-B300(300用户)</option>
+					  <option  value="MSA-B500">MSA-B500(500用户)</option>
+					  <option  value="MSA-M50">MSA-M50(50用户)</option>
+					  <option  value="MSA-M100">MSA-M100(100用户)</option>
+					  <option  value="MSA-M200">MSA-M200(200用户)</option>
+					  <option  value="MSA-M300">MSA-M300(300用户)</option>
+					  <option  value="MSA-M500">MSA-M500(500用户)</option>
+					  <option  value="MSA-L200">MSA-L200(200用户)</option>
+					  <option  value="MSA-L300">MSA-L300(300用户)</option>
+					  <option  value="MSA-L500">MSA-L500(500用户)</option>
+					  <option  value="MSA-L800">MSA-L800(800用户)</option>
+					  <option  value="MSA-L1000">MSA-L1000(1000用户)</option>
+					  <option  value="MSA-L2000">MSA-L2000(2000用户)</option>
+					  <option  value="MSA-S1000">MSA-S1000(1000用户)</option>
+					  <option  value="MSA-S2000">MSA-S2000(2000用户)</option>
+					  <option  value="MSA-S3000">MSA-S3000(3000用户)</option>
+					  <option  value="MSA-S5000">MSA-S5000(5000用户)</option>
+					  <option  value="MSA-S8000">MSA-S8000(8000用户)</option>
+					  <option  value="MSA-X1000">MSA-X1000(1000用户)</option>
+					  <option  value="MSA-X2000">MSA-X2000(2000用户)</option>
+					  <option  value="MSA-X3000">MSA-X3000(3000用户)</option>
+					  <option  value="MSA-X5000">MSA-X5000(5000用户)</option>
+					  <option  value="MSA-X8000">MSA-X8000(8000用户)</option>
+					  <option  value="MSA-X10000">MSA-X10000(10000用户)</option>
+					  <option  value="MSA-X20000">MSA-X20000(20000用户)</option>
+					  <option  value="MSA-T1">MSA-T1(1-3万用户)</option>
+					  <option  value="MSA-T2">MSA-T2(3-5万用户)</option>
+					  <option  value="MSA-T3">MSA-T3(5-10万用户)</option>
+				  </select>
+		  	</td>
+		  </tr>
+			<tr>
+			  <td nowrap="nowrap" valign="top">注册类型：</td>
+			  <td>
+				  <select id="mtype" name="mtype" onChange="">
+					  <option  value="0" selected >正式用户注册  </option>
+					  <option  value="1">临时10天  </option>
+					  <option  value="2">临时30天  </option>
+					  <option  value="3">临时60天  </option>
+				  </select>
+			  </td>
+			</tr>
+			
+		  <tr>
+			  <td valign="top">&nbsp;</td>
+			  <td valign="top">
+				  请检查以上您输入的 MSA 帐户信息,确认信息后点击下面“提交申请MSA用户许可”。
+			  </td>
+		  </tr>
+		  <tr>
+			  <td colspan="1">&nbsp;  </td>
+			  <td>
+			  	<input style="width:21em" id="submitbutton" name="submitbutton" type="button" onClick="subfun()" value='提交用户使用许可申请' />
+			  </td>
+		  </tr>
+	  </table>
+	</fieldset>
+  </body>
+  </form>
+</html>

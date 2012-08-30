@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>LINK</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<style type="text/css">
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+-->
+</style>
+<script language = "Javascript" src = "/msa/publicjs/selecttime.js"></script>
+</head>
+<body oncontextmenu="return false" bgcolor="#f0f0f0" text="#000000" link="#C0C0C0">
+
+ <fieldset style="width:90%;height:30;border:2px groove" align=center>
+  <legend>时间服务配置</legend>
+<form name="form1" method="post" action="/msa/main.xp" >
+<input type="hidden" name="Fun" value="lttimeok">
+
+  <table width="90%" border="0" cellspacing="0" align="center" height="26%">
+    
+    
+     <tr> 
+      <td width="124" height="27">启动每天时间自动更新</td>
+      <td colspan="3" height="27"> 
+        <input type='checkbox' name='ENABLENTP' value="YES" [$ENABLENTPSEL$] />
+      </td>
+    </tr>
+    
+     <tr> 
+      <td width="124" height="27">时区选择</td>
+      <td colspan="3" height="27"> 
+        <select name="TIMEZONE" class=inputsel>
+			 			<option value=-12 [$timezone-12sel$]>(GMT-12:00) 埃尼威托克岛，瓜加林岛</option>
+            <option value=-11 [$timezone-11sel$]>(GMT-11:00) 中途岛，萨摩亚群岛</option>
+            <option value=-10 [$timezone-10sel$]>(GMT-10:00) 夏威夷</option>
+            <option value=-9 [$timezone-9sel$]>(GMT-09:00) 阿拉斯加</option>
+            <option value=-8 [$timezone-8sel$]>(GMT-08:00) 蒂华纳，加利福尼亚</option>
+            <option value=-7 [$timezone-7sel$]>(GMT-07:00) 亚利桑那州(美国西南部的州)</option>
+            <option value=-6 [$timezone-6sel$]>(GMT-06:00) 中部时间（美国和加拿大）</option>
+            <option value=-5 [$timezone-5sel$]>(GMT-05:00) 波哥大，利马，里奥布朗库</option>
+            <option value=-4 [$timezone-4sel$]>(GMT-04:00) 大西洋时间（加拿大）</option>
+            <option value=-3.5 [$timezone-3.5sel$]>(GMT-03:30) 纽芬兰</option>
+            <option value=-3 [$timezone-3sel$]>(GMT-03:00) 巴西利亚</option>
+            <option value=-2 [$timezone-2sel$]>(GMT-02:00) 中大西洋</option>
+            <option value=-1 [$timezone-1sel$]>(GMT-01:00) 亚速尔群岛.</option>
+            <option value=0 [$timezone0sel$]>(GMT) 格林威治标准时：都柏林，爱丁堡，伦敦，里斯本</option>
+            <option value=1 [$timezone1sel$]>(GMT+01:00) 阿姆斯特丹，柏林，伯尔尼</option>
+            <option value=2 [$timezone2sel$]>(GMT+02:00) 雅典，布加勒斯特，伊斯坦布尔</option>
+            <option value=3 [$timezone3sel$]>(GMT+03:00) 巴格达， 科威特， 利雅得</option>
+            <option value=4 [$timezone4sel$]>(GMT+04:00) 阿布扎比，巴库，马斯喀特</option>
+            <option value=4.5 [$timezone4.5sel$]>(GMT+04:30) 喀布尔</option>
+            <option value=5 [$timezone5sel$]>(GMT+05:00) 叶卡特琳堡，伊斯兰堡，卡拉奇，塔什干</option>
+            <option value=5.5 [$timezone5.5sel$]>(GMT+05:30) 新德里</option>
+            <option value=6 [$timezone6sel$]>(GMT+06:00) 阿斯塔纳，达卡，阿拉木图，新西伯利亚</option>
+            <option value=7 [$timezone7sel$]>(GMT+07:00) 曼谷，河内，雅加达</option>
+            <option value=8 [$timezone8sel$]>(GMT+08:00) 北京，重庆，香港，乌鲁木齐，台北</option>
+            <option value=9 [$timezone9sel$]>(GMT+09:00) 日本，韩国</option>
+            <option value=9.5 [$timezone9.5sel$]>(GMT+09:30) 阿德莱德，达尔文</option>
+            <option value=10 [$timezone10sel$]>(GMT+10:00) 堪培拉，关岛，莫尔兹比港</option>
+            <option value=11 [$timezone11sel$]>(GMT+11:00) 马伽迪斯琴，索罗门群岛</option>
+            <option value=12 [$timezone12sel$]>(GMT+12:00) 斐济，堪察加半岛，马绍尔群岛</option>
+			  </select>
+      </td>
+    </tr>
+    
+     <tr> 
+      <td width="124" height="27">时间服务器</td>
+      <td colspan="3" height="27"> 
+        <input type='text' name='NTP_ADDR_1' size=20 maxlength=22 value="[$NTP_ADDR_1$]" />
+        <input type='hidden' name='NTP_ADDR_2' size=20 maxlength=22 value="[$NTP_ADDR_2$]" />
+         <input type="submit"  name="add" value="保存" class="input" >
+      </td>
+      
+    </tr>
+
+  </table>
+</form>
+</fieldset>
+
+ <fieldset style="width:90%;height:30;border:2px groove" align=center>
+  <legend>手动配置时间</legend>
+<form name="form2" method="post" action="/msa/main.xp" >
+<input type="hidden" name="Fun" value="lttimeset">
+<table width="90%" border="0" cellspacing="0" align="center" >
+<tr>
+	<td width='75%' class='base'>
+		<input type='text' name='year' size='4' maxlength='4' value='[$year$]' />年
+		&nbsp; 
+		<input type='text' name='month' size='2' maxlength='2' value='[$month$]' />月
+		&nbsp; 
+		<input type='text' name='day' size='2' maxlength='2' value='[$day$]' />日
+		&nbsp; &nbsp; &nbsp;
+		<input type='text' name='hour' size='2' maxlength='2' value='[$hour$]' />时
+		&nbsp; 
+		<input type='text' name='minute' size='2' maxlength='2' value='[$minute$]' />分
+		&nbsp; 
+		<input type='text' name='second' size='2' maxlength='2' value='[$second$]' />秒
+		
+		&nbsp;&nbsp;<input type='submit'  name='ACTION' value='立即更新' class="input">
+	</td>
+	
+</tr>
+</table>
+</form>
+</fieldset>
+</body>
+</html>
+

@@ -1,0 +1,74 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel="stylesheet" type=text/css href="publiccss/pubcss.css">
+<LINK rel="stylesheet" type=text/css href="extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="extjs/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript>
+	Ext.BLANK_IMAGE_URL = "extjs/resources/images/default/s.gif";
+	Ext.onReady(function(){
+		Ext.QuickTips.init();var xg = Ext.grid;
+		var reader = new Ext.data.ArrayReader(
+		{},[
+			{name: "id"},
+			{name: "uid"},
+			{name: "uname"},
+			{name: "groupname"},
+			{name: "datetime"},
+			{name: "myformhost"},
+			{name: "myformasize"},
+			{name: "myformsize"},
+			{name: "mydip"},
+			{name: "mytype"}
+		]);
+		var grid = new xg.GridPanel({
+			region:"center",
+			store: new Ext.data.GroupingStore({reader: reader,data: myData,sortInfo:{field: "id", direction: "ASC"}}),
+			columns: [
+				{header: "Id", width: 100, sortable: true, dataIndex: "id",hidden:true},
+				{header: "用户Id", width: 100, sortable: true, dataIndex: "uid",hidden:true},
+				{id:"uname",header: "用户名", width: 100, sortable: true, dataIndex: "uname"},
+				{header: "部门", width: 160, sortable: true, dataIndex: "groupname"},
+				{header: "时间",width: 180, sortable: true,  dataIndex: "datetime"},
+				{header: "主机",width: 120, sortable: true,  dataIndex: "myformhost"},
+				{header: "附件大小",width: 120, sortable: true,  dataIndex: "myformasize"},
+				{header: "表单大小",  width: 100, sortable: true,  dataIndex: "myformsize"},
+				{header: "目的IP", width: 100, sortable: true, dataIndex: "mydip"},
+				{header: "表单分类", width: 60, sortable: true, dataIndex: "mymtype"}
+			],
+			frame:true,
+			width: 280,
+			height: screen.height/2,
+			collapsible: false,
+			animCollapse: false,
+			title: "数据索引",
+			iconCls: "icon-grid",
+			renderTo: Ext.getBody()
+		});
+	  var mainPanel= {
+						id: 'main-panel',
+						region:'center',
+	          collapsible: false,
+	          split:true,
+	          height:screen.height-200,
+	          minSize: 100,
+	          maxSize: 200,
+	          layout:'fit',
+	          margins:'0 0 0 0',
+	          items:[grid]
+	  }
+		new Ext.Viewport({
+			layout: "border",
+			items: [mainPanel],
+			renderTo: Ext.getBody()
+		});
+	});
+</SCRIPT>
+</head>
+<BODY>
+<div id="south" style="display: none;">
+</div>
+</BODY>
+</HTML>

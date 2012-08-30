@@ -1,0 +1,259 @@
+　This doucment is about how to add mysql driver into QT and about database connections
+ 
+　　由于之前安装RedHat的时候是自动选择安装了mysql数据库以及QT designer，这一阵子用它的时候却因为它在数据库连接中遇到了很大的困难。
+ 
+　　问题的出现：
+ 
+　　首先想测试一下数据库的连接：选择Projects-->database Connections，弹出一个Edit Database connections的对话框，点击New connection,在右边出现可编辑的选项,以下是配置：
+ 
+　　Name: default
+ 
+　　Driver:点击下拉框，没有反应，于是我就按照QT Assistant上说的填上QMYSQL3
+ 
+　　我的数据库名先使用自带的mysql
+ 
+　　Database Name:mysql
+ 
+　　User name: root
+ 
+　　Passworld: ********(填上自己设置的密码)
+ 
+　　Host name: mscl
+ 
+　　然后就单击connect 按钮，弹出
+ 
+　　can't not connect to the database
+ 
+　　Please ensure that the database server is running and that all connection information is correct,[Driver not loaded]
+ 
+　　郁闷了很久，究竟驱动是出在什么问题上，google了又百度了半天没有什么头绪，起始还以为是Mysql数据库的问题，于是将原来用RPM安装的Mysql数据库删了，重新到到www.mysql.com社区中下载了个二进制的压缩包mysql-5.0.45-linux-i686.tar.gz，其本上解压出来就可以用了，启动了服务器，重新按上面的设置进行连接，但是还是出现原来一样的问题，于是就想如果QT真的是支持MySQL驱动的话，应当在driver的下拉框中可以看得到的，于是将问题怀疑到Qt的驱动中。
+ 
+　　在网上看了一些关于编译mysql驱动的文章，自己也阅读了Assistan中的关于编译mysql驱动的部分，其原文是这样的：
+ 
+　　How to build the plugin on Unix/Linux
+ 
+　　You need the MySQL header files and as well as the shared library libmysqlclient.so. Depending on your Linux distribution you need to install a package which is usually called "mysql-devel".
+ 
+　　Tell qmake where to find the MySQL header files and shared libraries (here it is assumed that MySQL is installed in /usr/local) and run make:
+ 
+　　cd $QTDIR/plugins/src/sqldrivers/mysql
+ 
+　　qmake -o Makefile "INCLUDEPATH+=/usr/local/include" "LIBS+=-L/usr/local/lib -lmysqlclient" mysql.pro
+ 
+　　make
+ 
+　　于是我就找到QT3的安装目录(我的是在/usr/lib/qt 3.3/plugins),但是我的却没有src/sqldrivers/mysql目录，没有mysql驱动的源代码，编译MySql驱动就无从谈起，于是又去www.linuxidc.com看一下有没有mysql在Qt中的驱动的源代码，搜了一个晚上，边条毛也没有看到，很晚了就先睡了，究竟还有没有其它的办法?(周公寻梦)。。。
+ 
+　　早上8点起床，继续吧!
+ 
+　　突然起了重新装一个QT的想法，没有办法了只好试了一下，到IT68中下了个QT3.1版本的，12来M吧，然后就开始安装：
+ 
+　　1.选择安装路径
+ 
+　　shell>cd /usr/local
+ 
+　　2.解压下载的安装包 (版本号不同，下面的编译过程可能不同，以源目录下的INSTALL文件为准)
+ 
+　　shell>tar -jxvf qt-x11-free-3.1.2.tar.bz2
+ 
+　　3.设置环境变量(后来发现这一部分可以不用，因后在后面的.login中已经设置好了)
+ 
+　　在我的/etc/bashrc中添加如下几行：
+ 
+　　QTDIR=/usr/local/qt ：安装的根目录
+ 
+　　PATH=$QTDIR/bin:$PATH ：可执行文件目录
+ 
+　　MANPATH=$QTDIR/doc/man:$MANPATH ：man文档目录
+ 
+　　LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH ：库文件的目录
+ 
+　　如果你的安装路径不是跟我的一样，一定要设成相应的。
+ 
+　　4.配置configure脚本
+ 
+　　我这里选用的都是默认配置所以只输入
+ 
+　　shell> ./configure
+ 
+　　如果你想改变安装的路径，或者是选择安装的库文件及头文件的位置，可以使用下面的选项
+ 
+　　./configure -libdir /usr/local/lib -bindir /usr/local/bin -headerdir /usr/local/include/qt
+ 
+　　这样你的QT的库文件，头文件目录就在相应的目录下了，但是记住你如果在这里进行了设置也一定要在第三步中的环境变量中进行相应的发动。还有一个--prefix选项，该选项设置 qt 安装的目的目录
+ 
+　　5.编译
+ 
+　　shell> make
+ 
+　　这需要比较长的时间，我的机子配置是CPU 速龙1.8G,1G内存大概用了20来分钟。
+ 
+　　在编译过程中出现了一个错误，忘了记下来了，大概就是说在fbm.c中noise3是静态的，但是在fbm.h中的声明是却是非静太的，在examples/demo/opengl下找到这两个文件，将fbm.h中的float noise3(float vec[])最前面加入static，保存。继续键入make.
+ 
+　　6.安装
+ 
+　　shell> make install
+ 
+　　this process also take serval minutues,so you should be patient.
+ 
+　　7.安装完毕后，我找到bin目录下，运行designer,TMD果然行了，一个QT界面慢慢地展现在我的面前。
+ 
+　　把QT安装完成后，发现新安装的QT比原来的系统自带安装的多了几个目录：config.tests，doc,examples,extensions,pics,qmake,src,tools,tutorial，还多了十来个文件，当然最重要的是在plugins多了sqldrivers(这个目录之前是空的，只有在编译之后才有一个二进制文件：libqsqlmysql.so)，还有就是src目录。
+ 
+　　好了，终于有了qt下的mysql驱动源码，接下来就按照Qt Assistant中说的办法编译它：
+ 
+　　shell> cd usr/local/qt/plugins/src/sqldrivers/mysql
+ 
+　　shell> qmake -o Makefile "INCLUDEPATH+=/usr/local/mysql/include" "LIBS+=-L/usr/local/mysql/lib - lmysqlclient" mysql.pro
+ 
+　　第2个命令就是生成Makefile文件，并将头文件及库文件的目录添加到选项LIBS,INCLUDEPATH中。其中我的mysql是安装在/usr/local/mysql下
+ 
+　　下面就是编译了，还是在原来的目录下
+ 
+　　shell> make
+ 
+　　到些驱动编译完了，我到QT designer 下看一下可不可以识别这个驱动。
+ 
+　　1. 启动designer
+ 
+　　[root@mscl bin]# /usr/local/qt/bin/designer
+ 
+　　2.还是按照前面的设置database connections
+ 
+　　Name: connect_test(我给这次连接起了个名)
+ 
+　　Driver:点击下拉框，这时与前面不同的是，我可以看到QMYSQL3(^_^)
+ 
+　　数据库名还是使用mysql
+ 
+　　Database Name:mysql
+ 
+　　User name: root
+ 
+　　Passworld: ********(填上自己设置的密码)
+ 
+　　Host name: mscl
+ 
+　　然后就单击connect 按钮，可以在左边的列表中看到我设置的这次连接的名字connect_test,花了两天多终于把它给给连接上了。
+ 
+　　----------------------------------------------------------------------------------
+ 
+　　下面是编写代码来测试数据库，代码的内容基本是从Qt Assistant拷贝的：
+ 
+　　1. 部分代码
+ 
+　　void Form1::init()
+ 
+　　{
+ 
+　　createConnection();
+ 
+　　}
+ 
+　　bool Form1::createConnection()
+ 
+　　{
+ 
+　　// create the default database connection
+ 
+　　QSqlDatabase *defaultDB = QSqlDatabase::addDatabase( "QMYSQL3" );
+ 
+　　if ( ! defaultDB ) {
+ 
+　　qWarning( "Failed to connect to driver" );
+ 
+　　return FALSE;
+ 
+　　}
+ 
+　　defaultDB->setDatabaseName( "mysql" );
+ 
+　　defaultDB->setHostName("mscl");
+ 
+　　defaultDB->setUserName( "root" );
+ 
+　　defaultDB->setPassword( "39323286" );
+ 
+　　// defaultDB->setHostName( "bookhost" );
+ 
+　　if ( ! defaultDB->open() ) {
+ 
+　　qWarning( "Failed to open database: " +
+ 
+　　defaultDB->lastError().driverText() );
+ 
+　　qWarning( defaultDB->lastError().databaseText() );
+ 
+　　return FALSE;
+ 
+　　}
+ 
+　　return TRUE;
+ 
+　　}
+ 
+　　2. 编译
+ 
+　　[root@mscl mscl]# qmake -o Makefile dbcon.pro(my project name)
+ 
+　　[root@mscl mscl]# make
+ 
+　　3. 运行
+ 
+　　[root@mscl mscl]# ./dbcon
+ 
+　　出现错误说找不到can't load library 'libqt.so.3',记在在QT的源文件的安装说明中有这样的一句话，到Qt 的安装目录lib下看到这是一个符号链接，本来还想把它拷贝到/usr/lib中去解决，但是连接拷贝了也是没有用的，在lib目录下又没有真正的库(也许我找不到)。
+ 
+　　解决办法:在/root/目录下创建一个名为(.login)文件(具体的请参照QT中的INSTALL)，然后在这个文件中添加以下的变量：
+ 
+　　setenv QTDIR /usr/local/qt
+ 
+　　setenv PATH $QTDIR/bin:$PATH
+ 
+　　setenv MANPATH $QTDIR/doc/man:$MANPATH
+ 
+　　setenv LD_LIBRARY_PATH $QTDIR/lib:$LD_LIBRARY_PATH
+ 
+　　添加完毕之后，一定要重新启动计算机。我在重新启动之后到/root目录下看了一下原来的那个.login文件名已经变量了另外一个文件qt.log~,而且还是隐藏的，但是内容还是一样的。
+ 
+　　最后我重新运行这个可执行文件，没有出现上面的问题了。但有新问题。
+ 
+　　[root@mscl mscl]# ./dbcon
+ 
+　　./dbcon: error while loading shared libraries: /usr/lib/libmysqlclient.so.15: cannot restore segment prot after reloc: Permission denied
+ 
+　　这里说明一下，由于之前我在运行的时候也出现了找不到库文件libmysqlclient.so.15，我就到/usr/local/mysql/lib下找到这个文件，由于它不是个链接，于是我就直接把它拷贝到了/usr/lib目录下，之后就没有出现问题，但是现在又出现了一个新的问题。于是自己又想是不是访问的权限不够，右击它，将它赋于读写的权限，但是没有用还是老问题。
+ 
+　　此时我注意到我的电脑的右上方出现了一个五角星，哈哈，按照以往相似的经验，知道点击它里面肯定有解决方案，果不出我所料，原来SELinux阻止了程序加载libmysqlclient.so.15这个库，因为需要代码的重定位。在Allow Access标签下有下面的一段话：
+ 
+　　The following command will allow this access:
+ 
+　　chcon -t textrel_shlib_t /usr/lib/libmysqlclient.so.15
+ 
+　　照做吧：
+ 
+　　[root@mscl mscl]# chcon -t textrel_shlib_t /usr/lib/libmysqlclient.so.15
+ 
+　　[root@mscl mscl]# ./dbcon
+ 
+　　^_^ ^_^ ^_^，终于正常地弹出了测试的窗口，至此有前QT的数据库部分已经基本搞好了。
+ 
+　　一些待解决的问题：有什么办法让QT直接到/usr/local/mysql/lib下找libmysqlclient.so.15，这样我就不用把它拷贝到/usr/lib目录下了，就你libqt.so.3一样?慢慢来吧
+ 
+　　12.6号将上面的这个问题解决了，解决方法：
+ 
+　　在/etc/ld.so.conf文件下我们可以看到它的内容为：
+ 
+　　include ld.so.conf.d/*.conf
+ 
+　　因此它将根据/etc/ld.so.conf.d目录下的conf文件来查找动态库(后缀为.so)，所以我们可以在这里建立一个conf文件，将我们的mysql动态链接库路径告诉系统，内容为：
+ 
+　　/usr/local/mysql/lib
+ 
+　　保存，然后运行ldconfig命令，因此此时系统要求动态库要为一个链接符号，而我的/usr/local/mysql/lib下的libsqlclient.so.15并不是一个链接，此时SELinux阻止了应用程序加载这个动态库，为了解决这个问题，我们可以运行下面这个命令：
+ 
+　　chcon -t textrel_shlib_t /usr/local/mysql-5.0.45-linux-i686/lib/libmysqlclient.so.15
+ 
+　　最后就OK了。
+ 
+　　差点给忘记了，重启启动后，我原来安装的Qt 3.3.6版本的Qt 被刚编译的Qt 3.1替换了(指Applications菜单下的)。

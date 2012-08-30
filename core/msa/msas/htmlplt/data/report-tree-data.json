@@ -1,0 +1,71 @@
+﻿[{
+    text:'状态统计',
+    expanded: true,
+    cls:'feeds-node',
+    children:[
+    {
+        text:'系统状态统计',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'1',
+        leaf:true
+    },{
+        text:'场所状态统计',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'2',
+        leaf:true
+    },{
+        text:'场所上线率统计',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'3',
+        leaf:true
+    }]
+},{
+    text:'服务与流量',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'服务流量报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'4',
+        leaf:true
+    },{
+        text:'场所流量报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'5',
+        leaf:true
+    },{
+        text:'日期流量报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'6',
+        leaf:true
+    }]
+},{
+    text:'警报统计',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'每日报警统计报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'7',
+        leaf:true
+    },{
+        text:'场所报警统计报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'8',
+        leaf:true
+    },{
+        text:'报警触发统计报表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'9',
+        leaf:true
+    }]
+}]

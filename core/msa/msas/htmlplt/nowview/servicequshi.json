@@ -1,0 +1,10 @@
+﻿{"totalCount":"7","Results":
+[
+	{"sid":"1","sname":"P2P服务","sflow":"98"},
+	{"sid":"2","sname":"HTTP服务","sflow":"53"},
+	{"sid":"3","sname":"网络电视","sflow":"73"},
+	{"sid":"4","sname":"邮件服务","sflow":"33"},
+	{"sid":"5","sname":"HTTP下载","sflow":"83"},
+	{"sid":"6","sname":"即时通信","sflow":"50"},
+	{"sid":"7","sname":"网络游戏","sflow":"10"}
+]}

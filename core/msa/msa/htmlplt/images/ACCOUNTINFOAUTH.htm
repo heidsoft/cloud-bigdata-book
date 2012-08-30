@@ -1,0 +1,582 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>账户信息</title>
+<style type="text/css">
+<!--
+    body {
+      font-family: arial, sans-serif;
+      margin: 0;
+      padding: 13px 15px 15px;
+    }
+    .body {
+      margin: 0;
+    }
+    div.errorbox-good {}
+
+    div.errorbox-bad {} 
+
+    div.errormsg { color: red; font-size: smaller; font-family: arial,sans-serif;}
+    font.errormsg { color: red; font-size: smaller; font-family: arial,sans-serif;}
+    
+    div.pagemsg {
+      font-size: smaller; 
+      font-weight: bold; 
+      text-align: center;
+    }
+    div.pagemsg span {
+      padding: 5px; 
+      background: #ff9;
+    }
+    div.topbarwrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    div.topbar {
+      padding: 3px 8px 0px;
+    }
+    div.header {
+      padding-top: 32px;
+      margin-bottom: 9px;
+      margin-left: -2px;
+      position:relative;
+      zoom: 1
+    }
+    div.header img.logo {
+      border: 0;
+      float:left;
+    }
+    div.header div.headercontent {
+      float:right;
+      margin-top:17px;
+    }
+    div.header:after{
+      content:".";
+      display:block;
+      height:0;
+      clear:both;
+      visibility:hidden;
+    }
+    div.pagetitle {
+      font-weight:bold;
+    }
+    .footer { 
+      color: #666;
+      font-size: smaller;
+      margin-top: 40px;
+      text-align: center;
+    }
+    table#signupform {
+      left: -5px;
+      top: -7px;
+      position:relative;
+    }
+    table#signupform td{
+      padding: 7px 5px;
+    }
+    table#signupform td table td{
+      padding: 1px;
+    }
+    hr {
+      border: 0;
+      background-color:#DDDDDD;
+      height: 1px;
+      width: 100%;
+      text-align: left;
+      margin: 5px;
+    }
+  -->
+</style>
+<style type="text/css">
+<!--
+  table.pi {
+  font-size: 13px;
+  margin-bottom:30px;
+  }
+
+  .pi td {
+  padding: 2px 2px 2px 7px;
+  }
+  table.svcs {
+  font-size: 13px;
+  margin-bottom:30px;
+  margin-left:7px;
+  }
+  .svcs td {
+  padding: 7px 0px 7px 0px;
+  }
+  a.svcAccessLink {
+  color:#7777cc;
+  }
+  a {
+  color:#0000cc;
+  }
+  .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+  .clearfix { display: inline-block; }
+  * html .clearfix { height: 1%; }
+  .clearfix { display: block; }
+    
+  .body {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+  .manage-account p {
+    margin: 0;
+    padding: 0 0 1em;
+  }
+  
+  .manage-account h2 {
+    font-size: 1.3em;
+    text-align: left;
+    margin: 1em 0 1em;
+    padding: 0 0 .2em;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .manage-account h2 a {
+    font-size: .8em;
+    font-weight: normal;
+  }
+  
+  .account {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .account .profile {
+    float: left;
+    width: 32.999%;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .profile .info {
+    padding: 0;
+  }
+  
+  .account .profile .info .img {
+    float: left;
+    height: 100px;
+    width: 100px;
+    margin: 0 0 .5em;
+    margin-right: 1em;
+    border: 1px solid #ccc;
+  }
+  
+  .account .profile .info ul {
+    margin: 0 0 .5em;
+    padding: 0;
+    list-style: none outside;
+  }
+  
+  .account .profile .info ul li {
+    padding: 0 0 .4em;
+    margin: 0;
+    line-height: 1.3em;
+  }
+  
+  .account .settings {
+    float: left;
+    width: 65.999%;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .settings table {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: collapse;
+    border-width: 0;
+    empty-cells: show;
+  }
+  
+  .account .settings table td {
+    vertical-align: top;
+    font-size: 13px;
+    padding: 0 1.5em 1.5em 0;
+  }
+  
+  .account .settings .pi td {
+    padding: 2px 2px 2px 7px;
+  }
+  
+  .account .settings table td.headings {
+    font-weight: bold;
+    width: auto;
+  }
+  
+  .account .settings ul {
+    width: 100%;
+    list-style: none outside;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .settings ul li span.light {
+    color: #6f6f6f
+  }
+
+  .account .settings ul li span.errormsg {
+    color: red;
+  }
+  
+  .products {
+    list-style: none outside;
+    padding: 0 0 1em;
+    margin: 0;
+  }
+  
+  .products li {
+    float: left;
+    width: 32.999%;
+    display: inline;
+    height: 25px;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  
+  .products li span {
+    display: block;
+    margin: 0;
+    margin-left: 30px;
+  }
+  
+  .products li img {
+    float: left;
+  }
+  
+  .products li a.light {
+    font-weight: normal;
+    color: #77c;
+  }
+  
+  .products li.more {
+    clear: both;
+    padding: .2em 0 0;
+    font-weight: normal;
+  }
+#meter_container {
+  font-size: 13px;
+  font-family: arial, sans-serif;
+}
+
+#meter_container table {
+  width: 100%;
+}
+
+.meter_header {
+  font-weight: bold;
+  padding-right: 4px;
+  text-align: right;
+  
+}
+
+.meter_bar {
+  width: 99%;
+  padding-bottom: 2px;
+  font-size: 10px;
+}
+
+.meter_bar table {
+  border: 1px solid #345ba6;
+  width: 100%;
+}
+
+.meter_footer {
+  padding-left: 6px;
+}
+
+.meter_used {
+  background: #345ba6;
+}
+
+.meter_available {
+  background: #ffffff;
+}
+.g-button {
+  display: inline-block;
+  min-width: 46px;
+  text-align: center;
+  color: #444;
+  font-size: 11px;
+  font-weight: bold;
+  height: 27px;
+  padding: 0 8px;
+  line-height: 27px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-transition: all 0.218s;
+  -moz-transition: all 0.218s;
+  -ms-transition: all 0.218s;
+  -o-transition: all 0.218s;
+  transition: all 0.218s;
+  border: 1px solid #dcdcdc;
+  border: 1px solid rgba(0,0,0,0.1);
+  background-color: #f5f5f5;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));
+  background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+  background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+  background-image: -ms-linear-gradient(top,#f5f5f5,#f1f1f1);
+  background-image: -o-linear-gradient(top,#f5f5f5,#f1f1f1);
+  background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+  }
+  -->
+</style>
+<SCRIPT type=text/javascript>
+	function chp(){
+		if(document.getElementById('chpassdiv').style.display == ""){
+			 document.getElementById('chpassdiv').style.display = "none";
+		}else{
+	     document.getElementById('chpassdiv').style.display = "";
+	  } 
+  }
+  function addfavorite()
+ { 
+ 	alert("11111111\n");
+   if (document.all)
+   {
+      window.external.addFavorite(window.location,'MSA帐号信息');
+   }
+   else if (window.sidebar)
+   {
+      window.sidebar.addPanel( 'MSA帐号信息', window.location, "");
+   }
+ } 
+
+</SCRIPT>	
+</head>
+  
+  <body dir="ltr">
+  <div class="header">
+  <a href="">
+  <img class="logo" src="/msa/auth/top.png" alt="MSA">
+  </a>
+</div>
+  <div class="body">
+  <div class="manage-account">
+  <div class="account clearfix">
+  <div class="profile clearfix">
+  <h2>个人信息</h2>
+  <p style="font-size: 9pt;"> 
+                <img src="/msa/images/hus.gif" width="15" height="14">如果您想修改登陆密码,请单击<span onClick="chp();" style="cursor: hand"> &nbsp;[修改密码] </span> 
+                <br>
+                
+  <div class="body" style="display:none" id="chpassdiv">
+  <table width="100%" cellpadding="3">
+  <tbody><tr>
+  <td valign="top" width="0%">
+  <font size="-1"> 请注意：如果您更改了密码，就无法再使用原来的密码！</font>
+  <hr>
+  <form id="bc_chpform" >
+  <input type="hidden" name="hl" id="hl" value="zh-CN">
+  <input type="hidden" name="timeStmp" id="timeStmp" value="1323757473">
+<input type="hidden" name="secTok" id="secTok" value=".AG5fkS_2_B8B-45k6T3E4oib4-uuyI5tpQ==">
+  <table width="0%" border="0" cellspacing="2" cellpadding="2">
+  <tbody><tr>
+  <td valign="top" nowrap="nowrap" id="currPasswdDiv">
+  <font size="-1">当前密码：</font>
+  </td>
+  <td width="*">
+  <input type="password" name="OldPasswd" id="OldPasswd" size="25" autocomplete="off">
+  </td>
+  </tr>
+  <tr>
+  <td colspan="2">
+  <font size="-2">&nbsp;
+  </font>
+  </td>
+  </tr>
+  <tr>
+  <td valign="top" nowrap="nowrap">
+  <font size="-1">
+  新密码：
+  </font>
+  </td>
+  <td valign="top">
+  <table cellpadding="0" bgcolor="#ffffff" cellspacing="0" border="0">
+  <tbody>
+  <tr>
+  <td valign="top">
+  <input type="password" name="Passwd" id="Passwd" size="25" onKeyUp="CreateRatePasswdReq(0)">
+  </td>
+  <td width="10px"></td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr>
+  <tr>
+  <td valign="top" nowrap="nowrap">
+  <font size="-1">
+  确认新密码：
+  </font>
+  </td>
+  <td>
+  <input type="password" name="PasswdAgain" id="PasswdAgain" size="25">
+  </td>
+  </tr>
+  <input type="hidden" name="p" value="">
+  <tr>
+  <td colspan="1">&nbsp;</td>
+  <td nowrap="nowrap" align="left" style="{padding-top:10px;}">
+  <input type="submit" name="save" id="save" class=g-button value="保存" style="font-weight:bold;">
+  <input type="submit" name="cancel" id="cancel"  class=g-button  value="取消">
+  </td>
+  </tr>
+  </tbody></table>
+  <br>
+  </form>
+  </td>
+  </tr>
+  </tbody></table>
+  </div>
+                
+                <br>
+                <img src="/msa/images/hus.gif" width="15" height="14">如果您想断开互联网连接,请单击<span onClick="" style="cursor: hand" >&nbsp;[断开连接]</span>  
+                <br>
+                <br>
+                <img src="/msa/images/hus.gif" width="15" height="14">如果您想加入收藏夹,请单击<span onClick="alert("11111");addfavorite();" style="cursor: hand" >&nbsp;[加入收藏夹]</span>  
+  </p>
+
+  </div>
+  
+  
+  <div class="settings">
+  <h2>&nbsp;</h2>
+  <table>
+  <tbody>
+  <tr>
+  <td class="headings">用户名:</td>
+  <td>
+  <ul>
+  <li>[$dispname$]</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">当前速率:</td>
+  <td>
+  <ul>
+  <li>[$nowflow$]bps</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">当前连接数:</td>
+  <td>
+  <ul>
+  <li>TCP:[$nowtcp$] UDP:[$nowudp$]</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">总流量:</td>
+  <td>
+  <ul>
+  <li>当天:[$dayflow$]  当周:[$weekflow$] 当月:[$monthflow$] </li>
+  </ul>
+  </td>
+  </tr>
+   <tr>
+  <td class="headings">访问时长:</td>
+  <td>
+  <ul>
+  <li>当天:[$daytime$]  当周:[$weektime$] 当月:[$monthtime$] </li>
+  </ul>
+  </td>
+  </tr>
+  
+  </tbody></table>
+  </div>
+  </div>
+  </div>
+  </div>
+ 
+ <SCRIPT type=text/javascript>
+				var req;
+        function chpass()
+        {		var pwd=gaia_loginform.password.value;
+        	  var uname=gaia_loginform.username.value;
+        	  if(uname=="" ){
+        	  	document.getElementById ("errormsg").innerHTML ="用户不能为空";
+        	  	return;
+        	  }
+        	  if(pwd=="" ){
+        	  	document.getElementById ("errormsg").innerHTML ="密码不能为空";
+        	  	return;
+        	  }
+            var url="/msa/main.xp?Fun=msauserlogonnormal&password="+pwd+"&username="+uname + "+xclientip=[$xclientip$]+nmac=[$mac$]+nurl=[$url$]";
+            //alert(url);
+            if(window.XMLHttpRequest)//非IE浏览器及IE7(7.0及以上版本)，用xmlhttprequest对象创建
+            {
+                req=new XMLHttpRequest();
+            }
+            else if(window.ActiveXObject)
+            {
+                req=new ActiveXObject("Microsoft.XMLHttp");
+            }
+            if(req) //成功创建xmlhttprequest
+            {
+                req.open("post",url,true); //与服务端建立连接(请求方式post或get，地址,true表示异步)
+                req.onreadystatechange = callback; //指定回调函数
+                req.send(null); //发送请求
+            }
+        }
+        function callback() //回调函数，对服务端的响应处理，监视response状态
+        {
+            if(req.readyState==4)
+            {
+                if(req.status==200)
+                {
+                    Dispaly();
+                }
+                else
+                {
+                    //alert("服务端返回状态" + req.statusText);
+                    document.getElementById ("errormsg").innerHTML ="服务端返回状态错误，稍后重新尝试";
+                }
+            }
+            else //请求状态还没有成功，页面等待
+            {
+                //document .getElementById ("ObjTreeMenu").innerHTML ="数据加载中";
+            }
+        }
+        function Dispaly() 
+        {
+        	
+        	var rText=req.responseText;
+        	//alert(rText.substring(0,1));
+        	if(rText.substring(0,1)=="0"){//验证成功 1〉进入帐号主页面 
+        		document.getElementById ("errormsg").innerHTML ="身份验证成功，正在进入个人帐号信息主页面";
+        		var url="/msa/main.xp?Fun=msashowlogonpage&caUrl=[$url$]&caMac=[$mac$]&xclientip=[$xclientip$]";
+        		location.href=url;
+        	}else if(rText.substring(0,1)=="2"){//验证成功 2进入特定页面 3：用户原本输入的URL地址 
+        		document.getElementById ("errormsg").innerHTML ="身份验证成功，正在进入页面";
+        		var url=rText.substring(1,1);
+        		location.href=url;
+        	}else if(rText.substring(0,1)=="3"){//验证成功 3：用户原本输入的URL地址 
+        		document.getElementById ("errormsg").innerHTML ="身份验证成功，正在进入页面";
+        		var url="http://[$url$]";
+        		location.href=url;
+        	}else{
+        	 document.getElementById('password').className="form-error";
+           document.getElementById ("errormsg").innerHTML =req.responseText;
+          }
+        }
+</SCRIPT>
+<div class="footer">
+  ©MSA 宝创科技版权所有 </div>
+</body></html>

@@ -1,0 +1,78 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel="stylesheet" type=text/css href="publiccss/pubcss.css">
+<LINK rel="stylesheet" type=text/css href="extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="extjs/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="main.js"></SCRIPT>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = "extjs/resources/images/default/s.gif";
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	var treePanel =new Ext.tree.TreePanel({
+		width:150,
+		region:"west",
+		id: "tree-panel",
+		split: true,
+		height: screen.height-280,
+		minSize: 150,
+		autoScroll: true,
+		rootVisible: false,
+		useArrows: true,
+		loader: new Ext.tree.TreeLoader({
+			preloadChildren: true,
+			clearOnLoad: false
+		}),
+		root: new Ext.tree.AsyncTreeNode({
+			id:"root",
+			expanded:true,
+			children:[classData]
+		})
+	});
+	treePanel.on("click", function(n){
+		var sn = this.selModel.selNode || {};if(n.leaf){
+			mainviewfrm.location.href="grouptree"+n.id+".htm";
+		}
+	});
+	var contentPanel = {
+		id: "content-panel",
+		region: "center",
+		margins: "2 5 5 0",
+		activeItem: 0,
+		border: false,
+		el:"mainviewdiv"
+	};
+	var eastPanel ={
+		id: "east-panel",
+		region:"west",
+		collapsible: true,
+		split:true,
+		width: 150,
+		minSize: 155,
+		maxSize: 400,
+		layout: "fit",
+		margins:"0 0 0 0",
+		title:"邮件数据",
+		items:[treePanel]
+	};
+	new Ext.Viewport({
+		layout: "border",
+		items: [eastPanel,contentPanel],
+		renderTo: Ext.getBody()
+	});
+ });
+</SCRIPT>
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY oncontextmenu="return false">
+ <div id=north>
+	 <div id="mainviewdiv">
+	 	<iframe id="mainviewfrm" name="mainviewfrm" src="grouptree1.htm" valign=top width="100%" height="50" border="0" frameborder="0" scrolling="yes"></iframe>
+	 </div>
+ </div>
+ <script>
+ 		document.all("mainviewfrm").style.height=screen.height-150;
+ </script>
+</BODY>
+</HTML>

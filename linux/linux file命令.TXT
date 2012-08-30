@@ -1,0 +1,28 @@
+1. file 是检测文件类型的命令。
+
+2. 文件类型就文件组织的方式，通常不同的文件类型执行不同的标准。
+例如我们熟知的：txt , doc , xls , pdf ...
+
+3. file 命令的简单用法就是：
+file 文件名,例如：
+file data.txt
+data.txt: ASCII text
+
+就告诉我们,data.txt 是一个text （即txt) 类型的文件。
+txt 文件所采用的编码是ascii编码体系。
+所以 text 是文件类型；ASCII是编码体系。
+
+又如：
+
+file my.pdf
+my.pdf: PDF document, version 1.5
+“PDF document“ 告诉我们 , my.pdf 是pdf类型的文件。
+版本执行的标准是：1.5 
+
+像ascii , version 1.5 这些都是与文件类型密切相关的信息。
+如果需要更详细的信息，可以加参数：
+如：file -i data.txt 
+
+
+
+使用man file 看详细用法。

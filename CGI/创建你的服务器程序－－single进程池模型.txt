@@ -1,0 +1,199 @@
+创建你的服务器程序－－single进程池模型 
+
+
+
+1、概述
+　　本节主要描述了以进程池模式创建服务器程序的过程，而该进程池框架是以 acl_master 模板为管理进程，以 acl_single_server 单一进程池模式为半驻留进程池模板创建的。该进程池模型有如下特点：
+    1.1）半驻留进程池特征；
+    1.2）一个网络连接对应一个工作进程。
+2、创建过程(以 acl_project/samples/master/single_echo 为例，ACL库是跨平台的，但 acl_master 服务器框架仅能运行在UNIX平台下)
+    在acl_project/samples/master/single_echo/ 目录下存放着一个以 acl_single_server 为服务器模型的echo服务程序。在该目录下应该有 main.c, app_log.c, app_log.h, Makefile, Makefile.elib 四个文件，所需要修改的只是 main.c 文件，其它几个文件无须修改。
+2.1）编写源文件
+    a)包含 ACL 库的头文件: #include "lib_acl.h"
+    b)调用服务函数 acl_single_server_main() 并注册相关函数：
+    函数原型：void acl_single_server_main(int argc, char **argv, ACL_SINGLE_SERVER_FN service,...);
+    argc, argv： 是 main() 入口的两个参数；
+    service ：是用户自己的服务工作函数指针，该函数是以注册函数的方式注册进服务框架模板并由服务框架调用的；
+    ...：是一些不定参数，这些参数都是可选的，这些不定参数是以“类型：指针”的方式传递给服务框架的，由服务框架根据类型自动进行分析，常用类型有：
+    ACL_MASTER_SERVER_INT_TABLE－－为int类型的配置项集合的结构数组指针（该类型与由框架读取用户所需要的配置项相关）；
+    ACL_MASTER_SERVER_STR_TABLE－－字符串类型的配置项集合的结构数组指针（该类型与由框架读取用户所需要的配置项相关）；
+    ACL_MASTER_SERVER_BOOL_TABLE－－布尔类型的配置项集合的结构数组指针（该类型与由框架读取用户所需要的配置项相关）；
+    ACL_MASTER_SERVER_PRE_INIT－－该类型表明后面的参数为一函数指针，服务进程启动后会自动切换成普通用户身份，该类型所代表的函数会在服务切换成普通用户身份前进行调用；
+    ACL_MASTER_SERVER_POST_INIT－－该类型表明后面的参数为一函数指针，当服务框架将该服务工作进程切换成普通用户身份后所调用的函数；
+    ACL_MASTER_SERVER_PRE_ACCEPT－－该类型表明后面的参数为一函数指针，当服务框架监听到监听套接口上有新的客户端连接到达，在用户 accept()接受该连接之前可以先回调用户的注册函数，此函数指针即为该回调函数；
+    ACL_MASTER_SERVER_EXIT－－该类型表明后面的参数为一函数指针，当该服务进程退出所回调的用户的注册函数。
+2.2）源文件展示
+
+/* main.c */
+
+#include "lib_acl.h"
+#include "app_log.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+static char *var_cfg_single_banner;
+static int   var_cfg_single_timeout;
+
+static ACL_CONFIG_INT_TABLE __conf_int_tab[] = {
+ { "single_timeout", 60, &var_cfg_single_timeout, 0, 0 },
+ { 0, 0, 0, 0, 0 },
+};
+
+static ACL_CONFIG_STR_TABLE __conf_str_tab[] = {
+ { "single_banner", "hello, welcome!", &var_cfg_single_banner },
+ { 0, 0, 0 },
+};
+
+static void __service(ACL_VSTREAM *stream, char *service, char **argv acl_unused)
+{
+ const char *myname = "__service";
+ char  buf[4096];
+ int   n, ret;
+
+ /*
+  * Sanity check. This service takes no command-line arguments.
+  */
+ if (argv[0])
+  acl_msg_fatal("%s(%d)->%s: unexpected command-line argument: %s",
+   __FILE__, __LINE__, myname, argv[0]);
+
+ acl_msg_info("%s(%d)->%s: service name = %s, rw_timeout = %d",
+  __FILE__, __LINE__, myname, service, stream->rw_timeout);
+
+ acl_msg_info("total alloc: %d", acl_mempool_total_allocated());
+ do {
+  acl_watchdog_pat();
+
+  n = acl_vstream_readline(stream, buf, sizeof(buf) - 1);
+  if (n == ACL_VSTREAM_EOF) {
+   acl_msg_info("%s(%d)->%s: read over",
+    __FILE__, __LINE__, myname);
+   break;
+  }
+
+  ret = acl_vstream_writen(stream, buf, n);
+  if (ret != n) {
+   acl_msg_info("%s(%d)->%s: write error = %s",
+    __FILE__, __LINE__, myname, strerror(errno));
+   break;
+  }
+ } while (0);
+}
+
+static void __pre_accept(char *name acl_unused, char **argv acl_unused)
+{
+}
+
+static void __pre_jail_init(char *name acl_unused, char **argv acl_unused)
+{
+ acl_mempool_open(512000000, 1);
+        /* 是否采用 libcore 的日志记录 */
+#ifdef  HAS_LIB_CORE
+# ifdef USE_LIBCORE_LOG
+ app_set_libcore_log();
+# endif
+#endif
+}
+
+static void __post_jail_init(char *name acl_unused, char **argv acl_unused)
+{
+}
+
+static void service_exit(char *service acl_unused, char **argv acl_unused)
+{
+#ifdef  HAS_LIB_CORE
+# ifdef USE_LIBCORE_LOG
+ app_libcore_log_end();
+# endif
+#endif
+}
+
+int main(int argc, char *argv[])
+{
+ acl_single_server_main(argc, argv, __service,
+    ACL_MASTER_SERVER_INT_TABLE, __conf_int_tab,
+    ACL_MASTER_SERVER_STR_TABLE, __conf_str_tab,
+    ACL_MASTER_SERVER_PRE_INIT, __pre_jail_init,
+    ACL_MASTER_SERVER_PRE_ACCEPT, __pre_accept,
+    ACL_MASTER_SERVER_POST_INIT, __post_jail_init,
+    ACL_MASTER_SERVER_EXIT, service_exit,
+    0);
+ exit (0);
+}
+
+2.3) 配置文件：single_echo.cf
+
+service single
+{
+# 进程是否禁止运行
+ master_disable = no
+# 服务地址及端口号
+ master_service = :5003
+# 服务监听为域套接口
+# master_service = single_echo.sock
+# 服务类型
+ master_type = inet
+# master_type = unix
+# 是否只允许私有访问, 如果为 y, 则域套接口创建在 {install_path}/var/log/private/ 目录下,
+# 如果为 n, 则域套接口创建在 {install_path}/var/log/public/ 目录下,
+ master_private = n
+ master_unpriv = n
+# 是否需要 chroot: n -- no, y -- yes
+ master_chroot = n
+# 每隔多长时间触发一次，单位为秒(仅对 trigger 模式有效)
+ master_wakeup = -
+# 最大进程数
+ master_maxproc = 10
+# 进程程序名
+ master_command = single_echo
+# 进程启动参数，只能为: -u [是否允许以某普通用户的身份运行]
+# master_args = 
+# 进程日志记录文件
+ master_log = {install_path}/var/log/single_echo.log
+# 传递给服务子进程的环境变量, 可以通过 getenv("SERVICE_ENV") 获得此值
+# master_env = logme:FALSE, priority:E_LOG_INFO, action:E_LOG_PER_DAY, flush:sync_flush, imit_size:512,/
+#   sync_action:E_LOG_SEM, sem_name:/tmp/single_echo.sem
+
+# 每个进程实例处理连接数的最大次数，超过此值后进程实例主动退出
+ single_use_limit = 250
+# 每个进程实例的空闲超时时间，超过此值后进程实例主动退出
+# single_idle_limit = 180
+# 记录进程PID的位置(对于多进程实例来说没有意义)
+ single_pid_dir = {install_path}/var/pid
+# 进程运行时所在的路径
+ single_queue_dir = {install_path}/var
+# 读写超时时间, 单位为秒
+ single_rw_timeout = 1800
+# 读缓冲区的缓冲区大小
+ single_buf_size = 8192
+# 进程运行时的用户身份
+ single_owner = root
+
+# single_in_flow_delay = 1
+# single_owner = owner
+# 用 select 进行循环时的时间间隔
+# 单位为秒
+# single_delay_sec = 1
+# 单位为微秒
+# single_delay_usec = 5000
+# single_daemon_timeout = 1800
+}
+
+2.4）编译源文件
+    生成 single_echo 可执行程序
+    make
+2.5）拷贝文件
+    将 single_echo 拷贝至 acl_project/dist/master/libexec/linux32 (假设操作系统是LINUX 32位平台的) 目录，将 single_echo.cf 拷贝至acl_project/dist/master/conf/service/ 目录，从而将 single_echo 置于 acl_master 守护管理进程的控制范围内。
+2.6) 安装
+    cd acl_project/dist/master; chmod 755 setup.sh; ./setup.sh /opt/acl
+2.7）启动框架管理控制进程(acl_master)
+   /opt/acl/sh/start.sh
+2.8）手工测试
+    telnet 127.0.0.1 5003
+    看是否正常连接服务器，如果连接成功，则随意输入一些字符然后按回车发送，看服务器是否将所发送的数据回显给发送者；如果连接不成功或服务器未正常回显，请查看日志文件：/opt/acl/var/log/single_echo，并找出出错原因。
+
+ 
+
+acl 库的下载地址：http://www.sourceforge.net/projects/acl/

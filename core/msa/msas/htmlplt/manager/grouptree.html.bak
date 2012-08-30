@@ -1,0 +1,68 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+    var tree = new Ext.tree.TreePanel({
+        renderTo:'tree-div',
+        title: '分组列表',
+        height: screen.height-300,
+        width: 230,
+        useArrows:true,
+        autoScroll:true,
+        animate:true,
+        enableDD:true,
+        containerScroll: true,
+        rootVisible: false,
+        frame: true,
+        root: {
+            nodeType: 'async'
+        },
+        
+        // auto create TreeLoader
+        dataUrl: '/msas/datacenter/groupnodes.json',
+        
+        listeners: {
+            'checkchange': function(node, checked){
+                if(checked){
+                    node.getUI().addClass('complete');
+                    //parent.mainviewfrm.location.href='/msas/nowview/hostlistinfo.htm';
+                }else{
+                    node.getUI().removeClass('complete');
+                }
+            }
+        }
+    });
+
+    tree.getRootNode().expand(true);
+});
+</SCRIPT>
+<style>
+    .complete .x-tree-node-anchor span {
+        text-decoration: line-through;
+        color: #777;
+    }
+</style>
+</head>
+<body>
+
+<div id="tree-div"></div>
+
+</body>
+</html>

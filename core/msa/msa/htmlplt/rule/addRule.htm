@@ -1,0 +1,313 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px;
+	BORDER-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	FONT: 12px verdana;
+	HEIGHT: 100%;
+	OVERFLOW: hidden;
+	BORDER-TOP: 0px;
+	BORDER-RIGHT: 0px;
+	PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px;
+	BORDER-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	FONT: 12px verdana;
+	HEIGHT: 100%;
+	OVERFLOW: hidden;
+	BORDER-TOP: 0px;
+	BORDER-RIGHT: 0px;
+	PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+.STYLE1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+		function ipverify(val){
+				var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+				if(regIP.test(val)){
+					return true;
+				}else{
+					return false;
+				}
+		}	
+</SCRIPT>
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		var ruleid;
+		pagesize=50;
+		havesearch=0;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(),
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+		var servicebutton= Ext.get('addService');
+		servicebutton.on('click', function(){
+			  if(userform.rulename.value=="" ){
+							Ext.MessageBox.alert("提示","规则名称不能为空!");
+							userform.rulename.focus();
+							return;
+				}
+				if(userform.lips.value!="" && userform.lips.value!="0.0.0.0"){
+							if(!ipverify(userform.lips.value)){
+								Ext.MessageBox.alert("提示","本地开始IP地址格式错误!");
+								userform.lips.focus();
+								return;
+							}
+				}
+				if(userform.lipe.value!="" && userform.lipe.value!="0.0.0.0"){
+							if(!ipverify(userform.lipe.value)){
+								Ext.MessageBox.alert("提示","本地结束IP地址格式错误!");
+								userform.lips.focus();
+								return;
+							}
+				}
+				if(userform.rips.value!=""&&userform.rips.value!="0.0.0.0"){
+							if(!ipverify(userform.rips.value)){
+								Ext.MessageBox.alert("提示","远端开始IP地址格式错误!");
+								userform.rips.focus();
+								return;
+							}
+				}
+				if(userform.ripe.value!="" &&userform.ripe.value!="0.0.0.0"){
+							if(!ipverify(userform.ripe.value)){
+								Ext.MessageBox.alert("提示","远端结束IP地址格式错误!");
+								userform.ripe.focus();
+								return;
+							}
+				}
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+          	ruleid=response.responseText;
+						parent.store.load();
+						parent.addwin.close();
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+						parent.xtzystore.load();
+          },
+          params:{Fun:'addFWrule',ruleid:userform.ruleid.value,
+          											ruleflag:userform.ruleflag.value,
+          											ruleaction:userform.ruleaction.value,
+          											qosid:userform.qosid.value,
+          											[$type$]
+          											lips:userform.lips.value,
+          											lipe:userform.lipe.value,
+          											rips:userform.rips.value,
+          											ripe:userform.ripe.value,
+          											lportl:userform.lportl.value,
+          											lportu:userform.lportu.value,
+          											rportl:userform.rportl.value,
+          											rportu:userform.rportu.value,
+          											flag:userform.flag.value,
+          											finputdev:userform.finputdev.value,
+          											foutputdev:userform.foutputdev.value,
+          											fprotocol:userform.fprotocol.value,
+          											rulename:userform.rulename.value}
+				});
+		});
+		
+	  new Ext.Viewport({
+					layout: 'border',
+					items: [{
+						region:'center',
+						layout:'fit',
+	          split:false,
+	          minSize: 100,
+	          maxSize: 300,
+	          frame:false,
+	          collapsible:true,
+	          autoScroll: true,
+	          margins:'0 0 0 0',
+	          contentEl:'mainviewdiv'
+	         }
+					],
+	        renderTo: Ext.getBody()
+	    });
+		myMask.hide();
+});
+	</SCRIPT>
+</HEAD>
+<body oncontextmenu="return true" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mainviewdiv" valign="top" align="center" STYLE="position:absolute; top=20; left=30; z-index:1; width: 512px;">
+	<table width="100%" height=70% cellpadding=0 cellspacing=0 Border=0>
+		<form name="userform" method="POST">
+			<input type="hidden" name="ruleid" value="[$ruleid$]">
+			<!-- generic wizard buttons -->
+			<tr>
+				<td colspan = 2 align="left">
+					<TABLE width="552" CELLPADDING = 3 CELLSPACING=0 >
+						<tr>
+							<td><span class="STYLE1">防火墙规则</span></td>
+						</tr>
+						<TR>
+							<TD width="137" VALIGN='middle'><FONT FACE='宋体' >名称： </font></TD>
+							<TD width="187" VALIGN='middle'>
+								<INPUT TYPE='text'  class=input   NAME="rulename" VALUE="[$rulename$]" >
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'><FONT FACE='宋体' >启用： </font></TD>
+							<TD VALIGN='middle'>
+								<select name="ruleflag" class="inputself0" id="ruleflag">
+									<option value="0" [$ruleflag0$]>不启用</option>
+									<option value="1" [$ruleflag1$]>启用</option>
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'><FONT FACE='宋体' >动作： </font></TD>
+							<TD VALIGN='middle'>
+								<select name="ruleaction" class="inputself0" id="ruleaction">
+									<option value="0" [$ruleaction0$]>拒绝访问</option>
+									<option value="1" [$ruleaction1$]>允许访问</option>
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'><FONT FACE='宋体' >选择通道：</font></TD>
+							<TD VALIGN='middle'>
+								<select name="qosid" class="inputself0" id="qosid">
+									<option value="0">不启动人员qos </option>
+			[$begintable qoslist$]
+									<option value="[$qosid$]" [$sel$]>[$qosname$]</option>
+			[$endtable$]
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>&nbsp;</TD>
+							<TD VALIGN='middle'>&nbsp;</TD>
+						</TR>
+						
+						<tr>
+							<TD VALIGN='middle'>输入设备<FONT FACE='宋体'>：</font></TD>
+							<td>
+								<select name="finputdev" class="inputself0" id="finputdev">
+									<option value="0">全部</option>
+									[$begintable inputdev$]
+									<option value="[$name$]" [$sel$]>[$name$]</option>
+									[$endtable$]
+								</select>
+							</td>
+						</TR>
+						<TR>
+							<TD>输出设备<FONT FACE='宋体' >：</font></TD>
+							<TD>
+								<select name="foutputdev" class="inputself0" id="foutputdev">
+									<option value="0">全部</option>
+									[$begintable outputdev$]
+									<option value="[$name$]" [$sel$]>[$name$]</option>
+									[$endtable$]
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>协议类型</TD>
+							<TD VALIGN='middle'>
+								<select name="fprotocol" class="inputself0" id="fprotocol">
+									<option value="0" [$fprotocol0$]>all</option>
+									<option value="6" [$fprotocol6$]>tcp</option>
+									<option value="17" [$fprotocol17$]>udp</option>
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>&nbsp;</TD>
+							<TD VALIGN='middle'>&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD height="22" VALIGN='middle'>本地IP地址段<FONT FACE='宋体' >：</font></TD>
+							<TD VALIGN='middle'>
+								<INPUT TYPE='text'  class=input   NAME="lips" VALUE="[$lips$]" id="lips" >
+							—
+							<INPUT TYPE='text'  class=input   NAME="lipe" VALUE="[$lipe$]" id="lipe" >
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>本地端口范围：</TD>
+							<TD VALIGN='middle'>
+								<INPUT TYPE='text'  class=input   NAME="lportl" VALUE="[$lportl$]" id="lportl" >
+							—
+							<INPUT TYPE='text'  class=input   NAME="lportu" VALUE="[$lportu$]" id="lportu" >
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>远端IP地址段：</TD>
+							<TD VALIGN='middle'>
+								<INPUT TYPE='text'  class=input   NAME="rips" VALUE="[$rips$]" id="rips" >
+							—
+							<INPUT TYPE='text'  class=input   NAME="ripe" VALUE="[$ripe$]" id="ripe" >
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>远端端口范围：</TD>
+							<TD VALIGN='middle'>
+								<INPUT TYPE='text'  class=input   NAME="rportl" VALUE="[$rportl$]" id="rportl" >
+							—
+							<INPUT TYPE='text'  class=input   NAME="rportu" VALUE="[$rportu$]" id="rportu" >
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>定义方向为</TD>
+							<TD VALIGN='middle'>
+								<select name="flag" class="inputself0" id="flag">
+									<option value="0" [$flag0$]>上行</option>
+									<option value="1" [$flag1$]>下行</option>
+								</select>
+							</TD>
+						</TR>
+						<TR>
+							<TD VALIGN='middle'>&nbsp;</TD>
+							<TD VALIGN='middle'>&nbsp;</TD>
+						</TR>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan ="2">
+					<hr/>
+				</td>
+			<tr>
+				<td colspan="2" align="left">
+					<input type="BUTTON" NAME="addService" class=buttons value="确定">
+				</td>
+			</tr>
+		</form>
+	</TABLE>
+</div>
+</BODY>
+</HTML>

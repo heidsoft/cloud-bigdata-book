@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>服务选项</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<style type="text/css">
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+-->
+</style>
+<script language="JavaScript">
+function addlistfun() {
+  var mysrvname=listform.srvname.value;
+  var mysrvdesc=listform.srvdesc.value;
+  var mynportL=listform.nportL.value;
+  var mynportU=listform.nportU.value;
+	if(mysrvname==""){
+		alert("服务名称不能为空!");
+		listform.srvname.focus();
+		return;
+	}
+	if(mysrvdesc==""){
+		alert("服务描述不能为空!");
+		listform.srvdesc.focus();
+		return;
+	}
+	if(mynportL==""){
+		alert("起始端口不能为空!");
+		listform.nportL.focus();
+		return;
+	}
+	if(mynportU==""){
+		alert("终止端口不能为空!");
+		listform.nportU.focus();
+		return;
+	}
+	if(!(mynportL>=0&&mynportL<=65535)){
+		alert("开始端口必须在0~65535之间!");
+		listform.nportL.select();
+		listform.nportL.focus();
+		return;
+	}
+	if(!(mynportU>=0&&mynportU<=65535)){
+		alert("终止端口必须在0~65535之间!");
+		listform.nportU.focus();
+		return;
+	}
+	
+	
+	listform.actiontype.value=1;
+	listform.submit();
+}
+</script>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" link="#C0C0C0">
+<form name="form1" method="post" action="/msa/main.xp" target="fbot">
+          <input type="hidden" name="Fun" value="nassrvmod">
+          <input type="hidden" name="srvid" value="[$srvid$]">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td height="27" background="./images/nn2.gif" width="180"> 
+        <div align="center"><font color="#FFFFFF"> </font>服务内容</div>
+      </td>
+      <td height="27" background="./images/nn1.gif">&nbsp; </td>
+    </tr>
+  </table>
+  <table width="90%" border="0" cellspacing="0" align="center" height="26%">
+    <tr> 
+      <td colspan="7" height="27">
+        <div align="center"><font size="+1" color="#000000"></font></div>
+      </td>
+    </tr>
+    <tr> 
+      <td width="124" height="27">服务名称</td>
+      <td colspan="5" height="27"> 
+        <input type="text" name="srvname"  class="input" value="[$srvname$]" maxlength="20" > 
+      </td>
+    </tr>
+    <tr> 
+      <td width="124" height="32">服务描述</td>
+      <td height="32" colspan="5"> 
+        <input type="text" name="srvdesc"  class="input" size="31" value="[$srvdesc$]" maxlength="63">
+      </td>
+    </tr>
+    <tr> 
+      <td width="124" height="32">端口</td>
+      <td width="216" height="32" colspan="6"> 
+        <input type="text" name="nportL"  class="input" size="8" value="[$nPortL$]" maxlength="12">-<input type="text" name="nPortU"  class="input" size="8" value="[$nPortU$]" maxlength="12">
+      </td>
+    </tr>
+    <tr> 
+      <td height="20" width="124">协议</td>
+      <td colspan="6" height="20"> 
+      	<select name="srvprot"  class=inputself0 >
+					<option value="6" [$sel1$] >TCP</option>
+					<option value="17" [$sel2$] >UDP</option>
+				</select>
+			</td>
+      <td width="161" height="20" align="left">方向 </td>
+      <td colspan="6"  height="20" colspan="2"> 
+        <div align="left">
+        <select name="srvDirect" id="srvDirect"  class=inputself0  >
+          <option value="0" [$sel3$] >Out</option>
+          <option value="1" [$sel4$] >In</option>
+          <option value="2" [$sel5$] >Both</option>
+        </select>
+        </div>
+      </td>
+    </tr>
+    <tr> 
+      <td colspan="7" height="13">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="7" height="31"> 
+        <div align="right"> 
+          <input type="submit" name="add"  class="input" value="增加" class="xan3" onClick="addlistfun()" >
+          <input type="submit" name="ok"  class="input" value="修改" class="xan3" >
+          <input type="reset" name="cancel"  class="input" value="重置" class="xan3" >
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

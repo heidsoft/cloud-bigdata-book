@@ -1,0 +1,785 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<link href="/msa/publiccss/pubcss.css" rel="stylesheet" type="text/css" />
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 9px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 9px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var intervaltime;
+		pagesize=100;
+    intervaltime=60;
+    var xtzystore;
+    function sub(){
+		  var conds,curpg,sortby,order,srvids,groups;
+			cond=form1.cond.value;
+		  sortby=form1.sortby.value;
+		  order=form1.orderby.value;
+    	//xtzystore.load();
+    	xtzystore.baseParams={
+      	  Fun:'msaonlineuser',
+        	sortby: Ext.getDom('sortby').value,
+		      orderby: Ext.getDom('orderby').value,
+		      cond: Ext.getDom('cond').value,
+		      groupid:Ext.getDom('groupid').value};
+		}
+    Ext.onReady(function(){
+
+		Ext.QuickTips.init();
+
+		var detailEl;
+
+
+		var myMask = new Ext.LoadMask(Ext.getBody(),{
+		        	msg:"Please wait..."
+		});
+		myMask.show();
+    var runner = new Ext.util.TaskRunner();
+    // create the data store
+    xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaonlineuser'},
+        fields: [
+           {name: 'uid'},
+		       {name: 'uname'},
+				   {name: 'dep'},
+			     {name: 'ipadd'},
+			     {name: 'macadd'},
+				   {name: 'tcpnum', type: 'int'},
+		       {name: 'udpnum', type: 'int'},
+		       {name: 'bs'},
+		       {name: 'ps', type: 'int'},
+		       {name: 'bsp', type: 'float'},
+		       {name: 'netfx'},
+		       {name: 'sTime'},
+				   {name: 'dTime'},
+		       {name: 'flowday'},
+		       {name: 'timeday'},
+		       {name: 'flowweek'},
+		       {name: 'timeweek'},
+		       {name: 'flowmonth'},
+		       {name: 'timemonth'},
+		       {name: 'userflag'},
+		       {name: 'lockflag'},
+		       {name: 'srvlist'}
+        ]
+    });
+    xtzystore.baseParams={
+      	  Fun:'msaonlineuser',
+        	sortby: Ext.getDom('sortby').value,
+		      orderby: Ext.getDom('orderby').value,
+		      cond: Ext.getDom('cond').value,
+		      groupid:Ext.getDom('groupid').value};
+		      
+    xtzystore.load();
+    xtzystore.on('beforeload',function(){
+		    Ext.apply( xtzystore.baseParams, {
+		        sortby: Ext.getDom('sortby').value,
+		        orderby: Ext.getDom('orderby').value,
+		        cond: Ext.getDom('cond').value,
+		        groupid:Ext.getDom('groupid').value
+		    });
+		}, xtzystore);
+
+    //xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:[$CurPg$],cond:'[$cond$]',sortby:[$sortby$],orderby:[$orderby$],srvid:[$srvid$],group:[$groupid$]}});
+    // create the Grid
+
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar,{
+    displayInfo: true,
+    displayMsg: '共{2}条',
+    emptyMsg: "无记录",
+    initComponent : function(){
+    	   var pageSizeItems = [
+                     '-','每',
+                     this.inputItem = new Ext.form.NumberField({
+									    cls: 'x-tbar-page-number',
+									    allowDecimals: false,
+									    allowNegative: false,
+									    enableKeyEvents: true,
+									    maxValue: 300,
+									    maxText: '不允许超过300秒',
+									    selectOnFocus: true,
+									    value: intervaltime,
+									    submitValue: false,
+									    listeners: {
+									        scope: this,
+									        keydown: this.onHlTimeKeyDown,
+									        blur: this.onHlTimeBlur
+									    }
+                     }),'秒刷新','-','每页',
+                     this.inputItem = new Ext.form.NumberField({
+									    cls: 'x-tbar-page-number',
+									    allowDecimals: false,
+									    allowNegative: false,
+									    enableKeyEvents: true,
+									    maxValue: 500,
+									    maxText: '每页不允许超过500条',
+									    selectOnFocus: true,
+									    value: this.pageSize,
+									    submitValue: false,
+									    listeners: {
+									        scope: this,
+									        keydown: this.onHlPagingKeyDown,
+									        blur: this.onHlPagingBlur
+									    }
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-',{
+						            icon: '/msa/images/drop-yes.gif',
+						            enableToggle:true,
+						            text: '选择条件',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){								          
+										          mywin = new Ext.Window({
+																			title: '条件设置',
+																			closeAction: 'hide',
+																			width: 290,
+																			height:screen.height/3,
+																			plain:true,
+																			contentEl:'north',
+																			bodyStyle:'padding:5px;',
+																			buttons: [{
+														            text: '查询',
+														            tooltip:'条件查询', //悬停提示  
+																        tooltipType:'qtip',  
+																				handler  : function(){		
+																									sub();
+																									xtzystore.load();
+																									mywin.hide();
+																		  	}
+																		  	}]													
+															});
+		
+										          mywin.show();
+		
+						        }},'-'];
+		         var userItems = this.items || [];
+		         this.items = userItems.concat(pageSizeItems);
+		         HlPagingToolbar.superclass.initComponent.call(this);
+		    },
+		    onHlPagingKeyDown: function(field, e){
+		        if(field.isValid()){
+		            var k = e.getKey();
+		             if (k == e.RETURN) {
+		                    e.stopEvent();
+		                    this.pageSize = field.getValue();
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh();
+		             }
+		        }
+		    },
+		    onHlPagingBlur: function(field){
+		        if(field.isValid()){
+		            this.pageSize = field.getValue();
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh();
+		        }
+		    },
+		    onHlTimeKeyDown: function(field, e){
+		        if(field.isValid()){
+		            var k = e.getKey();
+		             if (k == e.RETURN) {
+		                    e.stopEvent();
+		                    intervaltime = field.getValue();
+		                    runner.stopAll();
+												var task = {
+														run: function(){
+    													 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+												};
+												runner.start(task);
+		             }
+		        }
+		    },
+		    onHlTimeBlur: function(field){
+		        if(field.isValid()){
+		            intervaltime = field.getValue();
+		            runner.stopAll();
+                var task = {
+														run: function(){
+															xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+								};
+								runner.start(task);
+		        }
+		    }
+		});
+
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true
+    });
+
+    function macChange(val){
+          return '<font szie=1 >' + val + '</font>';
+    }
+
+    function bspChange(val){
+          return val + '%';
+    }
+
+    function netfxChange(val){
+        if(val == 0){
+            return '<font color=green >&nbsp;&nbsp</font>';
+        }else if(val ==1){
+            return '<font color=#cc0000;>&#164;</font>';
+        }else if(val ==2){
+            return '<font color=#cc0000;>&#164;&#164;</font>';
+        }else if(val ==3){
+            return '<font color=#cc0000;>&#164;&#164;&#164;</font>';
+        }else if(val ==4){
+            return '<font color=#cc0000;>&#164;&#164;&#164;&#164;</font>';
+        }else if(val ==5){
+            return '<font color=#cc0000;>&#164;&#164;&#164;&#164;&#164;</font>';
+        }
+        return val;
+    }
+    
+    function stateChange(val){
+    	if(val=='100'){//禁止
+          return '<image alt="禁止访问" src='+'/Content/icons/user_red.png'+'>';
+      }else if(val=='99'){//免监控
+          return '<image alt="免监控"  src='+'/Content/icons/user_green.png'+'>';
+      }else{//正常
+          return '<image  alt="正常" src='+'/Content/icons/user_orange.png'+'>';
+      }
+    }
+    
+    function lockChange(val){
+    	if(val=='1'){//lock
+          return '<image  alt="处于锁定状态" src='+'/Content/icons/lock.png'+'>';
+      }else{// nolock
+          return '<image  alt="处于正常状态" src='+'/Content/icons/lock_go.png'+'>';
+      }
+    }
+
+     function srvlistChange(val){
+    	 return '<font color=bule>'+ val + '</font>';
+     }
+
+
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        tbar: pagingBar,
+        columns: [
+            {id:'uname',header: "用户", width: 80, sortable: true,  dataIndex: 'uname'},
+            {header: "部门", width: 90, sortable: true,  dataIndex: 'dep'},
+            {id:'srvlist',header: "IP",   width: 200, sortable: true,  dataIndex: 'ipadd'},
+            {header: "MAC",   width: 200, sortable: true, renderer: macChange, dataIndex: 'macadd'},
+            {header: "TCP连接",  width: 60, sortable: true,  dataIndex: 'tcpnum'},
+            {header: "UDP连接", width: 60, sortable: true, dataIndex: 'udpnum'},
+            {header: "速率bps",  width: 60, sortable: true,  dataIndex: 'bs'},
+            {header: "占比",  width: 60, sortable: true,renderer: bspChange,  dataIndex: 'bsp'},
+            {header: "用户状态", width: 60, sortable: true, renderer: stateChange, dataIndex: 'userflag'},
+            {header: "锁定方式",   width: 60, sortable: true,renderer: lockChange,dataIndex: 'lockflag'},
+            {header: "上线时间",   width: 80, sortable: true,  hidden: true,  dataIndex: 'sTime'},
+            {header: "最后访问",   width: 80, sortable: true,  hidden: true,  dataIndex: 'dTime'},
+            {header: "当天总流量", width: 60, sortable: true,  hidden: true, dataIndex: 'flowday'},
+            {header: "当天时长",   width: 60, sortable: true,  hidden: true, dataIndex: 'timeday'},
+            {header: "当周总流量", width: 60, sortable: true,  hidden: true, dataIndex: 'flowweek'},
+            {header: "当周时长",   width: 60, sortable: true,  hidden: true, dataIndex: 'timeweek'},
+            {header: "当月总流量", width: 60, sortable: true,  hidden: true,  dataIndex: 'flowmonth'},
+            {header: "当月时长",   width: 60, sortable: true,  hidden: true, dataIndex: 'timemonth'}
+        ],
+        stripeRows: true,
+        height:screen.height-210,
+        frame:true,
+        loadMask:{msg:'正在加载用户，请稍侯……'},
+		    collapsible:false,
+		    draggable:false
+    });
+    
+    xtzygrid.addListener('rowclick', tipClickFn);
+    function tipClickFn(client, rowIndex, e) {
+              var record = xtzygrid.getStore().getAt(rowIndex);//把这列的record取出来
+					   var ps=record.get("ps");
+					   //if(ps==""){return ;}
+					   var sTime=record.get("sTime");
+					   //if(sTime==""){return ;}
+					   var dTime=record.get("dTime");
+					   //if(dTime==""){return ;}
+					   var timeday=record.get("timeday");
+					   var flowday=record.get("flowday");
+					   //if(timeday==""){return ;}
+					   var flowweek=record.get("flowweek");
+					   //if(flowweek==""){return ;}
+					   var timeweek=record.get("timeweek");
+					   //if(timeweek==""){return ;}
+					   var flowmonth=record.get("flowmonth");
+					   //if(flowmonth==""){return ;}
+					   var timemonth=record.get("timemonth");
+					   var  srvlist=record.get("srvlist");
+					   //if(timemonth==""){return ;}
+	           //location.href= "/msa/main.xp?Fun=msaShowOnlineUser+srvid=" + srvid;
+						 //alert(response.responseText);
+					   var str1 = '<div style="width:150px;height:180px;font: normal 9px arial,helvetica,sans-serif;margin:1 !important;line-height:10px;padding:1;">封包率:'+ps+'<hr>上线时间:'+sTime+'<hr>最后访问:'+dTime+'<hr>当天总流量:'+flowday+'<hr>当天时长:'+timeday+'<hr>当周总流量:'+flowweek+'<hr>当周时长:'+timeweek+'<hr>当月总流量:'+flowmonth+'<hr>当月时长:'+timemonth+'<hr>服务列表:'+srvlist+'</div>';
+					   var rowEl = Ext.get(e.getTarget());//把target转换成Ext.Element对象
+						 rowEl.set({'ext:qtip':str1},false);
+    }
+  
+
+    var rightClick  = new Ext.menu.Menu({
+        id:'feeds-ctx',
+        items: [{
+            id:'tichuyonghu',
+            iconCls:'load-icon',
+            text:'踢出用户',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var userid=record.get("uid");
+                var cip=record.get("ipadd"); 
+                xtzystore.load({params:{Fun:'msaonlineuser',outflag:1,userid:userid,clientip:cip}});                  
+            }
+        },
+        {
+            id:'bianjiyonghu',
+            iconCls:'load-icon',
+            text:'编辑用户',
+            scope: this,
+            handler:function(){
+
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var userid=record.get("uid");
+                // var l = Ext.getCmp('card-wizard-panel').getLayout();
+								//l.setActiveItem(1);
+								//Ext.getCmp('card-prev').setDisabled(0);
+								//Ext.getCmp('card-next').setDisabled(1);
+                //open('/msa/main.xp?Fun=msaTermInfoView+uid='+ userid ,'userinfofrm') ;
+                 var mywin =new  Ext.Window(
+				              {
+				                  id: 'east-panel',
+				                  title: '编辑用户',
+				                  height: 550,
+				                  width: 400,
+				                  closeAction: 'close',
+				                  modal: 'true',
+				                  maximizable:'true',
+				                  margins:'0 5 0 0',
+				                  tools:[{
+													    id:'refresh',
+													    qtip: 'Refresh form Data',
+													    handler: function(event, toolEl, panel){
+													       open("/msa/main.xp?Fun=msaTermInfoView+uid=" + userid ,"menufrm");
+													    }
+													}],
+				                  html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=msaTermInfoView+uid="+ userid  + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+				              });
+				        mywin.show();
+				        mywin.maximize();
+
+
+            }
+        },
+        {
+            id:'useripcon',
+            iconCls:'load-icon',
+            text:'察看正常连接',
+            scope: this,
+            handler:function(){
+
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+                var mywin =new  Ext.Window(
+				              {
+				                  id: 'east-panel',
+				                  title: '察看正常连接',
+				                  height: 450,
+				                  width: 400,
+				                  closeAction: 'close',
+				                  modal: 'true',
+				                  maximizable:'true',
+				                  margins:'0 5 0 0',
+				                  tools:[{
+													    id:'refresh',
+													    qtip: 'Refresh form Data',
+													    handler: function(event, toolEl, panel){
+													     //alert("/msa/main.xp?Fun=ltconquery+showtype=1+sip=" + cip);
+													     open("/msa/main.xp?Fun=ltconquery+showtype=1+sip=" + cip ,"menufrm");
+													    }
+													}],
+				                //  html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=-1++group=-1+user="+ userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+				                html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=ltconquery+showtype=1+sip=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+				        });
+				        mywin.show();
+				        mywin.maximize();
+
+            }
+        },
+        {
+            id:'userblockcon',
+            iconCls:'load-icon',
+            text:'察看阻断连接',
+            scope: this,
+            handler:function(){
+
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+                var mywin =new  Ext.Window(
+				        {
+				                  id: 'east-panel',
+				                  title: '察看阻断连接',
+				                  height: 450,
+				                  width: 400,
+				                  closeAction: 'close',
+				                  modal: 'true',
+				                  maximizable:'true',
+				                  margins:'0 5 0 0',
+				                  tools:[{
+													    id:'refresh',
+													    qtip: 'Refresh form Data',
+													    handler: function(event, toolEl, panel){
+													       //open("/msa/main.xp?Fun=ltwebonlinenewip+showtype=2+srvid=-1++group=-1+user=" + userid ,"menufrm");
+													       open("/msa/main.xp?Fun=ltconquery+showtype=3+sip=" + cip ,"menufrm");
+													    }
+													}],
+				                  html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=ltconquery+showtype=3+sip=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+				        });
+				        mywin.show();
+				        mywin.maximize();
+
+
+            }
+        },'-',
+        {
+            id:'unlockuserid',
+            iconCls:'load-icon',
+            text:'解锁锁定用户',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+                var myvalue='0';
+		            Ext.Ajax.request({
+				          method : 'POST',
+				          url:'/msa/main.xp',
+				          success: function(response, options){
+				          		record.set( "lockflag", myvalue); 
+				          		Ext.MessageBox.alert("操作成功","解锁用户成功！");
+				          },
+				          failure : function(){
+				          	Ext.MessageBox.alert("提示","对不起，解锁用户失败！");
+				          },
+				        	params:{Fun:'msaSetOnineUserLock',ipadd:cip,locktype:0}
+								});
+            }
+        },'-',
+        {
+            id:'lockuserid1',
+            iconCls:'load-icon',
+            text:'临时锁定用户2分钟',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+                var myvalue='1';
+                
+                Ext.Ajax.request({
+				          method : 'POST',
+				          url:'/msa/main.xp',
+				          success: function(response, options){
+				          		record.set( "lockflag", myvalue) ;
+				          		Ext.MessageBox.alert("操作成功","锁定用户成功！");
+				          },
+				          failure : function(){
+				          	Ext.MessageBox.alert("提示","对不起，锁定用户失败！");
+				          },
+				        	params:{Fun:'msaSetOnineUserLock',ipadd:cip,locktype:1}
+								});
+            }
+        },{
+            id:'lockuserid5',
+            iconCls:'load-icon',
+            text:'临时锁定用户10分钟',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+		            var myvalue='1';
+                Ext.Ajax.request({
+				          method : 'POST',
+				          url:'/msa/main.xp',
+				          success: function(response, options){
+				          		record.set( "lockflag", myvalue) ;
+				          		Ext.MessageBox.alert("操作成功","锁定用户成功！");
+				          },
+				          failure : function(){
+				          	Ext.MessageBox.alert("提示","对不起，锁定用户失败！");
+				          },
+				        	params:{Fun:'msaSetOnineUserLock',ipadd:cip,locktype:2}
+								});
+            }
+        },{
+            id:'lockuserid30',
+            iconCls:'load-icon',
+            text:'临时锁定用户30分钟',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+		            var myvalue='1';
+                
+                Ext.Ajax.request({
+				          method : 'POST',
+				          url:'/msa/main.xp',
+				          success: function(response, options){
+				          		record.set( "lockflag", myvalue) ;
+				          		Ext.MessageBox.alert("操作成功","锁定用户成功！");
+				          },
+				          failure : function(){
+				          	  Ext.MessageBox.alert("提示","对不起，锁定用户失败！");
+				          },
+				        	params:{Fun:'msaSetOnineUserLock',ipadd:cip,locktype:3}
+								});
+            }
+        },{
+            id:'lockuserid60',
+            iconCls:'load-icon',
+            text:'临时锁定用户60分钟',
+            scope: this,
+            handler:function(){
+                var record = xtzygrid.getStore().getAt(detailEl);
+                var cip=record.get("ipadd");
+		            var myvalue='1';
+                Ext.Ajax.request({
+				          method : 'POST',
+				          url:'/msa/main.xp',
+				          success: function(response, options){
+				          		record.set( "lockflag", myvalue) ;
+				          		Ext.MessageBox.alert("操作成功","锁定用户成功！");
+				          },
+				          failure : function(){
+				          	Ext.MessageBox.alert("提示","对不起，锁定用户失败！");
+				          },
+				        	params:{Fun:'msaSetOnineUserLock',ipadd:cip,locktype:4}
+								}); 
+            }
+        }]
+    });
+
+    xtzygrid.addListener('rowcontextmenu', rightClickFn);
+    //xtzygrid.addListener('rowclick', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY());
+                detailEl=  rowIndex;
+    }
+    var treepan;
+    var groupwin;
+		var groupbutton= Ext.get('group');
+		groupbutton.on('click', function(){
+						if(!groupwin){
+							treepan=new Ext.tree.TreePanel({
+						    	  id: 'tree-panel',
+						        region:'center',
+						        split: true,
+						        useArrows:true,
+						        autoScroll: true,
+						        animate:true,
+				            enableDD:true,
+						        rootVisible: false,
+						        selModel : new Ext.tree.MultiSelectionModel(),
+						        lines: false,
+						        useArrows: true,
+						        loader: new Ext.tree.TreeLoader({
+							        dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+							        baseParams:{Fun:'msaGroupTreeView'}
+						        }),
+						        root: new Ext.tree.AsyncTreeNode(),
+						        listeners: {
+						             click: function(node, e){
+										           document.getElementById('groupid').value=node.id;
+										           document.getElementById('group').value=node.text;
+										     }
+										}
+									  });
+									  var loader = treepan.getLoader(); 
+										loader.on("load", setNode);  
+										 
+										function setNode(){      
+											treepan.getSelectionModel().select(treepan.getNodeById(document.getElementById('groupid').value));     
+										} 
+									  groupwin = new Ext.Window({
+										      layout:'fit',
+								          title: '选择部门',
+								          width :300,
+								          height:350,
+								          closeAction :'hide',
+								          plain:true,
+								          items:treepan,
+								          buttons: [{
+										            text: '确定',
+										            handler  : function(){             
+										            groupwin.hide();           
+										          }
+										      }]
+								    });
+						}
+						groupwin.show();
+		});
+
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+		new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 xtzygrid
+									],
+					        renderTo: Ext.getBody()
+		});
+
+
+		myMask.hide();
+
+//    var task = {
+//								run: function(){
+//									xtzystore.load();
+//								},
+//								interval: intervaltime*1000 // 每30秒一周期
+//		};
+//
+//		runner.start(task);
+
+
+  });
+
+</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return false"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<DIV style="DISPLAY: none">
+<DIV id=north >
+	<form id="form1"  name="form1" method="post" action="/msa/main.xp">
+			<fieldset style="width:260;height:30;border:2px groove" align=center>
+		    <legend>过滤元素</legend>  
+		    <table width="100%" border="0" cellspacing="0" cellpadding="0" >             
+		      <tr>
+		       <td  height="20"> 
+		      	<div align="left"> 
+		         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关键字:
+		          <input type="text" class=inputf0  name="cond" size="21" maxlength="48" value="" >
+		        </div>
+		      </td>
+		      </tr> 
+		    </table>
+			</fieldset> 
+	    
+	    
+	    <br>
+	    <br>
+	    
+	    
+	    <fieldset style="width:260;height:30;border:2px groove" align=center>
+	    <legend>服务类型</legend>  
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+	        <tr>
+	         <td  height="20"> 
+	        	<div align="left"> 
+	           &nbsp;&nbsp;选择服务:
+	              <select name="sortby" class="inputself0" >
+									<option value="-1" >全部服务</option>
+									<option value="-2" >可能NAT主机</option>
+		              <option value="-3" >可能的HTTP代理</option>
+									[$begintable srvlist$]
+									<option value="[$srvid$]" [$srvselected$] >[$srvname$]
+									[$endtable$]
+								  </option>
+								</select>
+	          </div>
+	        </td>
+	      </tr>        
+	    </table>
+	    </fieldset>
+	    
+	    
+	    <br>
+	    <br>
+	    
+	    
+	    <fieldset style="width:260;height:30;border:2px groove" align=center>
+	    <legend>排序方式</legend>  
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+	        <tr>
+	         <td  height="20"> 
+	        	<div align="left"> 
+	           &nbsp;&nbsp;选择排序:
+	              <select id="orderby" name="orderby"  class=inputsel>
+		              <option value="0" >无序</option>
+		              <option value="1" >开始访问升序</option>
+		              <option value="2" >开始访问降序</option>
+		              <option value="3" >最后访问升序</option>
+		              <option value="4" >最后访问降序</option>
+		              <option value="5" >当天上流量排序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+		              <option value="6" >当天下流量排序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+		              <option value="7" >在线时间排序</option>
+		              <option value="8" >人员封包排序</option>
+		              <option value="9" >人员速率排序</option>
+		              <option value="10" >IP地址排序</option>
+		              <option value="11" >用户名称排序</option>
+		              <option value="12" >当天流量排序</option>
+		              <option value="13" >当周流量排序</option>
+		              <option value="14" >当月流量排序</option>
+	              </select>
+	          </div>
+	        </td>
+	      </tr>        
+	    </table>
+	    </fieldset>
+	
+	    
+	    
+	    <br>
+	    <br>
+	    
+	    
+	    <fieldset style="width:260;height:30;border:2px groove" align=center>
+	    <legend>部门对象</legend>  
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+	        <tr>
+	         <td  height="20"> 
+	        	<div align="left"> 
+	           &nbsp;&nbsp;选择部门:
+	            <input type="text" class=inputf0  id="group"  name="group" size="20" maxlength="48" value=""  style="cursor:hand;background-image:url(/msa/images/drop-yes2.gif);background-position:right bottom; background-repeat: repeat-y">
+	          </div>
+	        </td>
+	      </tr>
+	    <input type="hidden" id="groupid" value="-1">
+	    </table>
+	    </fieldset>	
+  </form>
+</DIV>
+</DIV>
+
+</BODY></HTML>

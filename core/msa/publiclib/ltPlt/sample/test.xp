@@ -1,0 +1,20 @@
+this is a test xp
+[$xxx$]
+table
+[$begintable t1$]
+sample:[$s1$]
+[$endtable$]
+table2:
+[$begintable t2$]
+[$begintable t3$]
+[$begintable t4$]
+t4:
+t4sub:[$s1$]
+[$endtable$]
+subtab:
+subsam:[$s1$]
+[$endtable$]
+sample:[$s1$]
+[$endtable$]
+
+test ok

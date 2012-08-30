@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>明御_下一代互联网WEB防御审计系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<script>
+     function goto(t){
+     	if(t=='3'){
+     		document.getElementById("rad3").checked=true;
+     	}else if(t=='6'){
+     		document.getElementById("rad6").checked=true;
+     	}
+      parent.rightfrm.location.href='/msa/main.xp?Fun=sysnet'+t+'conf';
+     }
+</script>
+</head>
+<body bgcolor="#f0f0f0"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onLoad="goto('[$type$]')" >
+<table width="100%" border="0" cellspacing="0" cellpadding="4" height="100%" bgcolor="#f0f0f0">	
+		<tr> 
+      <td >
+     	<table width="96%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:90" height:69;border:2px groove" align=center>
+		          <legend><input type="radio" id="rad3" name="rad" value="0"   onClick="goto('3');" [$type3radio$]>多路网桥</legend> 
+		          <table width="96%" border="0" align="center">
+					        <tr> 
+					          <td width="25%"> 
+					          <img src="/msa/images/connect3.jpg" id="wk3" width="90" height="69" border="0" alt="四路网桥" onClick="goto('3');" style="CURSOR: hand">
+					          </td>
+					        </tr>
+	  	 		 </table>
+			  	  </fieldset>
+			  	</td>
+		  	</tr>
+			</table>
+      </td>
+    </tr>
+        
+    <tr> 
+      <td >
+     	<table width="96%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:90" height:69;border:2px groove" align=center>
+		          <legend><input type="radio" id="rad6" name="rad" value="0"  onClick="goto('6');" [$type6radio$]>旁路部署</legend> 
+		          <table width="96%" border="0" align="center">
+					        <tr> 
+					          <td width="25%"> 
+					          <img src="/msa/images/connect6.jpg" id="wk6" width="90" height="69" border="0" alt="旁路部署" onClick="goto('6');"style="CURSOR: hand">
+					          </td>
+					        </tr>
+			  	 		</table>
+				  	</fieldset>
+			  	</td>
+		  	</tr>
+			</table>
+      </td>
+    </tr>
+                    
+</table>
+</body>
+</html>

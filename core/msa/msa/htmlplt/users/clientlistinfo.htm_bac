@@ -1,0 +1,681 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type="text/javascript">
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var wing1;
+		var wing2;
+		var seled="[$policy$]";
+		var level="[$level$]";
+		var gid="[$gid$]";
+		var xtzystore;
+		var valOption=-1;
+		pagesize=100;
+    
+    Ext.onReady(function(){
+	  Ext.QuickTips.init();
+	  var detailEl;
+	  var myMask = new Ext.LoadMask(Ext.getBody(),
+		{
+				msg:"Please wait..."
+		});
+	  myMask.show();
+	  
+	  	//部门树
+//	 var treepangroup=new Ext.tree.TreePanel({
+//		height:300,
+//		split: true,
+//		useArrows:true,
+//		autoScroll: true,
+//		rootVisible: false,
+//		lines: false,
+//		useArrows: true,
+//		root: new Ext.tree.AsyncTreeNode(),
+//		loader: new Ext.tree.TreeLoader({
+//			dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+//			baseParams:{Fun:'msaGroupTreeView'} 
+//		}),
+//		listeners: {
+//					    click: function(node, e) {
+//							gid=node.id;
+//							level=node.getDepth()-1;
+//					    wing1.hide();
+//					   }
+//				}		
+//	 });
+	 
+	 var treepangroup=new Ext.tree.TreePanel({
+		renderTo:Ext.getBody(),
+		height:300,
+		split: true,
+		useArrows:true,
+		autoScroll: true,
+		rootVisible: false,
+		lines: false,
+		useArrows: true,
+		root: new Ext.tree.AsyncTreeNode(),
+		loader: new Ext.tree.TreeLoader({
+			dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+			baseParams:{Fun:'msaGroupTreeView'} 
+		}),
+		listeners: {
+					    click: function(node, e) {
+								gid=node.id;
+								level=node.getDepth()-1;
+						    wing1.hide();
+						   }
+					   }
+	 });
+	 
+//	 var loader  = treepangroup.getLoader(); 
+//	 loader.on("load", function(a,b,c){     
+//	 		b.findChild("id",[$gid$],true).select(); // can find by any parameter in the json 
+//	 });
+	 
+	 //策略树
+	  var treepanelpolicy=new Ext.tree.TreePanel({
+	  	renderTo:Ext.getBody(),
+			height:300,
+			split: true,
+			useArrows:true,
+			autoScroll: true,
+			rootVisible: false,
+			lines: false,
+			useArrows: true,
+			root: {
+	        nodeType: 'async'
+	    },
+	    loader: new Ext.tree.TreeLoader({
+					dataUrl:'/msa/main.xp?Fun=msaPolicyTree',
+					baseParams:{Fun:'msaPolicyTree',type:2}
+			})
+		 });
+
+	  
+	  var sm = new Ext.grid.CheckboxSelectionModel();
+       xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp?Fun=msaClientList',
+        baseParams:{Fun:'msaClientList',gid:'[$gid$]',level:'[$level$]',pid:'[$policy$]'},
+        fields: [
+           {name: 'userid'},
+           {name: 'username'},
+           {name: 'dispname'},
+           {name: 'groupname'}, 
+	         {name: 'policyname'},    
+           {name: 'bindip'},
+           {name: 'bindmac'},
+           {name: 'bindemail'},
+           {name: 'useraddtime'},
+           {name: 'lasttime'},
+           {name: 'userstate'}
+        ]
+    });
+    xtzystore.load();
+
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, {
+					    displayInfo: true,
+					    displayMsg: '显示第 {0} 条到 {1} 条记录,共{2}条记录',
+					    emptyMsg: "无记录",
+					    initComponent : function(){
+		    	      	var pageSizeItems = [
+		                     '-','每页',
+		                     this.inputItem = new Ext.form.NumberField({
+											    cls: 'x-tbar-page-number',
+											    allowDecimals: false,
+											    allowNegative: false,
+											    enableKeyEvents: true,
+											    maxValue: 500,
+											    maxText: '每页不允许超过500条',
+											    selectOnFocus: true,
+											    value: this.pageSize,
+											    submitValue: false,
+											    listeners: {
+											        scope: this,
+											        keydown: this.onHlPagingKeyDown,
+											        blur: this.onHlPagingBlur
+											    }
+		                     }),'条','-',{
+								            //pressed: true,
+								            icon: '/msa/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn, pressed){
+								                downloadViewDataActive(xtzygrid);
+								            }
+								        },'-'];
+				         var userItems = this.items || [];
+				         this.items = userItems.concat(pageSizeItems);
+				         HlPagingToolbar.superclass.initComponent.call(this);
+				    },
+				    onHlPagingKeyDown: function(field, e){
+				        if(field.isValid()){
+				            var k = e.getKey();
+				             if (k == e.RETURN) {
+				                    e.stopEvent();
+				                    this.pageSize = field.getValue();
+				                    pagesize=this.pageSize;
+				                    this.doRefresh();
+				             }
+				        }
+				    },
+				    onHlPagingBlur: function(field){
+				        if(field.isValid()){
+				            this.pageSize = field.getValue();
+				            pagesize=this.pageSize;
+				            this.doRefresh();
+				        }
+				    }
+				});
+    var pagingBar= new HlPagingToolbar({
+		        store: xtzystore,
+		        pageSize: pagesize,
+		        displayInfo: true});
+		function conChange(val){
+        if(val == 100){
+            return '禁止访问';
+        }else if(val == 99){
+            return '完全免监控';
+        }else{
+            return '正常用户';
+        }
+        return val;
+    }
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        viewConfig:{forceFit: false},
+        sm: sm,
+        columns: [
+           new Ext.grid.RowNumberer(),
+           sm,
+          {header: "用户登录名", width: 90, sortable: true, dataIndex: 'username'},
+          {header: "用户真实名",  width: 90, sortable: true,  dataIndex: 'dispname'},
+          {header: "部门名称",  width: 100, sortable: true,  dataIndex: 'groupname'},            
+          {header: "策略名称",   width: 100, sortable: true,  dataIndex: 'policyname'},
+          {header: "绑定IP",  width: 100, sortable: true,  dataIndex: 'bindip'},
+          {header: "绑定MAC",   width: 100, sortable: true,  dataIndex: 'bindmac'},
+          {header: "用户添加时间",  width: 100, sortable: true,  dataIndex: 'useraddtime'},
+          {header: "最后上线时间",   width: 100, sortable: true,  dataIndex: 'lasttime'},
+          {id:'userstate',header: "用户状态",   width: 100, sortable: true,  dataIndex: 'userstate',renderer: conChange}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'userstate',
+        width:200,
+        height:screen.height-350,
+        frame:true,
+		    collapsible:false,
+		    autoScroll:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:false
+    });
+    
+    
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'liulanbaogao',
+                    iconCls:'load-icon',
+                    text:'编辑用户信息',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("userid");
+                        var mywin =new  Ext.Window(
+							          {
+		                    id: 'east-panel',
+		                    title: '编辑用户信息',
+		                    height: 550,
+		                    width: 700,
+		                    closeAction: 'close',
+		                    modal: 'true',
+		                    maximizable:'true',
+		                    margins:'0 5 0 0',
+		                    html: "<IFRAME  name='menufrm' width=100% height=100% SRC = '/msa/main.xp?Fun=msaTermInfoView&uid=" + myid + "'></iframe>"
+							          });
+							          mywin.show();
+							          mywin.maximize();
+                    }
+                },{
+                    id:'delclient',
+                    iconCls:'load-icon',
+                    text:'删除选中用户',
+                    scope: this,
+                    handler:function(btn, pressed){
+			                    var record=xtzygrid.getSelectionModel().getSelections();
+													if(record.length==0){
+														Ext.MessageBox.alert('提示','请先选择用户!');
+													}else{
+															
+							                function confirmdelgroup(btn){
+																  				if(btn=='yes'){
+																  					  Ext.MessageBox.show({
+																		           title: '删除用户',
+																		           msg: '正在删除用户......',
+																		           progressText: '准备中...',
+																		           width:300,
+																		           progress:true,
+																		           closable:false,
+																		           animEl: 'mb6'
+																		          });
+																		          var  iii;
+																		          iii=0;
+															                for(var i=0;i<record.length;i++){
+															                	  var  userid;
+															                	  var  username;
+															                    userid = record[i].get('userid');
+															                    username=record[i].get('dispname');
+															                    Ext.Ajax.request({
+																                      method : 'POST',
+																                      url:'/msa/main.xp',
+															                        success: function(response, options){
+																	                       Ext.MessageBox.updateProgress(i/record.length, "删除用户成功:" + username );	
+																	                       iii++;
+																	                       if(iii>=(record.length-1)){
+																	                       	 Ext.MessageBox.hide();	
+																	                       	 xtzystore.load();			
+																	                       }
+															                        },
+															                        failure : function(){
+															                        	Ext.MessageBox.hide();
+																			                  Ext.MessageBox.alert("提示", "删除第"+ i + "位用户失败");
+																			                  xtzystore.load();
+										                                  },
+										 					                        params:{Fun:'msaClientList',delflag:'1',uid:userid}
+															  									});
+															                }	
+															                //Ext.MessageBox.hide();	
+															                							           
+																      		}
+															};
+						                  Ext.MessageBox.confirm('Confirm', '您确认要删除所选中的用户吗?', confirmdelgroup);
+												  }
+                    		
+										}
+                }
+                ,{
+                    id:'groupmove',
+                    iconCls:'load-icon',
+                    text:'移动用户到部门',
+                    scope: this,
+                    handler:function(){
+                        var record=xtzygrid.getSelectionModel().getSelections();
+												
+				                var groupwing;
+				                var grouptree=new Ext.tree.TreePanel({
+														height:300,
+														split: true,
+														useArrows:true,
+														autoScroll: true,
+														rootVisible: false,
+														lines: false,
+														useArrows: true,
+														root: new Ext.tree.AsyncTreeNode() ,
+														loader: new Ext.tree.TreeLoader({
+															dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+															baseParams:{Fun:'msaGroupTreeView'}
+														}),
+														listeners:{
+																click: function(node, e){
+																function confirmdelgroup(btn){
+																	  groupwing.hide();
+																	   
+													  				if(btn=='yes'){
+													  					  Ext.MessageBox.show({
+															           title: '移动用户',
+															           msg: '正在移动用户......',
+															           progressText: '准备中...',
+															           width:300,
+															           progress:true,
+															           closable:false,
+															           animEl: 'mb6'
+															          });
+															          var  iii;
+																		    iii=0;
+												                for(var i=0;i<record.length;i++){
+												                    var userid = record[i].get('userid');
+												                    var username = record[i].get('dispname');
+												                    Ext.Ajax.request({
+													                      method : 'POST',
+													                      url:'/msa/main.xp',
+													                      sync:true,
+												                        success: function(response, options){
+							   																	var retxt=response.responseText;
+							   																	//Ext.MessageBox.alert('提示',retxt);
+							   																	if(retxt.substring(0,1)=='1' ){
+																                       //Ext.MessageBox.alert('提示','移动成功!');
+																                       var ppp = i/record.length;
+																                       Ext.MessageBox.updateProgress(ppp, "移动"+ username  + "用户成功:" );
+																                       //Ext.MessageBox.alert("提示", "移动"+ username + "用户成功");
+																                       iii++;
+																                       if(iii>=(record.length-1)){
+																                       	 Ext.MessageBox.hide();	
+																                       	 xtzystore.load();			
+																                       }
+																    							}else{
+																											 var ppp = i/record.length; 
+																                       Ext.MessageBox.hide();	
+																                       Ext.MessageBox.alert("提示", "移动"+ username + "用户失败");
+                                                       //xtzystore.load();		
+																    							}
+												                        },
+												                        failure : function(){
+//												                         	var ppp = i/record.length;
+//																                  Ext.MessageBox.updateProgress(ppp, "移动"+ username + "用户失败");
+//																                  Ext.MessageBox.hide();	
+																                  Ext.MessageBox.alert("提示", "移动"+ username + "用户失败");
+							                                  },
+							 					                        params:{Fun:'msaUpdateGroup',uid:userid,gid:node.id}
+												  									});
+												                }	
+												                	
+												                								           
+													      		}
+																};
+			                           Ext.MessageBox.confirm('Confirm', '您确认要移动用户到该部门吗?', confirmdelgroup);
+														}}
+													 });
+				                if(!groupwing){
+												groupwing = new Ext.Window({
+														title: '选择所属部门',
+														closeAction: 'hide',
+														width: 500,
+														height:300,
+														plain:true,
+														items:grouptree,
+														bodyStyle:'padding:5px;'
+												});
+												}
+												if(record.length==0){
+													Ext.MessageBox.alert('提示','请先选择用户!');
+												}else{
+													groupwing.show();
+												}
+                    }
+                	}
+            ]});
+      xtzygrid.addListener('rowcontextmenu', rightClickFn);
+		  function rightClickFn(client, rowIndex, e) {
+					                rightClick.showAt(e.getXY());
+					                detailEl= rowIndex;
+		}
+    
+    
+    var northPanelTop = new Ext.Panel({
+    	frame:true,
+    　region:'north',
+     // collapsed: true,//初次渲染处于关闭状态
+    	title: '选择查询的条件',
+      collapsible:false,
+    	contentEl:'north'
+    });
+		  
+    var mainPanel= {
+				    id: 'main-panel',
+            region:'center',
+            collapsible: false,
+            split:true,
+            width: 135,
+            minSize: 125,
+            maxSize: 400,
+            layout:'fit',
+            margins:'0 5 0 0',
+            items:[xtzygrid]
+    }
+	
+	     		    
+		    
+	  new Ext.Viewport({
+					layout: 'border',
+					items: [
+					  northPanelTop,mainPanel
+					],
+	        renderTo: Ext.getBody()
+	  });
+   	myMask.hide();
+    var task = {
+				run: function(){
+				   xtzystore.load();
+				},
+				interval: 120000 // 每30秒一周期
+		};
+		var runner = new Ext.util.TaskRunner();
+		runner.start(task);
+
+	  var btn_Manager=Ext.get('group');
+		btn_Manager.on('click', function(){
+		  if(!wing1){
+			  wing1 = new Ext.Window({
+					title: '选择所属部门',
+					closeAction: 'hide',
+					width: 500,
+					height:300,
+					plain:true,
+					items:treepangroup,
+					bodyStyle:'padding:5px;'
+				});
+			}
+			wing1.show();		
+			
+//				var rootNodes = treepangroup.getRootNode();
+//				alert(rootNodes.childNodes.length);
+//				if (rootNodes.childNodes && rootNodes.childNodes.length>0)
+//		    {
+//						var child;
+//		        for (var i=0;i<rootNodes.childNodes.length;i++){
+//		            child = rootNodes.childNodes[i];
+//		            var myid;
+//		            myid=parseInt(child.id);
+//		            alert(myid);
+//		            if(myid==[$gid$]){ 
+//		            	//	child.getUI().toggleCheck(true);
+//		             		child.select();  
+//		            }else{
+//		            	 child.getUI().toggleCheck(false);
+//		            }
+//		            
+//		        }
+//		    }
+			var mynode = treepangroup.getNodeById("[$gid$]");
+//			alert(mynode.id);
+      if(mynode){
+      	mynode.select(); 
+			}
+		}); 
+	 
+	 
+
+		var btn_Policy = Ext.get('policy');
+		btn_Policy.on('click', function(){
+			if(!wing2){
+			wing2 = new Ext.Window({
+					title: '选择所属策略',
+					closeAction: 'hide',
+					width: 500,
+					height:300,
+					plain:true,
+					items:treepanelpolicy,
+					bodyStyle:'padding:5px;',
+					buttons:[{
+			                text     : '保存选择的策略',
+			                handler  : function(){
+			                seled="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+			                var selNodes = treepanelpolicy.getChecked();
+					                Ext.each(selNodes, function(node){
+					                    if(node.id=='0'){
+					                      seled = '1' + seled.substring(node.id);
+					                    }else if(node.id=='127'){
+					                      seled = seled.substring(0,node.id) +  '1';
+					                    }else{
+					                      seled = seled.substring(0,node.id) +  '1' + seled.substring(node.id,127);
+					                    }
+					                });
+						    					wing2.hide();
+	                    }
+	                },{
+	                    text     : '选择全部',
+	                    handler  : function(){
+	                    var rootNodes = treepanelpolicy.getRootNode();
+	                		if (rootNodes.childNodes && rootNodes.childNodes.length>0)
+	                        {
+													var child;
+													seled="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+	                        for (var i=0;i<rootNodes.childNodes.length;i++){
+	                            child = rootNodes.childNodes[i];
+	                            if(i=='0'){
+					                      seled = '1' + seled.substring(i);
+					                    }else if(i=='127'){
+					                      seled = seled.substring(0,i) +  '1';
+					                    }else{
+					                      seled = seled.substring(0,i) +  '1' + seled.substring(i,127);
+					                    }
+	                            child.getUI().toggleCheck(true);
+	                        }}
+	                        wing2.hide();
+	                    }
+	                }]
+				});
+			}
+			wing2.show();
+			
+			var rootNodes = treepanelpolicy.getRootNode();
+			if (rootNodes.childNodes && rootNodes.childNodes.length>0)
+	    {
+					var child;
+					seled="[$policy$]";
+	        for (var i=0;i<rootNodes.childNodes.length;i++){
+	            child = rootNodes.childNodes[i];
+	            var myid;
+	            var myendid;
+	            myid=parseInt(child.id);
+	            myendid=myid+1;
+	            if(seled.substring(myid,myendid)=='1'){ 
+	            		child.getUI().toggleCheck(true);
+	//            		child.attributes.checked = checked; 
+	//            		child.fireEvent('checkchange', child, checked); 
+	            }else{
+	            	 child.getUI().toggleCheck(false);
+	            }
+	            
+	        }
+	    }
+			
+		});
+	
+ });
+ 
+ 
+ //
+   function selectinput(){
+      var oSelect=document.getElementById("state");
+      valOption=oSelect.options[oSelect.selectedIndex].value;
+      //alert(valOption);
+	 }
+ 
+ //定义查询函数
+   function mysearch(){
+				 var keyword=document.getElementById('keyword').value;						 
+		     xtzystore.baseParams={
+		     	         Fun:'msaClientList',
+		     	         gid:gid,          
+		     	         level:level,
+		     	         pid:seled,
+		     	         keyword:keyword,
+		     	         userflag:valOption,
+		     	         limit:pagesize,
+		 	             start:0
+		     	              
+		     }
+		     
+			   xtzystore.load({
+			   	  params:{
+	     	         Fun:'msaClientList',
+	     	         gid:gid,          
+	     	         level:level,
+	     	         pid:seled,
+	     	         keyword:keyword,
+	     	         userflag:valOption,
+	     	         limit:pagesize,
+	 	             start:0
+			      }
+			   });
+	 }
+	
+	//定义记录导出函数
+	function myexport(){
+		  var keyword=document.getElementById('keyword').value;
+	    var myurl="/msa/main.xp?Fun=msaAccountExport&gid=" + gid + "&level="+level+"&pid="+seled+"&keyword="+keyword+"&userflag="+valOption+"&limit="+pagesize+"&start=0";
+			//alert(myurl);
+			downloadFile(myurl);
+	
+	}
+ 
+ 
+ //
+</SCRIPT>
+</HEAD>
+<BODY  oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<DIV id=north >
+<table border="0" width=100% height=100% cellspacing="0" cellpadding="0" align=center bgcolor='#ffffff'>
+  <tr> 
+      <td width="100%"  valign=middle align=center height="25" bgcolor="f0f0f9" ><table width="100%" border="0" cellspacing="0">
+ 					<tr> 						
+			      <td width="12%" height="26"> 
+			        <div align="right">选择部门：</div>			      </td>
+			      
+	          <td width="13%" height="26">
+		         <input type="button" id="group"  value="请选择"  border="0" class=input style="cursor: hand" >	         	</td>
+	         	
+			      <td width="10%" height="26"><div align="right">关键字：</div></td>
+			      
+				    <td width="30%" height="26"><input name="text" type="text" class="inputf0" id="keyword" maxsize="15"  ></td>   
+		          
+		            <td height="26" colspan="2"><input name="chakan" value="在线查看" class="inputf0" onClick="mysearch()" type="button">		              <div align="left"></div></td>
+            </tr>
+     		
+       <tr>  
+     <td height="26"><div align="right">选择策略组：</div></td>     	     
+     <td height="26"><input name="button" type="button" class=input id="policy" style="cursor: hand" value="请选择"  border="0" ></td>
+     <td height="26"><div align="right">用户状态：</div></td>
+     <td height="26"><select id="state" onchange="selectinput()" class="inputself0" >
+       <option value="-1">全部用户</option>
+       <option value="0">禁止访问的用户</option>
+       <option value="1">免监控的用户</option>
+       <option value="2">启动有个人QoS通道的用户</option>
+       <option value="3">启动有天流量限制的用户</option>
+       <option value="4">启动有天时间限制的用户</option>
+       <option value="5">启动计费服务的用户</option>
+     </select></td>
+	   <td width="35%"></td>
+       </tr>
+    </table>
+
+    </td>
+
+  </tr>
+  </table>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+﻿<HTML>
+<HEAD>
+<META content=0 http-equiv=Expires>
+<META content=no-cache http-equiv=Pragma>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<STYLE type=text/css>
+
+.3dtable1_x{CURSOR: default;border: 0px solid #222222; COLOR: #ffffff;  }
+.3dtable_up1_x{  COLOR: #ff0000; CURSOR: hand;BORDER-BOTTOM: buttonshadow 0px solid;BORDER-LEFT: buttonhighlight 1px solid;BORDER-RIGHT: buttonshadow 1px solid;BORDER-TOP: buttonhighlight 0px solid;}
+.3dtable_click_x{  COLOR: #ff0000; CURSOR: hand;}
+
+</STYLE>
+<script>
+
+function goto(src,t){
+    src.className="3dtable_click_x";
+		parent.main.location.href=t
+		if(src.id!='menu1'){
+			menu1.className="3dtable1_x";
+		}
+		if(src.id!='menu2'){
+			menu2.className="3dtable1_x";
+		}
+		if(src.id!='menu3'){
+			menu3.className="3dtable1_x";
+		}
+		if(src.id!='menu4'){
+			menu4.className="3dtable1_x";
+		}
+		if(src.id!='menu5'){
+			menu5.className="3dtable1_x";
+		}
+		if(src.id!='menu6'){
+			menu6.className="3dtable1_x";
+		}
+		if(src.id!='menu7'){
+			menu7.className="3dtable1_x";
+		}
+		if(src.id!='menu8'){
+			menu8.className="3dtable1_x";
+		}
+}
+
+
+
+function menuover(src){
+  if(src.className!="3dtable_click_x"){
+   src.className="3dtable_up1_x";
+  }
+}
+
+function menuout(src){
+ if(src.className!="3dtable_click_x"){
+  src.className="3dtable1_x";
+ }
+}
+
+
+function  logout()
+{
+  if  (confirm("您确认退出本操作界面吗？"))
+  {
+  parent.location.href="/msa/main.xp?Fun=msaAdminLogout";
+  //window.location.href = '/msa/main.xp?Fun=msaAdminLogout';
+  //parent.parent.refresh();
+  }
+}
+function   window.onload() 
+{
+   var tbl=document.all("tbl00001");
+   var rowcount=tbl.rows.length;
+   var lright=parent.document.getElementById('lright').value;
+   for(var i=1; i<rowcount; i++)
+   {
+       var tr=tbl.rows(i);
+       for(var j=0;j<7;j++)
+       {   
+           td = tr.childNodes[j];
+           //alert(td.innerText);
+           //alert(lright.substring(j,j+1));
+           //alert(parseInt(lright.substring(j,j+1)));
+           if(parseInt(lright.substring(j,j+1))==0){
+           		td.style.display ="none";
+           }
+       }   
+   }
+}
+</script>
+
+</HEAD>
+<BODY bgcolor="#000000" leftMargin=0 topMargin=0 marginheight="0" oncontextmenu="return false" >
+<div>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%" >
+  <TR>
+    <TD width="790"  height="80" background="/msa/images/top1.jpg" >
+      <table border="0" cellpadding="0" cellspacing="0" valign="bottom" id=tbl00001>
+        
+         <tr height="55" valign="bottom"> 
+          <td   colspan=10 >&nbsp;</td>
+          </tr>
+          
+        <tr height="10" valign="bottom" >            
+            <td  class=3dtable1_x id="menu1"  width="90" height="10" align=right onClick="goto(this,'/msa/nowview/nowview.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>实时状态</span>
+					    	</div>
+					    </td>
+					
+					 <td  class=3dtable1_x   id="menu2"   width="90" height="10" align=right onClick="goto(this,'/msa/datacenter/main.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>数据中心</span>
+					    	</div>
+					    </td>
+					    
+					 <td  class=3dtable1_x   id="menu3"   width="90" height="10" align=right onClick="goto(this,'/msa/report/reportview.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>报告中心</span>
+					    	</div>
+					    </td>
+					    
+					  <td  class=3dtable1_x   id="menu4"   width="90" height="10" align=right onClick="goto(this,'/msa/rule/serveview.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>策略中心</span>
+					    	</div>
+					    </td>
+					 
+					 
+					 
+					 
+					 <td  class=3dtable1_x   id="menu5"   width="90" height="10" align=right onClick="goto(this,'/msa/users/main.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>账户中心</span>
+					    	</div>
+					    </td>
+					    
+					    <td  class=3dtable1_x   id="menu6"   width="90" height="10" align=right onClick="goto(this,'/msa/manager/main.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>管理中心</span>
+					    	</div>
+					    </td>
+					    
+           <td  class=3dtable1_x   id="menu7"   width="90" height="10" align=right onClick="goto(this,'/msa/service/main.htm');" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="left"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>网络与部署</span>
+					    	</div>
+					    </td>
+
+
+					    <td  class=3dtable1_x   id="menu8"   width="50" height="10" align=right onClick="logout();" onmouseover=menuover(this)   onmouseout=menuout(this)>  
+					      <div align="right"  >  
+					      <img src="/msa/images/hus.gif" width="15" height="14"><span>退出</span>
+					    	</div>
+					    </td>
+         
+        </tr>
+      </table>
+      
+    </TD>
+    <td  background="/msa/images/top2.jpg" > &nbsp;
+    </td>
+    <td width="226"    background="/msa/images/top2.jpg"> &nbsp;
+    </td>
+
+     </TR></TABLE>
+</div>
+</BODY></HTML>

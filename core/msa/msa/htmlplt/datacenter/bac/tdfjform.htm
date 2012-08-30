@@ -1,0 +1,251 @@
+﻿<html class="x-viewport">
+<head>
+<title>表单内容检索</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css">
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/xtheme-default.css">
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js">
+<script language="Javascript" src="/msa/publicjs/select_time.js"></script>
+<script type="text/javascript" src="/msa/extjs/ext-all.js"></script>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<SCRIPT type=text/javascript src="/msa/publicjs/exportexcel.js"></SCRIPT>
+<style type="text/css">
+  HTML { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN:
+  0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT:
+  100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+  0px } BODY { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px;
+  MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana;
+  HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+  0px } P { MARGIN: 5px } .settings { BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_wrench.png)
+  } .nav { BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_go.png)
+  }
+</style>
+<script language="JavaScript">
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+		pagesize=100;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var win;
+			
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+
+    
+			 xtzystore = new Ext.data.JsonStore({
+					 	root: 'Results',
+		        totalProperty: 'totalCount',
+				    url:'/msa/main.xp',
+		        baseParams:{Fun:'msaformList',webtype:'2'},
+				    fields: [
+				         {name: 'uid'},
+				         {name: 'uname'},
+				         {name: 'dname'},
+						     {name: 'mydate'},
+						     {name: 'formname'},
+						     {name: 'host'},
+						     {name: 'url'},
+						     {name: 'matt'},
+						     {name: 'mattsize'},
+						     {name: 'size'},
+						     {name: 'dip'}
+				    ]
+				});
+    xtzystore.load();
+
+  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+        var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+         var userItems = this.items || []; 
+         this.items = userItems.concat(pageSizeItems); 
+         HlPagingToolbar.superclass.initComponent.call(this); 
+    }, 
+    onHlPagingKeyDown: function(field, e){ 
+        if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            //alert(this.pageSize);
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+});
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        viewConfig:{forceFit: true, scrollOffset: 0},
+        bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+        columns: [
+                  {header: "用户名", width: 120, sortable: true, dataIndex: 'uname'},
+			            {header: "显示名",   width: 120, sortable: true,  dataIndex: 'dname'},
+			            {id:'sdate',header: "提交时间", width: 100, sortable: true,  dataIndex: 'mydate'},
+                  {header: "表单名称", width: 120, sortable: true, dataIndex: 'formname'},
+			            {header: "主机",   width: 120, sortable: true,  dataIndex: 'host'},
+			            {header: "URL", width: 100, sortable: true,  dataIndex: 'url'},
+                  {header: "附件名称", width: 120, sortable: true, dataIndex: 'matt'},
+			            {header: "附件大小",   width: 120, sortable: true,  dataIndex: 'mattsize'},
+			            {header: "表单大小", width: 100, sortable: true,  dataIndex: 'size'},
+			            {header: "目的IP",   width: 120, sortable: true,  dataIndex: 'dip'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'sdate',
+        height:screen.height-210,
+        title:'表单列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    }); 
+   
+   xtzygrid.addListener('rowclick', rightClickFn);
+		function rightClickFn(client, rowIndex, e) { 
+					 rightClick.showAt(e.getXY()); 
+					 detailEl=  rowIndex;
+		}         
+　
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items:[{
+                    id:'shuxing',
+                    iconCls:'load-icon',
+                    text:'该表单内容',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var usrl=record.get("formname")+"/gnm-index.htm"; 
+                        
+                        alert(usrl); 
+ 
+						            var hgt=(screen.height)-190;
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '表单浏览',
+							                    height: 400,
+							                    width: 500,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          //mywin.maximize();
+                        }
+                },{
+                    id:'detail',
+                    iconCls:'load-icon',
+                    text:'该用户详细信息',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var uid=record.get("uid");      
+                        var usrl="/msa/main.xp?Fun=msaTermInfoView+uid="+uid;
+					  
+						        var hgt=(screen.height)-190;
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panelmy',
+							                    title: '表单浏览',
+							                    height: 400,
+							                    width: 550,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize();
+                        } 
+                }]});
+    
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+            }
+     
+           new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+
+						myMask.hide();
+}); 
+</script>
+</head>
+<body>
+<DIV id=north></DIV>
+</body>
+</html>
+ 

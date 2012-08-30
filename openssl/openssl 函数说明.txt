@@ -1,0 +1,28 @@
+openssl之EVP系列之18---EVP_BytesToKey函数介绍
+    ---根据doc\crypto\EVP_BytesToKey.pod翻译和自己的理解写成
+    （作者：DragonKing, Mail: wzhah@263.net ,发布于：http://openssl.126.com之
+openssl专业论坛,版本：openssl-0.9.7）
+    该函数定义如下（openssl\evp.h）：
+int EVP_BytesToKey(const EVP_CIPHER *type,const EVP_MD *md,const unsigned char *salt, const unsigned char *data,int datal, int count, unsigned char
+ *key,unsigned char *iv);
+    该函数实现的功能是通过密码口令产生一个加密密钥和初始化向量IV。参数types是
+要使用该密钥和IV的加密算法，类型位EVP_CIPHER。参数md是要使用的信息摘要算法。
+参数salt是在提取密钥和IV的时候要使用的盐值，它应该指向一个8字节的缓存或者NUL
+L，如果是NULL，就不使用盐值。参数data是包含了datal个字节数据的缓存，这些数据
+用来提取密钥数据。参数count指定了迭代的次数。提取出来的密钥和IV向量分别保存在
+参数key和iv里面。函数返回生成的密钥的长度。
+    本函数使用的提取密钥算法是将产生的D_1,D_2,...,D_i,...等数据串连起来，一直
+计算到数据长度满足了密钥和IV的长度。其中D_i定义如下：
+     D_i = HASH^count(D_(i-1) || data || salt)
+    这里的符号||表示数据串连，也就是连接起来。初始的D_0是空的，也就是说长度为
+0。HASH是代表使用的信息摘要算法，HASH^1(data)就是HASH(data)，HASH^2(data)是H
+ASH(HASH(data)),其它以此类推。串连出来的数据前面的用来做密钥，后面的用来做IV
+值。
+    该函数一个典型的应用就是根据参数data中的口令来为一个加密算法产生加密密钥
+。增加参数count会使算法的执行速度下降，但是却使得使用大量备选密码强力破解的黑
+客行为难度大大增加。
+    如果密钥和IV的长度比摘要算法的长度短并且使用了MD5算法，那么该函数使用的算
+法就跟PKCS#5 v1.5标志是兼容的。否则，就会使用非标准的扩展方法来产生其它数据。
+新的应用程序建议应该使用更标准的算法如PKCS#5 v2.0来提取加密密钥。
+    
+

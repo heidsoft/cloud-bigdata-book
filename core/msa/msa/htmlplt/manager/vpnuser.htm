@@ -1,0 +1,105 @@
+﻿<HTML><HEAD><TITLE>更新服务规则</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+		function delurl() {
+				//alert(event.srcElement.id);
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.menufrm.location.href='/msa/main.xp?Fun=msaAddVPNuser';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","删除失败!");
+          },          
+          params:{Fun:'msaAddVPNuser',uname:event.srcElement.name,bindip:event.srcElement.id,delflag:'delflag'}
+				});
+		}
+    function addip() {
+				if(!(listform.bindip.value=="")){
+					var mybip=listform.bindip.value;
+				  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+				  var IP_flag=false;
+				  if(regIP.test(mybip)){
+					IP_flag = true;
+					}else{
+					IP_flag = false;
+					}
+					if (!IP_flag){
+					  Ext.MessageBox.alert("提示","ip地址格式错误!");
+						listform.bindip.focus();
+						listform.bindip.select();
+					  return false;
+					}
+				}
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.menufrm.location.href='/msa/main.xp?Fun=msaAddVPNuser';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+          },
+          params:{Fun:'msaAddVPNuser',uname:listform.uname.value,bindip:listform.bindip.value,pwd:listform.password.value,addflag:'addflag'}
+				});
+		}
+	</SCRIPT>
+</head>
+<body bgcolor="#FFFFFF" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mainviewdiv" valign="top" align="left" STYLE="position:absolute; top=30; left=5; z-index:1; left: 32px; width: 685px;">
+<table width="100%" border="1" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+  <form name="listform" method="POST">
+  <input type="hidden" name="ruleid" value="[$ruleid$]">
+	<tr>
+		<td height="23" colspan="2">用户名</td>
+		<td width="36%" height="23"><span class="STYLE4">IP地址</span></td>
+		<td width="17%">操作</td>
+	</tr>
+		[$begintable list$]
+    <tr>
+      <td colspan="2">
+      	[$name$]      </td>
+      <td width="36%">
+      	[$bindip$]      </td>
+      <td width="17%">
+          <input type='button' class=input size="32" onClick="delurl();" maxlength="20" name="[$name$]" id="[$bindip$]" value="删除" style="cursor: hand">
+      </td>
+    </tr>
+    [$endtable$]
+	<tr>
+		<td width="47%">
+          用户名：<input type='text' name="uname" class=input size="15" maxlength="30" onClick="" value="">
+		</td>
+		<td width="47%">
+			密码：<input type='password' name="password" class=input size="15" maxlength="30" onClick="" value="">
+		</td>
+		<td width="36%">
+          <input type='text' name="bindip" class=input size="30" maxlength="20" onClick="" value="">
+    </td>
+		<td width="17%">
+          <input type='button' class=input onClick="addip();" size="20" maxlength="20" value="添加" style="cursor: hand">
+    </td>
+	</tr>
+	</form>
+</table>
+</div>
+</body>
+</html>

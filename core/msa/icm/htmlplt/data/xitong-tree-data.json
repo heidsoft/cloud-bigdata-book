@@ -1,0 +1,36 @@
+﻿[{
+    text:'实时信息',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'实时摘要',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'xitongzhaiyao',
+        leaf:true
+    },{
+        text:'在线上网终端',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'hostlistinfo',
+        leaf:true
+    },{
+        text:'待处理ARP请求',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'arprequest',
+        leaf:true
+    },{
+        text:'ARP请求报警',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'arprequestalert',
+        leaf:true
+    },{
+        text:'ARP响应报警',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'arprequestedalert',
+        leaf:true
+    }]
+}]

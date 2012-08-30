@@ -1,0 +1,398 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>账户信息</title>
+<style type="text/css">
+<!--
+    body {
+      font-family: arial, sans-serif;
+      margin: 0;
+      padding: 13px 15px 15px;
+    }
+    .body {
+      margin: 0;
+    }
+    div.errorbox-good {}
+
+    div.errorbox-bad {} 
+
+    div.errormsg { color: red; font-size: smaller; font-family: arial,sans-serif;}
+    font.errormsg { color: red; font-size: smaller; font-family: arial,sans-serif;}
+    
+    div.pagemsg {
+      font-size: smaller; 
+      font-weight: bold; 
+      text-align: center;
+    }
+    div.pagemsg span {
+      padding: 5px; 
+      background: #ff9;
+    }
+    div.topbarwrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    div.topbar {
+      padding: 3px 8px 0px;
+    }
+    div.header {
+      padding-top: 32px;
+      margin-bottom: 9px;
+      margin-left: -2px;
+      position:relative;
+      zoom: 1
+    }
+    div.header img.logo {
+      border: 0;
+      float:left;
+    }
+    div.header div.headercontent {
+      float:right;
+      margin-top:17px;
+    }
+    div.header:after{
+      content:".";
+      display:block;
+      height:0;
+      clear:both;
+      visibility:hidden;
+    }
+    div.pagetitle {
+      font-weight:bold;
+    }
+    .footer { 
+      color: #666;
+      font-size: smaller;
+      margin-top: 40px;
+      text-align: center;
+    }
+    table#signupform {
+      left: -5px;
+      top: -7px;
+      position:relative;
+    }
+    table#signupform td{
+      padding: 7px 5px;
+    }
+    table#signupform td table td{
+      padding: 1px;
+    }
+    hr {
+      border: 0;
+      background-color:#DDDDDD;
+      height: 1px;
+      width: 100%;
+      text-align: left;
+      margin: 5px;
+    }
+  -->
+</style>
+<style type="text/css">
+<!--
+  table.pi {
+  font-size: 13px;
+  margin-bottom:30px;
+  }
+
+  .pi td {
+  padding: 2px 2px 2px 7px;
+  }
+  table.svcs {
+  font-size: 13px;
+  margin-bottom:30px;
+  margin-left:7px;
+  }
+  .svcs td {
+  padding: 7px 0px 7px 0px;
+  }
+  a.svcAccessLink {
+  color:#7777cc;
+  }
+  a {
+  color:#0000cc;
+  }
+  .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+  .clearfix { display: inline-block; }
+  * html .clearfix { height: 1%; }
+  .clearfix { display: block; }
+    
+  .body {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+  .manage-account p {
+    margin: 0;
+    padding: 0 0 1em;
+  }
+  
+  .manage-account h2 {
+    font-size: 1.3em;
+    text-align: left;
+    margin: 1em 0 1em;
+    padding: 0 0 .2em;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .manage-account h2 a {
+    font-size: .8em;
+    font-weight: normal;
+  }
+  
+  .account {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .account .profile {
+    float: left;
+    width: 32.999%;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .profile .info {
+    padding: 0;
+  }
+  
+  .account .profile .info .img {
+    float: left;
+    height: 100px;
+    width: 100px;
+    margin: 0 0 .5em;
+    margin-right: 1em;
+    border: 1px solid #ccc;
+  }
+  
+  .account .profile .info ul {
+    margin: 0 0 .5em;
+    padding: 0;
+    list-style: none outside;
+  }
+  
+  .account .profile .info ul li {
+    padding: 0 0 .4em;
+    margin: 0;
+    line-height: 1.3em;
+  }
+  
+  .account .settings {
+    float: left;
+    width: 65.999%;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .settings table {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: collapse;
+    border-width: 0;
+    empty-cells: show;
+  }
+  
+  .account .settings table td {
+    vertical-align: top;
+    font-size: 13px;
+    padding: 0 1.5em 1.5em 0;
+  }
+  
+  .account .settings .pi td {
+    padding: 2px 2px 2px 7px;
+  }
+  
+  .account .settings table td.headings {
+    font-weight: bold;
+    width: auto;
+  }
+  
+  .account .settings ul {
+    width: 100%;
+    list-style: none outside;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account .settings ul li span.light {
+    color: #6f6f6f
+  }
+
+  .account .settings ul li span.errormsg {
+    color: red;
+  }
+  
+  .products {
+    list-style: none outside;
+    padding: 0 0 1em;
+    margin: 0;
+  }
+  
+  .products li {
+    float: left;
+    width: 32.999%;
+    display: inline;
+    height: 25px;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  
+  .products li span {
+    display: block;
+    margin: 0;
+    margin-left: 30px;
+  }
+  
+  .products li img {
+    float: left;
+  }
+  
+  .products li a.light {
+    font-weight: normal;
+    color: #77c;
+  }
+  
+  .products li.more {
+    clear: both;
+    padding: .2em 0 0;
+    font-weight: normal;
+  }
+#meter_container {
+  font-size: 13px;
+  font-family: arial, sans-serif;
+}
+
+#meter_container table {
+  width: 100%;
+}
+
+.meter_header {
+  font-weight: bold;
+  padding-right: 4px;
+  text-align: right;
+  
+}
+
+.meter_bar {
+  width: 99%;
+  padding-bottom: 2px;
+  font-size: 10px;
+}
+
+.meter_bar table {
+  border: 1px solid #345ba6;
+  width: 100%;
+}
+
+.meter_footer {
+  padding-left: 6px;
+}
+
+.meter_used {
+  background: #345ba6;
+}
+
+.meter_available {
+  background: #ffffff;
+}
+  -->
+</style>
+<SCRIPT>	
+  function addfavorite()
+ { 
+ 	 var myurl;
+ 	 //myurl=window.location;
+ 	 myurl='http://[$authadd$]:[$sport$]/msa/main.xp?Fun=msashowlogonpage&xclientip=[$xclientip$]+sid=[$sid$]';
+ 	 //alert(myurl);
+   if (document.all)
+   {
+      window.external.addFavorite(myurl,'MSA帐号信息收藏夹');
+
+   }
+   else if (window.sidebar)
+   {
+      window.sidebar.addPanel( 'MSA帐号信息收藏夹',myurl, "");
+   }
+ } 
+
+</SCRIPT>	
+</head>
+  
+  <body  oncontextmenu="return false" >
+  <div class="header">
+  <img class="logo" src="/msa/auth/top.png" alt="MSA">
+</div>
+  <div class="body">
+  <div class="manage-account">
+  <div class="account clearfix">
+  <div class="profile clearfix">
+  <h2>个人信息</h2>
+<!--  <div class="info">
+  <img src="./photo.jpg" alt="" class="img">
+  
+  </div>-->
+  <p>
+   <img src="/msa/images/hus.gif" width="15" height="14">如果您想加入收藏夹,请单击<span onClick="addfavorite();" style="cursor: hand" >&nbsp;[加入收藏夹]</span>  
+  </p>
+  </div>
+  
+  
+  <div class="settings">
+  <h2>&nbsp;</h2>
+  <table>
+  <tbody>
+  <tr>
+  <td class="headings">用户名:</td>
+  <td>
+  <ul>
+  <li>[$dispname$]</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">当前速率:</td>
+  <td>
+  <ul>
+  <li>[$nowflow$]bps</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">当前连接数:</td>
+  <td>
+  <ul>
+  <li>TCP:[$nowtcp$] UDP:[$nowudp$]</li>
+  </ul>
+  </td>
+  </tr>
+  <tr>
+  <td class="headings">总流量:</td>
+  <td>
+  <ul>
+  <li>当天:[$dayflow$]  当周:[$weekflow$] 当月:[$monthflow$] </li>
+  </ul>
+  </td>
+  </tr>
+   <tr>
+  <td class="headings">访问时长:</td>
+  <td>
+  <ul>
+  <li>当天:[$daytime$]  当周:[$weektime$] 当月:[$monthtime$] </li>
+  </ul>
+  </td>
+  </tr>
+  
+  </tbody></table>
+  </div>
+  </div>
+  </div>
+  </div>
+<div class="footer">
+  ©MSA 宝创科技版权所有 </div>
+</body></html>

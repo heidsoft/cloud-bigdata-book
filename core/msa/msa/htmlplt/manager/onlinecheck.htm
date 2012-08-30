@@ -1,0 +1,181 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT><SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<SCRIPT type=text/javascript>
+ 
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif'; 
+Ext.onReady(function(){
+	var wing1;
+//	var wing2;
+//	//升级记录
+	var panel1 =new Ext.Panel({
+			layout:'fit',
+			height:480,
+			autoScroll: true,
+			html:"<IFRAME id='srvsearch' name='srvsearch' target='main' width=100% height=80% SRC = '/msa/manager/history.htm' border='0' frameborder='0' scrolling='yes'></iframe>"
+	});
+	var button_1 = Ext.get('btnhistory');
+	button_1.on('click', function(){
+			if(!wing1){
+			wing1 = new Ext.Window({
+					title: '历史记录',
+					closeAction: 'hide',
+					width: 420,
+					height:360,
+					plain:true,
+					autoScroll:false,
+					items:panel1,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	                text: '关闭',
+						      handler: function(){
+							      wing1.hide();
+						      }
+					}]
+				});
+			}
+			wing1.show();
+	});
+//	var panel2 =new Ext.Panel({
+//			layout:'fit',
+//			height:480,
+//			autoScroll: true,
+//			html:"<IFRAME id='srvsearch' name='srvsearch' target='main' width=100% height=80% SRC = '/msa/manager/upsys.htm' border='0' frameborder='0' scrolling='yes'></iframe>"
+//	});
+//	var button_2 = Ext.get('btnUpdate');
+//	button_2.on('click', function(){
+//			if(!wing2){
+//			wing2 = new Ext.Window({
+//					title: '可升级版本列表',
+//					closeAction: 'hide',
+//					width: 420,
+//					height:360,
+//					plain:true,
+//					autoScroll:false,
+//					items:panel2,
+//					bodyStyle:'padding:5px;',
+//					buttons: [{
+//	                text: '关闭',
+//						      handler: function(){
+//							      wing2.hide();
+//						      }
+//					}]
+//				});
+//			}
+//			wing2.show();
+//	});
+});
+</SCRIPT>
+<SCRIPT type=text/javascript>
+
+	function showsysupdate(btn){
+	  if(btn=='yes'){
+	   Ext.Ajax.request({
+	        method : 'POST', 
+	        url:'/msa/main.xp', 
+	        success: function(response, options) { 
+								var runner;
+	               Ext.MessageBox.show({
+					           msg: '运行升级程序',
+					           progressText: '正在运行升级程序....',
+					           width:450,
+					           wait:true,
+					           progress:true,
+					           waitConfig: {interval:1000},
+					           icon:'ext-mb-download'
+					      }); 
+					      var task = {
+										run: function(){
+										   Ext.Ajax.request({
+					                      method : 'POST', 
+					                      url:'/msa/main.xp', 
+				                        success: function(response, options) { 
+				    											var retxt=response.responseText;
+				    											//alert(retxt);
+				    											if(retxt.substring(0,1)=="0" ){
+				    												if(retxt.substring(1,2)=="2"){
+						    												runner.stopAll();   
+						                            Ext.MessageBox.hide();   
+						                         	  Ext.MessageBox.alert('提示','没有新的升级包！'); 
+				    											  }else {
+						    												runner.stopAll();   
+						                            Ext.MessageBox.hide();   
+						                         	  Ext.MessageBox.alert('提示','运行升级程序结束！10秒后系统将会重新启动。'); 
+						                         }
+				    											}else{
+				    											  Ext.MessageBox.updateProgress(0, retxt.substring(1,retxt.length) );	
+				    											}		
+				                        }, 
+				                        failure : function() {  
+				                          runner.stopAll();   
+				                          Ext.MessageBox.hide();   
+				                         	Ext.MessageBox.alert('提示','运行升级程序失败！'); 
+	                              },
+				                       params:{
+				                            Fun:'ltupsysok' 
+				                        } 
+				                });
+										},
+										interval: 5000 // 每30秒一周期
+								};
+								runner = new Ext.util.TaskRunner();
+								runner.start(task);
+	        },
+	        failure : function() {    
+	          Ext.MessageBox.hide();  
+	         	Ext.MessageBox.alert('提示','运行升级程序失败！'); 
+	        },
+	        params:{
+	            Fun:'ltupsysok'
+	        } 
+		 });
+	  }		        
+	};
+	function updatefun(item){
+	  Ext.MessageBox.confirm('Confirm', '您确认要升级吗?', showsysupdate);
+	}
+
+</SCRIPT>
+</head>
+<body  oncontextmenu="return false"  bgcolor="#ffffff" text="#000000"  leftmargin="1" topmargin="0">
+	<div id="mainviewdiv" valign="top" align="center" STYLE="position:absolute; top=30; left=30; z-index:1;">
+    <form name="listform">
+	<table width="768" align="center">	 	
+    <tr>
+		  <td style="color:blue; size:16" align="center"><img src="/msa/images/tt1.gif" width="40" height="40" align="absmiddle"><strong>在线升级</strong></td>
+    </tr>		
+	</table>
+	
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td width="100%">
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+	             <legend>软件版本信息</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="48%" align="right">当前系统版本：</td>
+				          <td width="52%" align="left">[$version$]</td>
+			            </tr>
+		         </table>
+	  </fieldset>
+	 	      </td>
+		    </tr>
+		  </table>
+	  <table width="100%" border="0" align="center">
+		<tr>
+		  <td align="center">
+				<input type="button" name="btnUpdate" value="在线升级" class="inputf0" onClick="updatefun()">
+			    <span style="color:blue; size:16">
+			    <input name="btnhistory" type="button" class="inputf0" value="查看升级历史纪录">
+		    </span></td>
+		</tr>
+		  </table>
+	</form>
+</div>
+</body>
+</html>

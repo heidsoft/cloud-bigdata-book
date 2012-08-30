@@ -1,0 +1,59 @@
+﻿[{
+    text:'上网日志',
+    expanded: true,
+    cls:'feeds-node',
+    children:[
+    {
+        text:'上网日志列表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'accesslist',
+        leaf:true
+    },{
+        text:'搜索上网日志',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'accesslists',
+        leaf:true
+    }]
+},{
+    text:'报警日志',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'报警日志列表',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'alertlist',
+        leaf:true
+    },{
+        text:'搜索报警日志',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'alertlists',
+        leaf:true
+    }]
+},{
+    text:'内容日志',
+    expanded: true,
+    cls:'feeds-node',
+    children:[{
+        text:'POP3/SMTP邮件',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'maillist',
+        leaf:true
+    },{
+        text:'POST表单数据',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'formlist',
+        leaf:true
+    },{
+        text:'内容搜索中心',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'contents',
+        leaf:true
+    }]
+}]

@@ -1,0 +1,944 @@
+﻿<html>
+<head>
+<title>更新服务规则</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<LINK href="/msa/publiccss/pubcss.css" type=text/css rel=stylesheet>
+<SCRIPT LANGUAGE="JavaScript">
+	function nextPage(){
+		var myurl="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+		for(var i=0;i<=90;i++){
+			if(eval("document.userform.chksort" + i).checked==true){
+				if(i=='0'){
+          myurl= '1' + myurl.substring(Number(i)+1);
+        }else if(i=='90'){
+          myurl = myurl.substring(0,Number(i)) +  '1';
+        }else{
+          myurl = myurl.substring(0,Number(i)) +  '1' + myurl.substring(Number(i)+1,90);
+        }
+			}
+	  }
+		document.userform.url.value =myurl;
+		document.userform.submit();
+	}
+
+	function allChecked(id){
+	  var  dfd=eval("document.all.dfd" + id);
+	  var  DataTable=eval("document.all.DataTable" + id);
+    if(dfd.value=="1"){
+       dfd.value="0";
+    }else {
+       dfd.value="1";
+    }
+		for(var i=0;i<DataTable.rows.length;i++){
+			if(typeof(DataTable.rows[i].cells[0].childNodes[1])=="object"&&DataTable.rows[i].cells[0].childNodes[1].tagName=="INPUT"&&DataTable.rows[i].cells[0].childNodes[1].type=="checkbox") {
+				if(dfd.value=="1"){
+	  			 DataTable.rows[i].cells[0].childNodes[1].checked="true";
+	      }else{
+	         DataTable.rows[i].cells[0].childNodes[1].checked="";
+	      }
+	    }
+	  }
+}
+</SCRIPT>
+</head>
+<body oncontextmenu="return false" bgcolor="#F0f0f0" topmargin=0 leftmargin=0>
+<table width="100%" height=70% cellpadding=0 cellspacing=0 Border=0>
+<form name="userform" method="POST" action="/msa/main.xp">
+<input type="hidden" name="Fun" value="msaUrlSortOK">	
+<input type="hidden" id="url" name="url" value="[$url$]">			
+<input type="hidden" name="ruleid" value="1">	
+<input type="hidden" name="dfd1" value="0">	
+<input type="hidden" name="dfd2" value="0">	
+<input type="hidden" name="dfd3" value="0">	
+<input type="hidden" name="dfd4" value="0">	
+<input type="hidden" name="dfd5" value="0">	
+<input type="hidden" name="dfd6" value="0">	
+<input type="hidden" name="dfd7" value="0">	
+<input type="hidden" name="dfd8" value="0">	
+<input type="hidden" name="dfd9" value="0">	
+<input type="hidden" name="dfd10" value="0">	
+<input type="hidden" name="dfd11" value="0">	
+<input type="hidden" name="dfd12" value="0">		
+<input type="hidden" name="dfd13" value="0">
+	<tr>
+	<TD HEIGHT=330 COLSPAN = 2 VALIGN="top">
+		<TABLE WIDTH = 100% cellspacing=0 cellpadding=0>
+		<tr bgcolor="#FFFFFF">
+			<td bgcolor="#FFFFFF" width = 10>&nbsp;</td>
+			<td bgcolor="#FFFFFF" height = 59 ALIGN=left VALIGN=top>
+				<TABLE WIDTH = 100% CELLPADDING=0 CELLSPACING=0 border=0>
+				<TR><TD WIDTH = 500 ALIGN=left VALIGN=top bgcolor='White'>
+					<TABLE CELLPADDING=0 CELLSPACING=0 border=0>
+					<TR><TD COLSPAN = 2 bgcolor='White'><BR>
+						<FONT FACE='宋体' ><B>表单监控分类规则</B></FONT>
+					</TD></TR>
+					<TR><TD width = 10 bgcolor='White'>&nbsp;</TD>
+					<TD bgcolor='White'><FONT FACE='宋体' color=red >--[*系统仅仅监控以下分类的表单]</FONT>
+					</TD></TR></TABLE>
+					</TD>
+					<TD WIDTH = 5>&nbsp;</TD>
+                  <TD width = 74 ALIGN=right> 
+                    <div align="center"><IMG SRC='./images/websitehd.gif' border = 0> 
+                    </div>
+             </TD>
+        </TR>
+        </TABLE>
+			</td>
+		</tr>
+		<tr>
+			<td height = 1 colspan = 2 bgcolor="Gray"></td>
+		</tr>
+		<tr>
+			<td height = 1 colspan = 2 bgcolor="White"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td height=210 ALIGN=left VALIGN=top>
+				<TABLE CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 10>&nbsp;</TD>
+				<TD>
+				<TABLE CELLPADDING = 0 CELLSPACING=0>
+				
+			<TABLE id="DataTable1" CELLPADDING = 0 CELLSPACING=0 >
+			  <TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort0" value="0" [$chksort0$] >0:未知分类
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b1" value="全选"  class="inputchk" onClick="allChecked(1)"><B>具有社会性问题的网站</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort1" value="1" [$chksort1$]>1:宣扬暴力
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort2" value="2" [$chksort2$]>2:具有侵略性
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort3" value="3" [$chksort3$]>3:色情网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort4" value="4" [$chksort4$]>4:裸体或暴露
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort5" value="5" [$chksort5$]>5:盗版和破解
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort6" value="6" [$chksort6$]>6:枪支武器
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+		
+		
+			<TABLE id="DataTable2" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b2" value="全选"  class="inputchk" onClick="allChecked(2)"><B>具有网络危害性的网站</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort7" value="7" [$chksort7$] >7:间谍、钓鱼网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort8" value="8" [$chksort8$] >8:感染病毒
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+			<TABLE id="DataTable3" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b3" value="全选"  class="inputchk" onClick="allChecked(3)"><B>社会生活</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort9" value="9" [$chksort9$] >9:政治与理念
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort10" value="10" [$chksort10$] >10:政府网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort11" value="11" [$chksort11$] >11:宗教
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort12" value="12" [$chksort12$] >12:军事
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort13" value="13" [$chksort13$] >13:教育
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort14" value="14" [$chksort14$] >14:法律
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort15" value="15" [$chksort15$] >15:体育
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort16" value="16" [$chksort16$] >16:艺术
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort17" value="17" [$chksort17$] >17:健康
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort18" value="18" [$chksort18$] >18:交通
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort19" value="19" [$chksort19$] >19:天气
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort20" value="20" [$chksort20$] >20:上市与知名公司
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				
+			<TABLE id="DataTable4" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b4" value="全选"  class="inputchk" onClick="allChecked(4)"><B>网络生活-工作与应用</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort21" value="21" [$chksort21$] >21:搜索
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort22" value="22" [$chksort22$] >22:下载
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort23" value="23" [$chksort23$] >23:邮箱
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort24" value="24" [$chksort24$] >24:人才职位
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort25" value="25" [$chksort25$] >25:BT网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+			<TABLE id="DataTable5" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b5" value="全选"  class="inputchk" onClick="allChecked(5)"><B>网络生活-IT与安全</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort26" value="26" [$chksort26$] >26:IT综合网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort27" value="27" [$chksort27$] >27:黑客与安全技术
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort28" value="28" [$chksort28$] >28:反病毒反间谍网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort29" value="29" [$chksort29$] >29:升级站点
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort30" value="30" [$chksort30$] >30:代理服务器
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				
+		<TABLE id="DataTable6" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b6" value="全选"  class="inputchk" onClick="allChecked(6)"><B>网络生活-新媒体</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort31" value="31" [$chksort31$] >31:新闻
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort32" value="32" [$chksort32$] >32:博客
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort33" value="33" [$chksort33$] >33:媒体网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort34" value="34" [$chksort34$] >34:网络广播电视
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort35" value="35" [$chksort35$] >35:网上电话
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+			<TABLE id="DataTable7" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b7" value="全选"  class="inputchk" onClick="allChecked(7)"><B>网络生活-兴趣与爱好</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort36" value="36" [$chksort36$] >36:汽车
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort37" value="37" [$chksort37$] >37:手机
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort38" value="38" [$chksort38$] >38:服装
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort39" value="39" [$chksort39$] >39:宠物
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+		
+	<TABLE id="DataTable8" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b8" value="全选"  class="inputchk" onClick="allChecked(8)"><B>网络生活-休闲与娱乐</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				
+		
+ 
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort40" value="40" [$chksort40$] >40:游戏
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort41" value="41" [$chksort41$] >41:旅游
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort42" value="42" [$chksort42$] >42:购物
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort43" value="43" [$chksort43$] >43:影视
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+
+ 
+				
+			<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort44" value="44" [$chksort44$] >44:音乐
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort45" value="45" [$chksort45$] >45:动漫
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort46" value="46" [$chksort46$] >46:美食
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort47" value="47" [$chksort47$] >47:文学
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+
+				
+			<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort48" value="48" [$chksort48$] >48:图铃
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort49" value="49" [$chksort49$] >49:图片
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort50" value="50" [$chksort50$] >50:时尚
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort51" value="51" [$chksort51$] >51:Flash
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort52" value="52" [$chksort52$] >52:生活频道
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+				
+			<TABLE id="DataTable9" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b9" value="全选"  class="inputchk" onClick="allChecked(9)"><B>网络生活-社区与交流</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				
+		
+ 
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort53" value="53" [$chksort53$] >53:聊天
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort54" value="54" [$chksort54$] >54:论坛
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort55" value="55" [$chksort55$] >55:交友
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort56" value="56" [$chksort56$] >56:同学录
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+			  <TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort57" value="57" [$chksort57$] >57:社区
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+						
+			<TABLE id="DataTable10" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b10" value="全选"  class="inputchk" onClick="allChecked(10)"><B>网络生活-打发无聊</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				
+		
+ 
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort58" value="58" [$chksort58$] >58:彩票
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort59" value="59" [$chksort59$] >59:明星
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort60" value="60" [$chksort60$] >60:星座
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort61" value="61" [$chksort61$] >61:搞笑
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+			  <TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort62" value="62" [$chksort62$] >62:型男型女
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort63" value="63" [$chksort63$] >63:娱乐圈
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+			  <TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort64" value="64" [$chksort64$] >64:模特
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+			<TABLE id="DataTable11" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b11" value="全选"  class="inputchk" onClick="allChecked(11)"><B>网络生活-财经</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+				
+		
+ 
+			
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort65" value="65" [$chksort65$] >65:银行
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort66" value="66" [$chksort66$] >66:证券与金融网站
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort67" value="67" [$chksort67$] >67:保险公司
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort68" value="68" [$chksort68$] >68:房地产
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+			
+			<TABLE id="DataTable12" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b12" value="全选"  class="inputchk" onClick="allChecked(12)"><B>其他</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort69" value="69" [$chksort69$] >69:网络广告
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort70" value="70" [$chksort70$] >70:网络计数
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>		
+				
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort71" value="71" [$chksort71$] >71:网络存储
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>		
+				
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort72" value="72" [$chksort72$] >72:教程资料
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>		
+				
+				
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort73" value="73" [$chksort73$] >73:企业网
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>		
+				
+					<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort74" value="74" [$chksort74$] >74:IT服务商
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>		
+				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort75" value="75" [$chksort75$] >75:博彩类
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>	
+				
+  	<TABLE id="DataTable13" CELLPADDING = 0 CELLSPACING=0 >
+				<TR>
+				<TD WIDTH = 300>&nbsp;<input type="checkbox" name="b13" value="全选"  class="inputchk" onClick="allChecked(13)"><B>自定义</B></TD>
+				<TD>
+					&nbsp;
+				</TD>
+				</TR>		
+
+				
+								
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort76"" value="76" [$chksort76$] >76:自定义分类1
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort77"" value="77" [$chksort77$] >77:自定义分类2
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort78"" value="78" [$chksort78$] >78:自定义分类3
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort79"" value="79" [$chksort79$] >79:自定义分类4
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort80"" value="80" [$chksort80$] >80:自定义分类5
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort81"" value="81" [$chksort81$] >81:自定义分类6
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort82"" value="82" [$chksort82$] >82:自定义分类7
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort83"" value="83" [$chksort83$] >83:自定义分类8
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort84"" value="84" [$chksort84$] >84:自定义分类9
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort85"" value="85" [$chksort85$] >85:自定义分类10
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort86"" value="86" [$chksort86$] >86:自定义分类11
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort87"" value="87" [$chksort87$] >87:自定义分类12
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort88"" value="88" [$chksort88$] >88:自定义分类13
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort89"" value="89" [$chksort89$] >89:自定义分类14
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				
+	  				
+				<TR>
+				<TD WIDTH = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="chksort90"" value="90" [$chksort90$] >90:自定义分类15
+				</TD>
+				<TD>&nbsp;
+				</TD>
+				</TR>
+				</TABLE>
+				</TD>
+				</TR>
+				</TABLE>
+			</td>
+		</tr>
+		</TABLE>
+	</TD>
+</TR>	
+
+<tr>
+	<td height = 1 colspan = 2 bgcolor="Gray"></td>
+</tr>
+<tr>
+	<td height = 1 colspan = 2 bgcolor="White"></td>
+</tr>
+
+<!-- generic wizard buttons -->
+<tr>
+	<td colspan = 2 align="right">
+		<FONT FACE='宋体' >
+		<input type="BUTTON" class=buttons value="确定更新" onclick="nextPage();">
+		<input type="hidden" name="iThisPage" value="4">	
+		<IMG SRC="/images/Space.gif" WIDTH=4 HEIGHT=1 BORDER=0>
+		</FONT>
+	</td>
+</tr>
+</form></table>
+<br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>

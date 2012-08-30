@@ -1,0 +1,1189 @@
+1、后台运行
+　　守护进程最重要的特性是后台运行。在这一点上DOS下的常驻内存程序TSR与之相似。
+2、独立于其运行前的环境
+　　守护进程必须与其运行前的环境隔离开来。这些环境包括未关闭的文件描述符，控制终端，会话和进程组，工作目录以及文件创建掩模等。这些环境通常是守护进程从执行它的父进程（特别是shell）中继承下来的。
+3、启动方式
+　　守护进程的启动方式有其特殊之处。它可以在Linux系统启动时从启动脚本/etc/rc.d中启动，可以由作业规划进程crond启动，还可以由用户终端（通常是shell）执行。 
+
+
+　　除了以上这些特征外，守护进程与普通进程基本上没有什么区别。实际上，编写守护进程也就是按照上述的守护进程特征把一个普通进程改造成为守护进程。
+
+
+二、 守护进程编程要点 
+　　守护进程的编程本身并不复杂，复杂的是各种版本的Unix的实现机制不尽相同，造成不同Unix环境下守护进程的编程规则并不一致。如果照搬某些书上的规则（特别是BSD4.3和低版本的System V）到Linux会出现错误的。所幸的是守护进程的编程原则都是一样的，区别在于具体的实现细节。这个原则就是要满足守护进程的特征。同时，Linux是基于Syetem V的SVR4并遵循Posix标准，实现起来比BSD4更方便。守护进程编程要点总结如下：
+
+
+1、屏蔽控制终端操作信号
+　　屏蔽一些有关控制终端操作的信号。防止在守护进程没有正常运转起来时，控制终端受到干扰退出或挂起。方法如下： 
+    MySignal(SIGTTOU, SIG_IGN); 
+
+    MySignal(SIGTTIN, SIG_IGN); 
+
+    MySignal(SIGTSTP, SIG_IGN); 
+
+    MySignal(SIGHUP, SIG_IGN);
+
+注意，这里调用的是我自定义的为指定信号安装处理函数MySignal，而不是signal。因为是signal的语义与实现有关，所以这里改用用sigaction实现的MySignal。MySignal具体定义见后面编程实例。
+说明：
+1) SIGHUP 
+　　本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端不再关联。
+　　登录Linux时，系统会分配给登录用户一个终端(Session)。在这个终端运行的所有程序，包括前台进程组和后台进程组，一般都属于这个Session。当用户退出Linux登录时，前台进程组和后台有对终端输出的进程将会收到SIGHUP信号。这个信号的默认操作为终止进程，因此前台进程组和后台有终端输出的进程就会中止。不过可以捕获这个信号，比如wget能捕获SIGHUP信号，并忽略它，这样就算退出了Linux登录，wget也能继续下载。
+　　此外，对于与终端脱离关系的守护进程，这个信号用于通知它重新读取配置文件。
+2) SIGTSTP 
+　　停止进程的运行, 但该信号可以被处理和忽略。用户键入SUSP字符时(通常是Ctrl-Z)发出这个信号
+3) SIGTTIN 
+　　当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN信号。缺省时这些进程会停止执行
+4) SIGTTOU 
+　　类似于SIGTTIN, 当后台作业要向用户终端写数据(或修改终端模式)时收到
+
+
+2、处理SIGCHLD信号 
+　　处理SIGCHLD（子进程结束）信号并不是必须的。但对于某些进程，特别是服务器进程往往在请求到来时生成子进程来处理请求。如果父进程不等待子进程结束，子进程将成为僵死进程（zombie）从而占用系统资源。如果父进程等待子进程结束，将增加父进程的负担，影响服务器进程的并发性能。在Linux下，可以简单地将SIGCHLD信号的操作设SIG_IGN（父进程对子进程结束状态不感兴趣，忽略子进程结束信号SIG_IGN）。 
+    MySignal(SIGCHLD,SIG_IGN);
+
+　　这样，内核在子进程结束时不会产生僵尸进程。这一点与BSD4不同，BSD4下必须显式等待子进程结束才能释放僵尸进程。 
+　　另一种避免僵死进程的方法是：fork两次，父进程fork一个子进程，然后继续工作，子进程fork一个孙进程后退出，那么孙进程被init接管，孙进程结束后，init会回收。不过子进程的回收还要父进程来做（参考：linux僵死进程的产生与避免）。
+
+
+3、后台运行
+　　为避免挂起控制终端，将Daemon放入后台执行。方法：在程序中调用fork使父进程终止，让Daemon在子进程中后台执行。 
+    pid = fork();
+
+    if (pid > 0)        //父进程终止；子进程继续运行
+
+        exit(0);
+
+
+
+4、脱离控制终端，登录会话和进程组 
+　　有必要先介绍一下Linux中的进程与控制终端、登录会话和进程组之间的关系：进程属于一个进程组，进程组号（GID）就是进程组长的进程号（PID）。登录会话可以包含多个进程组。这些进程组共享一个控制终端。这个控制终端通常是创建进程的登录终端。 
+　　控制终端、登录会话和进程组通常是从父进程继承下来的。我们的目的就是要摆脱它们，使之不受它们的影响。方法是：第1点的基础上，调用setsid()使进程成为会话组长：
+    setsid();
+
+　　说明：当进程是会话组长时setsid()调用失败，但第1点已经保证进程不是会话组长。setsid()调用成功后，进程成为新的会话组长和新的进程组长，并与原来的登录会话和进程组脱离。由于会话过程对控制终端的独占性，进程同时与控制终端脱离。 
+
+
+5、禁止进程重新打开控制终端 
+　　现在，进程已经成为无终端的会话组长。但它可以重新申请打开一个控制终端。可以通过使进程不再成为会话组长来禁止进程重新打开控制终端： 
+    pid = fork();
+
+    if (pid > 0)        //子进程终止；孙进程继续运行，孙进程不在是会话组长
+
+        exit(0);
+
+
+
+6、重设文件创建掩模 
+　　进程从创建它的父进程那里继承了文件创建掩模，这可能会修改了守护进程所创建的文件的存取位。为防止这一点，按如下方法将文件创建掩模清除：
+    umask(0);
+
+
+
+7、关闭打开的文件描述符 
+　　进程从创建它的父进程那里继承了打开的文件描述符。如不关闭，将会浪费系统资源，造成进程所在的文件系统无法卸下以及引起无法预料的错误。按如下方法关闭它们： 
+    fdTableSize = getdtablesize();
+
+    for (fd=0; fd<fdTableSize; fd++)
+
+        close(fd);
+
+
+
+8、改变当前工作目录 
+　　进程活动时，其工作目录所在的文件系统是不能卸下的。一般需要将工作目录改变到根目录/。对于需要写运行日志的进程将工作目录改变到特定目录如/tmp。按如下方法切换工作目录
+    chdir("/");
+
+
+
+9、出错记录和调试信息
+　　因为守护进程已脱离了控制终端，并且关闭了所有文件描述符，所以不能简单地把出错记录或调试信息写到标准输出或标准错误输出中。所幸的是，在Linux/Unix下有个syslogd守护进程，向用户提供了syslog()系统调用。任何程序都可以通过syslog记录信息（信息一般保存在/var/log/messages中）。 但在有些嵌入式liunx系统中，可能没有syslogd守护进程，因此，无法使用syslog()来记录信息。那就只能重定向标准输入输出了。重定向标准输入输出，需要在第4点关闭打开的文件描述符时应绕过标准输入输出，修改如下：
+    RedirectStdIO("/dev/null", LOG_FILE, LOG_FILE);    //重定向标准输入输出
+
+    fdTableSize = getdtablesize();
+
+    for (fd=3; fd<fdTableSize; fd++)
+
+        close(fd);
+
+
+
+三、单实例守护进程（Single-Instance Daemons）
+　　单实例守护进程也就是在任一时刻只运行守护进程的一个实例。这是为了避免运行多个实例时而引起的错误。例如，如果同时有多个cron守护进程实例在运行，那么每个实例都可能试图开始某个预定的操作，于是导致该操作被重复执行，这很可能会引起错误。
+　　我们可以通过记录锁机制来保证任何时候系统中只有一个该守护进程的实例在运行。具体方法是：让守护进程创建一个文件并在整个文件上加一把独占性写锁（我们把文件称为守护进程的锁文件）；根据记录锁机制，只允许创建一把这样的写锁，所以在此之后如试图再创建一把这样的写锁将会失败，以此向后续的守护进程实例指明当前已有一个实例在运行。在拥有这把写锁的守护进程实例终止时，这把写锁将被自动删除，无需我们自己来清理它。可以用下面的AlreadyRunning函数来判断系统中是否已有该守护进程的实例在运行，返回值true表示有该守护进程实例在运行，否则无。
+bool AlreadyRunning()
+
+{
+
+    int fdLockFile;
+
+    char szPid[32];
+
+    struct flock fl;
+
+
+
+    /* 打开锁文件 */
+
+    fdLockFile = open(LOCK_FILE, O_RDWR | O_CREAT, LOCK_FILE_MODE);
+
+    if (fdLockFile < 0)
+
+    {
+
+        ErrorLog("AlreadyRunning open");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 对整个锁文件加写锁 */
+
+    fl.l_type = F_WRLCK;    //记录锁类型：独占性写锁
+
+    fl.l_whence = SEEK_SET; //加锁区域起点:距文件开始处l_start个字节
+
+    fl.l_start = 0;            
+
+    fl.l_len = 0;           //加锁区域终点:0表示加锁区域自起点开始直至文件最大可能偏移量为止,不管写入多少字节在文件末尾,都属于加锁范围
+
+    if (fcntl(fdLockFile, F_SETLK, &fl) < 0)
+
+    {
+
+        if (EACCES == errno || EAGAIN == errno)    //系统中已有该守护进程的实例在运行
+
+        {
+
+            close(fdLockFile);
+
+            return true;
+
+        }
+
+
+
+        ErrorLog("AlreadyRunning fcntl");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 清空锁文件,然后将当前守护进程pid写入锁文件 */
+
+    ftruncate(fdLockFile, 0);
+
+    sprintf(szPid, "%ld", (long)getpid());
+
+    write(fdLockFile, szPid, strlen(szPid) + 1);
+
+
+
+    return false;
+
+}
+
+
+
+四、守护进程惯例
+1、守护进程的锁文件通常保存在/var/run/目录中（守护进程可能需要root用户权限才能在改目录中创建文件），并以name.pid命名，name为该守护进程或服务的名称。
+2、守护进程的配置文件通常保存在/etc/目录中（守护进程可能需要root用户权限才能在改目录中创建文件），并以name.conf命名，name为该守护进程或服务的名称。通常，守护进程在启动时读取其配置文件，但在此之后就不再查看它了。如果我们修改了配置文件，就必须重启守护进程，才能使配置文件生效。为了避免此麻烦，有些守护进程捕获SIGHUP信号，当接收到该信号时，重新读取配置文件（因为守护进程已与控制终端脱离关系，控制终端SIGHUP信号对其已无用，所以重复利用它来作为重新读取配置文件信号）。
+3、守护进程可用命令行启动，但它们通常由某一系统初始化脚本（/etc/rc*或/etc/init.d/*）启动。如果守护进程终止时，应该自动重新启动它，我们可以在/etc/inittab中为该守护进程包括_respawn；这样，守护进程终止时init会自动重新启动该守护进程。
+
+
+五、守护进程编程实例 
+　　守护进程实例先通过InitDaemon函数将普通进程改造成守护进程。然后，判断是否已有该守护进程的实例在运行，若有则退出运行；若无则先阻塞SIGHUP和SIGUSR1信号，然后为SIGHUP和SIGUSR1信号分别安装了信号处理函数，SIGHUP用于通知守护进程重新读取配置文件；SIGUSR1用于通知守护进程执行服务，也就是用echo打印从配置文件读到的信息。最后，进入一个死循环（守护进程主体）：通过sigsuspend挂起守护进程等待信号发生，然后重新读取配置文件或执行服务，再挂起守护进程等待信号发生……。该实例通过sigprocmask、sigsuspend和sigaction的配合使用，避免了信号SIGHUP、SIGUSR1的丢失。该实例可以选择是否通过syslog输出信息，若用syslog输出信息，编译时加上-DUSE_SYSLOG。该实例也可以选择是否忽略子进程结束信号SIGCHLD，若忽略，编译时加上-DIGN_SIGCHLD。我们可以通过命令“kill -SIGHUP 守护进程pid”，通知守护进程重新读取配置文件；通过“kill -SIGUSR1 守护进程pid”，通知守护进程执行服务。
+程序清单如下： 
+/*
+
+ * test.c
+
+ *
+
+ * Created on: 2011-04-23
+
+ * Author: lingdxuyan
+
+ */
+
+
+
+
+
+#include <stdio.h>         /* 标准输入输出定义 */
+
+#include <stdlib.h>        /* 标准函数库定义 */
+
+#include <unistd.h>        /* Unix 标准函数定义 */
+
+#include <sys/types.h>
+
+#include <sys/stat.h>
+
+#include <sys/wait.h>
+
+#include <fcntl.h>        /* 文件控制定义 */
+
+#include <errno.h>        /* 错误号定义 */
+
+#include <signal.h>     /* 信号定义 */
+
+#include <time.h>        /* 定时器定义 */
+
+#include <stdarg.h>        /* 可变参数定义 */
+
+#include <syslog.h>        /* syslog定义 */
+
+#include <string.h>
+
+#include <fcntl.h>
+
+
+
+#define true    1
+
+#define false    0
+
+
+
+typedef unsigned char BYTE;
+
+typedef BYTE bool;
+
+typedef BYTE byte;
+
+
+
+#define MAX_BUF_SIZE 1024
+
+
+
+#define CONFIG_FILE   "/etc/daemon.conf"
+
+#define LOG_FILE     "/tmp/daemon.log"
+
+#define LOCK_FILE    "/var/run/daemon.pid"
+
+#define LOCK_FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
+
+
+
+
+
+static volatile sig_atomic_t g_nUpdateParameter = 1;
+
+static volatile sig_atomic_t g_nServer = 0;
+
+//static volatile int g_nUpdateParameter = 1;
+
+//static volatile int g_nServer = 0;
+
+
+
+
+
+/*
+
+ * 功能: 写日志
+
+ */
+
+void vWriteLog(int nPriority, const char *fmt, va_list va)
+
+{
+
+#ifdef USE_SYSLOG
+
+    vsyslog(LOG_DAEMON | nPriority, fmt, va);
+
+#else
+
+    FILE *stream;
+
+    if (nPriority & LOG_ERR)
+
+        stream = stderr;
+
+    else
+
+        stream = stdout;
+
+    vfprintf(stream, fmt, va);
+
+    fflush(stream);
+
+#endif
+
+}
+
+void WriteLog(int nPriority, const char *fmt, ...)
+
+{
+
+    va_list va;
+
+
+
+    va_start(va, fmt);
+
+    vWriteLog(nPriority, fmt, va);
+
+    va_end(va);
+
+}
+
+
+
+/*
+
+ * 功能: 写错误日志,用法类似perror
+
+ */
+
+void ErrorLog(const char *str)
+
+{
+
+    WriteLog(LOG_ERR, "%s: %s\n", str, strerror(errno));
+
+}
+
+/*
+
+ * 功能: 写错误日志,用法类似于printf
+
+ */
+
+void ErrorLogFmt(const char *fmt, ...)
+
+{
+
+    va_list va;
+
+
+
+    va_start(va, fmt);
+
+    vWriteLog(LOG_ERR, fmt, va);
+
+    va_end(va);
+
+}
+
+
+
+/*
+
+ * 功能: 写日志,用法类似printf
+
+ */
+
+void InfoLog(const char *fmt, ...)
+
+{
+
+    va_list va;
+
+
+
+    va_start(va, fmt);
+
+    vWriteLog(LOG_INFO, fmt, va);
+
+    va_end(va);
+
+}
+
+
+
+/*
+
+ * 功能: 重定向标准输入输出
+
+ */
+
+void RedirectStdIO(char *szInFile, char *szOutFile, char *szErrFile)
+
+{
+
+    int fd;
+
+
+
+    if (NULL != szInFile)
+
+    {
+
+        fd = open(szInFile, O_RDONLY | O_CREAT, 0666);
+
+        if (fd > 0)
+
+        {
+
+            // 标准输入重定向
+
+            if (dup2(fd, STDIN_FILENO) < 0)
+
+            {
+
+                ErrorLog("RedirectStdIO dup2 in");
+
+                exit(EXIT_FAILURE);
+
+            }
+
+
+
+            close(fd);
+
+        }
+
+        else
+
+            ErrorLogFmt("RedirectStdIO open %s: %s\n", szInFile, strerror(errno));
+
+    }
+
+
+
+    if (NULL != szOutFile)
+
+    {
+
+        fd = open(szOutFile, O_WRONLY | O_CREAT | O_APPEND /*| O_TRUNC*/, 0666);
+
+        if (fd > 0)
+
+        {
+
+            // 标准输出重定向 
+
+            if (dup2(fd, STDOUT_FILENO) < 0)
+
+            {
+
+                ErrorLog("RedirectStdIO dup2 out");
+
+                exit(EXIT_FAILURE);
+
+            }
+
+
+
+            close(fd);
+
+        }
+
+        else
+
+            ErrorLogFmt("RedirectStdIO open %s: %s\n", szOutFile, strerror(errno));
+
+    }
+
+
+
+    if (NULL != szErrFile)
+
+    {
+
+        fd = open(szErrFile, O_WRONLY | O_CREAT | O_APPEND /*| O_TRUNC*/, 0666);
+
+        if (fd > 0)
+
+        {
+
+            // 标准错误重定向 
+
+            if (dup2(fd, STDERR_FILENO) < 0)
+
+            {
+
+                ErrorLog("RedirectIO dup2 error");
+
+                exit(EXIT_FAILURE);
+
+            }
+
+
+
+            close(fd);
+
+        }
+
+        else
+
+            ErrorLogFmt("RedirectStdIO open %s: %s\n", szErrFile, strerror(errno));
+
+    }
+
+}
+
+
+
+/*
+
+ * 功能: 读取配置文件SIGHUP信号处理函数
+
+ */
+
+void UpdateHandler(int nSigNum)
+
+{
+
+    g_nUpdateParameter = 1;
+
+}
+
+
+
+/*
+
+ * 功能: 折行服务SIG_USR1信号处理函数
+
+ */
+
+void ServerHandler(int nSigNum)
+
+{
+
+    g_nServer = 1;
+
+}
+
+
+
+/*
+
+ * 功能：确保任一时刻系统中只有一个该守护进程实例在运行
+
+ */
+
+bool AlreadyRunning()
+
+{
+
+    int fdLockFile;
+
+    char szPid[32];
+
+    struct flock fl;
+
+
+
+    /* 打开锁文件 */
+
+    fdLockFile = open(LOCK_FILE, O_RDWR | O_CREAT, LOCK_FILE_MODE);
+
+    if (fdLockFile < 0)
+
+    {
+
+        ErrorLog("AlreadyRunning open");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 对整个锁文件加写锁 */
+
+    fl.l_type = F_WRLCK;    //记录锁类型：独占性写锁
+
+    fl.l_whence = SEEK_SET;    //加锁区域起点:距文件开始处l_start个字节
+
+    fl.l_start = 0;            
+
+    fl.l_len = 0;            //加锁区域终点:0表示加锁区域自起点开始直至文件最大可能偏移量为止,不管写入多少字节在文件末尾,都属于加锁范围
+
+    if (fcntl(fdLockFile, F_SETLK, &fl) < 0)
+
+    {
+
+        if (EACCES == errno || EAGAIN == errno)    //系统中已有该守护进程的实例在运行
+
+        {
+
+            close(fdLockFile);
+
+            return true;
+
+        }
+
+
+
+        ErrorLog("AlreadyRunning fcntl");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 清空锁文件,然后将当前守护进程pid写入锁文件 */
+
+    ftruncate(fdLockFile, 0);
+
+    sprintf(szPid, "%ld", (long)getpid());
+
+    write(fdLockFile, szPid, strlen(szPid) + 1);
+
+
+
+    return false;
+
+}
+
+
+
+/*
+
+ * 功能：设置信号nSigNum的处理函数为handler,在调用该信号处理函数前.若handler不为SIG_DEF或SIG_IGN,则系统会将该信号添加到信号屏蔽字中;信号处理函数返回后,信号屏蔽字恢复到原先值.这样,可保证在处理指定信号时,如果该信号再次发生,那么它会被阻塞到上一信号处理结束为止.不过,要是此时信号发生了多次,在对该信号解除阻塞后,也只会调用一次信号处理函数
+
+ */
+
+typedef void (*sighandler)(int);
+
+sighandler MySignal(int nSigNum, sighandler handler)
+
+//void ( *Signal(int nSigNum, void (*handler)(int)) )(int)        
+
+{
+
+    struct sigaction saNew, saOld;
+
+
+
+    saNew.sa_handler = handler;
+
+    sigemptyset(&saNew.sa_mask);
+
+    if (SIG_DFL != handler && SIG_IGN != handler)
+
+        sigaddset(&saNew.sa_mask, nSigNum);
+
+    
+
+    saNew.sa_flags = 0;
+
+    if (SIGALRM == nSigNum)
+
+    {
+
+        //不重启该信号中断的系统调用
+
+#ifdef SA_INTERRUPT
+
+        saNew.sa_flags |= SA_INTERRUPT;
+
+#endif
+
+    }
+
+    else
+
+    {
+
+        //重启该信号中断的系统调用
+
+#ifdef SA_RESTART
+
+        saNew.sa_flags |= SA_RESTART;
+
+#endif
+
+    }
+
+
+
+    if (sigaction(nSigNum, &saNew, &saOld) < 0)
+
+        return SIG_ERR;
+
+    
+
+    return saOld.sa_handler;
+
+}
+
+
+
+/*
+
+ * 功能: 将普通进程改造成守护进程
+
+ */
+
+void InitDaemon()
+
+{
+
+    pid_t pid;
+
+    int fd, fdTableSize;
+
+
+
+    /* 1、屏蔽控制终端操作信号
+
+     */
+
+    MySignal(SIGTTOU, SIG_IGN); 
+
+    MySignal(SIGTTIN, SIG_IGN); 
+
+    MySignal(SIGTSTP, SIG_IGN); 
+
+    MySignal(SIGHUP, SIG_IGN);
+
+
+
+    /* 2、忽略子进程结束信号
+
+     */
+
+#ifdef IGN_SIGCHLD
+
+    signal(SIGCHLD, SIG_IGN);    //忽略子进程结束信号，避免僵死进程产生
+
+#endif
+
+
+
+    /* 3、使守护进程后台运行
+
+     * 父进程直接退出,子进程继续运行(让守护进程在子进程中后台运行)
+
+     */
+
+    pid = fork();
+
+    if (pid > 0)        //父进程终止运行;子进程过继给init进程，其退出状态也由init进程处理,避免了产生僵死进程
+
+        exit(EXIT_SUCCESS);
+
+    else if (pid < 0)
+
+    {
+
+        ErrorLog("InitDaemon fork(parent)");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 4、脱离控制终端，登录会话和进程组
+
+     * 调用setsid()使子进程成为会话组长
+
+     */
+
+    setsid();
+
+
+
+    /* 5、禁止进程重新打开控制终端
+
+     * 通过使守护进程不再成为会话组长来禁止进程重新打开控制终端
+
+     */
+
+    pid = fork();
+
+    if (pid > 0)        //子进程终止运行;孙进程过继给init进程，其退出状态也由init进程处理,避免了产生僵死进程
+
+        exit(EXIT_SUCCESS);
+
+    else if (pid < 0)
+
+    {
+
+        ErrorLog("InitDaemon fork(child)");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    /* 6、重设文件创建掩模 
+
+     */
+
+    umask(0);
+
+
+
+    /* 7、关闭打开的文件描述符 
+
+     */
+
+    RedirectStdIO("/dev/null", LOG_FILE, LOG_FILE);    //重定向标准输入输出
+
+    fdTableSize = getdtablesize();
+
+    for (fd=3; fd<fdTableSize; fd++)
+
+        close(fd);
+
+
+
+    /* 8、改变当前工作目录
+
+     */
+
+    chdir("/tmp");    
+
+}
+
+
+
+/*
+
+ * 功能: 读取守护进程的配置文件，并将获取到的信息保存在szParameter中
+
+ */
+
+void ReadConfigFile(char *szParameter)
+
+{
+
+    FILE *stream;
+
+    int nRet;
+
+    
+
+    InfoLog("------ ReadConfigFile ------\n");
+
+    stream = fopen(CONFIG_FILE, "r");
+
+    if (NULL != stream)
+
+    {
+
+        nRet = fread(szParameter, sizeof(char), MAX_BUF_SIZE, stream);
+
+        if (nRet >= 0)
+
+            szParameter[nRet - 1] = '\0';
+
+        fclose(stream);
+
+        InfoLog("ReadConfigFile sucesss!\n");
+
+    }
+
+    else
+
+        ErrorLogFmt("ReadConfigFile fopen %s: %s\n", CONFIG_FILE, strerror(errno));
+
+}
+
+
+
+/*
+
+ * 功能: 执行守护进程的服务，也就是将szParameter用echo打印出来
+
+ */
+
+void Server(char *szParameter)
+
+{
+
+    int nStatus;
+
+    pid_t pid;
+
+    
+
+    InfoLog("------ Server ------\n"); 
+
+
+
+    pid = vfork();            //生成子进程
+
+#ifdef IGN_SIGCHLD
+
+    InfoLog("ignore child SIGCHLD signal!\n");
+
+    if (0 == pid)            //子进程
+
+    {
+
+        if (execlp("echo", "echo", szParameter, NULL) < 0)
+
+        {
+
+            ErrorLog("Server execlp");
+
+            exit(EXIT_FAILURE);
+
+        }
+
+    }
+
+    else if (pid < 0)
+
+    { 
+
+        ErrorLog("Server vfork(parent)"); 
+
+    } 
+
+#else
+
+    if (pid > 0)            //父进程
+
+    {
+
+        waitpid(pid, &nStatus, 0);    //等待子进程结束,否则子进程会成为僵死进程,一直存在,即便子进程已结束执行
+
+    }
+
+    else if (0 == pid)        //子进程
+
+    {
+
+        pid = vfork();        //生成孙进程
+
+        if (pid > 0) 
+
+        {
+
+            exit(EXIT_SUCCESS);        //子进程退出,孙进程过继给init进程,其退出状态也由init进程处理,与原有父进程无关
+
+        }
+
+        else if (0 == pid)    //孙进程
+
+        {
+
+            if (execlp("echo", "echo", szParameter, NULL) < 0)
+
+            {
+
+                ErrorLog("Server execlp");
+
+                exit(EXIT_FAILURE);
+
+            }
+
+        }
+
+        else
+
+        { 
+
+            ErrorLog("Server vfork(child)"); 
+
+        } 
+
+    }
+
+    else
+
+    { 
+
+        ErrorLog("Server vfork(parent)"); 
+
+    } 
+
+#endif
+
+}
+
+
+
+int main()
+
+{
+
+    time_t t;
+
+    sigset_t sigNewMask, sigOldMask;
+
+    char szParameter[MAX_BUF_SIZE];
+
+
+
+    //将普通进程改造成守护进程
+
+    InitDaemon();
+
+    if (AlreadyRunning())    //若系统中已有该守护进程的实例在运行,则退出
+
+    {
+
+        ErrorLogFmt("Daemon already running!\n");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    //阻塞SIGHUP信号和SIGUSR1信号
+
+    sigemptyset(&sigNewMask);
+
+    sigaddset(&sigNewMask, SIGHUP);
+
+    sigaddset(&sigNewMask, SIGUSR1);
+
+    if (sigprocmask(SIG_BLOCK, &sigNewMask, &sigOldMask) < 0)
+
+    {
+
+        ErrorLog("main sigprocmask");
+
+        exit(EXIT_FAILURE);
+
+    }
+
+
+
+    //为SIGHUP信号和SIGUSR1信号添加信号处理函数
+
+    MySignal(SIGHUP, UpdateHandler);
+
+    MySignal(SIGUSR1, ServerHandler);
+
+
+
+    t = time(NULL);
+
+    InfoLog("Daemon %d start at %s", getpid(), ctime(&t));
+
+
+
+    //读取守护进程配置文件
+
+    ReadConfigFile(szParameter);
+
+    while(1)
+
+    {
+
+        sigsuspend(&sigOldMask);//将进程的信号屏蔽字暂时替代为sigOldMask并挂起进程,直到捕捉到一个信号并从其信号处理函数返回,sigsuspend才返回并将信号屏蔽字恢复为调用它之前的值;若捕捉到的是终止进程信号,sigsuspend不返回,进程直接终止
+
+        if (1 == g_nUpdateParameter)    //读取配置文件
+
+        {
+
+            ReadConfigFile(szParameter);
+
+            g_nUpdateParameter = 0;
+
+        }
+
+        
+
+        if (1 == g_nServer)    //执行服务
+
+        {
+
+            Server(szParameter);
+
+            g_nServer = 0;
+
+        }
+
+    }
+
+
+
+    return 0;
+
+}
+
+
+
+1、不使用syslog记录信息，也不忽略子进程结束信息SIGCHLD
+root@ubuntu:/home/lingd/arm/test# gcc -Wall test.c -o test
+root@ubuntu:/home/lingd/arm/test# ./test 
+root@ubuntu:/home/lingd/arm/test# cat /tmp/daemon.log 
+Daemon 3472 start at Wed May 11 11:45:56 2011
+------ ReadConfigFile ------
+ReadConfigFile fopen /etc/daemon.conf: No such file or directory
+root@ubuntu:/home/lingd/arm/test# echo 123 > /etc/daemon.conf              
+root@ubuntu:/home/lingd/arm/test# cat /etc/daemon.conf 
+123
+root@ubuntu:/home/lingd/arm/test# pgrep test
+3472
+root@ubuntu:/home/lingd/arm/test# kill -SIGHUP 3472		#让守护进程重新读取配置文件
+root@ubuntu:/home/lingd/arm/test# cat /tmp/daemon.log 
+Daemon 3472 start at Wed May 11 11:45:56 2011
+------ ReadConfigFile ------
+ReadConfigFile fopen /etc/daemon.conf: No such file or directory
+------ ReadConfigFile ------
+ReadConfigFile sucesss!
+root@ubuntu:/home/lingd/arm/test# kill -SIGUSR1 3472		#让守护进程运行服务，也就是用echo打印先前从配置文件中读取到的信息
+root@ubuntu:/home/lingd/arm/test# cat /tmp/daemon.log 
+Daemon 3472 start at Wed May 11 11:45:56 2011
+------ ReadConfigFile ------
+ReadConfigFile fopen /etc/daemon.conf: No such file or directory
+------ ReadConfigFile ------
+ReadConfigFile sucesss!
+------ Server ------
+123
+root@ubuntu:/home/lingd/arm/test# ./test			#再次运行守护进程
+root@ubuntu:/home/lingd/arm/test# cat /tmp/daemon.log 
+Daemon 3472 start at Wed May 11 11:45:56 2011
+------ ReadConfigFile ------
+ReadConfigFile fopen /etc/daemon.conf: No such file or directory
+------ ReadConfigFile ------
+ReadConfigFile sucesss!
+------ Server ------
+123
+Daemon already running!						#提示已有守护进程实例在运行
+
+
+
+
+2、使用syslog记录信息，同时忽略子进程结束信息SIGCHLD
+root@ubuntu:/home/lingd/arm/test# gcc -Wall -DUSE_SYSLOG -DIGN_SIGCHLD test.c -o test
+test.c: In function ‘Server’:
+test.c:355: warning: unused variable ‘nStatus’
+root@ubuntu:/home/lingd/arm/test# ./test
+root@ubuntu:/home/lingd/arm/test# echo 345 > /etc/daemon.conf 
+root@ubuntu:/home/lingd/arm/test# cat /etc/daemon.conf
+345
+root@ubuntu:/home/lingd/arm/test# pgrep test 
+2548
+root@ubuntu:/home/lingd/arm/test# kill -SIGHUP 2548
+root@ubuntu:/home/lingd/arm/test# kill -SIGUSR1 2548
+root@ubuntu:/home/lingd/arm/test# ./test
+root@ubuntu:/home/lingd/arm/test# tail /var/log/daemon.log
+May 11 16:21:42 ubuntu test: Daemon 2548 start at Wed May 11 16:21:42 2011
+May 11 16:21:42 ubuntu test: ------ ReadConfigFile ------
+May 11 16:21:42 ubuntu test: ReadConfigFile sucesss!
+May 11 16:22:27 ubuntu test: ------ ReadConfigFile ------
+May 11 16:22:27 ubuntu test: ReadConfigFile sucesss!
+May 11 16:22:39 ubuntu test: ------ Server ------
+May 11 16:22:39 ubuntu test: ignore child SIGCHLD signal!
+May 11 16:22:39 ubuntu test: ignore child SIGCHLD signal!
+May 11 16:22:49 ubuntu test: Daemon already running!
+root@ubuntu:/home/lingd/arm/test# cat /tmp/daemon.log 
+345
+
+
+注意，因为子进程echo继承了父进程（守护进程）的文件描述符，所以echo打印的信息会被输出到/tmp/daemon.log ，而不是终端（屏幕）上。我们调用syslog是设置了LOG_DAEMON，所以日志信息保存在/var/log/daemon.log（一开始以为是保存在/var/log/messages，调了半天程序都没有输出）；若设为LOG_USER，日志则保存在/var/log/user.log
+
+
+如果想要此程序在系统启动时自动运行，可以在/etc/rc.d/rc.local里面用su命令加上一行，比如：
+su - lingdxuyan -c "/bin/test"
+这个命令将以lingdxuyan用户身份运行/bin/test程序
+
+
+查看进程：ps –ef 
+从输出可以发现test守护进程的各种特征满足上面的要求。
+lingd@ubuntu:~/arm/test$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+lingd     5209     1  0 15:34 ?        00:00:00 ./test

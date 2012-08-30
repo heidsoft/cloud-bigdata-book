@@ -1,0 +1,933 @@
+Linux下C访问MySQL实践 
+一、开发环境
+
+操作系统：FC9
+
+Mysql：mysql5.0.28(安装FC9时可以选择安装)
+
+Mysql工具包：
+
+1.       mysql-devel-5.0.51a-1.fc9.i386.rpm (开发工具包，必须安装，常用的mysql.h即在该包下);
+
+2.       mysql-gui-common-5.0r12-8.fc9.i386.rpm(客户端gui常用工具包，如果需要安装mysql administrator则需要先安装此包);
+
+3.       mysql-administrator-5.0r12-8.fc9.i386.rpm(客户端mysql adimistrator，此包依赖于上包);
+
+4.       mysql-query-browser-5.0r12-8.fc9.i386.rpm(客户端查询工具包，如果要进行sql查询的执行以及数据的查找，必须要安装此包)
+
+c开发工具：vi、gedit。
+mysql 服务开机启动设置 
+    FC9下默认安装的mysql服务默认不是开机自动启动，可以通过如下命令进行验证开机后mysql的运行状态：
+
+        service mysqld status或者/etc/rc.d/init.d/mysqld status
+    
+    如果运行状态是未启动，那么就要查看mysql服务开机启动的设置情况了。
+
+        chkconfig --list 
+
+    检查mysqld在各个level级别上是否开启了默认开机启动，如果没有，通过如下设置：
+
+        chkconfig --level 5 mysqld on
+
+    然后通过chkconfig --list确认一下其在level 5上是否开启默认开机启动选项。确认后，重启系统，mysql服务将能够默认开机启动。
+
+mysql安全初始化
+<1>为root和匿名用户设置密码
+shell> mysql -u root
+mysql> UPDATE mysql.user SET Password = PASSWORD('got_2011') WHERE User = 'root';
+mysql> FLUSH PRIVILEGES;
+<2>分配新用户并授权，使应用程序访问
+
+分配一个got用户，用于本地访问，本用户属于超级管理员
+GRANT ALL PRIVILEGES ON *.* TO 'got'@'localhost' IDENTIFIED BY '123456' WITH GRANT OPTION;
+分配另外一个got用户，用于远程访问
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON got_lottery.* TO 'got'@'%' IDENTIFIED BY 'got_lottery';
+
+退出mysql命令行，重新使用got用户登录测试验证。
+mysql工具包安装：
+
+      # rpm –ivh mysql-devel-5.0.51a-1.fc9.i386.rpm
+
+命令完成后，mysql开发包安装在/usr/include/mysql下，你也可以通过locate命令查找。
+
+      # location mysql.h
+
+    同上，按照2、3、4的顺序安装客户端辅助工具包，安装完成后，你会在【应用程序】->【编程】下看到“mysql administrator”、“mysql query”等。
+
+二、C对MySQL的访问
+
+Mysql对c的支持概述
+
+       Mysql对外部的访问，提供了连接器与API等两种访问方式。在mysql5.0中包含以下连接器：MySQL Connector/ODBC(odbc)、MySQL Connector/NET、MySQL Connector/J（jdbc），API：MySQL C API、MySQL PHP API、MySQL C++ API等。下面我们将采用MySQL C API进行mysql数据库访问。
+
+MySQL C API主要的数据类型
+
+类型
+ 说明
+ 
+MYSQL 
+ 该结构代表1个数据库连接的句柄。几乎所有的MySQL函数均使用它
+ 
+MYSQL_RES 
+ 该结构代表返回行的查询结果
+ 
+MYSQL_ROW 
+ 这是1行数据的“类型安全”表示。它目前是按照计数字节字符串的数组实施的。（如果字段值可能包含二进制数据，不能将其当作由Null终结的字符串对待，这是因为这类值可能会包含Null字节）。行是通过调用mysql_fetch_row()获得的。 
+ 
+MYSQL_FIELD 
+ 该结构包含关于字段的信息，如字段名、类型和大小。
+ 
+MYSQL_STMT
+ 该结构表示预处理语句。通过调用mysql_stmt_init()创建语句，返回语句句柄，即指向MYSQL_STMT的指针
+ 
+MYSQL_BIND
+ 该结构用于语句输入（发送给服务器的数据值）和输出（从服务器返回的结果值）。对于输入，它与mysql_stmt_bind_param()一起使用，用于将参数数据值绑定到缓冲区上，以供mysql_stmt_execute()使用。对于输出，它与mysql_stmt_bind_result()一起使用，用于绑定结果缓冲区，以便用于with mysql_stmt_fetch()以获取行
+ 
+MYSQL_TIME
+ 该结构用于将DATE、TIME、DATETIME和TIMESTAMP数据直接发送到服务器，或从服务器直接接收这类数据，其成员包括unsigned int year、month、day、hour、minute、second等
+ 
+
+
+ 
+
+数据库连接
+1.mysql初始化
+
+
+MYSQL *mysql_init(MYSQL *mysql) 
+
+ 
+
+    分配或初始化与mysql_real_connect()相适应的MYSQL对象。如果mysql是NULL指针，该函数将分配、初始化、并返回新对象。否则，将初始化对象，并返回对象的地址。如果mysql_init()分配了新的对象，当调用mysql_close()来关闭连接时。将释放该对象。
+2.建立连接
+
+MYSQL *mysql_real_connect(MYSQL *mysql, const char *host, const char *user, const char *passwd, const char *db, unsigned int port, const char *unix_socket, unsigned long client_flag) 
+
+ 
+
+    mysql_real_connect()尝试与运行在主机上的MySQL数据库引擎建立连接。在你能够执行需要有效MySQL连接句柄结构的任何其他API函数之前，mysql_real_connect()必须成功完成。
+
+
+3.MySQL连接示例
+
+ 
+
+ MYSQL *conn_init(){
+    
+     MYSQL *connection=NULL;
+    
+    connection = mysql_init(NULL);
+     if(connection==NULL){
+        return NULL;
+    }
+    
+
+     mysql_real_connect(connection,"localhost","got","123456","lot_sales",0,NULL,0);
+    if(connection==NULL){
+        printf("%s\n",mysql_error(connection));
+    }
+    
+    /**//*set no auto commit*/
+    mysql_autocommit(connection,0);
+   
+   return connection;
+}
+
+查询Mysql
+    如果程序的连接MySQL部分已经操作成功，则可以使用查询函数对数据库进行查询。MySQL C API为我们提供两类查询函数：mysql_query、mysql_stmt_execute。
+如果使用java开发过jdbc程序您应该还记得java.sql.Statement与java.sql.PreparedStatement吧？mysql_stmt_execute是预编译处理函数。
+ 
+
+1.int mysql_query(MYSQL *mysql, const char *query) 
+
+
+    执行由“Null终结的字符串”查询指向的SQL查询。正常情况下，字符串必须包含1条SQL语句，而且不应为语句添加终结分号（‘;’）或“\g”。如果允许多语句执行，字符串可包含多条由分号隔开的语句。
+
+2.int mysql_stmt_execute(MYSQL_STMT *stmt) 
+
+    mysql_stmt_execute()执行与语句句柄相关的预处理查询。在该调用期间，将当前绑定的参数标记符的值发送到服务器，服务器用新提供的数据替换标记符.
+
+第一种情况示例：
+
+int db_gettrades(const char *card_id,const MYSQL_TIME *start_time,const MYSQL_TIME *end_time,int status,int is_actived,FILE *stream){
+    
+    if(start_time==NULL || end_time==NULL) return PARAMERROR;
+    
+    char start_c[32]="",end_c[32]="";
+    if(get_char_from_time(start_time,start_c)||get_char_from_time(end_time,end_c))
+        return PARAMERROR;
+    
+    int result,num = 2;
+    char sql[512] = "select a.uuid,a.business_id,a.card_id,a.action_time,a.con_sum,a.multiple,a.con_des,a.bet_type,a.status,a.ticket_uuid,a.printed_time,a.period,a.is_manual,a.manual_time,a.manual_people,a.manual_des,a.delivered,a.deliver_people,a.deliver_time,a.cancel_people,a.fail_reason from g_consumption_item as a ";
+    if(is_actived){
+        char *relation = ",g_card as c";
+        strcat(sql,relation);
+    }
+    
+    strcat(sql," where a.action_time>='");
+    strcat(sql,start_c);
+    strcat(sql,"'");
+    strcat(sql," and a.action_time<='");
+    strcat(sql,end_c);
+    strcat(sql,"'");
+
+    if(is_actived){
+        strcat(sql,"and a.card_id=c.card_id and c.card_status=");
+        char temp[4];
+        sprintf(temp,"%d", DB_ACTIVE);
+        strcat(sql,temp);
+    }
+
+    int i,existed=0,status_array[5] = {DB_TRADECOMMITTED,DB_TRADESUCCESS,DB_TRADECOMPLETE,DB_TRADEUNKNOW,DB_TRADEFAIL};//from enum DB_TRADESTATUS which is in db_struct.h
+    char status_value[4],status_sql[32]=" and a.status in(";
+    for(i=0;i<5;i++){
+        if((status&status_array[i])==status_array[i]){
+            if(existed) strcat(status_sql,",");
+            
+            sprintf(status_value,"%d",status_array[i]);
+            strcat(status_sql,status_value);
+            existed = 1;
+        }
+    }
+    
+    if(existed){
+        strcat(status_sql,")");
+        strcat(sql,status_sql);
+    }
+
+    if(card_id!=NULL && card_id[0]!='\0'){
+        strcat(sql,&" and a.card_id='");
+        strcat(sql,card_id);
+        strcat(sql,"'");
+    }
+
+    printf("sql:%s\n",sql);
+
+    MYSQL *conn;
+    conn = conn_init();
+    if(conn==NULL) return DATABASEERROR;
+    
+    MYSQL *res;
+    MYSQL_ROW row;
+
+    int state;    
+    state = mysql_query(conn,sql);
+    if(state!=0){
+        printf("db_error!%s\n",mysql_error(conn));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    int size = 0;
+    res = mysql_store_result(conn);
+    unsigned long row_num = (unsigned long)mysql_num_rows(result);
+    printf("Rows:%d\n",mysql_num_rows(res));
+    while((row=mysql_fetch_row(res))!=NULL){
+        char row_content[1024] = "";
+        int x;
+        for(x=0;x<21;x++){
+            if(x>0)strcat(row_content,";");
+            if(row[x]!=NULL && (row[x])[0]!='\n')
+                strcat(row_content,row[x]);
+            printf("content length:%d\n",strlen(row_content));
+        }
+        strcat(row_content,"\n");
+        printf("row:%s\n",row_content);
+        fputs(row_content,stream);
+        size++;
+    }
+    
+    mysql_free_result(res);    
+
+    conn_close(conn);
+    
+    return size;
+}
+第二种情况示例：
+
+int db_getaccounts(const char *card_id,const MYSQL_TIME *start_time,const MYSQL_TIME *end_time,int type,int is_actived,FILE *stream){
+    
+    if(start_time==NULL || end_time==NULL) return PARAMERROR;
+    
+    MYSQL *conn;
+    conn = conn_init();
+    if(conn==NULL) return DATABASEERROR;
+    
+    int num = 2,result;
+    char sql[512] = "select a.card_id,a.uuid,a.action_time,a.alter_type,a.alter_sum,a.alter_des,a.cur_balance,a.consume_id,a.manual_user from g_account_item as a ";
+    if(is_actived){
+        char *relation = ",g_card as c";
+        strcat(sql,relation);
+    }
+    strcat(sql,&" where a.action_time>=? and a.action_time<=? ");
+    if(is_actived){
+        strcat(sql," and a.card_id=c.card_id and a.action_time>=c.actived_time");
+    }
+    
+    char type_sql[32] = " and alter_type in (";
+    char type_value[4];
+    int i,existed = 0;
+    int types[4] = {DEPOIST,WITHDRAWALS,PAYMENT,REFUND};
+    for(i=0;i<4;i++){
+        if((type&types[i])==types[i]){
+            if(existed)strcat(type_sql,",");
+            sprintf(type_value,"%d",types[i]);
+            strcat(type_sql,type_value);
+            existed = 1;
+        }
+    }
+    
+    if(existed){
+        strcat(type_sql,") ");
+        strcat(sql,type_sql);
+    }
+    
+    if(card_id!=NULL && card_id[0]!='\0'){
+        strcat(sql,&" and a.card_id=?");
+        num+=1;
+    }
+    
+    printf("sql:%s\n",sql);
+    
+    MYSQL_STMT *stmt;
+    MYSQL_BIND column[9];
+    MYSQL_BIND *bind;
+    
+    stmt = mysql_stmt_init(conn);
+    if(!stmt){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_prepare(stmt,sql,strlen(sql))){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }    
+    
+    bind = (MYSQL_BIND *)malloc(sizeof(MYSQL_BIND)*num);
+    memset(bind,0,sizeof(MYSQL_BIND)*num);
+    
+    bind[0].buffer_type = MYSQL_TYPE_DATETIME;
+    bind[0].buffer = (char *)start_time;
+    bind[0].is_null = 0;
+    bind[0].length = 0;
+    
+    bind[1].buffer_type = MYSQL_TYPE_DATETIME;
+    bind[1].buffer = (char *)end_time;
+    bind[1].is_null = 0;
+    bind[1].length = 0;
+    unsigned long i1;
+    if(card_id!=NULL && card_id[0]!='\0'){
+        bind[2].buffer_type = MYSQL_TYPE_VAR_STRING;
+        bind[2].buffer =(char *)card_id;
+        bind[2].buffer_length = 32; 
+        bind[2].is_null= 0;
+        bind[2].length = &i1;
+        i1 = strlen(card_id);
+    }
+    
+    result = mysql_stmt_bind_param(stmt,bind);
+    if(result!=0){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_execute(stmt)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    memset(column,0,sizeof(column));
+    
+    unsigned long length[9];
+    my_bool is_null[9];
+
+    MYSQL_TIME action_time;
+    int alter_type,alter_sum,cur_balance;
+    long long int m;
+    long long int consume_id;
+    char c_id[32],alter_des[128],manual_user[16];
+
+    column[0].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[0].buffer =(char *)c_id;
+    column[0].buffer_length = 32; 
+    column[0].is_null= &is_null[0];
+    column[0].length = &length[0];
+
+    column[1].buffer_type = MYSQL_TYPE_LONGLONG;
+    column[1].buffer = (char *)&m;
+    column[1].is_null = &is_null[1];
+    column[1].length = &length[1];
+    
+    column[2].buffer_type = MYSQL_TYPE_DATETIME;
+    column[2].buffer = (char *)&action_time;
+    column[2].is_null = &is_null[2];
+    column[2].length = &length[2];
+    
+    column[3].buffer_type = MYSQL_TYPE_LONG;
+    column[3].buffer = (char *)&alter_type;
+    column[3].is_null = &is_null[3];
+    column[3].length = &length[3];
+
+    column[4].buffer_type = MYSQL_TYPE_LONG;
+    column[4].buffer = (char *)&alter_sum;
+    column[4].is_null = &is_null[4];
+    column[4].length = &length[4];
+
+    column[5].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[5].buffer =(char *)alter_des;
+    column[5].buffer_length = 64; 
+    column[5].is_null= &is_null[5];
+    column[5].length = &length[5];
+
+    column[6].buffer_type = MYSQL_TYPE_LONG;
+    column[6].buffer = (char *)&cur_balance;
+    column[6].is_null = &is_null[6];
+    column[6].length = &length[6];
+
+    column[7].buffer_type = MYSQL_TYPE_LONGLONG;
+    column[7].buffer = (char *)&consume_id;
+    column[7].is_null = &is_null[7];
+    column[7].length = &length[7];
+    
+    column[8].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[8].buffer =(char *)manual_user;
+    column[8].buffer_length = 16; 
+    column[8].is_null= &is_null[8];
+    column[8].length = &length[8];
+    
+    if(mysql_stmt_bind_result(stmt,column)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_store_result(stmt)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+
+    while(!mysql_stmt_fetch(stmt)){
+        
+        char row_c[512] = "";
+    
+        char uid[32];
+        sprintf(uid,"%d",m);
+        strcat(row_c,uid);
+
+        strcat(row_c,";");
+        strcat(row_c,c_id);
+        
+        char time[32] = "";
+        strcat(row_c,";");
+        result = get_char_from_time(&action_time,time);
+        if(!result) strcat(row_c,time);
+
+        char alt[4];
+        strcat(row_c,";");
+        sprintf(alt,"%d",alter_type);
+        strcat(row_c,alt);
+
+        char als[4];
+        strcat(row_c,";");
+        sprintf(als,"%d",alter_sum);
+        strcat(row_c,als);
+
+        strcat(row_c,";");
+        if(!is_null[5])strcat(row_c,alter_des);
+
+        char cb[8];
+        strcat(row_c,";");
+        sprintf(cb,"%d",cur_balance);
+        strcat(row_c,cb);
+        
+        strcat(row_c,";");
+        if(!is_null[7]){
+            char cs_id[32];
+            sprintf(cs_id,"%d",consume_id);
+            strcat(row_c,cs_id);
+        }
+        
+        strcat(row_c,";");
+        if(!is_null[8]) strcat(row_c,manual_user);
+        
+        strcat(row_c,"\n");
+
+        printf("row:%s",row_c);
+        fputs(row_c,stream);
+    }
+    
+    mysql_stmt_close(stmt);
+    conn_close(conn);
+    free(bind);
+
+    return 0;
+}
+
+    在下面的表格中，给出了可在MYSQL_BIND结构的buffer_type成员中指定的允许值。在该表中，还给出了与每个buffer_type值最接近的对应SQL类型，对于数值和临时类型，给出了对应的C类型。
+
+buffer_type值
+ SQL类型
+ C类型
+ 
+MYSQL_TYPE_TINY
+ TINYINT
+ char
+ 
+MYSQL_TYPE_SHORT
+ SMALLINT
+ short int
+ 
+MYSQL_TYPE_LONG
+ INT
+ int
+ 
+MYSQL_TYPE_LONGLONG
+ BIGINT
+ long long int
+ 
+MYSQL_TYPE_FLOAT
+ FLOAT
+ float
+ 
+MYSQL_TYPE_DOUBLE
+ DOUBLE
+ double
+ 
+MYSQL_TYPE_TIME
+ TIME
+ MYSQL_TIME
+ 
+MYSQL_TYPE_DATE
+ DATE
+ MYSQL_TIME
+ 
+MYSQL_TYPE_DATETIME
+ DATETIME
+ MYSQL_TIME
+ 
+MYSQL_TYPE_TIMESTAMP
+ TIMESTAMP
+ MYSQL_TIME
+ 
+MYSQL_TYPE_STRING
+ CHAR
+  
+ 
+MYSQL_TYPE_VAR_STRING
+ VARCHAR
+  
+ 
+MYSQL_TYPE_TINY_BLOB
+ TINYBLOB/TINYTEXT
+  
+ 
+MYSQL_TYPE_BLOB
+ BLOB/TEXT
+  
+ 
+MYSQL_TYPE_MEDIUM_BLOB
+ MEDIUMBLOB/MEDIUMTEXT
+  
+ 
+MYSQL_TYPE_LONG_BLOB
+ LONGBLOB/LONGTEXT
+  
+ 
+
+注意：在从服务器端往bind里取值时注意C类型，如上段代码的这一段
+char row_c[512] = "";
+ 
+char uid[32];
+sprintf(uid,"%d",m);
+strcat(row_c,uid);
+其中m最初定义为long，结果导致数据取不出来，究其原因主要是MYSQL_BIND定义的类型是MYSQL_TYPE_LONGLONG，其对应的类型是long long int，其占8字节，而long占4字节，所以出现问题。
+C代码编译
+gcc -o db_card_service ./db_card_service.c got_db_conn_mgr.c,db_util.c --std=c99 -I/usr/include/mysql -L/usr/lib/mysql -lmysqlclient -lm
+
+    上面的命令说明，采用c99标准进行编译,采用mysqlclient方式与mysql连接，且链接了相关的库文件。
+
+完整的源代码：
+got_db_conn_mgr.c
+
+#include "got_db_conn_mgr.h"
+
+MYSQL *conn_init(){
+ 
+  MYSQL *connection=NULL;
+ 
+ connection = mysql_init(NULL);
+ if(connection==NULL){
+  return NULL;
+ }
+ 
+
+  mysql_real_connect(connection,"localhost","got","123456","lot_sales",0,NULL,0);
+ if(connection==NULL){
+  printf("%s\n",mysql_error(connection));
+ }
+ 
+ /*set no auto commit*/
+ mysql_autocommit(connection,0);
+ 
+ return connection;
+}
+
+int conn_close(MYSQL *connection){
+ 
+ 
+ printf("beginning to close DB_CONNECTION.....\n");
+ mysql_close(connection);
+        connection = NULL;
+ printf("it's successfully to close DB_CONNCETION.....!\n");
+ 
+
+ return 0;
+}
+
+
+
+got_db_conn_mgr.h
+
+#ifndef GOT_DB_CONN_MGR_H
+#define GOT_DB_CONN_MGR_H
+
+#include <stdio.h>
+#include "mysql.h"
+
+extern MYSQL *conn_init();
+
+extern int conn_close(MYSQL *connection);
+
+#endif
+
+db_card_service.c
+
+#include "got_db_conn_mgr.h"
+#include "status.h"
+#include "db_struct.h"
+#include "db_util.h"
+#include "db_sequence.h"
+#include <stdio.h>
+
+int db_getaccounts(const char *card_id,const MYSQL_TIME *start_time,const MYSQL_TIME *end_time,int type,int is_actived,FILE *stream){
+    
+    if(start_time==NULL || end_time==NULL) return PARAMERROR;
+    
+    MYSQL *conn;
+    conn = conn_init();
+    if(conn==NULL) return DATABASEERROR;
+    
+    int num = 2,result;
+    char sql[512] = "select a.card_id,a.uuid,a.action_time,a.alter_type,a.alter_sum,a.alter_des,a.cur_balance,a.consume_id,a.manual_user from g_account_item as a ";
+    if(is_actived){
+        char *relation = ",g_card as c";
+        strcat(sql,relation);
+    }
+    strcat(sql,&" where a.action_time>=? and a.action_time<=? ");
+    if(is_actived){
+        strcat(sql," and a.card_id=c.card_id and a.action_time>=c.actived_time");
+    }
+    
+    char type_sql[32] = " and alter_type in (";
+    char type_value[4];
+    int i,existed = 0;
+    int types[4] = {DEPOIST,WITHDRAWALS,PAYMENT,REFUND};
+    for(i=0;i<4;i++){
+        if((type&types[i])==types[i]){
+            if(existed)strcat(type_sql,",");
+            sprintf(type_value,"%d",types[i]);
+            strcat(type_sql,type_value);
+            existed = 1;
+        }
+    }
+    
+    if(existed){
+        strcat(type_sql,") ");
+        strcat(sql,type_sql);
+    }
+    
+    if(card_id!=NULL && card_id[0]!='\0'){
+        strcat(sql,&" and a.card_id=?");
+        num+=1;
+    }
+    
+    printf("sql:%s\n",sql);
+    
+    MYSQL_STMT *stmt;
+    MYSQL_BIND column[9];
+    MYSQL_BIND *bind;
+    
+    stmt = mysql_stmt_init(conn);
+    if(!stmt){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_prepare(stmt,sql,strlen(sql))){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }    
+    
+    bind = (MYSQL_BIND *)malloc(sizeof(MYSQL_BIND)*num);
+    memset(bind,0,sizeof(MYSQL_BIND)*num);
+    
+    bind[0].buffer_type = MYSQL_TYPE_DATETIME;
+    bind[0].buffer = (char *)start_time;
+    bind[0].is_null = 0;
+    bind[0].length = 0;
+    
+    bind[1].buffer_type = MYSQL_TYPE_DATETIME;
+    bind[1].buffer = (char *)end_time;
+    bind[1].is_null = 0;
+    bind[1].length = 0;
+    unsigned long i1;
+    if(card_id!=NULL && card_id[0]!='\0'){
+        bind[2].buffer_type = MYSQL_TYPE_VAR_STRING;
+        bind[2].buffer =(char *)card_id;
+        bind[2].buffer_length = 32; 
+        bind[2].is_null= 0;
+        bind[2].length = &i1;
+        i1 = strlen(card_id);
+    }
+    
+    result = mysql_stmt_bind_param(stmt,bind);
+    if(result!=0){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_execute(stmt)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    memset(column,0,sizeof(column));
+    
+    unsigned long length[9];
+    my_bool is_null[9];
+
+    MYSQL_TIME action_time;
+    int alter_type,alter_sum,cur_balance;
+    long long int m;
+    long long int consume_id;
+    char c_id[32],alter_des[128],manual_user[16];
+
+    column[0].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[0].buffer =(char *)c_id;
+    column[0].buffer_length = 32; 
+    column[0].is_null= &is_null[0];
+    column[0].length = &length[0];
+
+    column[1].buffer_type = MYSQL_TYPE_LONGLONG;
+    column[1].buffer = (char *)&m;
+    column[1].is_null = &is_null[1];
+    column[1].length = &length[1];
+    
+    column[2].buffer_type = MYSQL_TYPE_DATETIME;
+    column[2].buffer = (char *)&action_time;
+    column[2].is_null = &is_null[2];
+    column[2].length = &length[2];
+    
+    column[3].buffer_type = MYSQL_TYPE_LONG;
+    column[3].buffer = (char *)&alter_type;
+    column[3].is_null = &is_null[3];
+    column[3].length = &length[3];
+
+    column[4].buffer_type = MYSQL_TYPE_LONG;
+    column[4].buffer = (char *)&alter_sum;
+    column[4].is_null = &is_null[4];
+    column[4].length = &length[4];
+
+    column[5].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[5].buffer =(char *)alter_des;
+    column[5].buffer_length = 64; 
+    column[5].is_null= &is_null[5];
+    column[5].length = &length[5];
+
+    column[6].buffer_type = MYSQL_TYPE_LONG;
+    column[6].buffer = (char *)&cur_balance;
+    column[6].is_null = &is_null[6];
+    column[6].length = &length[6];
+
+    column[7].buffer_type = MYSQL_TYPE_LONGLONG;
+    column[7].buffer = (char *)&consume_id;
+    column[7].is_null = &is_null[7];
+    column[7].length = &length[7];
+    
+    column[8].buffer_type = MYSQL_TYPE_VAR_STRING;
+    column[8].buffer =(char *)manual_user;
+    column[8].buffer_length = 16; 
+    column[8].is_null= &is_null[8];
+    column[8].length = &length[8];
+    
+    if(mysql_stmt_bind_result(stmt,column)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    
+    if(mysql_stmt_store_result(stmt)){
+        printf("%s\n",mysql_stmt_error(stmt));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+
+    while(!mysql_stmt_fetch(stmt)){
+        
+        char row_c[512] = "";
+    
+        char uid[32];
+        sprintf(uid,"%d",m);
+        strcat(row_c,uid);
+
+        strcat(row_c,";");
+        strcat(row_c,c_id);
+        
+        char time[32] = "";
+        strcat(row_c,";");
+        result = get_char_from_time(&action_time,time);
+        if(!result) strcat(row_c,time);
+
+        char alt[4];
+        strcat(row_c,";");
+        sprintf(alt,"%d",alter_type);
+        strcat(row_c,alt);
+
+        char als[4];
+        strcat(row_c,";");
+        sprintf(als,"%d",alter_sum);
+        strcat(row_c,als);
+
+        strcat(row_c,";");
+        if(!is_null[5])strcat(row_c,alter_des);
+
+        char cb[8];
+        strcat(row_c,";");
+        sprintf(cb,"%d",cur_balance);
+        strcat(row_c,cb);
+        
+        strcat(row_c,";");
+        if(!is_null[7]){
+            char cs_id[32];
+            sprintf(cs_id,"%d",consume_id);
+            strcat(row_c,cs_id);
+        }
+        
+        strcat(row_c,";");
+        if(!is_null[8]) strcat(row_c,manual_user);
+        
+        strcat(row_c,"\n");
+
+        printf("row:%s",row_c);
+        fputs(row_c,stream);
+    }
+    
+    mysql_stmt_close(stmt);
+    conn_close(conn);
+    free(bind);
+
+    return 0;
+}
+
+int db_gettrades(const char *card_id,const MYSQL_TIME *start_time,const MYSQL_TIME *end_time,int status,int is_actived,FILE *stream){
+    
+    if(start_time==NULL || end_time==NULL) return PARAMERROR;
+    
+    char start_c[32]="",end_c[32]="";
+    if(get_char_from_time(start_time,start_c)||get_char_from_time(end_time,end_c))
+        return PARAMERROR;
+    
+    int result,num = 2;
+    char sql[512] = "select a.uuid,a.business_id,a.card_id,a.action_time,a.con_sum,a.multiple,a.con_des,a.bet_type,a.status,a.ticket_uuid,a.printed_time,a.period,a.is_manual,a.manual_time,a.manual_people,a.manual_des,a.delivered,a.deliver_people,a.deliver_time,a.cancel_people,a.fail_reason from g_consumption_item as a ";
+    if(is_actived){
+        char *relation = ",g_card as c";
+        strcat(sql,relation);
+    }
+    
+    strcat(sql," where a.action_time>='");
+    strcat(sql,start_c);
+    strcat(sql,"'");
+    strcat(sql," and a.action_time<='");
+    strcat(sql,end_c);
+    strcat(sql,"'");
+
+    if(is_actived){
+        strcat(sql,"and a.card_id=c.card_id and c.card_status=");
+        char temp[4];
+        sprintf(temp,"%d", DB_ACTIVE);
+        strcat(sql,temp);
+    }
+
+    int i,existed=0,status_array[5] = {DB_TRADECOMMITTED,DB_TRADESUCCESS,DB_TRADECOMPLETE,DB_TRADEUNKNOW,DB_TRADEFAIL};//from enum DB_TRADESTATUS which is in db_struct.h
+    char status_value[4],status_sql[32]=" and a.status in(";
+    for(i=0;i<5;i++){
+        if((status&status_array[i])==status_array[i]){
+            if(existed) strcat(status_sql,",");
+            
+            sprintf(status_value,"%d",status_array[i]);
+            strcat(status_sql,status_value);
+            existed = 1;
+        }
+    }
+    
+    if(existed){
+        strcat(status_sql,")");
+        strcat(sql,status_sql);
+    }
+
+    if(card_id!=NULL && card_id[0]!='\0'){
+        strcat(sql,&" and a.card_id='");
+        strcat(sql,card_id);
+        strcat(sql,"'");
+    }
+
+    printf("sql:%s\n",sql);
+
+    MYSQL *conn;
+    conn = conn_init();
+    if(conn==NULL) return DATABASEERROR;
+    
+    MYSQL *res;
+    MYSQL_ROW row;
+
+    int state;    
+    state = mysql_query(conn,sql);
+    if(state!=0){
+        printf("db_error!%s\n",mysql_error(conn));
+        conn_close(conn);
+        return DATABASEERROR;
+    }
+    int size = 0;
+    res = mysql_store_result(conn);
+    unsigned long row_num = (unsigned long)mysql_num_rows(result);
+    printf("Rows:%d\n",mysql_num_rows(res));
+    while((row=mysql_fetch_row(res))!=NULL){
+        char row_content[1024] = "";
+        int x;
+        for(x=0;x<21;x++){
+            if(x>0)strcat(row_content,";");
+            if(row[x]!=NULL && (row[x])[0]!='\n')
+                strcat(row_content,row[x]);
+            printf("content length:%d\n",strlen(row_content));
+        }
+        strcat(row_content,"\n");
+        printf("row:%s\n",row_content);
+        fputs(row_content,stream);
+        size++;
+    }
+    
+    mysql_free_result(res);    
+
+    conn_close(conn);
+    
+    return size;
+}

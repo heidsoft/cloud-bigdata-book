@@ -1,0 +1,67 @@
+CentOS 6.2编译安装Nginx1.2.0
+ 
+第一步：下载nginx源码包和所需要的库文件。
+
+cd /tmp#Nginx1.2.0
+wget http://www.nginx.org/download/nginx-1.2.0.tar.gz
+
+#Nginx(pcre)
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.13.tar.gz也可以使用yum install pcre 自动安装pcre库
+
+第二步：开始安装nginx
+
+#安装Nginx
+tar -zxvf nginx-1.2.0.tar.gz && cd nginx-1.2.0 &&
+./configure --user=www --group=www \
+--prefix=/usr/local/webserver/nginx \
+--sbin-path=/usr/local/webserver/nginx/sbin/nginx \
+--conf-path=/usr/local/webserver/nginx/conf/nginx.conf \
+--with-http_stub_status_module \
+--with-http_ssl_module \
+--with-pcre \
+--lock-path=/var/run/nginx.lock \
+--pid-path=/var/run/nginx.pid
+
+编译完成没错误后，执行以下命令
+make && make install && cd ../ 第三步：更改配置
+
+#更改配置
+vi /usr/local/webserver/nginx/conf/nginx.conf
+
+#修改一些参数,别直接替换文件,这只是一部分
+user www
+
+events {
+    use epoll;
+    worker_connections  1024;
+}
+listen       80;server_name  localhost;index 　　    index.html index.htm index.php;root　　　　　 /var/www/html;
+location ~ .*\.(php|php5)?$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+
+#注意这里
+#$document_root$fastcgi_script_name;
+#检测配置文件
+/usr/local/webserver/nginx/sbin/nginx -t
+
+#提示表示成功
+#nginx: the configuration file /usr/local/webserver/nginx/conf/nginx.conf syntax is ok
+#nginx: configuration file /usr/local/webserver/nginx/conf/nginx.conf test is successful
+
+#开启Nginx
+/usr/local/webserver/nginx/sbin/nginx
+#平滑重启Nginx
+/usr/local/webserver/nginx/sbin/nginx -s reload
+
+#添加开机启动
+vi /etc/rc.d/rc.local
+#最后一行加入
+/usr/local/webserver/nginx/sbin/nginx &第四步：测试vi /var/www/html/index.php
+#新建index文件，输入
+<?php
+phpinfo();
+?>

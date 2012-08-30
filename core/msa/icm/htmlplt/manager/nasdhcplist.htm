@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>网络对象</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/icm/publiccss/pubcss.css" type="text/css">
+<SCRIPT LANGUAGE="JavaScript">
+
+function addlistfun() {
+	var mygroupname=listform.groupname.value;
+	var mynetmask=listform.netmask.value;
+	var myrouteip=listform.routeip.value;
+	var mydnsip0=listform.dnsip0.value;
+	var mydnsip1=listform.dnsip1.value;
+	var mydnsip2=listform.dnsip2.value;
+	if(mygroupname==""){
+		alert("组名不能为空!");
+		listform.groupname.focus();
+		listform.groupname.select();
+		return false;
+	}
+	if(mynetmask==""){
+		alert("子网掩码不能为空!");
+		listform.netmask.focus();
+		listform.netmask.select();
+		return false;
+	}
+	//var regMask=/^(254|252|248|240|224|192|128|0)\.0\.0\.0|255\.(254|252|248|240|224|192|128|0)\.0\.0|255\.255\.(254|252|248|240|224|192|128|0)\.0|255\.255\.255\.(254|252|248|240|224|192|128|0)$/; 
+	var regMask=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	var mask_flag=false;
+	if(regMask.test(mynetmask)){
+		mask_flag = true;
+		}else{
+		mask_flag = false;
+		}
+		if (!mask_flag){
+		  alert("对不起，子网掩码格式错误！");
+			listform.netmask.focus();
+			listform.netmask.select();
+		  return false;
+		}
+	if(myrouteip==""){
+		alert("routeip地址不能为空!");
+		listform.routeip.focus();
+		listform.routeip.select();
+		return false;
+	}
+	var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	var Routeip_flag=false;
+	if(regIP.test(myrouteip)){
+		Routeip_flag = true;
+		}else{
+		Routeip_flag = false;
+		}
+		if (!Routeip_flag){
+		  alert("对不起，Routeip地址格式错误！");
+			listform.routeip.focus();
+			listform.routeip.select();
+		  return false;
+		}
+	if(mydnsip0==""){
+		alert("dnsip1不能为空!");
+		listform.dnsip0.focus();
+		listform.dnsip0.select();
+		return;
+	}
+	 var dnsip0_flag=false;
+	 if(regIP.test(mydnsip0)){
+		dnsip0_flag = true;
+		}else{
+		dnsip0_flag = false;
+		}
+		if (!dnsip0_flag){
+		  alert("对不起，dnsip1地址格式错误！");
+			listform.dnsip0.focus();
+			listform.dnsip0.select();
+		  return false;
+		}
+	if(mydnsip1!=""){
+	 var dnsip1_flag=false;
+	 if(regIP.test(mydnsip1)){
+		dnsip1_flag = true;
+		}else{
+		dnsip1_flag = false;
+		}
+		if (!dnsip1_flag){
+		  alert("对不起，dnsip2地址格式错误！");
+			listform.dnsip1.focus();
+			listform.dnsip1.select();
+		  return false;
+		}
+	}
+	if(mydnsip2!=""){
+	 var dnsip2_flag=false;
+	 if(regIP.test(mydnsip2)){
+		dnsip2_flag = true;
+		}else{
+		dnsip2_flag = false;
+		}
+		if (!dnsip2_flag){
+		  alert("对不起，dnsip3地址格式错误！");
+			listform.dnsip2.focus();
+			listform.dnsip2.select();
+		  return false;
+		}
+	}
+	listform.actiontype.value=1;
+	listform.submit();
+}
+
+function dellistfun() {
+	listform.actiontype.value=2;
+	listform.submit();
+
+}
+
+</SCRIPT>
+<style type="text/css">
+<!--
+.hand {  cursor: hand}
+-->
+</style>
+</head>
+
+<body bgcolor="#F0f0f0" text="#000000" oncontextmenu="return false" topmargin="0" leftmargin="0"   style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: hidden; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+
+<form name="listform" action="/icm/main.xp" method="POST">
+<table border=0 cellspacing=2 width="100%" cellpadding=0 align="center">
+
+  <tbody> 
+  <tr> 
+    <td id=clearStart height="530" valign="top" width="85%" > 
+    	<div>  
+<table border="0" align="center" cellpadding="3" cellspacing="0" width="96%">
+          <tr> 
+          <td> 
+      所属组名<input type="text" class=inputf0  name="groupname" size="15">
+	    子网掩码<input type="text"  class=inputf0 name="netmask" size="15">
+      IP<input type="text" class=inputf0  name="routeip" size="15">
+      DNS1<input type="text"  class=inputf0 name="dnsip0" size="15">
+      DNS2<input type="text"  class=inputf0 name="dnsip1" size="15">
+      DNS3<input type="text"  class=inputf0 name="dnsip2" size="15">
+	   			 <input type="hidden" name="actiontype" value="1" >
+           <input type="hidden" name="Fun" value="ltdhcpaction" >
+           <input type="hidden" name="allnum" value="[$allnum$]" >
+           <input type="button" name="ok"  value="添加" onClick="addlistfun()"  class=inputf0  >
+           <input type="button" name="ok"  value="删除" onClick="dellistfun()"  class=inputf0  >
+      </td>
+        </tr>
+      </table>
+</div>
+<div id="Layer1" style="position:absolute; width:100%; height:540; z-index:1; overflow: scroll;">        
+        <table width="96%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+          <tr > 
+            <td width="32"  height="20" background="/images/barbg.gif">&nbsp;</td>
+            <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;所属组名 
+            </td>
+            <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;子网掩码
+            </td>
+            <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;IP
+            </td>
+	        <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;DNS1</td>
+	        <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;DNS2</td>
+	        <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;DNS3</td>
+        </tr>
+	[$begintable ipbindlist$]
+          <tr bgcolor="#F3F3F3"> 
+            <td width="32"> 
+              <div align="center"> 
+              <input type="checkbox" name="checkbox[$inum$]" value="[$listindex$]">
+            </div>
+          </td>
+            <td width="180">&nbsp;[$groupname$]</td>
+            <td width="180">&nbsp;[$netmask$]</td>
+            <td width="180">&nbsp;[$routeip$]</td>
+            <td width="180">&nbsp;[$dnsip0$]</td>
+	        <td width="180">&nbsp;[$dnsip1$]</td>
+	        <td width="180">&nbsp;[$dnsip2$]</td>
+        </tr>
+	[$endtable$]
+        </table>
+</div>
+      </td>
+    
+  </tr>
+  </tbody> 
+</table>
+</form>            
+
+</body>
+</html>
+
+

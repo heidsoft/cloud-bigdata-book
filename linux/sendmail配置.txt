@@ -1,0 +1,40 @@
+公司有很多服务器上运行的脚本都是通过mail 来发送通知的，但是当没有邮件服务器的时候 通过mail发送的邮件经常被 对方的邮件服务器拒绝掉。之前我发过用msmtp+mutt来解决这个问题，但后来发现有些情况 不得不用mail，比如说 某个大公司已经有n多脚本在跑，或者其他什么原因不能用mutt的时候。
+其实很简单，看了msmtp官方文档后才发现原来 用msmtp+mail 来发邮件竟然比 msmtp+mutt还要简单
+第一步 先把 msmtp 安装好
+tar xf msmtp-1.4.17.tar.bz2
+cd msmtp-1.4.17
+./configure --prefix=/usr/local/msmtp
+make
+make install
+cd /usr/local/msmtp/
+mkdir etc
+cd etc
+vi msmtprc #手动建立配置文件
+account default
+host smtp.qiye.163.com #163企业邮箱的smtp服务器
+port 25
+from UFO@xman.com      #公司企业邮箱总会有吧！让公司网关给你开个专用的邮箱用来发邮件
+auth login
+tls off
+user UFO@xman.com
+password 1234
+logfile /var/log/mmlog
+保存退出
+好了，测试一下 /usr/local/msmtp/bin/msmtp MaxDB@box.com
+随便输入一些内容 然后按 ctrl+d 退出，看看是否收到邮件，发件人是不是 UFO@xman.com，收到后则一切正常。
+最后再做一步，就能让 mail 利用msmtp 发送邮件了。
+修改 /etc/mail.rc 在里面加入一条 ，或者在发送邮件的用户 的 home目录下 增加一个 .mailrc （注意中间没有 "."） 的文件插入下面一行：
+set sendmail="/usr/local/msmtp/bin/msmtp"
+保存退出，测试下 echo "this is a test mail" | mail -s "TEST mail" MaxDB@box.com 
+去邮箱看看是否收到邮件。注意 这样修改以后 mail 的log 不会写在 /var/log/maillog 上了，而是会在 /var/log/mmlog
+呵呵简单吧！只需要一行就可以了。msmtp 的官网上是这么写的
+10.4 Using msmtp with mail
+
+Define a default account, and put the following into ~/.mailrc:
+
+     set sendmail="/path/to/msmtp"
+You need to define a default account, because mail does not allow extra options to the msmtp command line. 
+呵呵，快去试试吧~~~
+
+另外还有几种命令行通过外部snmp服务器发邮件的小工具，比如 sendEmail 和SendmailViaSMTP 看个人的喜好了
+

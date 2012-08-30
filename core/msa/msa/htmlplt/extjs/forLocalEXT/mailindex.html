@@ -1,0 +1,107 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<SCRIPT type=text/javascript  src="./adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="./ext-all.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="./resources/css/ext-all.css" />
+<SCRIPT type=text/javascript  src="PagingMemoryProxy.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="datasource.js"></SCRIPT>
+<SCRIPT type=text/javascript>
+Ext.onReady(function(){
+		var reader = new Ext.data.ArrayReader({}, [
+				         {name: 'sdate'},
+				         {name: 'hour'},
+				         {name: 'namefrom'},
+				         {name: 'nameto'},
+				         {name: 'subject'},  //主题
+					       {name: 'timeStamp'},  //时间
+					  	   {name: 'size',type: 'int'},//大小
+					  	   {name: 'fjcount',type: 'int'}, //附件个数
+					  	   {name: 'myfstart'} //位置
+		]);
+		var ds = new Ext.data.Store({
+				proxy: new Ext.data.PagingMemoryProxy(myData),
+				data: myData,
+				//sortInfo:{field: "id"},
+				reader:reader
+    });
+    var grid = new Ext.grid.GridPanel({
+        store:ds,
+         viewConfig: {
+            forceFit:true,
+            scrollOffset: 0,
+            enableRowBody:true,
+            showPreview:true,
+            getRowClass : function(record, rowIndex, p, ds){
+                if(this.showPreview){
+                    p.body = '<p>'+record.data.subject+'</p>';
+                    return 'x-grid3-row-expanded';
+                }
+                return 'x-grid3-row-collapsed';
+            }
+          },
+				columns: [
+	            {header: "发件人",width: 100, sortable: true,  dataIndex: 'nameform'},
+	            {header: "收件人",width: 100, sortable: true,  dataIndex: 'nameto'},
+	            {id:'uname',header: "日期", width: 100, sortable: true, dataIndex: 'timeStamp'},
+	            {header: "邮件大小(KB)", width: 80, sortable: true, dataIndex: 'size'},
+	            {header: "附件个数", width: 100, sortable: true,  dataIndex: 'fjcount'}
+				],
+				sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
+		    height:210,
+				split: true,
+				tbar: new Ext.PagingToolbar({
+		            pageSize:20,
+		            store: ds,
+		            displayInfo: true
+				}),
+				region: 'north'
+	});
+	ds.load({params:{start:0, limit:20}});
+	// define a template to use for the detail view
+	grid.getSelectionModel().on('rowselect', function(sm, rowIdx, r) {
+//		var detailPanel = Ext.getCmp('detailPanel');
+//		bookTpl.overwrite(detailPanel.body, r.data);
+			menufrm.location.href="./"+r.data.myfstart+".htm";
+	});
+    //store.load();
+//	new Ext.Viewport({
+//		layout: "border",
+//		items: [grid,{
+//					id: 'detailPanel',
+//					region: 'center',
+//					bodyStyle: {
+//						background: '#ffffff',
+//						padding: '7px'
+//					},
+//					html: 'Please select a book to see additional details.'
+//				}]
+//	});
+	var mailwin = new Ext.Window({
+			layout      : 'fit',
+      title: '邮件',
+      width       : 600,
+      height      : 550,
+      closeAction :'hide',
+      closable:false,
+      plain       : true,
+			maximizable:'true',
+			layout: "border",
+      items: [grid,{
+					id: 'detailPanel',
+					region: 'center',
+					bodyStyle: {
+						background: '#ffffff',
+						padding: '1px'
+					},
+					html: "<IFRAME  name='menufrm' width=100% height=100%></iframe>"
+				}]
+	});
+	mailwin.show();
+	mailwin.maximize();
+});
+</SCRIPT>
+</head>
+<BODY  oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<div id="binding-example"></div>
+</BODY>
+</html>

@@ -1,0 +1,180 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+
+
+
+<script>
+
+function ddns_change(){
+
+	if(listform.servername.value=="0"){
+
+	div1.style.display="none";
+
+	listform.username.value="";
+
+	listform.userpass.value="";
+
+	}else{
+
+	div1.style.display="";
+
+	}
+
+}
+
+function fun(){
+
+	  var myservername=document.getElementById('servername').value;
+
+	  var myusername=document.getElementById('username').value;
+
+	  var myuserpass=document.getElementById('userpass').value;
+		Ext.Ajax.request({
+			    method : 'POST',
+			    url:'/msa/main.xp',
+			    success: function(response, options){
+						document.getElementById('msg').innerHTML=response.responseText;
+			    },
+			    failure: function(){
+			    },
+			    params:{
+			      Fun:'msaLoginDdns',
+			      uname:myusername,
+			      password:myuserpass
+			    }
+		});
+		Ext.Ajax.request({
+
+			    method : 'POST',
+
+			    url:'/msa/main.xp',
+
+			    success: function(){
+
+						Ext.MessageBox.alert('提示','DDNS配置成功！');
+
+			    },
+
+			    failure: function(){
+
+			     		Ext.MessageBox.alert('提示','DDNS配置失败！');
+
+			    },
+
+			    params:{
+
+			      Fun:'ltDDNSok',
+
+			      servername:myservername,
+
+			      username:myusername,
+
+			      userpass:myuserpass
+
+			    }
+
+		});
+
+}
+
+</script>
+
+</head>
+
+<body bgcolor="#f0f0f0" text="#000000" link="#C0C0C0"  onLoad="ddns_change()">
+
+<form name="listform" method="post" action="/msa/main.xp" >
+
+   <fieldset style="width:90%;height:30;border:2px groove" align=center>
+
+  <legend>DDNS服务器</legend>
+
+    <div id="div">
+
+	  <table width=525 border=0 cellpadding=0>
+
+	  	<tr>
+
+				<td width="142" align="right">服务商：</td>
+
+				<td>
+
+					<select name="servername" size="1" onChange="ddns_change()">
+
+						<option value="0"[$servername0$]>关闭</option>
+
+						<option value="1"[$servername1$]>花生壳</option>
+
+					</select><a href="javascript:" onClick="window.open('http://www.oray.com/peanuthull/download.php','','height=500,width=611,scrollbars=yes,status=yes')">点击下载注册花生壳执照</a>
+
+			  </td>
+
+			</tr>
+
+	  </table>
+
+   </div>
+
+   <div id="div1">
+
+	   <table width=525 border=0 cellpadding=0>
+
+				<tr>
+
+					<td width="142" align="right">用户名：</td>
+
+					<td><input type="text" id="username" name="username" class="input" value="[$username$]"></td>
+				</tr>
+				<tr>
+
+					<td width="142" align="right">密  码：</td>
+
+					<td><input type="password" id="userpass" name="userpass" class="input" value="[$userpass$]"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="left">
+			<div id="msg"></div></td>
+				</tr>
+	   </table>
+
+   </div>
+
+   </fieldset>
+
+   <div>
+
+		 <table width=525 border=0 cellpadding=0>
+
+				<tr>
+
+					<td width="142" align="center"><input type="button" id="btnSubmit" value="提交" onClick="fun()" class="input"></td>
+
+					<td width="377">&nbsp;</td>
+
+				</tr>
+		 </table>
+
+	 </div>
+
+</form>
+</body>
+</html>
+
+
+

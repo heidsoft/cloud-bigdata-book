@@ -1,0 +1,48 @@
+﻿[{
+	text:'帐号操作',
+  expanded: false,
+  cls:'feeds-node',
+  expanded:true,
+  children:[
+      {
+				id:'accountsearch',
+			  text:'帐号查询',
+				leaf:true
+			},{
+				id:'userimport',
+			  text:'帐号导入',
+				leaf:true
+			},{
+				id:'advarconfig',
+			  text:'AD帐号导入',
+				leaf:true
+			},{
+				id:'ldapinport',
+			  text:'LDAP帐号导入',
+				leaf:true
+			}]}
+,{
+		text:'部门操作',
+	  expanded: false,
+	  cls:'feeds-node',
+	  expanded:true,
+		children:[{
+						id:'groupimport',
+					  text:'部门导入',
+						leaf:true
+					},{
+						id:'groupexport',
+					  text:'部门导出',
+						leaf:true
+					}]
+},{
+		text:'批量操作用户属性',
+	  expanded: false,
+	  cls:'feeds-node',
+	  expanded:true,
+		children:[{
+						id:'showPolicyApply',
+					  text:'批量操作策略列表',
+						leaf:true
+					}]
+}]

@@ -1,0 +1,176 @@
+世界著名大学的计算机的知识公开课
+一、伯克利
+
+加州大学伯克利分校 http://webcast.berkeley.edu/courses.php
+
+作为美国第一的公立大学，伯克利分校提供了，可以跟踪最新的讲座。想看教授布置的作业和课堂笔记，可以点击该教授的网页，通常，他/她都会第一堂课留下网址。实在不行，用google搜搜吧！
+
+　　伯克利的视频都是.rm格式，请注意转换
+
+　　二、麻省
+
+麻省理工学院 http://ocw.mit.edu/OcwWeb/web/courses/courses/index.htm
+
+麻省理工是免费开放教育课件的先驱，计划在今年把１８００门课程的课件都放在网站上，提供课程与作业的ＰＤＦ格式下载。三是，麻省理工只提供少数的视频讲座。坐过学生上麻省有一个绝对优势，麻省理工在中国大陆和中国台湾都建立了镜像网站，把麻省的课程都翻译成立中文。鉴于ＰＤＦ格式，推荐使用ＦｏｘＩｔ　Ｒｅａｄｅｒ。
+
+　　www.core.org.cn（中国大陆）推荐
+
+　　www.myoops.org（中国台湾）
+
+二、卡耐基梅隆 http://www.cmu.edu/oli/
+
+卡耐基梅隆针对初入大学的大学生，提供１０门学科的课程视频。与其他大学的免费课程一样，非卡耐基梅隆的学子能学习课程，但是为了使学生能够及时了解自己的课程进度，卡耐基梅隆建议造访者在网站上注册，建立自己的资料库。这样一来，你得在有限的时间内完成一门课程，还要参加几次考试，当然，即使你得了１００分，卡耐基梅隆也不会给你开证明，更不会给你学分。
+
+
+四、犹他
+
+犹他大学 http://ocw.usu.edu/front-page/Courese_listing
+
+犹他大学类似于麻省理工，提供大量的课程课件
+
+
+五、塔夫茨
+
+塔夫茨大学 http://ocw.tufts.edu
+
+塔夫茨大学也是“开放式教育课程”的先驱之一，初期提供的课程着重在本校专长的生命科学、跨领域方法、国际观点以及对美国地区性、全国性社群服务的基础理论。
+
+
+六、公开
+
+英国公开大学 http://openlearn.open.ac.uk/course/index.php
+
+英国十几所大学联合起来，组建了英国公开大学。有一部分课程是对注册学生开放的，但是有一批很好的课程是免费的，并提供视频。每门课还设立了论坛，在社区中，大家发表意见，提供其他的学习资源，互相取经。在这个网站里，最能锻炼自学者的能力，因为你要不停地淘，才能找到宝贝。
+
+
+七、约翰霍普金斯
+
+约翰霍普金斯 http://ocw.jhsph.edu/topics.cfm
+
+只有极少数人能够进入约翰霍普金斯大学就读，但是，现如今有动机的人不用花一分钱，便能通过网站获得该校的前沿知识。约翰霍普金斯提供了本学院最受欢迎的课程，包括青少年健康、行为和健康、生物统计学、环境、一般公共卫生、卫生政策、预防伤害、母亲和儿童健康、心理卫生、营养、人口科学、公共卫生准备和难民卫生等。
+
+
+八、Connexions
+
+http://cnx.rice.edu
+
+CNX.org由莱斯大学开发，号称是课程资源免费共享图书馆。与其他大学不同的事，CNX邀请教授学者建立自己的社区，把自己的最新成果公布于世，接受大家的评价。可以说CNX开辟了大学资源共享的新天地，尤其适合自学能力超强的大学生。有些课程有中文版。
+
+
+九、索菲亚
+
+索菲亚大学 http://sofia.ocw.cn/gallery
+
+无论是想当一名管理者、作家、评论员、还是要从事设计和IT业的人，索菲亚大学的免费课程肯定让你受益匪浅。索菲亚大学提供了8门学科的课程，其中《企业网络安全实战》已翻译成中文。
+
+
+十、华盛顿
+
+华盛顿大学 http://www.cs.washington.edu/education/course-webs.html
+
+华盛顿大学的计算机工程学比较强，相关的几百门课程都已经放到网上。不但本科生能找到所需要的课程，连研究生也能淘到宝贝。该网站还提供特色讲座，比如：妇女、计算机与合作。课程不但提供讲座介绍、课堂笔记、有些课程还提供视频。
+
+
+牛津、斯坦福、耶鲁大学联合网站
+
+http://www.alllearn.org
+
+哥伦比亚大学
+
+http://ci.columbia.edu/ci
+
+伯克利音乐学院
+
+http://www.berkleeshares.com
+
+杜克大学法律中心
+
+http://www.law.duke.edu/cspd/lectures
+
+圣母大学
+
+http://ocw.nd.edu
+
+英国格雷莎姆学院
+
+http://www.gresham.ac.uk/default.asp
+
+加州大学Irvine分校
+
+http://ocw.uci.edu
+
+富布莱特学校
+
+http://ocw.fetp.edu.vn/home.cfm
+
+日本东京大学
+
+http://ocw.u-tokyo.ac.jp/english
+
+日本早稻田大学
+
+http://www.waseda.jp/ocw/index.html
+
+日本大阪大学
+
+http://ocw.osaka-u.ac.jp/index.php
+
+法国巴黎高科
+
+http://graduateschool.paristech.org
+
+
+
+
+
+再给个看大学视频播客的
+
+
+
+斯坦福大学 http://itunes.stanford.edu
+
+加州大学伯克利分校http://itunes.berkeley.edu
+
+普渡大学http://boilercast.itap.purdue.edu:1013/Boilercast
+
+美国西南理工http://pocast.swtc.edu/lecture/index.php
+
+加州大学洛杉矶分校http://www.bruincast.ucla.edu
+
+西肯塔基大学http://blog.wku.edu/podcasts
+
+Dupage学院http://www.cod.edu/multimedia/podcast/CODcast/Welcome.html
+
+纽约城市大学http://podcast.york.cuny.edu/lectures
+
+莱斯大学http://webcast.rice.edu
+
+加州大学圣地亚哥分校http://podcast.ucsd.edu
+
+剑桥大学http://mediaplayer.group.cam.ac.uk/main/Podcasts.html
+
+美国大学华盛顿法律学院 http://www.wcl.american.edu/podcasts
+
+杜克大学法律学院http://www.law.duke.edu/webcast
+
+乔治敦大学 http://webcast.georgetown.edu
+
+芝加哥大学商学院 http://www.chicagogsb.edu/multimedia/podcast
+
+波士顿学院 http://frontrow.bc.edu
+
+哈佛商学院在线
+
+http://www.hbsp.harbard.edu/b02/en/hbr_ideacast.jhtml;jsessioned=NVHF0YFBS5ZCGAKRGWDR5VQBKE0YIISW
+
+威斯康星麦迪逊大学 http://havenscenter.org/audio/audio.htm
+
+约翰霍普金斯大学 http://www.johnshopkins.edu/podcasts.index1.html
+
+伦敦政治经济学院 http://www.lse.ac.uk/rescources/podcasts/Default.htm
+
+普林斯顿大学 http://uc.princeton.edu/main/index.php
+
+英国泰晤士报MBA http://uc.princeton.edu/main/index.php
+
+耶鲁大学 http://www.yale.edu/opa/podcast/ 

@@ -1,0 +1,21 @@
+<script type="text/javascript">
+ //取当前时间，格式为,yyyy-mm-dd hh:mm:ss
+function GetDateT()
+ {
+  var d,s;
+  d = new Date();
+  s = d.getYear() + "-";             //取年份
+  s = s + (d.getMonth() + 1) + "-";//取月份
+  s += d.getDate() + " ";         //取日期
+  s += d.getHours() + ":";       //取小时
+  s += d.getMinutes() + ":";    //取分
+  s += d.getSeconds();         //取秒
+  
+  return(s);  
+ 
+ } 
+myDate=GetDateT()
+alert (myDate) 
+</script>
+
+

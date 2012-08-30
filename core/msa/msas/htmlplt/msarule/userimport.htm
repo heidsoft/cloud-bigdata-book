@@ -1,0 +1,167 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/msa/extjs/UploadDialog/css/Ext.ux.UploadDialog.css" />
+<script type="text/javascript" src="/msa/extjs/UploadDialog/Ext.ux.UploadDialog.packed.js"></script>
+<script type="text/javascript" src="/msa/extjs/UploadDialog/locale/ru.utf-8_zh.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<script type="text/javascript">
+				function checkbox(obj)
+				{	if(obj.checked){
+				    obj.value=1;
+				  }else{
+				    obj.value=0;  
+					}
+				}
+</script>
+
+<SCRIPT type=text/javascript>
+		    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+				var xtzystore;
+				var pagesize;
+				var havesearch;
+				var dialog;
+				var selectwin;
+				pagesize=50;
+				havesearch=0;
+		    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(),
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+				var selectpanel=new Ext.Panel({
+						layout:'fit',
+						height:400,
+						plain:true,
+        		split:true,
+						autoScroll: true,
+						contentEl:'mainviewdiv'
+				});
+				dialog = new Ext.ux.UploadDialog.Dialog({
+           title: '用户导入(<a style="color:red">请注意:每次只能导入一个文件</a>)',
+           url:'/msa/main.up',
+           post_var_name:'grouplist',
+	         width : document.body.clientWidth,
+	         height:document.body.clientHeight*0.7,
+           draggable : false,
+           resizable : false,
+           renderTo:'upload',
+           //autoCreate: true,
+           constraintoviewport:true,
+           permitted_extensions:['csv'],
+  				 base_params: {Fun:'userimport'},
+           modal: true,
+           reset_on_hide: false,
+           allow_close_on_upload: false,    //关闭上传窗口是否仍然上传文件
+//         upload_autostart: true     //是否自动上传文件
+           upload_autostart: false
+       });
+       //定义文件添加事件
+		   dialog.on('fileadd', function(){
+		        var tb = this.grid_panel.getBottomToolbar();
+						if(!selectwin){
+						selectwin = new Ext.Window({
+								title: '选择文件属性',
+								closeAction: 'hide',
+								width: 300,
+								height:400,
+	          		items:selectpanel,
+								bodyStyle:'padding:5px;',
+								buttons: [{
+		                text     : '确定',
+		                handler  : function(){
+										selectwin.hide();
+                    }
+                }]
+							});
+						}
+						selectwin.show();
+		        if(this.grid_panel.getStore().getCount() > 1){
+		            //extWarn('每次只能上传一张背景图片!');
+       					Ext.MessageBox.alert('提示','每次只能上传一个文件!');
+		            this.grid_panel.getSelectionModel().selectLastRow();
+		            var selections = this.grid_panel.getSelectionModel().getSelections();
+		            this.fsa.postEvent('remove-files', selections);
+		        }
+		   });		   
+		   dialog.on('beforefileuploadstart', function(){
+		   			Ext.apply( dialog.base_params, {
+		        seled:document.getElementById('str1').value+document.getElementById('str2').value+document.getElementById('str3').value+document.getElementById('str4').value+document.getElementById('str5').value+document.getElementById('str6').value+document.getElementById('str7').value
+		    });
+		   });
+			 dialog.show();
+
+
+		var contentPanel =new Ext.Panel({
+							id: 'content-panel',
+							region: 'center',
+							border: true,
+	           region:'center',
+	           el:'upload'
+		});
+	  new Ext.Viewport({
+					layout: 'border',
+					items: [contentPanel
+					],
+	        renderTo: Ext.getBody()
+	    });
+		myMask.hide();
+});
+	</SCRIPT>
+</HEAD>
+<BODY oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;">
+<div valign="top" align="left" STYLE="position:absolute; top=10; left=10; z-index:1; left: 316px; top: 178px; width: 141px; display:none;">
+<table id="mainviewdiv" width="100%" border="0" align="left">
+		<tr>
+	     <td>登陆用户名 </td>
+	     <td width="11%"><input type="checkbox" name="checkbox" id="str1" value="1" class="inputchk" checked="true" onclick="checkbox(this)"></td>
+    </tr>
+    <tr>
+       <td>真实用户名 </td>
+       <td><input type="checkbox" name="checkbox" class="inputchk" id="str2" value="1" checked="true" onclick="checkbox(this)"></td>
+     </tr>
+    <tr>
+       <td width="19%">用 户 邮 箱 </td>
+       <td width="11%"><input type="checkbox" name="checkbox" class="inputchk" id="str3" value="1" checked="true" onclick="checkbox(this)"></td>
+    </tr>
+    <tr>
+      <td>用户IP</td>
+      <td><input type="checkbox" name="checkbox" id="str4" value="1" class="inputchk" checked="true" onclick="checkbox(this)"></td>
+    <tr>
+      <td>用户MAC</td>
+      <td><input type="checkbox" name="checkbox" class="inputchk" id="str5" value="1" checked="true" onclick="checkbox(this)"></td>
+    <tr>
+      <td>部门</td>
+      <td><input name="checkbox" type="checkbox" class="inputchk" id="str6" value="1" checked="true" onclick="checkbox(this)"></td>
+    <tr>
+      <td>策略</td>
+      <td><input name="checkbox" type="checkbox" class="inputchk" id="str7" value="1" checked="true" onclick="checkbox(this)"></td>
+    <tr>
+          	 <td>&nbsp;</td>
+          	 <td>&nbsp;</td>
+  </table>
+</div>
+<div id="upload"></div>
+</BODY>
+</HTML>
+

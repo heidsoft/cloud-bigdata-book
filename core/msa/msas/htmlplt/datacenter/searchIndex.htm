@@ -1,0 +1,919 @@
+﻿<HTML><HEAD><TITLE>搜索</TITLE>
+<META content=IE=8 http-equiv=X-UA-Compatible>
+<META content="text/html; charset=UTF-8" http-equiv=content-type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+
+<STYLE id=gstyle>
+BODY {
+	OVERFLOW-Y: scroll; MARGIN: 0px
+	FONT-FAMILY: arial, sans-serif
+}
+TD {
+	LINE-HEIGHT: 0.8em
+}
+.gac_m TD {
+	LINE-HEIGHT: 17px
+}
+FORM {
+	MARGIN-TOP: 18px; MARGIN-BOTTOM: 20px
+}
+BODY {
+	FONT-FAMILY: arial, sans-serif
+}
+TD {
+	FONT-FAMILY: arial, sans-serif
+}
+A {
+	FONT-FAMILY: arial, sans-serif
+}
+P {
+	FONT-FAMILY: arial, sans-serif
+}
+.h {
+	FONT-FAMILY: arial, sans-serif
+}
+.h {
+	COLOR: #12c; FONT-SIZE: 20px
+}
+.q {
+	COLOR: #00c
+}
+.ts TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.ts {
+	BORDER-COLLAPSE: collapse
+}
+EM {
+	FONT-STYLE: normal; COLOR: #c03; FONT-WEIGHT: normal
+}
+A EM {
+	TEXT-DECORATION: underline
+}
+.lst {
+	WIDTH: 496px; FLOAT: right; HEIGHT: 25px
+}
+#lst-ib:hover {
+	BORDER-BOTTOM-COLOR: #b9b9b9 !important; BORDER-TOP-COLOR: #a0a0a0 !important; BORDER-RIGHT-COLOR: #b9b9b9 !important; BORDER-LEFT-COLOR: #b9b9b9 !important
+}
+.lst-d-f#lst-ib {
+	BORDER-BOTTOM-COLOR: #4d90fe !important; BORDER-TOP-COLOR: #4d90fe !important; BORDER-RIGHT-COLOR: #4d90fe !important; BORDER-LEFT-COLOR: #4d90fe !important
+}
+.lst-d-f#lst-ib:hover {
+	BORDER-BOTTOM-COLOR: #4d90fe !important; BORDER-TOP-COLOR: #4d90fe !important; BORDER-RIGHT-COLOR: #4d90fe !important; BORDER-LEFT-COLOR: #4d90fe !important
+}
+.lst {
+	FONT: 18px arial, sans-serif
+}
+DIV.ds {
+	WIDTH: 512px
+}
+.ds {
+	MARGIN: 3px 0px 4px 4px; DISPLAY: inline-block
+}
+.ctr-p {
+	MIN-WIDTH: 817px; MARGIN: 0px auto
+}
+.jhp INPUT[type='button'] {
+	BORDER-BOTTOM: #dcdcdc 1px solid; MIN-WIDTH: 54px; TEXT-ALIGN: center; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1'); BORDER-LEFT: #dcdcdc 1px solid; PADDING-BOTTOM: 0px; LINE-HEIGHT: 27px; BACKGROUND-COLOR: #f5f5f5; MARGIN: 11px 6px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; HEIGHT: 29px; COLOR: #666; FONT-SIZE: 11px; BORDER-TOP: #dcdcdc 1px solid; CURSOR: pointer; FONT-WEIGHT: bold; BORDER-RIGHT: #dcdcdc 1px solid; PADDING-TOP: 0px; border-radius: 2px
+}
+.gssb_c INPUT {
+	BORDER-BOTTOM: #dcdcdc 1px solid; MIN-WIDTH: 54px; TEXT-ALIGN: center; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1'); BORDER-LEFT: #dcdcdc 1px solid; PADDING-BOTTOM: 0px; LINE-HEIGHT: 27px; BACKGROUND-COLOR: #f5f5f5; MARGIN: 11px 6px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; HEIGHT: 29px; COLOR: #666; FONT-SIZE: 11px; BORDER-TOP: #dcdcdc 1px solid; CURSOR: pointer; FONT-WEIGHT: bold; BORDER-RIGHT: #dcdcdc 1px solid; PADDING-TOP: 0px; border-radius: 2px
+}
+.gac_bt INPUT {
+	BORDER-BOTTOM: #dcdcdc 1px solid; MIN-WIDTH: 54px; TEXT-ALIGN: center; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1'); BORDER-LEFT: #dcdcdc 1px solid; PADDING-BOTTOM: 0px; LINE-HEIGHT: 27px; BACKGROUND-COLOR: #f5f5f5; MARGIN: 11px 6px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; HEIGHT: 29px; COLOR: #666; FONT-SIZE: 11px; BORDER-TOP: #dcdcdc 1px solid; CURSOR: pointer; FONT-WEIGHT: bold; BORDER-RIGHT: #dcdcdc 1px solid; PADDING-TOP: 0px; border-radius: 2px
+}
+.jhp INPUT[type='button']:hover {
+	BORDER-BOTTOM: #c6c6c6 1px solid; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f8f8f8',EndColorStr='#f1f1f1'); BORDER-LEFT: #c6c6c6 1px solid; BACKGROUND-COLOR: #f8f8f8; COLOR: #333; BORDER-TOP: #c6c6c6 1px solid; BORDER-RIGHT: #c6c6c6 1px solid; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
+}
+.gssb_c INPUT:hover {
+	BORDER-BOTTOM: #c6c6c6 1px solid; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f8f8f8',EndColorStr='#f1f1f1'); BORDER-LEFT: #c6c6c6 1px solid; BACKGROUND-COLOR: #f8f8f8; COLOR: #333; BORDER-TOP: #c6c6c6 1px solid; BORDER-RIGHT: #c6c6c6 1px solid; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
+}
+.gac_bt INPUT:hover {
+	BORDER-BOTTOM: #c6c6c6 1px solid; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f8f8f8',EndColorStr='#f1f1f1'); BORDER-LEFT: #c6c6c6 1px solid; BACKGROUND-COLOR: #f8f8f8; COLOR: #333; BORDER-TOP: #c6c6c6 1px solid; BORDER-RIGHT: #c6c6c6 1px solid; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
+}
+.jhp INPUT[type='button']:focus {
+	BORDER-BOTTOM: #4d90fe 1px solid; BORDER-LEFT: #4d90fe 1px solid; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: medium; BORDER-TOP: #4d90fe 1px solid; BORDER-RIGHT: #4d90fe 1px solid
+}
+.gssb_c INPUT:focus {
+	BORDER-BOTTOM: #4d90fe 1px solid; BORDER-LEFT: #4d90fe 1px solid; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: medium; BORDER-TOP: #4d90fe 1px solid; BORDER-RIGHT: #4d90fe 1px solid
+}
+.gac_bt INPUT:focus {
+	BORDER-BOTTOM: #4d90fe 1px solid; BORDER-LEFT: #4d90fe 1px solid; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: medium; BORDER-TOP: #4d90fe 1px solid; BORDER-RIGHT: #4d90fe 1px solid
+}
+.gssb_c INPUT {
+	MARGIN: 6px
+}
+.gac_bt INPUT {
+	MARGIN: 6px
+}
+INPUT {
+	FONT-FAMILY: inherit
+}
+A.gb1 {
+	COLOR: #11c !important
+}
+A.gb2 {
+	COLOR: #11c !important
+}
+A.gb3 {
+	COLOR: #11c !important
+}
+A.gb4 {
+	COLOR: #11c !important
+}
+#gbar {
+	FONT-SIZE: 13px; PADDING-TOP: 1px !important
+}
+#guser {
+	FONT-SIZE: 13px; PADDING-TOP: 1px !important
+}
+#gbar {
+	FLOAT: left; HEIGHT: 22px
+}
+#guser {
+	TEXT-ALIGN: right; PADDING-BOTTOM: 7px !important
+}
+.gbh {
+	FONT-SIZE: 1px; BORDER-TOP: #c9d7f1 1px solid
+}
+.gbd {
+	FONT-SIZE: 1px; BORDER-TOP: #c9d7f1 1px solid
+}
+.gbh {
+	POSITION: absolute; WIDTH: 100%; HEIGHT: 0px; TOP: 24px
+}
+#gbs {
+	Z-INDEX: 1000; POSITION: absolute; TEXT-ALIGN: left; BACKGROUND: #fff; VISIBILITY: hidden; LEFT: 0px
+}
+.gbm {
+	Z-INDEX: 1000; POSITION: absolute; TEXT-ALIGN: left; BACKGROUND: #fff; VISIBILITY: hidden; LEFT: 0px
+}
+.gbm {
+	Z-INDEX: 1001; BORDER-BOTTOM: #36c 1px solid; BORDER-LEFT: #a2bae7 1px solid; BORDER-TOP: #c9d7f1 1px solid; BORDER-RIGHT: #36c 1px solid
+}
+.gb1 {
+	MARGIN-RIGHT: 0.5em
+}
+.gb1 {
+	ZOOM: 1
+}
+.gb3 {
+	ZOOM: 1
+}
+.gb2 {
+	PADDING-BOTTOM: 0.2em; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0.5em; DISPLAY: block; PADDING-TOP: 0.2em
+}
+.gb2 {
+	BORDER-BOTTOM: medium none; TEXT-DECORATION: none !important
+}
+.gb3 {
+	BORDER-BOTTOM: medium none; TEXT-DECORATION: none !important
+}
+A.gb1 {
+	TEXT-DECORATION: underline !important
+}
+A.gb4 {
+	TEXT-DECORATION: underline !important
+}
+A.gb1 {
+	COLOR: #00c !important
+}
+A.gb2 {
+	COLOR: #00c !important
+}
+A.gb3 {
+	COLOR: #00c !important
+}
+A.gb4 {
+	COLOR: #00c !important
+}
+A.gb2:hover {
+	BACKGROUND: #36c; COLOR: #fff !important
+}
+#gbar .gbz0l {
+	COLOR: #000 !important; CURSOR: default; FONT-WEIGHT: bold; TEXT-DECORATION: none !important
+}
+BODY {
+	BACKGROUND: #fff; COLOR: #222
+}
+INPUT {
+	-moz-box-sizing: content-box
+}
+A {
+	COLOR: #12c; TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+A:active {
+	TEXT-DECORATION: underline
+}
+.fl A {
+	COLOR: #12c
+}
+A:visited {
+	COLOR: #61c
+}
+A.gb1 {
+	TEXT-DECORATION: underline
+}
+A.gb4 {
+	TEXT-DECORATION: underline
+}
+A.gb3:hover {
+	TEXT-DECORATION: none
+}
+#ghead A.gb2:hover {
+	COLOR: #fff !important
+}
+.sblc {
+	PADDING-TOP: 5px
+}
+.sblc A {
+	MARGIN: 2px 0px 2px 13px; DISPLAY: block; FONT-SIZE: 11px
+}
+.lsbb {
+	DISPLAY: inline-block; HEIGHT: 30px
+}
+.ftl {
+	MARGIN: 0px 8px; COLOR: #12c
+}
+#footer A {
+	MARGIN: 0px 8px; COLOR: #12c
+}
+#fll {
+	DISPLAY: inline
+}
+#footer A:active {
+	COLOR: #d14836
+}
+.lsb {
+	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; MARGIN: 0px; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: 0px; FONT: 15px arial, sans-serif; HEIGHT: 30px; COLOR: #000; VERTICAL-ALIGN: top; BORDER-TOP: medium none; CURSOR: pointer; BORDER-RIGHT: medium none
+}
+.lst:focus {
+	OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: medium
+}
+#addlang A {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; PADDING-TOP: 0px
+}
+.gac_v DIV {
+	DISPLAY: none
+}
+.gac_v .gac_v2 {
+	DISPLAY: block !important
+}
+.gac_bt {
+	DISPLAY: block !important
+}
+#footer {
+	POSITION: relative; MIN-HEIGHT: 49px; COLOR: #666; FONT-SIZE: 10pt
+}
+.big#footer {
+	MARGIN: 0px 44px
+}
+.gssb_c {
+	Z-INDEX: 989 !important; MARGIN-TOP: 0px !important
+}
+.gssb_d {
+	BORDER-BOTTOM: #e7e7e7 1px solid; BORDER-RIGHT: #e7e7e7 1px solid
+}
+.gssb_e {
+	BORDER-BOTTOM: #558be3 1px solid; BORDER-LEFT: #a2bff0 1px solid; BORDER-TOP: #a2bff0 1px solid; BORDER-RIGHT: #558be3 1px solid
+}
+.gssb_k {
+	Z-INDEX: 988 !important
+}
+.gssb_i {
+	BACKGROUND: #d5e2ff
+}
+TR.gssb_i {
+	BACKGROUND: #eee; COLOR: black
+}
+.STYLE1 {
+	top:200;
+	font-family: Verdana,Tahoma,Arial,Geogia,宋体,Sans-serif;
+	font-size:24px
+	}
+.STYLE2 {
+	font-size: xx-large;
+	font-weight: bold;
+}
+.STYLE3 {
+	font-family: Verdana,Tahoma,Arial,Geogia,宋体,Sans-serif;
+	font-size:12px
+}
+</STYLE>
+
+<style type="text/css">
+.anniu101 { background-color: #dfdfdf; width: 100%; 
+  cursor: hand; vertical-align: middle; border-top-width: 0px; border-right-width: 
+  0px; border-bottom-width: 0px; border-left-width: 0px; height: 20px}
+</style>
+
+<script language="JavaScript">
+		function ss(t){
+			if(t.style.backgroundColor!="#003399"){
+				t.style.backgroundColor="#003399";
+			}else{
+				t.style.backgroundColor="#dfdfdf";
+			}
+		}
+
+
+		function ff(y){
+			if(eval("document.all.l"+y+"_1").style.backgroundColor!="#003399"){
+				for(var i=1;i<25;++i){
+					eval("document.all.l"+y+"_"+i).style.backgroundColor="#003399";
+				}
+			}else{
+				for(var i=1;i<25;++i){
+					eval("document.all.l"+y+"_"+i).style.backgroundColor="#dfdfdf";
+				}
+			}
+		}
+
+
+		function getAll(){
+			 var allValue;
+				allValue="";
+				j=1;
+				for(var i=1;i<25;++i){
+					if( eval("document.all.l"+j+"_"+i).style.backgroundColor=="#003399"){
+						allValue=allValue+"1";
+					}else{
+						allValue=allValue+"0";
+					}
+				}
+
+			return allValue;
+		}
+		
+  var mytoutf;
+  var today;
+  var searchflag1;
+	var searchflag2;
+	var searchflag3;
+	var searchflag4;
+	var searchflag5;
+	var searchname;
+	var searchcon;
+	var areaid;
+  areaid="";	//默认搜索区域为0
+  var wing;
+	Ext.onReady(function(){
+			 Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+			 var timeWin;		 			 
+			 date = new Date();
+			 str  = date.getFullYear() + "/" + (date.getMonth()+1)+ "/" + date.getDate();
+	     var sdate = new Ext.form.DateField({
+		        id : "today",
+		        renderTo: 'sdate',
+		        name : "chooseStartTime",
+						format : 'Y-m-d',
+		        endDateField : "etime",
+		        value : new Date(Date.parse(str))
+	     });
+	     
+	     var buttonName = new Ext.Button({
+               id:"buttonName",
+               text:"高级",
+               tooltip:"提示信息：选择你所需要的时间",        
+               type:"button", //按钮类型：可以是submit, reset or button 　默认是 button            
+               autoShow:true, //默认false,自动显示         
+               hidden:false, //默认false，是否隐藏                                            
+               pressed:false, //设置按钮是否已经被按下，默认是false                                 
+               listeners:{//添加监听事件 可以结合handler测试这两个事件哪个最先执行
+                  "click":function(){
+                  	   Ext.getDom("timediv").style.display="";
+                  	   stime.value=getAll();//选择全部时间
+											 if(stime.value=="000000000000000000000000"){
+												j=1;
+												for(var i=1;i<25;++i){
+													eval("document.all.l"+j+"_"+i).style.backgroundColor="#003399";
+												}
+												stime.value="111111111111111111111111";
+											 }
+
+                       if(!timeWin){					            		
+					            	timeWin =new  Ext.Window({
+														id:'timewind',
+														title: '选择时间以及内容过滤条件设置',
+														resizable:false,
+														closeAction:'hide',
+														contentEl:'timediv',
+														height:240,
+														width:500,
+														buttons: [{
+							                  text     : '确定',
+							                  handler  : function(){
+										                timeWin.hide();
+							                  }
+							              }]				
+												});											
+					            	}
+					            	timeWin.show();
+                  }
+               },                          
+               renderTo:"time" //将组件的显示效果渲染到某个节点的ID             
+        });
+        
+        var tree = new Ext.tree.TreePanel({
+			        region:'north',
+			        height: 200,
+			        width: 250,
+			        useArrows:true,
+			        autoScroll:true,
+			        animate:true,
+			        rootVisible: false,
+			        root: {
+			            nodeType: 'async'
+			        },  
+			        loader: new Ext.tree.TreeLoader({
+									dataUrl:'/msas/main.xp?Fun=msasGroupTree',
+									baseParams:{Fun:'msasGroupTree'} 
+							}),
+			    	  listeners: {
+						    click: function(node, e) {
+						            areaid=node.id;
+						            var nowareaname;
+						            var nodep;
+						            nowareaname=node.text;
+						            nodep=node.parentNode;
+						            while(nodep){
+						              var tempname;
+						              tempname=nowareaname;
+						              if(nodep.text){
+						              	nowareaname=nodep.text + "-" + tempname;
+						              	nodep=nodep.parentNode;
+						              }else{
+						              	break;
+						              }
+						            }
+						            var tmp="点击选择云搜索区域 当前区域[" + nowareaname + "]";
+						            Ext.getCmp("Service").setText(tmp);  
+						            wing.hide();
+						     }        
+					    }
+			    });
+			    
+			    wing = new Ext.Window({
+              layout      : 'fit',
+              title: '选择云搜索区域',
+              width       : 500,
+              height      : 300,
+              closeAction :'hide',
+              plain       : true,
+              items       : tree,
+              buttons: [{
+                  text     : '关闭窗口',
+                  handler  : function(){
+			                wing.hide();
+                  }
+              }]
+          });
+
+			    
+			   var buttonSet = new Ext.Button({
+               id:"Service",
+               text:"设定云搜索区域",
+               tooltip:"提示信息：选择你所需要的区域",        
+               type:"button",      
+               autoShow:true,      
+               hidden:false,                                           
+               pressed:false,                                
+               listeners:{
+                  "click":function(){
+							        wing.show();
+                  }
+               },                          
+               renderTo:"Service_code" //将组件的显示效果渲染到某个节点的ID             
+          });
+          
+      
+    	var btn_search=Ext.get('button');
+	    btn_search.on('click', function(){
+					if(areaid==""){
+		        wing.show();
+						return;
+				  }
+					
+					if(document.getElementById("lst-ib").value==""){
+						Ext.MessageBox.alert("系统提示","搜索条件不能为空!");
+						return false;
+					}
+					searchcon=document.getElementById("lst-ib").value;
+					
+					if(document.getElementById("searchname").value==""){
+						searchname=document.getElementById("lst-ib").value;
+					}else{
+						searchname=document.getElementById("searchname").value;
+					}
+					
+				  mytoutf="0";//默认字符搜索
+				  if(toutf.checked==true){
+				    mytoutf="1";
+				  }
+		
+		      today=Ext.getDom("today").value;
+		
+					stime.value=getAll();//选择全部时间
+					if(stime.value=="000000000000000000000000"){
+						j=1;
+						for(var i=1;i<25;++i){
+							eval("document.all.l"+j+"_"+i).style.backgroundColor="#003399";
+						}
+						stime.value="111111111111111111111111";
+					}
+		
+					
+		
+					if(document.getElementById("searchflag1").checked){
+						searchflag1=document.getElementById("searchflag1").value;
+					}else{
+						searchflag1=0;
+					}
+					
+					if(document.getElementById("searchflag2").checked){
+						searchflag2=document.getElementById("searchflag2").value;
+					}else{
+						searchflag2=0;
+					}
+					
+					if(document.getElementById("searchflag3").checked){
+						searchflag3=document.getElementById("searchflag3").value;
+					}else{
+						searchflag3=0;
+					}
+					
+					if(document.getElementById("searchflag4").checked){
+						searchflag4=document.getElementById("searchflag4").value;
+					}else{
+						searchflag4=0;
+					}
+					
+					if(document.getElementById("searchflag5").checked){
+						searchflag5=document.getElementById("searchflag5").value;
+					}else{
+						searchflag5=0;
+					}
+					
+		
+		
+				  Ext.MessageBox.show({
+		         msg: '云搜索正在分发中，这需要一段时间，稍后上报搜索结果',
+		         progressText: 'apply...',
+		         width:300,
+		         wait:true,
+		         waitConfig: {interval:500},
+		         icon:'ext-mb-download'
+					});
+					setTimeout(function(){
+								Ext.MessageBox.hide();
+					}, 15000);  
+		
+				  Ext.Ajax.request({
+					    method : 'POST', 
+					    url:'/msas/main.xp', 
+					    success: function(response, options) { 
+									 Ext.MessageBox.hide();
+									 if(response.responseText.substring(0,1)=='0'){
+									 	 Ext.MessageBox.alert('提示','系统返回失败错误信息！'); 
+									 }
+									 parent.searchTreePanel.getLoader().load(parent.searchTreePanel.root);
+					    },
+					    failure : function() {      
+					     	Ext.MessageBox.alert('提示','失败！'); 
+		          },
+					    params:{
+					      Fun:'msasAccesssCmdSet',
+		 				    gid:areaid,
+		 				    stime:stime.value,
+		 				    sdate:today,
+		 				    searchcon:searchcon,
+		 				    searchand:2,
+		 				    searchcon1:"",
+		 				    searchconX:searchconX.value,
+		 				    searchflag1:searchflag1,
+		 				    searchflag2:searchflag2,
+		 				    searchflag3:searchflag3,
+		 				    searchflag4:searchflag4,
+		 				    searchflag5:searchflag5,
+		 				    toutf:mytoutf,
+		 				    searchname:searchname
+					    } 
+		
+					}); 
+ 	    }); 
+          
+        
+	});
+	
+
+
+
+
+
+</script>
+<body oncontextmenu="return false" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<DIV id=main>
+<CENTER>
+<span><BR id=lgpd clear=all></span>
+<DIV class="STYLE1 STYLE2" id=lga>云&nbsp;&nbsp;&nbsp;搜&nbsp;&nbsp;&nbsp;索</DIV>
+<TABLE width="678" cellPadding=0 cellSpacing=0 class=jhp>
+  <TBODY>
+  <tr>
+  	<td width="84">&nbsp;</td>
+	  <td width="81"   id="sdate" align="left">&nbsp;</td>
+	  <td width="81"   id="time"  align="left">&nbsp;</td>
+	  <td width="420"  id="Service_code" align="left">&nbsp;</td>
+  </tr>
+  
+  
+  <TR vAlign=top>
+    <TD noWrap align=middle colspan="4">
+  	<DIV style="MARGIN: 4px 0px; HEIGHT: 32px" class=ds>
+  	<p>
+  		<span>
+  				<input style="BORDER-BOTTOM: #d9d9d9 1px solid; BORDER-LEFT: #d9d9d9 1px solid; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 6px; PADDING-RIGHT: 8px; BACKGROUND: #fff; COLOR: #000; VERTICAL-ALIGN: top; BORDER-TOP: silver 1px solid; BORDER-RIGHT: #d9d9d9 1px solid; PADDING-TOP: 5px" id=lst-ib class=lst title="搜索" maxlength="2048" size="57" value="[$yun$]"autocomplete="off">
+  		</span>
+    </p>    	
+  	<p>&nbsp;</p>
+  	</DIV>
+  <BR style="LINE-HEIGHT: 0">
+	<div class="STYLE3">
+        <input type="checkbox" id="searchflag1" name="searchflag1" value="1"  [$check1$]>
+        IP记录
+        <input type="checkbox" id="searchflag2" name="searchflag2" value="2"  [$check2$]>
+        HTTP记录
+        <input type="checkbox" id="searchflag3" name="searchflag3" value="3"  [$check3$]>
+        IM记录
+        <input type="checkbox" id="searchflag4" name="searchflag4" value="4"  [$check4$]>
+        表单
+        <input type="checkbox" id="searchflag5" name="searchflag5" value="5"  [$check5$]>
+        邮件
+	</div>
+	
+  <span>
+  	<INPUT value="立即搜索" type=button id="button">
+  </span>
+  </TD>
+  </TR>
+  </TBODY>
+  </TABLE>
+</CENTER>
+</DIV>
+
+<div id="timediv" style="display:none;">
+	<input type="hidden" class=inputf0  id="stime" name="stime" maxlength="24" value="">
+	<br>
+	<fieldset align=center>
+	 <legend>时间元素</legend>  
+		<table width="50%" border="1" cellspacing="0" bordercolor="#000000" style="border-collapse: collapse" cellpadding="0" align="left">
+			<tr bgcolor="#999999"> 
+			
+			<td>&nbsp;</td>
+			
+			<td>00</td>
+			
+			<td>01</td>
+			
+			<td>02</td>
+			
+			<td>03</td>
+			
+			<td>04</td>
+			
+			<td>05</td>
+			
+			<td>06</td>
+			
+			<td>07</td>
+			
+			<td>08</td>
+			
+			<td>09</td>
+			
+			<td>10</td>
+			
+			<td>11</td>
+			
+			<td>12</td>
+			
+			<td>13</td>
+			
+			<td>14</td>
+			
+			<td>15</td>
+			
+			<td>16</td>
+			
+			<td>17</td>
+			
+			<td>18</td>
+			
+			<td>19</td>
+			
+			<td>20</td>
+			
+			<td>21</td>
+			
+			<td>22</td>
+			
+			<td>23</td>
+			
+			</tr>
+			<tr> 
+			
+			<td bgcolor="#999999" onClick="ff('1')" style="cursor:hand">时</td>
+			
+			<td height="10"> 
+			
+			<input id="l1_1" type="button" value=" " class="anniu101" onClick="ss(this)">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_2" type="button" value=" " class="anniu101" onClick="ss(this)" name="button1265">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_3"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button20">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_4"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button21">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_5"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button22">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_6"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button23">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_7"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button24">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_8"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button25">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_9"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button26">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_10"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button27">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_11"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button28">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_12"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button29">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_13"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button30">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_14"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button31">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_15"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button32">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_16"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button33">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_17"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button34">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_18"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button35">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_19"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button36">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_20"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button37">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_21"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button38">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_22"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button39">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_23"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button40">
+			
+			</td>
+			
+			<td> 
+			
+			<input id="l1_24"  type="button" value=" " class="anniu101" onClick="ss(this)" name="button40">
+			
+			</td>
+			
+			</tr>
+		</table> 
+	</fieldset>
+  <br>
+	<fieldset align=center>
+	    <legend>过滤元素</legend>  
+	 		<table width="100%" border="0" cellspacing="0" cellpadding="0" >          
+	              <tr> 
+	              <td> 
+	                <div align="left" id="div1"> 
+	                 内容条件:
+	                 <input type="text" class=inputf0  id="searchconX"   name="searchconX" size="30" maxlength="48" value=""  >
+	                 [仅对邮件和表单有效] 
+	               </div>
+	              </td>
+	              </tr> 
+	
+	              <tr> 
+	              <td>            
+	                <div align="left" id="div2"> 
+	                 内容条件:
+	                 同时搜索GB2312和UTF-8编码
+	                 <input type="checkbox" id="toutf"  name="toutf" value="1">
+	                </div>
+	              </td>
+	              </tr> 
+	              <tr> 
+	              <td  height="20"> 
+	                <div align="left"> 
+	                 标识名称:
+	                 <input type="text" class=inputf0  id="searchname"   name="searchname" size="30" maxlength="48" value="" >
+	                 [给搜索一个名称或标识，方便以后查看] 
+	                </div>
+	              </td>
+	              </tr>
+	         </table>
+	</fieldset>
+</div>
+
+</body></HTML>

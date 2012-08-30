@@ -1,0 +1,57 @@
+配置属性applyTo、rendTo、contentEl的使用 
+
+1.applyTo：使该标签拥有控件的属性，例如：
+
+<input id="text"/>
+
+js中
+
+var text=new Ext.form.textField({
+
+applyTo:'text',
+
+allowBlank:false//启用非空验证
+
+});
+
+这样之后，text文本框就有了textField控件的属性和能力。我感觉这样做的好处就是，css样式，直接加到标签里面即可。
+
+2.rendTo:放到该标签的innerHTML里面，例如：
+
+<div id="d"></div>
+
+js:
+
+var panel=new Ext.Panel({
+
+title:'面板',
+
+rendTo:'d'
+
+});
+
+这样，面板panel就放到了层d里面。
+
+3.contentEl:添加某标签到控件中，例如：
+
+<div>
+
+<div id="n">aaaaaaaaaaaaaaaaa</div>
+
+</div>
+
+js:
+
+var panel=new Ext.Panel({
+
+item:[{
+
+contentEl:'n',
+
+title:'第一页'
+
+}]
+
+});
+
+层n的内容aaaaaaaaa，就放到了面板panel的项“第一页”里面

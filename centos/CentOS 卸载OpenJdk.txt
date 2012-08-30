@@ -1,0 +1,44 @@
+CentOS 卸载OpenJdk 
+
+第一步：查看Linux自带的JDK是否已安装 （卸载centOS已安装的1.4）
+
+安装好的CentOS会自带OpenJdk,用命令 java -version ，会有下面的信息：
+
+java version "1.6.0"
+OpenJDK  Runtime Environment (build 1.6.0-b09)
+OpenJDK 64-Bit Server VM (build 1.6.0-b09, mixed mode)
+
+最好还是先卸载掉openjdk,在安装sun公司的jdk.
+
+先查看 rpm -qa | grep java
+
+显示如下信息：
+
+java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+java-1.6.0-openjdk-1.6.0.0-1.7.b09.el5
+
+卸载：
+
+rpm -e --nodeps java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-1.7.b09.el5
+
+还有一些其他的命令
+
+rpm -qa | grep gcj
+
+rpm -qa | grep jdk
+
+如果出现找不到openjdk source的话，那么还可以这样卸载
+
+ yum -y remove java java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+ yum -y remove java java-1.6.0-openjdk-1.6.0.0-1.7.b09.el5
+
+
+
+
+JAVA_HOME=/usr/local/java/jdk1.7.0_06
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH

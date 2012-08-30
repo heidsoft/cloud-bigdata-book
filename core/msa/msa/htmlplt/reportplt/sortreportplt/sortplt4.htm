@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<style type="text/css">
+<!--
+table {
+	font-size: 9pt;
+}
+.titl {
+	font-size:28px;
+	line-height:48px;
+	font-weight:bold;
+}
+;
+.xiao {
+	font-size:18px;
+	line-height:36px;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-family:"宋体", Arial;
+	font-size:12px;
+	line-height:18px;
+}
+-->
+</style>
+</head>
+
+<body>
+<div style="width:815px; margin:auto;">
+<img src="banner.jpg" width="815" height="136" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+  <td><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#437fbe">
+      <tr>
+        <td width="65"><img src="right-top.jpg" width="65" height="29" /></td>
+        <td width="664" valign="bottom"><div style="margin-top:10px; margin-right:5px; float:left; color:#FFFFFF;">
+          报告名称：[$reportname$]&nbsp;&nbsp;&nbsp;    报告时间：[$date$] &nbsp;&nbsp;   报告种类：[$reporttype$]-出口速率分布报告 &nbsp;&nbsp; </a></td>
+        <td valign="bottom"><div style="margin-top:10px; margin-right:5px;float:right; color:#FFFFFF; "><a  onclick='window.print();'>打印报告 </div></td>
+      </tr>
+    </table>
+    <br>
+    <table width="815" border="1" cellpadding="0" cellspacing="0" bordercolor="#d0d0d0" class="table" style="border-collapse:collapse; margin-top:3px; margin-bottom:3px; text-align:center;">
+      <tr align="center">  
+        <td width="300" bgcolor="5489c0" class="bai">时间</td>
+        <td width="300" height="32" bgcolor="5489c0" class="bai">速率bps</td>
+      </tr>
+      [$begintable flowlist$]
+      <tr align="center">
+        <td  width="300" height="13">[$onlinetime$]</td>
+        <td  width="300" height="13">[$flowbps$]</td>
+      </tr>
+      [$endtable$]
+    </table>
+    <br>
+    <table width="815" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="815"><div style="margin-top:15px;">出口速率分布图： </div></td>
+      </tr>
+      <tr>
+        <td><div>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#bfdae5">
+              <tr>
+                <td><div style="margin-bottom:35px; margin-right:35px; margin-left:35px; margin-top:45px; background-color:#FFFFFF; text-align:center"> <img src="[$flowline$]" width="510" height="250" /></div></td>
+              </tr>
+            </table>
+          	</div>
+         </td>
+      </tr>
+    </table>
+</div>
+<br>
+<div style="width:815px; margin:auto;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+      <td width="13"><img src="up-1.jpg" width="13" height="68" /></td>
+      <td align="center" background="up-2.jpg" class="upfont"><br />
+          版权所有</td>
+      <td width="13"><img src="up-3.jpg" width="13" height="68" /></td>
+    </tr>
+    </table>
+</div>
+</body>
+</html>

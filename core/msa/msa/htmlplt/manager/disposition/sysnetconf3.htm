@@ -1,0 +1,802 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/select_time_st_1.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+function tabfun(){
+	if(listform.brTypeA.value==1){
+		listform.selectA.disabled=false;
+		listform.IPA.disabled=false;
+		listform.maskA.disabled=false;
+	}else{
+		listform.selectA.disabled=true;
+		listform.IPA.disabled=true;
+		listform.maskA.disabled=true;
+	}
+	if(listform.brTypeB.value==1){
+		listform.selectB.disabled=false;
+		listform.IPB.disabled=false;
+		listform.maskB.disabled=false;
+	}else{
+		listform.selectB.disabled=true;
+		listform.IPB.disabled=true;
+		listform.maskB.disabled=true;
+	}
+	if(listform.brTypeC.value==1){
+		listform.selectC.disabled=false;
+		listform.IPC.disabled=false;
+		listform.maskC.disabled=false;
+	}else{
+		listform.selectC.disabled=true;
+		listform.IPC.disabled=true;
+		listform.maskC.disabled=true;
+	}
+	if(listform.brTypeD.value==1){
+		listform.selectD.disabled=false;
+		listform.IPD.disabled=false;
+		listform.maskD.disabled=false;
+	}else{
+		listform.selectD.disabled=true;
+		listform.IPD.disabled=true;
+		listform.maskD.disabled=true;
+	}
+}
+function chkfun(){
+	if(listform.Lanchk1.checked==true){
+		document.getElementById("inLanA").disabled=false;
+		document.getElementById("outLanA").disabled=false;
+		document.getElementById("brTypeA").disabled=false;
+		document.getElementById("PassAwayA").disabled=false;
+		if(document.getElementById("brTypeA").value==0){
+			listform.selectA.disabled=true;
+			listform.IPA.disabled=true;
+			listform.maskA.disabled=true;
+		}else{
+			listform.selectA.disabled=false;
+			listform.IPA.disabled=false;
+			listform.maskA.disabled=false;
+		}
+	}else{
+		document.getElementById("inLanA").disabled=true;
+		document.getElementById("outLanA").disabled=true;
+		document.getElementById("brTypeA").disabled=true;
+		document.getElementById("PassAwayA").disabled=true;
+		document.getElementById("selectA").disabled=true;
+		document.getElementById("IPA").disabled=true;
+		document.getElementById("maskA").disabled=true;
+	}
+	if(listform.Lanchk2.checked==true){
+		document.getElementById("inLanB").disabled=false;
+		document.getElementById("outLanB").disabled=false;
+		document.getElementById("brTypeB").disabled=false;
+		document.getElementById("PassAwayB").disabled=false;
+		if(document.getElementById("brTypeB").value==0){
+			listform.selectB.disabled=true;
+			listform.IPB.disabled=true;
+			listform.maskB.disabled=true;
+		}else{
+			listform.selectB.disabled=false;
+			listform.IPB.disabled=false;
+			listform.maskB.disabled=false;
+		}
+	}else{
+		document.getElementById("inLanB").disabled=true;
+		document.getElementById("outLanB").disabled=true;
+		document.getElementById("brTypeB").disabled=true;
+		document.getElementById("PassAwayB").disabled=true;
+		document.getElementById("selectB").disabled=true;
+		document.getElementById("IPb").disabled=true;
+		document.getElementById("maskb").disabled=true;
+	}
+	if(listform.Lanchk3.checked==true){
+		document.getElementById("inLanC").disabled=false;
+		document.getElementById("outLanC").disabled=false;
+		document.getElementById("brTypeC").disabled=false;
+		document.getElementById("PassAwayC").disabled=false;
+		if(document.getElementById("brTypeC").value==0){
+			listform.selectC.disabled=true;
+			listform.IPA.disabled=true;
+			listform.maskC.disabled=true;
+		}else{
+			listform.selectC.disabled=false;
+			listform.IPC.disabled=false;
+			listform.maskC.disabled=false;
+		}
+	}else{
+		document.getElementById("inLanC").disabled=true;
+		document.getElementById("outLanC").disabled=true;
+		document.getElementById("brTypeC").disabled=true;
+		document.getElementById("PassAwayC").disabled=true;
+		document.getElementById("selectC").disabled=true;
+		document.getElementById("IPC").disabled=true;
+		document.getElementById("maskC").disabled=true;
+	}
+	if(listform.Lanchk4.checked==true){
+		document.getElementById("inLanD").disabled=false;
+		document.getElementById("outLanD").disabled=false;
+		document.getElementById("brTypeD").disabled=false;
+		document.getElementById("PassAwayD").disabled=false;
+		if(document.getElementById("brTypeD").value==0){
+			listform.selectD.disabled=true;
+			listform.IPD.disabled=true;
+			listform.maskD.disabled=true;
+		}else{
+			listform.selectD.disabled=false;
+			listform.IPD.disabled=false;
+			listform.maskD.disabled=false;
+		}
+	}else{
+		document.getElementById("inLanD").disabled=true;
+		document.getElementById("outLanD").disabled=true;
+		document.getElementById("brTypeD").disabled=true;
+		document.getElementById("PassAwayD").disabled=true;
+		document.getElementById("selectD").disabled=true;
+		document.getElementById("IPD").disabled=true;
+		document.getElementById("maskD").disabled=true;
+	}
+	if(listform.LanchkM.checked==true){
+		document.getElementById("managerLan").disabled=false;
+		document.getElementById("managerIP").disabled=false;
+		document.getElementById("inmask").disabled=false;
+	}else{
+		document.getElementById("managerLan").disabled=true;
+		document.getElementById("managerIP").disabled=true;
+		document.getElementById("inmask").disabled=true;
+	}
+	
+}
+function update() {	   
+	  var ethdevlist = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 
+    var ethdevMlist = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 
+		
+		
+	  var myLanchk1,myLanchk2,myLanchk3,myLanchk4,mymanagerIP,myinmask;
+	  var myLanchkM;
+	  
+	  
+	  if(listform.Lanchk1.checked==true){
+	  	myLanchk1=1;
+	  	if( listform.inLanA.value==-1|| listform.outLanA.value==-1){
+	  		Ext.MessageBox.alert('提示','网桥1不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  	if(ethdevlist[parseInt(listform.inLanA.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.inLanA.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.inLanA.value)]=1;
+	  	}
+	  	if(ethdevlist[parseInt(listform.outLanA.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.outLanA.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.outLanA.value)]=1;
+	  	}
+	  	if(listform.selectA.value!=-1){
+		  	if(ethdevlist[parseInt(listform.selectA.value)]==1){
+		  		Ext.MessageBox.alert('提示','A网口'+ listform.selectA.value + '有重复配置！');
+		  		return false;
+		  	}else{
+		  		ethdevlist[parseInt(listform.selectA.value)]=1;
+		  	}
+	  	}
+	  }else{myLanchk1=0;}
+	  if(listform.Lanchk2.checked==true){
+	  	myLanchk2=1;
+	  	if( listform.inLanB.value==-1|| listform.outLanB.value==-1){
+	  		Ext.MessageBox.alert('提示','网桥2不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  	if(ethdevlist[parseInt(listform.inLanB.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.inLanB.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.inLanB.value)]=1;
+	  	}
+	  	if(ethdevlist[parseInt(listform.outLanB.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.outLanB.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.outLanB.value)]=1;
+	  	}
+	  	if(listform.selectB.value!=-1){
+		  	if(ethdevlist[parseInt(listform.selectB.value)]==1){
+		  		Ext.MessageBox.alert('提示','网口'+ listform.selectB.value + '有重复配置！');
+		  		return false;
+		  	}else{
+		  		ethdevlist[parseInt(listform.selectB.value)]=1;
+		  	}
+	  	}
+	  }else{myLanchk2=0;}
+	  if(listform.Lanchk3.checked==true){
+	  	myLanchk3=1;
+	  	if( listform.inLanC.value==-1|| listform.outLanC.value==-1){
+	  		Ext.MessageBox.alert('提示','网桥3不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  	if(ethdevlist[parseInt(listform.inLanC.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.inLanC.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.inLanC.value)]=1;
+	  	}
+	  	if(ethdevlist[parseInt(listform.outLanC.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.outLanC.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.outLanC.value)]=1;
+	  	}
+	  	if(listform.selectC.value!=-1){
+		  	if(ethdevlist[parseInt(listform.selectC.value)]==1){
+		  		Ext.MessageBox.alert('提示','网口'+ listform.selectC.value + '有重复配置！');
+		  		return false;
+		  	}else{
+		  		ethdevlist[parseInt(listform.selectC.value)]=1;
+		  	}
+	  	}
+	  }else{myLanchk3=0;}
+	  if(listform.Lanchk4.checked==true){
+	  	myLanchk4=1;
+	  	if( listform.inLanD.value==-1|| listform.outLanD.value==-1){
+	  		Ext.MessageBox.alert('提示','网桥4不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  	if(ethdevlist[parseInt(listform.inLanD.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.inLanD.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.inLanD.value)]=1;
+	  	}
+	  	if(ethdevlist[parseInt(listform.outLanD.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.outLanD.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.outLanD.value)]=1;
+	  	}
+	  	if(listform.selectD.value!=-1){
+		  	if(ethdevlist[parseInt(listform.selectD.value)]==1){
+		  		Ext.MessageBox.alert('提示','网口'+ listform.selectD.value + '有重复配置！');
+		  		return false;
+		  	}else{
+		  		ethdevlist[parseInt(listform.selectD.value)]=1;
+		  	}
+	  	}
+	  }else{myLanchk4=0;}
+	  if(listform.LanchkM.checked==true){
+	  	myLanchkM=1;
+	  	if(ethdevlist[parseInt(listform.managerLan.value)]==1){
+	  		Ext.MessageBox.alert('提示','网口'+ listform.managerLan.value + '有重复配置！');
+	  		return false;
+	  	}else{
+	  		ethdevlist[parseInt(listform.managerLan.value)]=1;
+	  	}
+		  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+			mymanagerIP=listform.managerIP.value;
+		  if(mymanagerIP==""){
+		  	alert("对不起，管理IP不能为空！");
+				listform.srvip.focus();
+				listform.srvip.select();
+		  	return false;
+		  }else if(mymanagerIP!=""){
+			  var IP_flag=false;
+			  if(regIP.test(mymanagerIP)){
+					IP_flag = true;
+				}else{
+					IP_flag = false;
+				}
+				if (!IP_flag){
+				  alert('对不起，IP地址格式错误！');
+					listform.srvip.focus();
+					listform.srvip.select();
+				  return false;
+				}
+			}
+			myinmask=listform.inmask.value;
+		  if(myinmask==""){
+		  	alert("对不起，子网掩码不能为空！");
+				listform.inmask.focus();
+				listform.inmask.select();
+		  	return false;
+		  }else if(myinmask!=""){
+			  var IP_flag=false;
+			  if(regIP.test(myinmask)){
+					IP_flag = true;
+				}else{
+					IP_flag = false;
+				}
+				if (!IP_flag){
+				  alert('对不起，子网掩码格式错误！');
+					listform.inmask.focus();
+					listform.inmask.select();
+				  return false;
+				}
+			}
+		}else{myLanchkM=0;}
+
+		
+    Ext.Ajax.request({
+		    method : 'POST', 
+		    url:'/msa/main.xp', 
+		    success: function() { 
+						Ext.MessageBox.alert('提示','网桥设置成功！'); 
+		    },
+		    failure: function() {     
+		     	Ext.MessageBox.alert('提示','四路网桥设置失败！'); 
+		    },
+		    params:{
+		      Fun:'ltsysnetconfok',actiontype:3,
+		      Lanchk1:myLanchk1,
+		      Lanchk2:myLanchk2,
+		      Lanchk3:myLanchk3,
+		      Lanchk4:myLanchk4,
+		      LanchkM:myLanchkM,
+		      		      
+		      inLanA:listform.inLanA.value,
+		      outLanA:listform.outLanA.value,
+		      brTypeA:listform.brTypeA.value,
+		      PassAwayA:listform.PassAwayA.value,
+		      selectA:listform.selectA.value,
+		      IPA:listform.IPA.value,
+		      maskA:listform.maskA.value,
+		      
+		      inLanB:listform.inLanB.value,
+		      outLanB:listform.outLanB.value,
+		      brTypeB:listform.brTypeB.value,
+		      PassAwayB:listform.PassAwayB.value,
+		      selectB:listform.selectB.value,
+		      IPB:listform.IPB.value,
+		      maskB:listform.maskB.value,
+		      
+		      inLanC:listform.inLanC.value,
+		      outLanC:listform.outLanC.value,
+		      brTypeC:listform.brTypeC.value,
+		      PassAwayC:listform.PassAwayC.value,
+		      selectC:listform.selectC.value,
+		      IPC:listform.IPC.value,
+		      maskC:listform.maskC.value,
+		      
+		      inLanD:listform.inLanD.value,
+		      outLanD:listform.outLanD.value,
+		      brTypeD:listform.brTypeD.value,
+		      PassAwayD:listform.PassAwayD.value,
+		      selectD:listform.selectD.value,
+		      IPD:listform.IPD.value,
+		      maskD:listform.maskD.value,
+		      
+		      managerLan:listform.managerLan.value,
+		      managerIP:listform.managerIP.value,
+		      inmask:listform.inmask.value
+		    } 
+		});
+		
+}
+function applyfun(){
+}
+</SCRIPT>
+<SCRIPT type="text/JavaScript">
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+		Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var myMask = new Ext.LoadMask(Ext.getBody(),{
+				    msg:"Please wait..."
+				});
+				myMask.show();
+				document.getElementById("north").style.display=""; 
+		    new Ext.Viewport({
+						layout: 'border',
+						items: [{
+		          region:'center',
+		          contentEl: 'north',
+		          autoScroll:true,
+		          split:true,
+		          height: 768,
+		          minSize: 100,
+		          maxSize: 300,
+		          collapsible: false,
+		          //title:'配置网络参数:多路网桥<font color="red">(不可重复配置网口)</font>',
+		          margins:'0 0 0 0',
+		          tbar:['->',
+		            {
+		            	icon: '/msa/images/warning.gif',
+									enableToggle:true,
+									cls: 'x-btn-text-icon details',
+		            	tooltip:{text:'<b>保存配置</b>'},
+		            	text:'保存配置',
+		            	iconCls:'connect',
+		            	handler:function(){
+		            		Ext.MessageBox.confirm('提示','您是否确定要保存当前的部署',function(button,text){
+		            			if(button == 'yes'){
+														update();
+											}
+									  })
+								  }
+		            },
+								{
+									icon: '/msa/images/warning.gif',
+									enableToggle:true,
+									cls: 'x-btn-text-icon details',
+		            	tooltip:{text:'<b>应用该部署方式</b>'},
+		            	text:'应用网口',
+		            	iconCls:'connect',
+		            	handler:function(){
+		            		Ext.MessageBox.confirm('提示','您是否确定要应用当前的部署',function(button,text){
+										   if (button == 'yes'){
+											   	Ext.MessageBox.show({
+																	msg: '多路网桥应用中，请稍等...',
+																	progressText: 'waitting...',
+																	width:300,
+																	wait:true,
+																	waitConfig: {interval:5000},
+																	icon:'ext-mb-download'
+													});
+					            		Ext.Ajax.request
+													({
+														url:'/msa/main.xp',
+														params:{Fun:'msaApplyAction',deflag:'1'},
+														success:function(response,options){
+			                         if(listform.LanchkM.checked==true){
+			                         		Ext.MessageBox.confirm('提示','网桥部署成功，您是否要到'+listform.managerIP.value+'/msa下应用新配置!',function(button,text){
+																		   if (button == 'yes'){
+																		   	window.open("https://"+listform.managerIP.value+"/msa", "page1", "width="+ screen.width + ",height=" + screen.height + ",top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes,fullscreen=yes");
+																		   }												  	
+																	})
+			                         		return false;
+			                       	 }
+			                       	 if(listform.LanchkM.checked==false){
+			                       	 		if(listform.Lanchk1.checked==true&&listform.brTypeA.value==1){
+			                           		Ext.MessageBox.confirm('提示','网桥部署成功，您是否要到'+listform.IPA.value+'/msa下应用新配置!',function(button,text){
+																		   if (button == 'yes'){
+																		   	window.open("https://"+listform.IPA.value+"/msa", "page1", "width="+ screen.width + ",height=" + screen.height + ",top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes,fullscreen=yes");
+																		   }												  	
+																		})
+			                           		return false;
+			                       	 		}
+			                       	 		if(listform.Lanchk2.checked==true&&listform.brTypeB.value==1){
+			                           		Ext.MessageBox.confirm('提示','网桥部署成功，您是否要到'+listform.IPB.value+'/msa下应用新配置!',function(button,text){
+																		   if (button == 'yes'){
+																		   	window.open("https://"+listform.IPB.value+"/msa", "page1", "width="+ screen.width + ",height=" + screen.height + ",top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes,fullscreen=yes");
+																		   }												  	
+																		})
+			                           		return false;
+			                       	 		}
+			                       	 		if(listform.Lanchk3.checked==true&&listform.brTypeC.value==1){
+			                           		Ext.MessageBox.confirm('提示','网桥部署成功，您是否要到'+listform.IPC.value+'/msa下应用新配置!',function(button,text){
+																		   if (button == 'yes'){
+																		   	window.open("https://"+listform.IPC.value+"/msa", "page1", "width="+ screen.width + ",height=" + screen.height + ",top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes,fullscreen=yes");
+																		   }												  	
+																		})
+			                           		return false;
+			                       	 		}
+			                       	 		if(listform.Lanchk4.checked==true&&listform.brTypeD.value==1){
+			                           		Ext.MessageBox.confirm('提示','网桥部署成功，您是否要到'+listform.IPD.value+'/msa下应用新配置!',function(button,text){
+																		   if (button == 'yes'){
+																		   	window.open("https://"+listform.IPD.value+"/msa", "page1", "width="+ screen.width + ",height=" + screen.height + ",top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes,fullscreen=yes");
+																		   }												  	
+																		})
+			                           		return false;
+			                       	 		}
+			                       	 }
+														},
+														failure:function(){
+				                           Ext.MessageBox.alert('提示','网口应用失败!');
+				                    }
+													});
+											 }
+		                })
+	              	}
+							}]
+		         }],
+		        renderTo: Ext.getBody()
+		    });
+		    myMask.hide();
+    });
+</SCRIPT>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" topmargin="2"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onLoad="chkfun();">
+<BODY oncontextmenu="return false" style="display:none">
+<DIV id=north style="display:none">
+<form name="listform" action="/msa/main.xp" method="POST">
+<input type="hidden" id="nownum" value="[$nownum$]">
+<table width="100%" border="0 height="100%" bgcolor="#f0f0f0" align="center">
+  <tr> 
+    <td valign="top"> 
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td width="100%">
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk1" value="0" class="inputchk" [$Lanchk1chk$] onClick="chkfun()">启动网桥一</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口：
+			          	  <select id="inLanA" name="inLanA" class="inputsel">   
+						          [$begintable Lanlist1$]         
+						          <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						          [$endtable$]
+					        	</select>				          </td>
+				          <td width="18%">外网口：
+				            <select id="outLanA" name="outLanA" class="inputsel">   
+						          [$begintable Lanlist2$]         
+						          <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						          [$endtable$]
+					        	</select>				          </td>
+
+					      	<td width="62%">虚拟通道：
+						        <select id="PassAwayA" name="PassAwayA" class="inputsel">
+											<option value="0"[$passAway1se0$]>&nbsp;&nbsp;虚拟通道1</option>
+											<option value="1"[$passAway1se1$]>&nbsp;&nbsp;虚拟通道2</option>
+											<option value="2"[$passAway1se2$]>&nbsp;&nbsp;虚拟通道3</option>
+											<option value="3"[$passAway1se3$]>&nbsp;&nbsp;虚拟通道4</option>
+											<option value="4"[$passAway1se4$]>&nbsp;&nbsp;虚拟通道5</option>
+											<option value="5"[$passAway1se5$]>&nbsp;&nbsp;虚拟通道6</option>
+					  		  </select>					  	  </td>
+				        </tr>
+								<tr>
+									<td width="20%" >
+										<!--<input type="hidden" id="brTypeA" name="brTypeA" value="1" > --> 
+										桥类型：    
+									  <select id="brTypeA" name="brTypeA" class="inputsel" onclick="tabfun()">
+			                            <option value="0" [$brtypeasel0$] >快速桥</option>
+			                            <option value="1" [$brtypeasel1$] >智能桥</option>
+			                          </select>			           
+			             </td>
+									<td>第三口：
+										              
+									  <select id="selectA" name="selectA" class="inputsel">
+									        <option value="-1">不启动</option>
+									          [$begintable Lanlist10$]      
+									    		<option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>
+									       		[$endtable$]					        	
+								    </select>								  </td>
+								  <td>IP/Mask：
+								    <input type="text" name="IPA" value="[$IPA$]"  class="input" size="13">
+								    <input type="text" name="maskA" value="[$maskA$]"  class="input" size="13"></td>
+								</tr>
+		         </table>
+				  </fieldset>
+	 	      </td>
+		    </tr>
+			  <tr>
+		     	<td width="100%">
+		       <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk2" value="0" class="inputchk" [$Lanchk2chk$] onClick="chkfun()">启动网桥二</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口：
+			          	  <select id="inLanB" name="inLanB" class=inputsel>  
+							          [$begintable Lanlist3$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+	                    </select>
+	                </td>
+				          <td width="18%">外网口：
+			          	  <select id="outLanB" name="outLanB" class=inputsel>   
+						            [$begintable Lanlist4$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+					    	   </select> 
+				    	  </td>
+				          <td width="62%"> 虚拟通道：
+					        	<select id="PassAwayB" name="PassAwayB" class="inputsel">
+											<option value="0"[$passAway2se0$]>&nbsp;&nbsp;虚拟通道1</option>
+											<option value="1"[$passAway2se1$]>&nbsp;&nbsp;虚拟通道2</option>
+											<option value="2"[$passAway2se2$]>&nbsp;&nbsp;虚拟通道3</option>
+											<option value="3"[$passAway2se3$]>&nbsp;&nbsp;虚拟通道4</option>
+											<option value="4"[$passAway2se4$]>&nbsp;&nbsp;虚拟通道5</option>
+											<option value="5"[$passAway2se5$]>&nbsp;&nbsp;虚拟通道6</option>
+					      		</select>				          
+				      	  </td>
+				       </tr>
+							 <tr>
+								<td width="20%">
+									<!--<input type="hidden" id="brTypeB" name="brTypeB" value="1" > -->
+									桥类型：                          
+								  <select id="brTypeB" name="brTypeB" class="inputsel" onclick="tabfun()">
+		                            <option value="0" [$brtypebsel0$] >快速桥</option>
+		                            <option value="1" [$brtypebsel1$] >智能桥</option>
+		                          </select>
+		             </td>
+								<td>第三口：
+								  <select id="selectB" name="selectB" class="inputsel">
+								        <option value="-1">不启动</option>
+								          [$begintable Lanlist11$]         
+								          
+								    <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>
+								       
+								          [$endtable$]
+							        	
+							      </select>						  </td>
+								<td>IP/Mask：
+								  <input type="text" name="IPB" value="[$IPB$]"  class="input" size="13">
+		                          <input type="text" name="maskB" value="[$maskB$]"  class="input" size="13"></td>
+						</tr>
+		       </table>
+			      </fieldset>
+	 	     </td>
+		  </tr>
+		</table>
+				  
+		     	<table width="81%" border="0" align="center">
+			     	<tr>
+				     	<td width="43%">
+				 <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk3" value="0" class="inputchk" [$Lanchk3chk$] onClick="chkfun()">启动网桥三</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口：
+		          	      <select id="inLanC" name="inLanC" class=inputsel>  
+						            [$begintable Lanlist5$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+						         </select></td>
+				   
+				          <td width="18%">外网口：
+		          	      <select id="outLanC" name="outLanC" class=inputsel>  
+					              [$begintable Lanlist6$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+					        </select></td>
+				          <td width="62%"> 虚拟通道：
+				            
+					        	<select id="PassAwayC" name="PassAwayC" class="inputsel">
+										<option value="0"[$passAway3se0$]>&nbsp;&nbsp;虚拟通道1</option>
+										<option value="1"[$passAway3se1$]>&nbsp;&nbsp;虚拟通道2</option>
+										<option value="2"[$passAway3se2$]>&nbsp;&nbsp;虚拟通道3</option>
+										<option value="3"[$passAway3se3$]>&nbsp;&nbsp;虚拟通道4</option>
+										<option value="4"[$passAway3se4$]>&nbsp;&nbsp;虚拟通道5</option>
+										<option value="5"[$passAway3se5$]>&nbsp;&nbsp;虚拟通道6</option>
+						    </select>
+					      </td>
+				        </tr>
+						<tr>
+						<td width="20%"><!--<input type="hidden" id="brTypeC" name="brTypeC" value="1" > -->
+							桥类型：
+                            <select id="brTypeC" name="brTypeC" class="inputsel" onClick="tabfun()">
+                              <option value="0" [$brtypecsel0$] >快速桥</option>
+                              <option value="1" [$brtypecsel1$] >智能桥</option>
+                          </select>
+              </td>
+						<td>第三口：
+						  <select id="selectC" name="selectC" class="inputsel">
+						        <option value="-1">不启动</option>
+						          [$begintable Lanlist12$]         
+						          
+						    <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>
+						       
+						          [$endtable$]
+					        	
+					      </select>
+						  </td>
+						<td>IP/Mask：
+						  <input type="text" name="IPC" value="[$IPC$]"  class="input" size="13">
+                          <input type="text" name="maskC" value="[$maskC$]"  class="input" size="13"></td>
+						</tr>
+		         </table>
+				  </fieldset>
+	 	      </td>
+			  </tr>
+			  <tr>
+		     	<td width="43%">
+				 <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk4" value="0" class="inputchk"  [$Lanchk4chk$] onClick="chkfun()">启动网桥四</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口：
+			              <select id="inLanD" name="inLanD" class=inputsel>  
+							          [$begintable Lanlist7$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+                    </select></td>
+
+				          <td width="18%">外网口：
+			              <select id="outLanD" name="outLanD" class=inputsel>
+						          [$begintable Lanlist8$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						            [$endtable$]
+					      	</select></td>
+				          <td width="62%"> 虚拟通道：
+					          
+					        	<select id="PassAwayD" name="PassAwayD" class="inputsel">
+										<option value="0"[$passAway4se0$]>&nbsp;&nbsp;虚拟通道1</option>
+										<option value="1"[$passAway4se1$]>&nbsp;&nbsp;虚拟通道2</option>
+										<option value="2"[$passAway4se2$]>&nbsp;&nbsp;虚拟通道3</option>
+										<option value="3"[$passAway4se3$]>&nbsp;&nbsp;虚拟通道4</option>
+										<option value="4"[$passAway4se4$]>&nbsp;&nbsp;虚拟通道5</option>
+										<option value="5"[$passAway4se5$]>&nbsp;&nbsp;虚拟通道6</option>
+						    </select>
+				      	  </td>
+				        </tr>
+						<tr>
+						<td width="20%"><!--<input type="hidden" id="brTypeD" name="brTypeD" value="1" >-->
+							桥类型：
+                            <select id="brTypeD" name="brTypeD" class="inputsel" onClick="tabfun()">
+                              <option value="0" [$brtypedsel0$] >快速桥</option>
+                              <option value="1" [$brtypedsel1$] >智能桥</option>
+                          </select>
+                          </td>
+						<td>第三口：
+						  <select id="selectD" name="selectD" class="inputsel">
+						        <option value="-1">不启动</option>
+						          [$begintable Lanlist13$]         
+						          
+						    <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>
+						       
+						          [$endtable$]
+					        	
+					      </select>
+						  </td>
+						<td>IP/Mask：
+						  <input type="text" name="IPD" value="[$IPD$]"  class="input" size="13">
+                          <input type="text" name="maskD" value="[$maskD$]"  class="input" size="13"></td>
+						</tr>
+		         </table>
+				  </fieldset>
+	 	      </td>
+		  </tr>
+	    </table>
+		  
+     	<table width="80%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="LanchkM" value="0" class="inputchk" [$LanchkMchk$] onClick="chkfun()">配置管理口</legend> 
+		          <table width="100%" border="0" align="center" cellpadding="1">
+					        <tr> 
+					          <td width="20%">管理口：</td>
+					          <td width="80%"> 
+					          <select id="managerLan" name="managerLan" class=inputsel>   
+						          [$begintable Lanlist9$]         
+						            <option value="[$vlanid$]" [$selvid$] >eth[$vlanid$]</option>   
+						          [$endtable$]
+							    </select> 
+					          </td>
+					        </tr>
+		        
+					        <tr> 
+					          <td width="20%">管理IP：</td>
+					          <td width="80%"> 
+					          <input type="text" name="managerIP" value="[$managerIP$]"  class="input" >
+					          </td>
+					        </tr>
+					        
+					        <tr> 
+					          <td width="20%">子网掩码</td>
+					          <td width="80%"> 
+					             <input type="text" name="inmask" value="[$inmask$]"  class="input" >
+				              </td>
+					        </tr>
+			  	 	 	</table>
+				  	 </fieldset>
+			  </td>
+		  </tr>
+		</table>
+		  
+     	 <table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend>图例</legend> 
+		          <table width="100%" border="0" align="center">
+					        <tr> 
+					          <td width="25%"> 
+					          <img src="/msa/images/connect1tmp.jpg" width="680">	
+					          </td>
+					        </tr>
+			  	 </table>
+				  </fieldset>
+			  	</td>
+		  	</tr>
+		</table>
+    </td>
+  </tr>
+  
+</table>
+</form>
+</DIV>
+</body>
+</HTML>

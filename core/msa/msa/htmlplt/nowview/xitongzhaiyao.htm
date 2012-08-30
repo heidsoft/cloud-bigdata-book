@@ -1,0 +1,528 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 9px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 9px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    
+    
+    
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+      
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+						
+   
+
+           
+       var tools = [{
+            id: 'refresh',
+//            on: {
+//                click: function(){
+//                    xtzystore.load();
+//                },
+//                scope:this
+//            }
+            handler: function(e, target, panel){
+		            panel.getStore().load();
+		        }
+        },{
+        id:'close',
+        handler: function(e, target, panel){
+        	  panel.hide();
+            //panel.ownerCt.remove(panel, true);
+        }
+        }];
+    
+    var xtzystore = new Ext.data.SimpleStore({
+        url:'/msa/main.xp?Fun=msashowxtzy',
+        fields: [
+           {name: 'itemn'},
+           {name: 'itemv'}
+        ]
+    });
+
+    xtzystore.load();
+
+    var maintabpanpel1 = new Ext.grid.GridPanel({
+    	  title: '实时摘要',
+    	  rowspan: 3,
+        store: xtzystore,
+        tools: tools,
+        defaults: {
+							bodyStyle:'valign:top'
+				},
+        columns: [
+            {id:'itemn',header: "项目", width: 180, sortable: true, dataIndex: 'itemn'},
+            {header: "数值", width: 120, sortable: true,   dataIndex: 'itemv'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'itemn',
+        width:300,
+        height:480,
+		    collapsible:false,
+		    draggable:false,
+		    hideHeaders:true
+    });
+    
+    var xtzystoretop2 = new Ext.data.SimpleStore({
+        url:'/msa/main.xp?Fun=msaNowDayData+num=0',
+        fields: [
+           {name: 'datatype'},
+           {name: 'datavalue', type: 'int'}
+        ]
+    });
+    
+           
+    function maintabpanpel2datavalue(val){
+    	if(val=='0'){//禁止
+          return '即时通信记录';
+      }else if(val=='1'){//
+           return '虚拟身份记录';
+      }else if(val=='2'){//
+           return '文件传输记录';
+      }else if(val=='3'){//
+           return 'web邮件记录';
+      }else if(val=='4'){//
+           return '邮件收发';
+      }else if(val=='5'){//
+           return '表单提交';
+      }else if(val=='6'){//
+           return '搜索关键字';
+      }else if(val=='7'){//
+           return '服务访问记录';
+      }else{//正常
+          return '服务阻断记录';
+      }
+    }
+
+    var maintabpanpel2 = new Ext.grid.GridPanel({
+    	  title: '::当日数据概况::',
+        store: xtzystoretop2,
+        tools: tools,
+        columns: [
+            {id:'datatype',header: "数据类型", width: 100,renderer: maintabpanpel2datavalue, sortable: true, dataIndex: 'datatype'},
+            {header: "数据条数", width: 70, sortable: true,   dataIndex: 'datavalue'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'datatype',
+        width:(screen.width-560)/2,
+        height:240,
+		    collapsible:false,
+		    draggable:false,
+		    hideHeaders:true
+    });
+   
+   
+
+   
+   
+  var chartStore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msa24qushi'},
+        fields: [
+           {name: 'mintue'},
+		       {name: 'allflow', type: 'float'},
+				   {name: 'ubytes', type: 'float'},
+			     {name: 'dbytes', type: 'float'},
+			     {name: 'tcpconnect'},
+				   {name: 'udpconnect', type: 'int'},
+		       {name: 'onlineuser', type: 'int'}
+        ]
+    });
+chartStore.load();
+
+
+//var nowxAxisNum;
+//nowxAxisNum=-1;
+//function xAxisState(a)   
+//{   
+//    if(nowxAxisNum==-1){
+//    	nowxAxisNum=a;
+//    	return "1";  
+//    }
+//    if( (a-nowxAxisNum)<6){
+//    	return "."; 
+//    }  
+//    return "1"; 
+//} 
+
+var maintabpanpel3 = new Ext.Panel({
+  title:'::60分钟出口速率趋势::',  
+  layout:'fit',  
+  closeAction:'hide',  
+  colspan: 2,
+  plain: true,  
+  tools: tools,
+  width:(screen.width-560),
+  height:240,
+  items:[{  
+    xtype:'linechart',  
+    url: '/ext/resources/charts.swf',  
+    store:chartStore,  
+    //xField: 'label',  
+    //yField:'alarmCount',  
+    //定义tip内容  
+    xField: 'mintue',  
+//    xAxis: new Ext.chart.Axis({
+//				labelRenderer : xAxisState,
+//				displayName: '分钟'
+//    }),
+    tipRenderer : function(chart, record){   
+      var toolTipText = "时间:" + record.get('mintue') +  "\n"  + "接收速率:" + record.get('dbytes') +  "kbps\n"  + "发送速率:" + record.get('ubytes') + "kbps" ;
+		  return toolTipText;
+    },
+    //定义两个图表,一个是柱状图,一个是折线图  
+    series: [{  
+        type:'line',  
+        displayName: '接收',  
+        yField: 'dbytes',  
+        style: {  
+          color: 0x22dd33,
+          size:1,
+          lineSize: 1  
+        }  
+    },{  
+        type:'line',  
+        displayName: '发送',    
+        yField: 'ubytes',  
+        style: {  
+          color: 0x15428B,
+          size:1,
+          lineSize: 1  
+        }  
+    },{  
+        type:'line',  
+        displayName: '全部',    
+        yField: 'allflow',  
+        style: {  
+          color: 0xff428B,
+          size:1,
+          lineSize: 1  
+        }  
+    }],
+    extraStyle: { xAxis:{showLabels:false} },
+    yAxis: new Ext.chart.NumericAxis({
+                title: 'kbps'
+            }),
+    //定义图表样式  
+    chartStyle: {
+					    	legend:{  
+					         display: "top"  
+					      },  
+                xAxis: {
+                    color: 0x69aBc8,
+                    majorTicks: {color: 0x69aBc8, length: 4},
+                    minorTicks: {color: 0x69aBc8, length: 2},
+                    majorGridLines: {size: 1, color: 0xeeeeee}
+                },
+                yAxis: {
+                    color: 0x69aBc8,
+                    majorTicks: {color: 0x69aBc8, length: 4},
+                    minorTicks: {color: 0x69aBc8, length: 2},
+                    majorGridLines: {size: 1, color: 0xdfe8f6}
+                }
+    }
+  }]  
+}); 
+
+    
+    var xtzystoreusertop = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaonlineuser',sortby:'-1',orderby:"9",start:0,limit:20},
+        fields: [
+           {name: 'uid'},
+		       {name: 'uname'},
+				   {name: 'dep'},
+			     {name: 'ipadd'},
+			     {name: 'macadd'},
+				   {name: 'tcpnum', type: 'int'},
+		       {name: 'udpnum', type: 'int'},
+		       {name: 'bs'},
+		       {name: 'ps', type: 'int'},
+		       {name: 'bsp', type: 'float'},
+		       {name: 'netfx'},
+		       {name: 'sTime'},
+				   {name: 'dTime'},
+		       {name: 'flowday'},
+		       {name: 'timeday'},
+		       {name: 'flowweek'},
+		       {name: 'timeweek'},
+		       {name: 'flowmonth'},
+		       {name: 'timemonth'}
+        ]
+    });
+ 
+
+    
+    //xtzystoreusertop.sort('flowp', 'DESC');
+    xtzystoreusertop.load();
+    function bspChange(val){
+          return val + '%';
+    }
+    var maintabpanpel4 = new Ext.grid.GridPanel({
+    	  title: '当前用户-速率Top20',
+        store: xtzystoreusertop,
+        tools: tools,
+        columns: [
+            {id:'uname',header: "用户", width: 70, sortable: true, dataIndex: 'uname'},
+            {header: "速率bps", width: 80, sortable: true,   dataIndex: 'bs'},
+            {header: "占比", width: 60, sortable: true, renderer: bspChange,  dataIndex: 'bsp'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'uname',
+        width:(screen.width-560)/2,
+        height:240,
+		    collapsible:false,
+		    draggable:false
+    });
+    
+
+   		var xtzystoretop = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaNowSrvList'},
+        fields: [
+           {name: 'srvname'},
+           {name: 'srvflowu', type: 'int'},
+           {name: 'flowbps'},
+           {name: 'flowp' },
+           {name: 'hourtime'},
+           {name: 'hourflowu', type: 'int'},
+           {name: 'hourflow'},
+           {name: 'daytime'},
+           {name: 'dayflowu', type: 'int'},
+           {name: 'dayflow'}
+        ]
+    });
+ 
+
+    
+    xtzystoretop.sort('srvflowu', 'DESC');
+    xtzystoretop.load();
+
+    var maintabpanpel5 = new Ext.grid.GridPanel({
+    	  title: '服务速率概况',
+        store: xtzystoretop,
+        tools: tools,
+        columns: [
+            {id:'srvname',header: "服务名称", width: 70, sortable: true, dataIndex: 'srvname'},
+            {header: "速率bps", width: 80, sortable: true,   dataIndex: 'flowbps'},
+            {header: "占比", width: 60, sortable: true,   dataIndex: 'flowp'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'srvname',
+        width:(screen.width-560)/2,
+       height:240,
+		    collapsible:false,
+		    draggable:false
+    });
+        
+        
+    var maintabpanpel6store = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaNowQosList'},
+        fields: [
+           {name: 'qosid'},
+           {name: 'srvname'},
+           {name: 'gflowu', type: 'int'},
+           {name: 'flowbps'},
+           {name: 'flowp' },
+           {name: 'nowflowu', type: 'int'},
+           {name: 'nowflow'},
+           {name: 'daytime'},
+           {name: 'dayflowu', type: 'int'},
+           {name: 'dayflow'},
+           {name: 'upflow'},
+           {name: 'downflow'},
+           {name: 'lasttime'}
+        ],
+        sortInfo:{field: 'flowp', direction: "DESC"}
+    });
+ 
+
+    maintabpanpel6store.load();     
+    var maintabpanpel6 = new Ext.grid.GridPanel({
+    	  title: 'QOS通道速率概况',
+        store: maintabpanpel6store,
+        tools: tools,
+        columns: [
+            {id:'uname',header: "通道名称", width: 70, sortable: true, dataIndex: 'srvname'},
+            {header: "速率bps", width: 80, sortable: true,   dataIndex: 'flowbps'},
+            {header: "占比", width: 60, sortable: true, renderer: bspChange,  dataIndex: 'flowp'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'uname',
+        width:(screen.width-560)/2,
+        height:240,
+		    collapsible:false,
+		    draggable:false,
+		    hidden:true
+    });    
+    
+    var maintabpanpel7store = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaNowGroupList',glevel:1},
+        fields: [
+           {name: 'gid'},
+           {name: 'gname'},
+           {name: 'gflowu', type: 'int'},
+           {name: 'flowbps'},
+           {name: 'flowp',type: 'float' },
+           {name: 'daytime', type: 'int'},
+           {name: 'strdaytime'},
+           {name: 'dayflow', type: 'int'},
+           {name: 'strdayflow'},
+           {name: 'dayflowu', type: 'int'},
+           {name: 'strdayflowu'},
+           {name: 'dayflowd', type: 'int'},
+           {name: 'strdayflowd'},
+           {name: 'lasttime'}
+        ],
+        sortInfo:{field: 'flowp', direction: "DESC"}
+    });
+    
+
+   maintabpanpel7store.load();
+    
+     var maintabpanpel7 = new Ext.grid.GridPanel({
+    	  title: '部门速率概况',
+        store: maintabpanpel7store,
+        tools: tools,
+        columns: [
+            {id:'uname',header: "部门名称", width: 70, sortable: true, dataIndex: 'gname'},
+            {header: "速率bps", width: 80, sortable: true,   dataIndex: 'flowbps'},
+            {header: "占比", width: 60, sortable: true, renderer: bspChange,  dataIndex: 'flowp'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'uname',
+        width:(screen.width-560)/2,
+        height:240,
+		    collapsible:false,
+		    draggable:false,
+		    hidden:true
+    });
+   
+   var topMainTabBar = new Ext.Toolbar({
+		border : false,
+		split : true,
+		height : 26,
+		minSize : 26,
+		maxSize : 26,
+		items : [{
+					xtype : "tbbutton",
+					minWidth : 80,
+					text : "显示全部模块",
+					cls : "x-btn-text-icon",
+					icon : "/Content/icons/plugin_go.png",
+					handler : function(btn, e) {
+						maintabpanpel1.show();
+						maintabpanpel2.show();
+						maintabpanpel3.show();
+						maintabpanpel4.show();
+						maintabpanpel5.show();
+						maintabpanpel6.show();
+						maintabpanpel7.show();
+						maintabpanpel1.setHeight(240*3);
+						maintabpanpel1.doLayout();
+					}
+				}, "-", {
+					xtype : "tbbutton",
+					minWidth : 80,
+					text : "显示默认模块",
+					cls : "x-btn-text-icon",
+					icon : "/Content/icons/plugin_go.png",
+					handler : function(btn, e) {
+						maintabpanpel1.show();
+						maintabpanpel2.show();
+						maintabpanpel3.show();
+						maintabpanpel4.show();
+						maintabpanpel5.show();
+						maintabpanpel6.hide();
+						maintabpanpel7.hide();
+						maintabpanpel1.setHeight(240*2);
+						maintabpanpel1.doLayout();
+					}
+				}]
+	});
+    new Ext.Viewport({
+									id:'maintabpanel',
+			            title: '系统状态',
+			            //autoLoad: {url: '/msa/main/test1.htm', callback: this.initMY, scripts : true,scope: this},
+			            iconCls:'icon-docs',
+			            autoScroll: true,
+			            layout:'table',
+									layoutConfig: {
+										columns: 3
+									},
+									defaults: {
+										bodyStyle:'valign:top'
+									},
+									margins:'1 1 1 1',
+									tbar:topMainTabBar,
+									items: [maintabpanpel1,maintabpanpel3,maintabpanpel4,maintabpanpel5,maintabpanpel6,maintabpanpel7],
+					        renderTo: Ext.getBody()
+					    });
+    
+    myMask.hide();
+     
+    var runner = new Ext.util.TaskRunner();
+    var  intervaltime=20;
+    var task = {
+								run: function(){
+									 xtzystore.load();
+									 xtzystoretop2.load();
+									 chartStore.load();
+									 xtzystoreusertop.load();
+									 xtzystoretop.load();
+									 maintabpanpel6store.load();
+									 maintabpanpel7store.load();
+								},
+								interval: intervaltime*1000 // 每30秒一周期
+		};
+		runner.start(task);
+ 
+    
+            
+    });
+  
+
+	
+		  
+	</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return false" >
+
+</BODY></HTML>

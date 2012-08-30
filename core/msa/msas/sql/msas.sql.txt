@@ -1,0 +1,2 @@
+create database msas;
+grant all privileges on msas.*  to nas@localhost identified by 'msaspass';

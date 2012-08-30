@@ -1,0 +1,24 @@
+account default
+host smtp.163.com #163企业邮箱的smtp服务器
+port 25
+from hdtdaizheng@163.com      #公司企业邮箱总会有吧！让公司网关给你开个专用的邮箱用来发邮件
+auth login
+tls off
+user hdtdaizheng
+password 6718313
+logfile /var/log/mmlog
+#/usr/local/msmtp/bin/msmtp 455299236@qq.com
+
+
+
+set sendmail="/usr/local/msmtp/bin/msmtp"
+set use_from=yes
+set from=hdtdaizheng@163.com
+set envelope_from=yes
+
+msmtp --host=smtp.163.com --domain=163.com --auth=plain --user=hdtdaizheng -f=hdtdaizheng@163.com  -t hdtdaizheng@163.com  -d 
+
+set sendmail="/usr/local/msmtp/bin/msmtp"
+
+
+

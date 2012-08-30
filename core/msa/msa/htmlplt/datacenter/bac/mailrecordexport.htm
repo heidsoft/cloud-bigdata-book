@@ -1,0 +1,268 @@
+<html>
+<head>
+<title>mail-list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="https://[$ipadd$]/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="https://[$ipadd$]/msa/extjs/resources/css/feed-viewer.css">
+<link rel="stylesheet" type="text/css" href="https://[$ipadd$]/msa/publiccss/pubcss.css">
+<link rel="stylesheet" type="text/css" href="https://[$ipadd$]/msa/extjs/resources/css/xtheme-default.css">
+<link rel="stylesheet" href="https://[$ipadd$]/msa/publiccss/css.css" type="text/css">
+<script type="text/javascript"  src="https://[$ipadd$]/msa/publicjs/select_time.js"></script>
+<script type="text/javascript"  src="https://[$ipadd$]/msa/extjs/ext-all.js"></script>
+<script type="text/javascript"  src="https://[$ipadd$]/msa/extjs/adapter/ext/ext-base.js">
+<SCRIPT type="text/javascript"  src="https://[$ipadd$]/msa/publicjs/exportexcel.js"></SCRIPT>
+
+<script language="JavaScript">
+    Ext.BLANK_IMAGE_URL = 'https://[$ipadd$]/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+		pagesize=100;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var win;
+			
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+
+    
+			 xtzystore = new Ext.data.JsonStore({
+				      root: 'Results',
+			        totalProperty: 'totalCount',
+			        url:'https://[$ipadd$]/msa/main.xp?Fun=ltmsamailquery+user=[$uid$]+groupid=[$gid$]+flags=[$myflags$]+mtype=[$mymtype$]+subject=[$mysubject$]+dip=[$mydip$]+from=[$myfrom$]+to=[$myto$]+tabname=[$mytabname$]+btype=[$mybtype$]+bbyte=[$mybbyte$]+fbtype=[$myfbtype$]+fbbyte=[$myfbbyte$]+osort=[$myosort$]+orderby=[$myorderby$]+tabtype=[$mytabtype$]+action=0+limit='+pagesize+'+start=0',
+				      fields: [
+				           {name: 'uid'},
+					         {name: 'uname'},       //用户名
+					         {name: 'groupname'},
+					         {name: 'mymailfile'}, //邮件文件名
+						       {name: 'mymailfrom'},  //发件人
+	  				  	   {name: 'mymailto'},    //收件人
+					         {name: 'mymailsub'},   //主题
+					         {name: 'mysdate'},     //发送日期
+					         {name: 'mystime'},     //发送时间
+					         {name: 'mymailasize'}, //附件
+					         {name: 'mymailsize'},  //邮件大小
+							     {name: 'myflags'},     //邮件状态
+					         {name: 'mymtype'},     //邮件分类
+					         {name: 'myip'},        //源IP
+					         {name: 'myrback'},
+					         {name: 'myfstart'},
+					         {name: 'datetime'},
+					         {name: 'myflen'}
+				    ]
+				});
+				
+    
+    xtzystore.load();
+
+    
+  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+        var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+         var userItems = this.items || []; 
+         this.items = userItems.concat(pageSizeItems); 
+         HlPagingToolbar.superclass.initComponent.call(this); 
+    }, 
+    onHlPagingKeyDown: function(field, e){ 
+        if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+});
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    function conChange(val){
+        if(val == 1){
+            return 'SMTP';
+        }
+        return 'POP3';
+    }
+    
+	  var xtzygrid = new Ext.grid.GridPanel({
+	        store: xtzystore,
+	        viewConfig: {
+            forceFit:false,
+            scrollOffset: 0,
+            enableRowBody:true,
+            showPreview:true,
+            getRowClass : function(record, rowIndex, p, store){
+                if(this.showPreview){
+                    p.body = '<p>'+record.data.mymailsub+'</p>';
+                    return 'x-grid3-row-expanded';
+                }
+                return 'x-grid3-row-collapsed';
+            }
+          },
+	        columns: [
+	            {id:'uname',header: "用户名", width: 100, sortable: true, dataIndex: 'uname'},
+	            {header: "部门", width: 160, sortable: true, dataIndex: 'groupname'},
+	            //{header: "邮件文件名",width: 100, sortable: true,  dataIndex: 'mymailfile'},
+	            {header: "发件人",width: 100, sortable: true,  dataIndex: 'mymailfrom'},
+	            {header: "收件人",width: 100, sortable: true,  dataIndex: 'mymailto'},
+	            {header: "远端IP地址",  width: 100, sortable: true,  dataIndex: 'myip'},
+	            {header: "发送日期", width: 100, sortable: true, dataIndex: 'mysdate'},
+	            {header: "发送时间", width: 100, sortable: true, dataIndex: 'mystime'},
+	            {header: "邮件大小", width: 80, sortable: true, dataIndex: 'mymailsize'},
+	            {header: "附件大小", width: 80, sortable: true,  dataIndex: 'mymailasize'},
+	            {header: "邮件状态", width: 100, sortable: true,  dataIndex: 'myflags',renderer: conChange},
+	            {header: "邮件分类", width: 100, sortable: true,  dataIndex: 'mymtype'}
+	        ],
+	        tbar: pagingBar,
+	        stripeRows: true,
+	        autoExpandColumn: 'uname',
+	        bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+          }),
+	        height:screen.height-210,
+	        width:screen.width-800,
+	        title:'查询结果列表',
+	        frame:true,
+			    collapsible:false,
+			    loadMask:{msg:'正在加载数据，请稍侯……'},
+			    draggable:false
+	  });
+   
+   xtzygrid.addListener('rowclick', rightClickFn);
+		function rightClickFn(client, rowIndex, e) { 
+					 rightClick.showAt(e.getXY()); 
+					 detailEl=  rowIndex;
+		}         
+　
+   var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'shuxing',
+                    iconCls:'load-icon',
+                    text:'该邮件内容',
+                    scope: this,
+                    handler:function(){
+                       var record = xtzygrid.getStore().getAt(detailEl);
+	                       var mymailfile=record.get("mymailfile");
+	                       var mysdate=record.get("mysdate");      
+	                       var mystime=record.get("mystime").substring(0,2); 
+	                       var myfstart=record.get("myfstart");   
+	                       var usrl='/msa/main.xp?Fun=msaShowContent+file='+mymailfile+'+sdate='+mysdate+'+stime='+mystime+'+fstart='+myfstart+'+type=0';
+						            var hgt=(screen.height)-190;
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '邮件浏览',
+							                    height: 400,
+							                    width: 500,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize();
+                        }
+                },{
+                    id:'detail',
+                    iconCls:'load-icon',
+                    text:'该用户详细信息',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var uid=record.get("uid");      
+                        var usrl="https://[$ipadd$]/msa/main.xp?Fun=msaTermInfoView+uid="+uid;				  
+						        		var hgt=(screen.height)-190;
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panelmy',
+							                    title: '用户信息浏览',
+							                    height: 400,
+							                    width: 550,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize();
+                        } 
+                }]
+    });
+    
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+          collapsible: true,
+          split:true,
+          width: 135,
+          minSize: 125,
+          maxSize: 400,
+          layout:'fit',
+          margins:'0 5 0 0',
+          items:[xtzygrid]
+     }
+     
+     new Ext.Viewport({
+						layout: 'border',
+						items: [
+						 mainPanel
+						],
+		        renderTo: Ext.getBody()
+		    });
+
+			myMask.hide();
+}); 
+</script>
+</head>
+<body>
+</body>
+</html>

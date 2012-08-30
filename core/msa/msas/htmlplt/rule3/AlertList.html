@@ -1,0 +1,475 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    
+    var northPanel;
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+     xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msas/main3/main.xp',
+        baseParams:{Fun:'msasRuleTypeAction',AlertmyRule_type:[$myRule_type$]},
+				fields: [
+							{name: 'Rule_id'},
+							{name: 'anjian_id'},
+							{name: 'Rule_name'},
+							{name: 'Rule_type'},
+							{name: 'KeyWord1'},
+							{name: 'KeyWord2'},
+							{name: 'KeyWord3'},
+							{name: 'Rule_endtime'},
+							{name: 'Rule_areacode'},
+							{name: 'updateflag'}
+				]
+     });
+
+    xtzystore.load({params:{Fun:'msasRuleListAction',AlertmyRule_type:[$myRule_type$],start:0,limit:pagesize}});
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+					    displayInfo: true, 
+					    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+					    emptyMsg: "无记录", 
+					    initComponent : function(){ 
+		    	      	var pageSizeItems = [ 
+		                     '-','每页', 
+		                     this.inputItem = new Ext.form.NumberField({ 
+											    cls: 'x-tbar-page-number', 
+											    allowDecimals: false, 
+											    allowNegative: false, 
+											    enableKeyEvents: true, 
+											    maxValue: 500, 
+											    maxText: '每页不允许超过500条', 
+											    selectOnFocus: true, 
+											    value: this.pageSize, 
+											    submitValue: false, 
+											    listeners: { 
+											        scope: this, 
+											        keydown: this.onHlPagingKeyDown, 
+											        blur: this.onHlPagingBlur 
+											    } 
+		                     }),'条','-',{
+								            //pressed: true,
+								            icon: '/msas/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn, pressed){
+								                downloadViewDataActive(this.store);
+								            }
+								        },'-']; 
+				         var userItems = this.items || []; 
+				         this.items = userItems.concat(pageSizeItems); 
+				         HlPagingToolbar.superclass.initComponent.call(this); 
+				    }, 
+				    onHlPagingKeyDown: function(field, e){ 
+				        if(field.isValid()){ 
+				            var k = e.getKey(); 
+				             if (k == e.RETURN) { 
+				                    e.stopEvent(); 
+				                    this.pageSize = field.getValue(); 
+				                    pagesize=this.pageSize;
+				                    //alert(this.pageSize);
+				                    this.doRefresh(); 
+				             } 
+				        } 
+				    }, 
+				    onHlPagingBlur: function(field){ 
+				        if(field.isValid()){ 
+				            this.pageSize = field.getValue(); 
+				            //alert(this.pageSize);
+				            pagesize=this.pageSize;
+				            this.doRefresh(); 
+				        } 
+				    } 
+				});
+		var pagingBar= new HlPagingToolbar({
+		        store: xtzystore,
+		        pageSize: pagesize,
+		        displayInfo: true});
+		        		
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+						{header: "规则Id", width: 80, sortable: true, dataIndex: 'Rule_id'},
+						{header: "案件Id",  width: 80, sortable: true,  dataIndex: 'anjian_id'},
+						{header: "规则名称",  width: 120, sortable: true,  dataIndex: 'Rule_name'},
+						{header: "规则类型",  width: 80, sortable: true,  dataIndex: 'Rule_type'},
+						{id:"KeyWord1",header: "关键字1",width: 150, sortable: true,  dataIndex: 'KeyWord1'},
+						{header: "关键字2",width: 100, sortable: true,  dataIndex: 'KeyWord2'},
+						{header: "关键字3",width: 100, sortable: true,  dataIndex: 'KeyWord3'},
+						{header: "规则触发结束时间",width: 120, sortable: true,  dataIndex: 'Rule_endtime'},
+						{header: "规则区域号码",  width: 80, sortable: true,  dataIndex: 'Rule_areacode'},
+						{header: "更新标记",  width: 80, sortable: true,  dataIndex: 'updateflag'}
+				],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'KeyWord1',
+        width:280,
+        height:screen.height-350,
+        frame:true,
+        title:'策略列表',
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+					var detailEl;
+			    var rightClick  = new Ext.menu.Menu({
+							id:'feeds-ctx',
+							items: [{
+								id:'delrealidAlertlist',
+								iconCls:'load-icon',
+								text:'删除策略信息',
+								scope: this,
+								handler:function()
+								{
+									var record = xtzygrid.getStore().getAt(detailEl);
+									var myRule_id=record.get("Rule_id"); 
+									var deflag=1;
+									  Ext.MessageBox.confirm('提示','你确定要删除此策略信息吗？',function(button,text)
+									  {
+											if(button=="yes")
+											{
+												Ext.Ajax.request
+												({
+													url:'/msas/main3/main.xp',
+													success:function(response, options) {
+                              var retxt=response.responseText;//从这句C文件拿到返回值0  lt_TcpResponse(confd,ltMsgPk,2,"lthead",LT_TYPE_STRING,"Content-type: application/json\n","lthtml",LT_TYPE_STRING,"0");
+                              alert(retxt);
+                              if(retxt==0){
+															   Ext.MessageBox.alert('提示','删除成功!');
+                              }else{
+                                 Ext.MessageBox.alert('提示','删除失败1!'); //没拿到返回值
+                              }
+                          },
+													params:{Fun:'msasShowRule',deflag:'1',start:0,limit:pagesize,delRule_id:myRule_id},
+													failure:function() {    
+                                 Ext.MessageBox.alert('提示','删除失败2!'); 
+                              }
+												});		    
+												xtzystore.load({params:{Fun:'msasRuleTypeAction',AlertmyRule_type:[$myRule_type$],start:0,limit:pagesize}});
+									    }
+									   });
+								 }
+							},{
+                    id:'realidclientlist',
+                    iconCls:'load-icon',
+                    text:'查看该策略的报警',
+                    scope: this,
+                    handler:function(){
+												var record = xtzygrid.getStore().getAt(detailEl);
+												var myRule_id=record.get("Rule_id"); 
+                        var realidclientlistxtzystore = new Ext.data.JsonStore({
+								        root: 'Results',
+								        totalProperty: 'totalCount',
+								        url:'/msas/main3/main.xp',
+								        baseParams:{Fun:'msasAlertRuleAction',AlertmyRule_id:myRule_id},
+								        fields: [
+								           {name: 'Matching_id'},
+								           {name: 'gnmkey'},
+								           {name: 'sname'},
+								           {name: 'Rule_id'},
+								           {name: 'Rule_name'},
+								           {name: 'Matching_time'},
+								           {name: 'Net_ending_ip'},
+								           {name: 'Net_ending_code'},
+								           {name: 'Net_ending_mac'},
+								           {name: 'Destination_ip'},
+								           {name: 'Service_type'},
+								           {name: 'KeyWord1'},
+								           {name: 'KeyWord2'},
+								           {name: 'KeyWord3'},
+								           {name: 'Customer_name'},
+								           {name: 'Certificate_type'},
+								           {name: 'Certificate_code'},
+								           {name: 'Rule_type'},
+								           {name: 'cacontenturl'},
+								           {name: 'caupdateflag'}
+								        ]
+								     });
+								     
+								
+								    realidclientlistxtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_id:myRule_id,start:0,limit:pagesize}});
+								
+								    var realidclientlistpagingBar = new Ext.PagingToolbar({
+								        pageSize: pagesize,
+								        store: realidclientlistxtzystore,
+								        displayInfo: true,
+								        displayMsg: '显示 {0} - {1} 共 {2}',
+								        emptyMsg: "没有数据",
+												items:[
+								            '-','每页',this.inputItem = new Ext.form.NumberField({ 
+								    cls: 'x-tbar-page-number', 
+								    allowDecimals: false, 
+								    allowNegative: false, 
+								    enableKeyEvents: true,
+								    value: pagesize,
+								    maxValue: 500, 
+								    maxText: '每页不允许超过500条', 
+								    selectOnFocus: true, 
+								    submitValue: false,
+								    listeners: { 
+								        scope: this, 
+								        keydown: function(field, e){ 
+									        if(field.isValid()){ 
+									            var k = e.getKey(); 
+									             if (k == e.RETURN) { 
+									                    e.stopEvent(); 
+									                    pagesize = field.getValue(); 
+									                    realidclientlistxtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_id:myRule_id,start:0,limit:pagesize}});
+									             } 
+									        } 
+								        }, 
+								        blur: function(field){
+									        if(field.isValid()){
+									            pagesize = field.getValue(); 
+									            realidclientlistxtzystore.load({params:{Fun:'msasAlertRuleAction',AlertmyRule_id:myRule_id,start:0,limit:pagesize}}); 
+									        } 
+								        }
+								    }}),
+								    '条','-', {
+								            //pressed: true,
+								            icon: '/msas/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn,pressed){
+								                downloadViewDataActive(xtzygrid);
+								            }
+								        },'-']
+								    });
+								   
+								    var realidclientlistxtzygrid = new Ext.grid.GridPanel({
+								        region:'center',
+								        store: realidclientlistxtzystore,
+								        columns: [
+								            {id:'sname',header: "上网场所", width: 120, sortable: true, dataIndex: 'sname'},
+								            {header: "报警规则名称", width: 80, sortable: true, dataIndex: 'Rule_name'},
+								            {header: "上网ip",   width: 90, sortable: true,  dataIndex: 'Net_ending_ip'},
+								            {header: "mac地址",  width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+								            {header: "服务类型",  width: 80, sortable: true,  dataIndex: 'Service_type'},
+								            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+								            {header: "关键字2",  width: 90, sortable: true,  dataIndex: 'KeyWord2'},
+								            {header: "关键字3",  width: 80, sortable: true,  dataIndex: 'KeyWord3'}
+								        ],
+								        tbar: realidclientlistpagingBar,
+								        stripeRows: true,
+								        autoExpandColumn: 'sname',
+								        width:280,
+								        height:screen.height-350,
+								        frame:true,								        
+										    collapsible:true,
+										    loadMask:{msg:'正在加载数据，请稍侯……'},
+										    draggable:true
+								    });
+                        
+                     var mywin =new  Ext.Window(
+							       {
+							                    id: 'realidclientlistwin',
+							                    height: 400,
+							                    width: 500,
+												title:' 该策略的报警',
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    layout: 'fit',
+							                    items: realidclientlistxtzygrid  
+							        }); 
+							        mywin.show(); 
+							        mywin.maximize(); 
+                    }
+                },{
+                    id:'realidAlertlist',
+                    iconCls:'load-icon',
+                    text:'查看该策略所属案件的所有报警',
+                    scope: this,
+                    handler:function(){
+												var record = xtzygrid.getStore().getAt(detailEl);
+												var myanjian_id=record.get("anjian_id");
+												//alert(myanjian_id);
+                        var realidAlertlistxtzystore = new Ext.data.JsonStore({
+								        root: 'Results',
+								        totalProperty: 'totalCount',
+								        url:'/msas/main3/main.xp',
+								        baseParams:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:myanjian_id},
+								        fields: [
+								           {name: 'Matching_id'},
+								           {name: 'gnmkey'},
+								           {name: 'sname'},
+								           {name: 'Rule_id'},
+								           {name: 'Rule_name'},
+								           {name: 'Matching_time'},
+								           {name: 'Net_ending_ip'},
+								           {name: 'Net_ending_code'},
+								           {name: 'Net_ending_mac'},
+								           {name: 'Destination_ip'},
+								           {name: 'Service_type'},
+								           {name: 'KeyWord1'},
+								           {name: 'KeyWord2'},
+								           {name: 'KeyWord3'},
+								           {name: 'Customer_name'},
+								           {name: 'Certificate_type'},
+								           {name: 'Certificate_code'},
+								           {name: 'Rule_type'},
+								           {name: 'cacontenturl'},
+								           {name: 'caupdateflag'}
+								        ]
+								     });
+								     
+								
+								    realidAlertlistxtzystore.load({params:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:myanjian_id,start:0,limit:pagesize}});
+								
+								    var realidAlertlistpagingBar = new Ext.PagingToolbar({
+								        pageSize: pagesize,
+								        store: realidAlertlistxtzystore,
+								        displayInfo: true,
+								        displayMsg: '显示 {0} - {1} 共 {2}',
+								        emptyMsg: "没有数据",
+												items:[
+								            '-','每页',this.inputItem = new Ext.form.NumberField({ 
+								    cls: 'x-tbar-page-number', 
+								    allowDecimals: false, 
+								    allowNegative: false, 
+								    enableKeyEvents: true,
+								    value: pagesize,
+								    maxValue: 500, 
+								    maxText: '每页不允许超过500条', 
+								    selectOnFocus: true, 
+								    submitValue: false,
+								    listeners: { 
+								        scope: this, 
+								        keydown: function(field, e){ 
+									        if(field.isValid()){ 
+									            var k = e.getKey(); 
+									             if (k == e.RETURN) { 
+									                    e.stopEvent(); 
+									                    pagesize = field.getValue(); 
+									                    realidAlertlistxtzystore.load({params:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:myanjian_id,start:0,limit:pagesize}});
+									             } 
+									        } 
+								        }, 
+								        blur: function(field){
+									        if(field.isValid()){
+									            pagesize = field.getValue(); 
+									            realidAlertlistxtzystore.load({params:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:myanjian_id,start:0,limit:pagesize}}); 
+									        } 
+								        }
+								    }}),
+								    '条','-', {
+								            //pressed: true,
+								            icon: '/msas/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn,pressed){
+								                downloadViewDataActive(xtzygrid);
+								            }
+								        },'-']
+								    });
+								   
+								    var realidAlertlistxtzygrid = new Ext.grid.GridPanel({
+								        region:'center',
+								        store: realidAlertlistxtzystore,
+								        columns: [
+								            {id:'sname',header: "上网场所", width: 120, sortable: true, dataIndex: 'sname'},
+								            {header: "报警规则名称", width: 80, sortable: true, dataIndex: 'Rule_name'},
+								            {header: "上网ip",   width: 90, sortable: true,  dataIndex: 'Net_ending_ip'},
+								            {header: "mac地址",  width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+								            {header: "服务类型",  width: 80, sortable: true,  dataIndex: 'Service_type'},
+								            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+								            {header: "关键字2",  width: 90, sortable: true,  dataIndex: 'KeyWord2'},
+								            {header: "关键字3",  width: 80, sortable: true,  dataIndex: 'KeyWord3'}
+								        ],
+								        tbar: realidAlertlistpagingBar,
+								        stripeRows: true,
+								        autoExpandColumn: 'sname',
+								        width:280,
+								        height:screen.height-350,
+								        frame:true,
+										    collapsible:true,
+										    loadMask:{msg:'正在加载数据，请稍侯……'},
+										    draggable:true
+								    });
+                        
+                     var mywin =new  Ext.Window(
+							       {
+							                    id: 'realidAlertlistwin',
+							                    height: 400,
+							                    width: 500,
+												title:' 该策略所属案件的所有报警',
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    layout: 'fit',
+							                    items: realidAlertlistxtzygrid  
+							        }); 
+							        mywin.show(); 
+							        mywin.maximize(); 
+                    }
+                }
+							/*,{添加新的右键菜单}*/
+						]});
+						 xtzygrid.addListener('rowclick', rightClickFn); 
+						 function rightClickFn(client, rowIndex, e) 
+						 {
+						   rightClick.showAt(e.getXY()); 
+						   detailEl=  rowIndex;
+             } 
+					   var northPanelTop = new Ext.Panel({
+						    frame:true,
+						    region:'north',
+						    title:'策略信息',
+						    collapsible:true,
+						    contentEl:'north'
+						    });
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  north,
+									  xtzygrid
+									],
+					        renderTo: Ext.getBody()
+					    });			   
+			     myMask.hide();
+  });
+</SCRIPT>
+</HEAD>
+<BODY oncontextmenu="return false">
+<DIV id=north>
+
+</DIV>
+</BODY>
+</HTML>
+

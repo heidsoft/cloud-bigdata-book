@@ -1,0 +1,37 @@
+﻿[{
+        text:'网络对象',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'ltnetarealist',
+        leaf:true
+    },{
+        text:'端口属性',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'ltportinfolist',
+        leaf:true
+    },{
+        text:'系统参数',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'ltappFunction',
+        leaf:true
+    },{
+        text:'邮件分类',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'msamailGroup',
+        leaf:true
+    },{
+        text:'表单分类',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'msaformGroup',
+        leaf:true
+    },{
+        text:'时间服务',
+        iconCls: 'feed-icon',
+        cls:'feed',
+        id:'lttimesetting',
+        leaf:true
+}]

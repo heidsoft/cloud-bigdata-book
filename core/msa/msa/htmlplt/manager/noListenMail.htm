@@ -1,0 +1,391 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif'; 
+Ext.onReady(function(){ 
+
+	});
+</script>
+<script type="text/javascript">
+	var xtzystore;
+	function resetfun(){
+	listform.num.value="0";
+ 	listform.rname.value="";   
+ 	listform.mailfrom.value=""; 
+ 	listform.mailto.value="";  
+ 	listform.mailsub.value="";     
+	}
+	function addlistfun() {
+	var mynum=listform.num.value;     
+ 	var myrname=listform.rname.value;   
+ 	var mymailfrom=listform.mailfrom.value; 
+ 	var mymailto=listform.mailto.value;  
+ 	var mymailsub=listform.mailsub.value;  
+ 	var mymailcont=listform.mailcont.value; 
+ 	var mymailsize=listform.mailsize.value; 
+ 	var myattname=listform.attname.value; 
+ 	var myattsize=listform.attsize.value; 
+ 	var myflags=listform.flags.value;   
+ 	var mysflags=listform.sflags.value;   
+	var mysmail=listform.smail.value;    
+ 	var myrnum=listform.rnum.value;    
+ 	var mymaction=listform.maction.value;  
+	if(myrname=="")
+	{
+		alert("规则名称不能为空！");
+		listform.rname.focus();
+		return false;
+	}
+	if(mymailfrom=="")
+	{
+		alert("发件人不能为空！");
+		listform.mailfrom.focus();
+		return false;
+	}
+	if(mymailto=="")
+	{
+		alert("收件人不能为空！");
+		listform.mailto.focus();
+		return false;
+	}
+	if(mymailsub=="")
+	{
+		alert("域名不能为空！");
+		listform.mailsub.focus();
+		return false;
+	}
+	Ext.Ajax.request({
+			method : 'POST', 
+	    url:'/msa/main.xp', 
+	    success: function() 
+		  {
+		     alert("添加邮件监控成功!");
+		     xtzystore.load({params:{Fun:'ltmailfilterlist', start:0,limit:pagesize}});
+		     resetfun();
+      },
+	   failure : function() 
+	   {   
+		  	alert("添加邮件监控失败!"); 
+		    resetfun();
+	   },
+	params:{Fun:'ltmailfilteraction',num:mynum,rname:myrname,mailfrom:mymailfrom,mailto:mymailto,mailsub:mymailsub,mailcont:mymailcont,mailsize:mymailsize,attname:myattname,attsize:myattsize,flags:myflags,sflags:mysflags,smail:mysmail,rnum:myrnum,maction:mymaction}
+	
+	});
+}
+    var northPanel;
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+
+		var pagesize;
+		var havesearch;
+		pagesize=50;
+		havesearch=0;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+        xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'ltmailfilterlist'},
+        fields: [
+           {name: 'rid'},
+           {name: 'num'},
+           {name: 'rname'},
+           {name: 'mailfrom'},
+           {name: 'mailto'},
+           {name: 'mailsub'},
+           {name: 'mailcont'},
+           {name: 'mailsize'},
+           {name: 'attname'},
+           {name: 'attsize'},
+           {name: 'sflags'},
+           {name: 'flags'},
+           {name: 'smail'},
+           {name: 'rnum'},
+           {name: 'maction'}
+        ]
+    });
+    xtzystore.load({params:{Fun:'ltmailfilterlist', start:0,limit:pagesize}});
+       var pagingBar = new Ext.PagingToolbar({
+        pageSize: pagesize,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据",
+        items:[
+            '-','每页',this.inputItem = new Ext.form.NumberField({ 
+    cls: 'x-tbar-page-number', 
+    allowDecimals: false, 
+    allowNegative: false, 
+    enableKeyEvents: true,
+    value: pagesize,
+    maxValue: 500, 
+    maxText: '每页不允许超过500条', 
+    selectOnFocus: true, 
+    submitValue: false,
+    listeners: { 
+        scope: this, 
+        keydown: function(field, e){ 
+	        if(field.isValid()){ 
+	            var k = e.getKey(); 
+	             if (k == e.RETURN) { 
+	                    e.stopEvent(); 
+	                    pagesize = field.getValue();
+	                    if(havesearch==1){
+	                      xtzystore.load({params:{Fun:'ltmailfilterlist', start:0,limit:pagesize}});
+	                    }
+	             } 
+	        } 
+        }, 
+        blur: function(field){
+	        if(field.isValid()){
+	            pagesize = field.getValue();
+	            if(havesearch==1){
+	                      xtzystore.load({params:{Fun:'ltmailfilterlist', start:0,limit:pagesize}});
+	            }
+	        } 
+        }
+    }}),
+    '条','-', {
+            icon: '/msa/images/grid.png',
+            enableToggle:true,
+            text: '导出本页数据到Excel',
+            cls: 'x-btn-text-icon details',
+            toggleHandler: function(btn, pressed){
+                downloadViewDataActive(xtzygrid);
+            }
+        },'-']
+    });
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+            {header: "规则ID",width: 85, sortable: true,  dataIndex: 'rid'},
+            {header: "规则名称",  width: 95, sortable: true,  dataIndex: 'rname'},
+            {header: "收件人",  width: 95, sortable: true,  dataIndex: 'mailto'},
+            {header: "发件人",  width: 95, sortable: true,  dataIndex: 'mailfrom'},
+            {id:"mailsub",header: "域名",  width: 95, sortable: true,  dataIndex: 'mailsub'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'mailsub',
+        width:280,
+        height:screen.height-350,
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+    
+    var detailEl;
+	  var rightClick  = new Ext.menu.Menu({
+							id:'feeds-ctx',
+							items: [{
+								id:'delmailfilterlist',
+								iconCls:'load-icon',
+								text:'删除域名',
+								scope: this,
+								handler:function(){
+									var record = xtzygrid.getStore().getAt(detailEl);
+									var my_id=record.get("rid"); 
+									var deflag=1;
+									  Ext.MessageBox.confirm('提示','你确定要删除此邮件监控吗？',function(button,text)
+									  {
+											if(button=="yes")
+											{
+												Ext.Ajax.request
+												({
+													url:'/msa/main.xp',
+													params:{Fun:'ltmailfilterlist',deflag:'1',rid:my_id,start:0,limit:pagesize},
+													success:function(response,options){
+															var retxt=response.responseText;
+                              if(retxt==0){
+															   Ext.MessageBox.alert('提示','域名删除成功!');
+		                             xtzystore.load({params:{Fun:'ltmailfilterlist', start:0,limit:pagesize}});
+                              }else{
+                                 Ext.MessageBox.alert('提示','域名删除失败!');
+                              }
+													},
+													failure:function(){
+                                 Ext.MessageBox.alert('提示','域名删除失败!');}
+												});		    
+												 xtzystore.load({params:{Fun:'ltmailfilterlist',start:0,limit:pagesize}});
+									    }
+									   });
+								}
+							},{
+                    id:'Editormailfilterlist',
+                    iconCls:'load-icon',
+                    text:'编辑域名',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("rid");
+                        var mywin =new  Ext.Window(
+							          {
+		                    id: 'east-panel',
+		                    title: '编辑域名',
+		                    height: 550,
+		                    width: 700,
+		                    closeAction: 'close',
+		                    modal: 'true',
+		                    maximizable:'true',
+		                    margins:'0 5 0 0',
+		                    html: "<IFRAME  name='menufrm' width=100% height=100% SRC = '/msa/main.xp?Fun=msaShowMail&my_id=" +myid + "'></iframe>"
+							          });
+							          mywin.show();
+							          mywin.maximize();
+                    }
+                }
+							/*,{添加新的右键菜单}*/
+						]});
+						 xtzygrid.addListener('rowclick', rightClickFn); 
+						 function rightClickFn(client, rowIndex, e) 
+						 {
+						   rightClick.showAt(e.getXY()); 
+						   detailEl=  rowIndex;
+             }  
+             
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  {
+                    region:'north',
+                    contentEl: 'north',
+                    split:true,
+                    height: 130,
+                    minSize: 100,
+                    maxSize: 300,
+                    collapsible: true,
+                    title:'邮件监控告警过滤规则',
+                    margins:'0 0 0 0'
+                   },xtzygrid
+									],
+					        renderTo: Ext.getBody()
+					    });
+			     myMask.hide();
+  });
+ function fff() { 
+	if(document.all.a1.value==0){
+	document.all.b1.style.display="none"
+	listform.smail.value="";
+	}else if(document.all.a1.value==1||document.all.a1.value==2){
+	document.all.b1.style.display=""
+	}
+}
+	</SCRIPT>
+</HEAD>
+<BODY  oncontextmenu="return false">
+<DIV id=north>
+<form id="listform"  name="listform" method="post" action="/msa/main.xp">
+	<input type="hidden" name="mailcont" value="-">
+	<input type="hidden" name="mailsize" value="100">
+	<input type="hidden" name="attname" value="-">
+	<input type="hidden" name="attsize" value="50">
+	<input type="hidden" name="flags" value="0">
+	<input type="hidden" name="rnum" value="50">
+	<input type="hidden" name="maction" value="0">
+	<input type="hidden" name="sflags" value="0">
+	<input type="hidden" name="smail" value="">
+  <table width="513" border="0" cellspacing="0" align="center" > 
+      <tr> 
+	      <td align="right" width="161" height="26">执行序号</td>
+	      <td height="26"> 
+	      	<select name="num" class=inputsel >
+					 	<option value="0" > 0
+					 	<option value="1" > 1
+					 	<option value="2" > 2
+					 	<option value="3" > 3
+					 	<option value="4" > 4
+					 	<option value="5" > 5
+					 	<option value="6" > 6
+					 	<option value="7" > 7
+					 	<option value="8" > 8
+					 	<option value="9" > 9
+					 	<option value="10" > 10
+					 	<option value="11" > 11
+					 	<option value="12" > 12
+					 	<option value="13" > 13
+					 	<option value="14" > 14
+					 	<option value="15" > 15
+					 	<option value="16" > 16
+					 	<option value="17" > 17
+					 	<option value="18" > 18
+					 	<option value="19" > 19
+					 	<option value="20" > 20
+					 	<option value="21" > 21
+					 	<option value="22" > 22
+					 	<option value="23" > 23
+					 	<option value="24" > 24
+					 	<option value="25" > 25
+					 	<option value="26" > 26
+					 	<option value="27" > 27
+					 	<option value="28" > 28
+					 	<option value="29" > 29
+					 	<option value="30" > 30
+					 	<option value="31" > 31
+					 	<option value="32" > 32
+		      </select>
+	      </td>
+	      
+	      <td align="right" width="161" height="26">规则名称</td>
+	      <td height="26"> 
+	        <input type="text" class=input name="rname" value="">
+	      </td>
+     </tr>
+    <tr> 
+	      <td align="right" width="161" height="26">发件人</td>
+	      <td height="26"> 
+	        <input type="text"  class=input name="mailfrom" value="">
+	      </td>
+	      <td align="right" width="161" height="26">收件人</td>
+	      <td height="26"> 
+	        <input type="text"  class=input name="mailto" value="">
+	      </td>
+    <tr> 
+    <tr> 
+	      <td align="right" width="161" height="26">域名</td>
+	      <td height="26"> 
+	        <input type="text"  class=input name="mailsub" value="">
+	      </td>
+	      <td align="right" width="161" height="26">&nbsp;</td>
+	      <td height="26"> 
+	        &nbsp;
+	      </td>
+     </tr>
+    <tr> 
+	      <td>&nbsp;</td>
+        <td>&nbsp;</td>
+	      <td align="right" colspan="2"> 
+        <input type="button" class=inputf0 name="add"  value="添加" onClick="addlistfun()" style="cursor: hand" >
+	      &nbsp;&nbsp;<input type="button" class=inputf0 name="reset"  value="重置" onClick="resetfun()" style="cursor: hand" >
+	      </td>
+    </tr>
+  </table>
+</form>
+</DIV>
+</BODY>
+</HTML>

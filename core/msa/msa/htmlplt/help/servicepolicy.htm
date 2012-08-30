@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="帮助文档" />
+<meta name="keywords" content="文档中心" />
+<title>帮助中心</title>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+		  #header A:visited{color:white}
+    	#header A:link{color:white}
+    	#header A:hover{color:white}
+</style>
+</head>
+<body id="docs">
+<div id="welcome">
+    <div class="col">
+        <div id="text" style="line-height:1.5em;">
+                   
+            <div id="search">
+            </div>
+
+            <h2>1.功能概况</h2>
+            <p>
+ 								可以设置用户的上网权限，包括服务权限规则、静态防火墙规则和批量添加用户属性设置规则。
+            </p>
+            <h2>2. 使用帮助</h2>
+            <pre>
+ a.)添加规则。
+   i)添加服务权限规则。注意：系统的默认策略是全部允许通过。
+     a)添加一个服务规则，新建规则时只需选择基本信息，需要制定详细服务
+     规则时在修改规则时调整。
+     b)一条规则可以对应多个服务策略。
+     c)这里的规则可以对应URL、目的和源IP、策略组、部门和单独用户或部门。
+     d)服务权限规则中对应源IP， 策略组，部门和用户之间是或关系，满足一个即算满足。
+     e)对应的url和服务之间也是或关系，满足之一即可。
+     f)在url和服务阻断中临时阻断该用户一段时间的意思是阻断满足条件情况下
+     阻断该用户所有服务一段时间。
+     g)虽然产品可以针对部门、人员等建策略，但是我们建议最好的办法是按照策
+     略组去规划权限，在账号管理中心中把人属于不同策略即可，这在长期运行和
+     复杂权限规划中会减少很多问题。
+     h)在服务策略中的qos通道是共享的，即满足条件的所有链接共享该通道。
+   ii)静态防火墙规则。
+     a)添加一个防火墙规则，可以选择QOS，IP地址段，端口范围等参数。
+   iii)用户属性规则。
+     a)添加一个用户属性规则，批量应用到一个部门或者一个策略组里。避免添加相同属性的多个用户过程的相同操作。
+     b)在用户属性规则中的qos通道是专享的，即满足条件的用户每人走一个该通道。
+ b.)应用规则注意点。
+   i)规则在应用前是不生效的。
+   ii)可以同时存在多条规则，优先级别高(位置靠上的)的有优先权。
+ c.)调整优先级别。
+   i)点击向上向下箭头调整规则优先级别。
+   ii)调整完成后应用下规则。
+            </pre>
+            <h2>3. 常见问题</h2>
+            <pre>
+ a)阻断下载的问题：现在网络中下载手段俞来愈多，包括p2p下载，http下载，多进程下载...,
+   要想对下载做严格的管理，需要多个手段综合应用；必要时对其他服务作适当的流控。
+ b)搜索关键字阻断：由于常用搜索引擎都是采用GET方式搜索的，可以采用url方式进行阻断。
+ 比如想阻断百度的'色情'搜索，在url中输入[baidu/色情]即可,如果仅仅输入[/色情]，则代表
+ 全部网站的色情搜索，由于不同网站可能采用utf8编码，在设置时候需要输入2次，一次不选择
+ utf8编码，一次选择utf8编码。
+ c)如果建立多条规则，新建立了qos通道等，为了确保生效，避免没有应用通道，可以采用软件
+ 重启来应用所有规则和通道。
+            </pre>
+        </div>
+    </div>
+<iframe id="frm1" width="0" height="0" style='display:"none"'></iframe>
+  </body>
+</html>

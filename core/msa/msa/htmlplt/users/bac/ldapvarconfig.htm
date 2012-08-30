@@ -1,0 +1,366 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+
+function update() {
+  listform.action.value="1";
+	listform.submit();
+}
+
+function update0() {
+  listform.action.value="0";
+	listform.submit();
+}
+
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+
+Ext.onReady(function(){
+	
+						Ext.QuickTips.init();
+
+						var detailEl;
+						var mainViewEl;
+						
+						var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+						myMask.show();
+           
+						 var treepan=new Ext.tree.TreePanel({
+										    	  id: 'tree-panel',
+										        region:'center',
+										        split: true,
+										        useArrows:true,
+										        title: 'LDAP结构列表',
+										        autoScroll: true,
+										        rootVisible: false,
+										        lines: false,
+										        useArrows: true,
+										        loader: new Ext.tree.TreeLoader({
+										            dataUrl:'/msa/main.xp?Fun=ltldaptree',
+																baseParams:{Fun:'ltldaptree'} 
+										        }),
+										        root: new Ext.tree.AsyncTreeNode()
+						});
+					  
+					 
+					   var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'shanchubaogao',
+                    iconCls:'load-icon',
+                    text:'同步全部用户',
+                    scope: this,
+                    handler:function(){
+                           Ext.MessageBox.show({
+																		msg: '正在同步中，这需要一段时间。。',
+																		progressText: 'waitting...',
+																		width:300,
+																		wait:true,
+																		waitConfig: {interval:500},
+																		icon:'ext-mb-download'
+														});
+														Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/msa/main.xp', 
+					                        success: function(response, options) { 
+																		Ext.MessageBox.hide();
+																		Ext.MessageBox.alert('提示',response.responseText); 
+					                        },
+					                        failure : function() {
+					                          Ext.MessageBox.hide();      
+					                         	Ext.MessageBox.alert('提示','同步失败！'); 
+                                  },
+ 					                        params:{
+	 					                        Fun:'nasinportldapuser'
+ 					                        } 
+														});  
+                    }
+                },{
+                    id:'chakan',
+                    iconCls:'load-icon',
+                    text:'同步本区域的用户',
+                    scope: this,
+                    handler:function(){
+                           Ext.MessageBox.show({
+																		msg: '正在同步中，这需要一段时间。。',
+																		progressText: 'waitting...',
+																		width:300,
+																		wait:true,
+																		waitConfig: {interval:500},
+																		icon:'ext-mb-download'
+														});
+														Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/msa/main.xp', 
+					                        success: function(response, options) { 
+																		Ext.MessageBox.hide();
+																		Ext.MessageBox.alert('提示',response.responseText); 
+					                        },
+					                        failure : function() {
+					                          Ext.MessageBox.hide();      
+					                         	Ext.MessageBox.alert('提示','同步失败！'); 
+                                  },
+ 					                        params:{
+	 					                        Fun:'nasinportldapuser',
+	 					                        bdn:detailEl
+ 					                        } 
+														}); 
+                    }
+                }]
+				     });
+                
+					  
+					 treepan.addListener('click', rightClickFn);
+					 treepan.addListener('contextmenu', rightClickFn);
+			     function rightClickFn(n,  e) {      
+					       if(!n.leaf ){
+								   detailEl=n.id;
+									 rightClick.showAt(e.getXY()); 
+					    	}
+			     }   
+
+					  
+						var westPanel ={
+                    width:400,
+                    minSize: 125,
+                    maxSize: 400,
+        						collapsible: true,
+        						cmargins:'0 0 0 0',
+						        lines:false,
+						        autoScroll:false,
+						        collapseFirst:false,
+								    layout: 'fit',
+						    	  id: 'layout-browser',
+						        region:'west',
+						        border: false,
+						        title: '参数配置',
+								    margins: '0 0 0 0',
+								    items: [{
+											el: 'north'
+										}],tbar: [{
+						            icon:'/msa/extjs/resources/images/default/tree/member.gif',
+						            iconCls:'drop-add',						            
+						            text:'保存参数并显示结构[<font color=red>注意大小写敏感</font>]',
+						            handler: function(){
+						               var myldaphost=listform.ldaphost.value;
+						               var myldapport=listform.ldapport.value;
+						               var myldapadmin=listform.ldapadmin.value;
+						               var myldappass=listform.ldappass.value;
+						               var myldapbasedn=listform.ldapbasedn.value;
+						               
+						               var myaccountfield=listform.accountfield.value;
+						               var mydispfield=listform.dispfield.value;
+						               var mypolicyfield=listform.policyfield.value;
+						               var myouobjectclass=listform.ouobjectclass.value;
+						               var myopobjectclass=listform.opobjectclass.value;
+						                
+						               var stopflag;
+						               
+						               stopflag=0;	               
+						               Ext.MessageBox.show({
+																		msg: '参数正在设置中和刷新中。。。。。。',
+																		progressText: 'waitting...',
+																		width:300,
+																		wait:true,
+																		waitConfig: {interval:500},
+																		icon:'ext-mb-download'
+														});
+														setTimeout(function(){
+																	            Ext.MessageBox.hide();
+														}, 5000); 
+														Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/msa/main.xp', 
+					                        success: function(response, options) { 
+																		if(stopflag==0){
+																		  treepan.getLoader().load(treepan.root);
+																			//Ext.MessageBox.hide();
+																		}
+																		stopflag=1;
+					                        },
+					                        failure : function() {
+					                          Ext.MessageBox.hide();      
+					                         	Ext.MessageBox.alert('提示','参数配置失败！'); 
+                                  },
+ 					                        params:{
+	 					                        Fun:'ltldapvarconfigok',
+	 					                        ldaphost:myldaphost,
+	 					                        ldapport:myldapport,
+	 					                        ldapadmin:myldapadmin,
+	 					                        ldappass:myldappass,
+	 					                        ldapbasedn:myldapbasedn,
+	 					                        accountfield:myaccountfield,
+	 					                        dispfield:mydispfield,
+	 					                        policyfield:mypolicyfield,
+	 					                        ouobjectclass:myouobjectclass,
+	 					                        opobjectclass:myopobjectclass
+ 					                        }  					                        
+														});   
+						    
+						            },
+						            scope: this
+						        },
+						    		{xtype:"tbfill"},{
+						            icon:'/images/table_refresh.png',
+						            iconCls:'drop-add',						            
+						            text:'刷新显示结构',
+						            handler: function(){
+														treepan.getLoader().load(treepan.root);
+												},
+						            scope: this
+						        }
+						    ]
+						};
+						
+					     new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  westPanel,
+										treepan
+									],
+					        renderTo: Ext.getBody()
+					    });
+             
+            myMask.hide();
+  });
+
+</SCRIPT>
+
+</head>
+<body bgcolor="#f0f0f0" text="#000000"  oncontextmenu="return false">
+
+<DIV id=north >
+
+<form name="listform" action="/main/main.xp" method="POST">
+<input type="hidden" name="Fun" value="">
+<table width="80%" border="0">
+  <tr> 
+    <td valign="top"> 
+
+       <table  border="0" align="left">
+    
+            <tr> 
+            <td >LDAP服务器IP：</td> 
+           </tr>
+           
+           <tr> 
+            <td ><input type="text" name="ldaphost" value="[$ldaphost$]"  class="inputf0" ></td>
+           </tr>
+           
+           <tr> 
+            <td >LDAP服务器port：[一般为389]</td> 
+           </tr>
+           
+           <tr> 
+            <td ><input type="text" name="ldapport" value="[$ldapport$]"  class="inputf0" ></td>
+           </tr>
+                 
+           <tr> 
+            <td >具备管理权限的帐号和密码：<br>
+            	[例:cn=Administrator,cn=users,dc=shanghai,dc=bctech]</td>
+           
+            </tr>
+            
+            <tr> 
+            <td ><input type="text"  name="ldapadmin" value="[$ldapadmin$]"  class="inputf0"  size=55 ></td>
+            
+            </tr>
+            
+            <tr> 
+            <td ><input type="password" name="ldappass" value="[$ldappass$]"  class="inputf0" ></td>
+           
+            </tr>
+            <tr> 
+            <td >基础管理范围（BaseDN）[例如:DC=shanghai,DC=bctech]：</td>
+            
+            </tr>
+            
+            <tr> 
+            <td ><input type="text" name="ldapbasedn"  size=40 value="[$ldapbasedn$]"  class="inputf0" ></td>
+           
+            </tr>
+            
+            <tr> 
+            <td>对应的显示名字段[一般为:cn]</td>
+           </tr>
+            
+           <tr> <td>
+               <input type="text" name="dispfield" value="[$dispfield$]"   class=inputf0  >
+           </td>
+          </tr>
+           <tr> 
+            <td>对应的账号字段[例如:sAMAccountName]</td>
+    
+           </tr>
+            
+           <tr> <td>
+               <input type="text" name="accountfield" value="[$accountfield$]"   class=inputf0  >
+           </td>
+          </tr>
+        
+					<tr> 
+            <td>对应的策略字段[不存在可不填]</td>
+    
+           </tr>
+            
+           <tr> <td>
+               <input type="text" name="policyfield" value="[$policyfield$]"   class=inputf0  >
+           </td>
+          </tr>
+          
+          <tr> 
+            <td></td>
+           
+           </tr>
+            
+           <tr> <td> 部门objectclass[一般为:organizationalUnit]</td> </tr>
+           
+          <tr>
+           	 <td>
+               <input type="text" name="ouobjectclass" value="[$ouobjectclass$]"   class=inputf0  >
+           </td>
+          </tr>
+          
+          <tr> 
+            <td> 用户objectclass[一般为:organizationalPerson]</td>
+        
+           </tr>
+            
+           <tr> <td>
+               <input type="text" name="opobjectclass" value="[$opobjectclass$]"   class=inputf0  >
+           </td>
+          </tr>
+           
+        </table>  
+    </td>
+  </tr>
+  
+</table>
+</form>
+</DIV>
+
+</body>
+</html>

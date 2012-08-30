@@ -1,0 +1,110 @@
+﻿<HTML><HEAD><TITLE>更新服务规则</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+	  Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+	  var historyStore;
+		function delKeyword() {
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.menufrm.location.href='/msa/main.xp?Fun=msaConfigKeyword';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","删除失败!");
+          },
+          params:{Fun:'msaConfigKeyword',
+          	Fun:'msaConfigKeyword',
+          	path:event.srcElement.name,
+          	delflag:'delflag'
+          }
+				});
+		}
+		function historyView(){
+			 //alert(historyStore.getCount());
+			 var i;
+			 var clickpath;
+			 var path;
+			 var date;
+			 var searchdate;
+			 var keyword;
+			 var startdate;
+			 var enddate;
+			 var searchtype;
+			 clickpath="\""+event.srcElement.name+"\"";
+			 for(i=0;i<historyStore.getCount();i++){
+				 	path=Ext.util.JSON.encode(historyStore.getAt(i).data.path);
+					if(path==clickpath){
+							date=Ext.util.JSON.encode(historyStore.getAt(i).data.date).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.date).length-1);
+						 	searchdate=Ext.util.JSON.encode(historyStore.getAt(i).data.searchdate).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.searchdate).length-1);
+						 	keyword=Ext.util.JSON.encode(historyStore.getAt(i).data.keyword).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.keyword).length-1);
+						 	startdate=Ext.util.JSON.encode(historyStore.getAt(i).data.startdate).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.startdate).length-1);
+						 	enddate=Ext.util.JSON.encode(historyStore.getAt(i).data.enddate).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.enddate).length-1);
+						 	searchtype=Ext.util.JSON.encode(historyStore.getAt(i).data.searchtype).substring(1,Ext.util.JSON.encode(historyStore.getAt(i).data.searchtype).length-1);
+							var url='/msa/main.xp?Fun=msaHistoryView+path='+event.srcElement.name+'+filedate='+date+'+searchdate='+searchdate+'+keyword='+keyword+'+stardate='+startdate+'+enddate='+enddate+'+type='+searchtype;
+							parent.parent.mainviewfrm.location.href=url;
+				 	}
+			 }
+		}
+    Ext.onReady(function(){
+					Ext.QuickTips.init();
+					historyStore = new Ext.data.SimpleStore({
+				      root: 'Results',
+			        totalProperty: 'totalCount',
+			        url:'/msa/main.xp',
+			        baseParams:{Fun:'historySearch'},
+				      fields: [							// text 路径 默认搜索日期 关键字	开始日期 结束日期	searchdate
+				         {name: 'text'},
+					       {name: 'path'},
+					       {name: 'date'},
+					       {name: 'keyword'},
+					       {name: 'startdate'},
+					       {name: 'enddate'},
+					       {name: 'searchdate'},
+					       {name: 'searchtype'}
+				      ]
+				 });
+				 historyStore.load();
+    });
+	</SCRIPT>
+</head>
+<body bgcolor="#FFFFFF" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mainviewdiv" valign="top" align="left" STYLE="position:absolute; top=30;z-index:1;">
+<table width="90%" border="1" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+	<tr>
+		<td width="30%" height="23"><span class="STYLE4">关键字</span></td>
+		<td width="10%">操作</td>
+	</tr>
+		[$begintable list$]
+    <tr>
+      <td width="30%">
+      	[$str$]
+      </td>
+      <td width="10%">
+          <input type='button' class=input size="32" onClick="delKeyword();" maxlength="20" name="[$path$]" value="删除" style="cursor: hand">
+          <input type='button' class=input size="32" onClick="historyView();" maxlength="20" name="[$path$]" value="查看" style="cursor: hand">
+        </td>
+    </tr>
+    [$endtable$]
+	</form>
+</table>
+</div>
+</body>
+</html>

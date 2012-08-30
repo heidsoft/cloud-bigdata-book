@@ -1,0 +1,403 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var intervaltime;
+		pagesize=100;
+    intervaltime=20;
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+						
+    var runner = new Ext.util.TaskRunner();
+
+    // create the data store
+
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaNowQosList'},
+        fields: [
+           {name: 'qosid'},
+           {name: 'srvname'},
+           {name: 'srvflowu', type: 'int'},
+           {name: 'flowbps'},
+           {name: 'flowp' },
+           {name: 'time', type: 'int'},
+           {name: 'daytime'},
+           {name: 'dayflowu', type: 'int'},
+           {name: 'dayflow'},
+           {name: 'upflow'},
+           {name: 'downflow'},
+           {name: 'lasttime'},
+           {name: 'srvlist'}
+        ],
+        sortInfo:{field: 'flowp', direction: "DESC"}
+    });
+ 
+
+    xtzystore.load();
+    // create the Grid
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '共{2}条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+    	   var pageSizeItems = [ 
+                     '-','每', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 300, 
+									    maxText: '不允许超过300秒', 
+									    selectOnFocus: true, 
+									    value: intervaltime, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlTimeKeyDown, 
+									        blur: this.onHlTimeBlur 
+									    } 
+                     }),'秒刷新','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+		         var userItems = this.items || []; 
+		         this.items = userItems.concat(pageSizeItems); 
+		         HlPagingToolbar.superclass.initComponent.call(this); 
+		    }, 
+		    onHlPagingKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    this.pageSize = field.getValue(); 
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh(); 
+		             } 
+		        } 
+		    }, 
+		    onHlPagingBlur: function(field){ 
+		        if(field.isValid()){ 
+		            this.pageSize = field.getValue(); 
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh(); 
+		        } 
+		    },
+		    onHlTimeKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    intervaltime = field.getValue(); 
+		                    runner.stopAll();
+												var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+												};
+												runner.start(task);
+		             } 
+		        } 
+		    }, 
+		    onHlTimeBlur: function(field){ 
+		        if(field.isValid()){ 
+		            intervaltime = field.getValue(); 
+		            runner.stopAll();
+                var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+								};
+								runner.start(task);
+		        } 
+		    }  
+		});
+    
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    function pctChange(val){
+        if(val > 0){
+            return val + '%';
+        }else if(val < 0){
+            return val + '%';
+        }
+        return val;
+    }
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        tbar: pagingBar,
+        columns: [
+            {id:'srvname',header: "通道名称",width: 80,sortable: true, dataIndex: 'srvname'},
+            {id:'sort',header: "速率bps",width: 80,sortable: true,   dataIndex: 'flowbps'},
+            {header: "占比",width: 70, sortable: true,  renderer: pctChange,  dataIndex: 'flowp'},
+            {header: "当天总流量",width: 80,sortable: true,   dataIndex: 'dayflow'},
+            {header: "上行流量",width: 80,sortable: true,   dataIndex: 'upflow'},
+            {header: "下行流量",width: 80,sortable: true,   dataIndex: 'downflow'},
+            {header: "访问时长",width: 80,sortable: true,   dataIndex: 'daytime'},
+            {header: "最后访问时间",width: 110,sortable: true,   dataIndex: 'lasttime'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'srvname',
+        width:(screen.width-200)*0.7,
+        height:screen.height-210,
+//        title:'QOS通道流量速率概况',
+		    collapsible:false,
+		    draggable:false
+    });
+    
+    xtzygrid.on('mouseover',function(e){//添加mouseover事件
+		  var index = xtzygrid.getView().findRowIndex(e.getTarget());//根据mouse所在的target可以取到列的位置	  
+		  if(index!==false){//当取到了正确的列时，（因为如果传入的target列没有取到的时候会返回false）
+					   var record = xtzygrid.getStore().getAt(index);//把这列的record取出来
+					   var gsrvlist=record.get("srvlist");
+					   if(gsrvlist==""){
+					   	return ;	
+					   }
+             //location.href= "/msa/main.xp?Fun=msaShowOnlineUser+srvid=" + srvid;
+						 //alert(response.responseText);
+					   var str = '<div style="width:130px;height:180px;font: normal 9px arial,helvetica,sans-serif;margin:1 !important;line-height:10px;padding:1;"><b class="menu-title">正使用服务列表速率bps<br></b>' + gsrvlist + '</div>';	   
+						 var rowEl = Ext.get(e.getTarget());//把target转换成Ext.Element对象
+						 rowEl.set({'ext:qtip':str },false);
+			}
+	  });
+    
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [
+                 {
+                    id:'useripcon',
+                    iconCls:'load-icon',
+                    text:'察看该通道详情',
+                    scope: this,
+                    handler:function(){
+
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var qosid=record.get("qosid");
+                        //location.href= '/msa/main.xp?Fun=msaQosDetail+qosid='+qosid;
+                        
+                        var mywin =new  Ext.Window(
+							          {
+							                    id: 'east-panel',
+							                    title: '虚拟通道服务详情',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                  //  html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=-1++group=-1+user="+ userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+							                  html: "<IFRAME  name='menufrm' width=100% height='100%' SRC = '/msa/main.xp?Fun=msaQosDetail+qosid="+ qosid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+											  });
+											  mywin.show();
+											  mywin.maximize();
+                        
+                    }
+                }]});
+                
+    xtzygrid.addListener('rowclick', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY());
+                detailEl=  rowIndex;
+    }
+    xtzygrid.addListener('rowcontextmenu', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY());
+                detailEl=  rowIndex;
+    }
+
+
+    var toolsClose = [{
+        id:'close',
+        handler: function(e, target, panel){
+        	  panel.hide();
+            //panel.ownerCt.remove(panel, true);
+        }
+     }];
+
+     var xtzyPanel1 = new Ext.Panel({
+			        title: '当前速率示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'srvflowu',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+		 });
+    
+
+		var xtzyPanel2 = new Ext.Panel({
+			        title: '当天总流量示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'dayflowu',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+		});
+		var xtzyPanel3 = new Ext.Panel({
+			        title: '当天时长示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'time',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+		});
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									id:'tree-xtzy-panel',
+								  layout:'table',
+									layoutConfig: {
+										columns: 2
+									},
+									defaults: {
+										bodyStyle:'valign:top'
+									},
+								  items: [{
+								      items:xtzygrid,
+								      height:screen.height-210,
+											rowspan: 3
+								    },{
+								      height:(screen.height-220)/3,
+								      width:(screen.width-200)*0.25,
+								      items:xtzyPanel1
+								    },{
+								    	height:(screen.height-220)/3,
+								      width:(screen.width-200)*0.25,
+										  items:xtzyPanel2
+										},{
+								    	height:(screen.height-220)/3,
+								      width:(screen.width-200)*0.25,
+										  items:xtzyPanel3
+										}],
+					        renderTo: Ext.getBody()
+					    });
+            
+
+						myMask.hide();
+						 
+            var task = {
+								run: function(){
+									 xtzystore.load();
+								},
+								interval: intervaltime*1000 // 每30秒一周期
+						};
+						
+						runner.start(task);
+  
+            
+  });
+  
+</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return false" >
+</BODY></HTML>

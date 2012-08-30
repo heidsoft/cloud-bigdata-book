@@ -1,0 +1,132 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+		function delurl() {
+				//alert(event.srcElement.id);
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.srvfrm.location.href='/msa/main.xp?Fun=msaEditip&ruleid=[$ruleid$]&table=nassrvruledip';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","删除失败!");
+          },          
+          params:{Fun:'msaEditip',ruleid:listform.ruleid.value,ipstart:event.srcElement.name,ipend:event.srcElement.id,delflag:'delflag',table:'nassrvruledip'}
+				});
+		}
+    function addip() {
+				if(listform.ipstart.value=="" ){
+					Ext.MessageBox.alert("提示","起始IP不能为空!");
+					listform.ipstart.focus();
+					return;
+				}
+				if(!(listform.ipstart.value=="")){
+					var mybip=listform.ipstart.value;
+				  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+				  var IP_flag=false;
+				  if(regIP.test(mybip)){
+					IP_flag = true;
+					}else{
+					IP_flag = false;
+					}
+					if (!IP_flag){
+					  Ext.MessageBox.alert("提示","起始ip地址格式错误!");
+						listform.ipstart.focus();
+						listform.ipstart.select();
+					  return false;
+					}
+				}
+				if(listform.ipend.value=="" ){
+					Ext.MessageBox.alert("提示","结束IP不能为空!");
+					listform.ipend.focus();
+					return;
+				}
+				if(!(listform.ipend.value=="")){
+					var myeip=listform.ipend.value;
+				  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+				  var IP_flag=false;
+				  if(regIP.test(myeip)){
+					IP_flag = true;
+					}else{
+					IP_flag = false;
+					}
+					if (!IP_flag){
+					  Ext.MessageBox.alert("提示","结束ip地址格式错误!");
+						listform.ipend.focus();
+						listform.ipend.select();
+					  return false;
+					}
+				}
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+		      	parent.srvfrm.location.href='/msa/main.xp?Fun=msaEditip&ruleid=[$ruleid$]&table=nassrvruledip';
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","添加失败!");
+          },
+          params:{Fun:'msaEditip',ruleid:listform.ruleid.value,ipstart:listform.ipstart.value,ipend:listform.ipend.value,addflag:'addflag',table:'nassrvruledip'}
+				});
+		}
+	</SCRIPT>
+</head>
+<body  oncontextmenu="return false"  bgcolor="#FFFFFF" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mainviewdiv" valign="top" align="left" STYLE="position:absolute; top=5; left=5; z-index:1;">
+<table width="90%" border="1" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+  <form name="listform" method="POST">
+  <input type="hidden" name="ruleid" value="[$ruleid$]">
+	<tr>
+		<td width="20%" height="23"><span class="STYLE4">起始IP</span></td>
+		<td width="20%" height="23"><span class="STYLE4">终止IP</span></td>
+		<td width="10%">操作</td>
+	</tr>
+		[$begintable list$]
+    <tr>
+      <td width="20%">
+      	[$ipstart$]
+      </td>
+      <td width="20%">
+      	[$ipend$]
+      </td>
+      <td width="10%">
+          <input type='button' class=input size="32" onClick="delurl();" maxlength="20" name="[$ipstart$]" id="[$ipend$]" value="删除" style="cursor: hand">
+      </td>
+    </tr>
+    [$endtable$]
+	<tr>
+		<td width="20%">
+          <input type='text' name="ipstart" class=input size="30" maxlength="20" onClick="" value="">
+    </td>
+		<td width="20%">
+          <input type='text' name="ipend" class=input size="30" maxlength="20" onClick="" value="">
+    </td>
+		<td width="10%">
+          <input type='button' class=input onClick="addip();" size="20" maxlength="20" value="添加" style="cursor: hand">
+    </td>
+	</tr>
+	</form>
+</table>
+</div>
+</body>
+</html>

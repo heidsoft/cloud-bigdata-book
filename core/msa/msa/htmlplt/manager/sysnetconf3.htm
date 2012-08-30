@@ -1,0 +1,379 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT LANGUAGE="JavaScript">
+function tabfun(){
+	if(listform.Lanchk1.checked==true){
+		document.getElementById("inLanA").disabled=false;
+		document.getElementById("outLanA").disabled=false;
+	}else{
+		document.getElementById("inLanA").disabled=true;
+		document.getElementById("outLanA").disabled=true;
+	}
+	if(listform.Lanchk2.checked==true){
+		document.getElementById("inLanB").disabled=false;
+		document.getElementById("outLanB").disabled=false;
+	}else{
+		document.getElementById("inLanB").disabled=true;
+		document.getElementById("outLanB").disabled=true;
+	}
+	if(listform.Lanchk3.checked==true){
+		document.getElementById("inLanC").disabled=false;
+		document.getElementById("outLanC").disabled=false;
+	}else{
+		document.getElementById("inLanC").disabled=true;
+		document.getElementById("outLanC").disabled=true;
+	}
+	if(listform.Lanchk4.checked==true){
+		document.getElementById("inLanD").disabled=false;
+		document.getElementById("outLanD").disabled=false;
+	}else{
+		document.getElementById("inLanD").disabled=true;
+		document.getElementById("outLanD").disabled=true;
+	}
+}
+function update() {
+	//listform.submit();		
+	  var myLanchk1,myLanchk2,myLanchk3,myLanchk4;
+	  if(listform.Lanchk1.checked==true){
+	  	myLanchk1=1;
+	  	if(listform.inLanA.value>=listform.nownum.value || listform.inLanA.value==-1||listform.outLanA.value>=listform.nownum.value || listform.outLanA.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk1=0;}
+	  if(listform.Lanchk2.checked==true){
+	  	myLanchk2=1;
+	  	if(listform.inLanB.value>=listform.nownum.value || listform.inLanB.value==-1||listform.outLanB.value>=listform.nownum.value || listform.outLanB.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk2=0;}
+	  if(listform.Lanchk3.checked==true){
+	  	myLanchk3=1;
+	  	if(listform.inLanC.value>=listform.nownum.value || listform.inLanC.value==-1||listform.outLanC.value>=listform.nownum.value || listform.outLanC.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk3=0;}
+	  if(listform.Lanchk4.checked==true){
+	  	myLanchk4=1;
+	  	if(listform.inLanD.value>=listform.nownum.value || listform.inLanD.value==-1||listform.outLanD.value>=listform.nownum.value || listform.outLanD.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk4=0;}
+    Ext.Ajax.request({
+		    method : 'POST', 
+		    url:'/msa/main.xp', 
+		    success: function() { 
+						Ext.MessageBox.alert('提示','四路网桥设置成功！'); 
+		    },
+		    failure: function() {     
+		     	Ext.MessageBox.alert('提示','四路网桥设置失败！'); 
+		    },
+		    params:{
+		      Fun:'ltsysnetconfok',actiontype:3,
+		      Lanchk1:myLanchk1,
+		      Lanchk2:myLanchk2,
+		      Lanchk3:myLanchk3,
+		      Lanchk4:myLanchk4,
+		      inLanA:listform.inLanA.value,
+		      outLanA:listform.outLanA.value,
+		      inLanB:listform.inLanB.value,
+		      outLanB:listform.outLanB.value,
+		      inLanC:listform.inLanC.value,
+		      outLanC:listform.outLanC.value,
+		      inLanD:listform.inLanD.value,
+		      outLanD:listform.outLanD.value,
+		      managerLan:listform.managerLan.value,
+		      managerIP:listform.managerIP.value,
+		      inmask:listform.inmask.value
+		    } 
+		});
+}
+</SCRIPT>
+
+<style type="text/css">
+<!--
+.unnamed1 {  width: 110px}
+-->
+</style>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" topmargin="2"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onLoad="tabfun()">
+<form name="listform" action="/msa/main.xp" method="POST">
+<input type="hidden" id="nownum" value="[$nownum$]">
+<table width="100%" border="0" height="100%">
+  <tr> 
+    <td valign="top"> 
+      <table>
+        <tr> 
+          <td>配置网络参数:四路网桥<font color="red">(不可配置空网口或未启用网口)</font></td>
+        </tr>
+      </table>
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td width="43%">
+		         <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk1" value="0" class="inputchk" [$Lanchk1chk$] onClick="tabfun()">启动网桥一</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口</td>
+				          <td width="25%"> 
+					          <select id="inLanA" name="inLanA" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$inLanA0sel$]>网口〇</option>
+										 	<option value="1"[$inLanA1sel$]>网口一</option>
+										 	<option value="2"[$inLanA2sel$]>网口二</option>
+										  <option value="3"[$inLanA3sel$]>网口三</option>
+										 	<option value="4"[$inLanA4sel$]>网口四</option>
+										 	<option value="5"[$inLanA5sel$]>网口五</option>
+										 	<option value="6"[$inLanA6sel$]>网口六</option>
+										  <option value="7"[$inLanA7sel$]>网口七</option>
+										 	<option value="8"[$inLanA8sel$]>网口八</option>
+										  <option value="9"[$inLanA9sel$]>网口九</option>
+					    	</select> 
+				          </td>
+				          <td width="20%">外网口</td>
+				          <td width="35%"> 
+					          <select id="outLanA" name="outLanA" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$outLanA0sel$]>网口〇</option>
+										 	<option value="1"[$outLanA1sel$]>网口一</option>
+										 	<option value="2"[$outLanA2sel$]>网口二</option>
+										  <option value="3"[$outLanA3sel$]>网口三</option>
+										 	<option value="4"[$outLanA4sel$]>网口四</option>
+										 	<option value="5"[$outLanA5sel$]>网口五</option>
+										 	<option value="6"[$outLanA6sel$]>网口六</option>
+										  <option value="7"[$outLanA7sel$]>网口七</option>
+										 	<option value="8"[$outLanA8sel$]>网口八</option>
+										  <option value="9"[$outLanA9sel$]>网口九</option>
+					      	</select>
+					      </td>
+				        </tr>
+		         </table>
+				  </fieldset>
+	 	      </td>
+			  </tr>
+			  <tr>
+		     	<td width="57%">
+		       <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk2" value="0" class="inputchk" [$Lanchk2chk$] onClick="tabfun()">启动网桥二</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口</td>
+				          <td width="25%">
+		          			 <select id="inLanB" name="inLanB" class=inputsel>
+		          			 	<option value="-1">转发网口</option>
+	                      <option value="0"[$inLanB0sel$]>网口〇</option>
+	                      <option value="1"[$inLanB1sel$]>网口一</option>
+	                      <option value="2"[$inLanB2sel$]>网口二</option>
+	                      <option value="3"[$inLanB3sel$]>网口三</option>
+	                      <option value="4"[$inLanB4sel$]>网口四</option>
+	                      <option value="5"[$inLanB5sel$]>网口五</option>
+	                      <option value="6"[$inLanB6sel$]>网口六</option>
+	                      <option value="7"[$inLanB7sel$]>网口七</option>
+	                      <option value="8"[$inLanB8sel$]>网口八</option>
+	                      <option value="9"[$inLanB9sel$]>网口九</option>
+	                    </select>
+                  </td>
+				          <td width="20%">外网口</td>
+				          <td width="35%"> 
+					          <select id="outLanB" name="outLanB" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$outLanB0sel$]>网口〇</option>
+										 	<option value="1"[$outLanB1sel$]>网口一</option>
+										 	<option value="2"[$outLanB2sel$]>网口二</option>
+										  <option value="3"[$outLanB3sel$]>网口三</option>
+										 	<option value="4"[$outLanB4sel$]>网口四</option>
+										 	<option value="5"[$outLanB5sel$]>网口五</option>
+										 	<option value="6"[$outLanB6sel$]>网口六</option>
+										  <option value="7"[$outLanB7sel$]>网口七</option>
+										 	<option value="8"[$outLanB8sel$]>网口八</option>
+										  <option value="9"[$outLanB9sel$]>网口九</option>
+					    	</select> 
+				          </td>
+				        </tr>
+				      </table>
+			      </fieldset>
+	 	     </td>
+		  </tr>
+		</table>
+				  
+		     	<table width="100%" border="0" align="center">
+			     	<tr>
+				     	<td width="42%">
+		         <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk3" value="0" class="inputchk" [$Lanchk3chk$] onClick="tabfun()">启动网桥三</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口</td>
+				          <td width="25%">
+				          	<select id="inLanC" name="inLanC" class=inputsel>
+	          					<option value="-1">转发网口</option>
+                      <option value="0"[$inLanC0sel$]>网口〇</option>
+                      <option value="1"[$inLanC1sel$]>网口一</option>
+                      <option value="2"[$inLanC2sel$]>网口二</option>
+                      <option value="3"[$inLanC3sel$]>网口三</option>
+                      <option value="4"[$inLanC4sel$]>网口四</option>
+                      <option value="5"[$inLanC5sel$]>网口五</option>
+                      <option value="6"[$inLanC6sel$]>网口六</option>
+                      <option value="7"[$inLanC7sel$]>网口七</option>
+                      <option value="8"[$inLanC8sel$]>网口八</option>
+                      <option value="9"[$inLanC9sel$]>网口九</option>
+                    </select></td>
+				          <td width="20%">外网口</td>
+				          <td width="35%"> 
+				          <select id="outLanC" name="outLanC" class=inputsel>
+				          	<option value="-1">转发网口</option>
+									 	<option value="0"[$outLanC0sel$]>网口〇</option>
+									 	<option value="1"[$outLanC1sel$]>网口一</option>
+									 	<option value="2"[$outLanC2sel$]>网口二</option>
+									  <option value="3"[$outLanC3sel$]>网口三</option>
+									 	<option value="4"[$outLanC4sel$]>网口四</option>
+									 	<option value="5"[$outLanC5sel$]>网口五</option>
+									 	<option value="6"[$outLanC6sel$]>网口六</option>
+									  <option value="7"[$outLanC7sel$]>网口七</option>
+									 	<option value="8"[$outLanC8sel$]>网口八</option>
+									  <option value="9"[$outLanC9sel$]>网口九</option>
+					      </select>
+					      </td>
+				        </tr>
+				      </table>
+				  </fieldset>
+	 	      </td>
+			  </tr>
+			  <tr>
+		     	<td width="58%">
+		         <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk4" value="0" class="inputchk"  [$Lanchk4chk$] onClick="tabfun()">启动网桥四</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="20%">内网口</td>
+				          <td width="25%">
+				          	<select id="inLanD" name="inLanD" class=inputsel>
+				          			<option value="-1">转发网口</option>
+                        <option value="0"[$inLanD0sel$]>网口〇</option>
+                        <option value="1"[$inLanD1sel$]>网口一</option>
+                        <option value="2"[$inLanD2sel$]>网口二</option>
+                        <option value="3"[$inLanD3sel$]>网口三</option>
+                        <option value="4"[$inLanD4sel$]>网口四</option>
+                        <option value="5"[$inLanD5sel$]>网口五</option>
+                        <option value="6"[$inLanD6sel$]>网口六</option>
+                        <option value="7"[$inLanD7sel$]>网口七</option>
+                        <option value="8"[$inLanD8sel$]>网口八</option>
+                        <option value="9"[$inLanD9sel$]>网口九</option>
+                    </select></td>
+				          <td width="20%">外网口</td>
+				          <td width="35%"> 
+					          <select id="outLanD" name="outLanD" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$outLanD0sel$]>网口〇</option>
+										 	<option value="1"[$outLanD1sel$]>网口一</option>
+										 	<option value="2"[$outLanD2sel$]>网口二</option>
+										  <option value="3"[$outLanD3sel$]>网口三</option>
+										 	<option value="4"[$outLanD4sel$]>网口四</option>
+										 	<option value="5"[$outLanD5sel$]>网口五</option>
+										 	<option value="6"[$outLanD6sel$]>网口六</option>
+										  <option value="7"[$outLanD7sel$]>网口七</option>
+										 	<option value="8"[$outLanD8sel$]>网口八</option>
+										  <option value="9"[$outLanD9sel$]>网口九</option>
+					      	</select>
+				      	  </td>
+				        </tr>
+		         </table>
+				  </fieldset>
+	 	      </td>
+		  </tr>
+		  </table>
+		  
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend>基本属性</legend> 
+		          <table width="100%" border="0" align="center">
+					        <tr> 
+					          <td width="20%">管理口</td>
+					          <td width="80%"> 
+					          <select id="managerLan" name="managerLan" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$managerLan0sel$]>网口〇</option>
+										 	<option value="1"[$managerLan1sel$]>网口一</option>
+										 	<option value="2"[$managerLan2sel$]>网口二</option>
+										  <option value="3"[$managerLan3sel$]>网口三</option>
+										 	<option value="4"[$managerLan4sel$]>网口四</option>
+										 	<option value="5"[$managerLan5sel$]>网口五</option>
+										 	<option value="6"[$managerLan6sel$]>网口六</option>
+										  <option value="7"[$managerLan7sel$]>网口七</option>
+										 	<option value="8"[$managerLan8sel$]>网口八</option>
+										  <option value="9"[$managerLan9sel$]>网口九</option>
+							    </select> 
+					          </td>
+					        </tr>
+		        
+					        <tr> 
+					          <td width="15%">管理IP：</td>
+					          <td width="25%"> 
+					          <input type="text" name="managerIP" value="[$managerIP$]"  class="input" >
+					          </td>
+					        </tr>
+					        
+					        <tr> 
+					          <td width="15%">子网掩码</td>
+					          <td width="55%"> 
+					             <input type="text" name="inmask" value="[$inmask$]"  class="input" >
+				              </td>
+					        </tr>
+			  	 </table>
+				  </fieldset>
+			  </td>
+		  </tr>
+		</table>
+     	<table width="96%" border="0" align="center">
+		    <tr>
+			<td>&nbsp;</td>
+			    <td align="right">
+	      		<input type="button" name="qd" value="保存配置"  class="input" onClick="update()">
+			  </td>
+		  </tr>
+		 </table>
+		  
+     	 <table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend>图例</legend> 
+		          <table width="100%" border="0" align="center">
+					        <tr> 
+					          <td width="25%"> 
+					          <img src="/msa/images/connect1tmp.jpg" width="768">	
+					          </td>
+					        </tr>
+			  	 </table>
+				  </fieldset>
+			  	</td>
+		  	</tr>
+		</table>
+    </td>
+  </tr>
+  
+</table>
+</form></body>
+</html>

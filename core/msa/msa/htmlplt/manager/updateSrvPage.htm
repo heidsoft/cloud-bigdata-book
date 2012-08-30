@@ -1,0 +1,186 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link 	href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css" type="text/css">
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<script type="text/javascript">
+ function savelistfun() {
+	var mysrvid=rid.value;
+	var mysrvname=srvname.value;
+	var mysrvdesc=srvdesc.value;
+	var mylevel=level.value;
+	var mydenytype=denytype.value;
+	
+	if(mysrvname=="")
+	{
+		Ext.MessageBox.alert("提示信息","服务名称不能为空");
+		srvname.focus();
+		return false;
+	}
+	
+	Ext.Ajax.request({
+		method : 'POST', 
+    url:'/msa/main.xp', 
+    success: function() 
+	  {
+	     	Ext.MessageBox.alert("提示信息","修改服务成功");
+    },
+    failure : function() 
+    {   
+    		Ext.MessageBox.alert("提示信息","修改服务失败");
+    },
+    params:{Fun:'ltsaveurlsort',srvid:mysrvid,denytype:mydenytype,srvname:mysrvname,srvdesc:mysrvdesc,level:mylevel,flag:1}
+  });
+ }
+ 
+  function resetlistfun() {
+	var mysrvid=rid.value;
+	
+	Ext.MessageBox.show({
+		msg: '正在初始化服务特征，请稍等...',
+		progressText: 'waitting...',
+		width:450,
+		wait:true,
+		waitConfig: {interval:1000},
+		icon:'ext-mb-download'
+	});
+	
+	Ext.Ajax.request({
+		method : 'POST', 
+    url:'/msa/main.xp', 
+    success: function(response, options) 
+	  {
+	  	var retxt=response.responseText;
+  	  if(retxt.substring(0,1)=="0"){
+  	  	Ext.MessageBox.alert('提示','服务特征初始化成功!');
+  	  }else{
+  	 	  Ext.MessageBox.alert('提示',"服务特征初始化失败!"); 
+  	  }
+	  },
+    failure : function() 
+    {   
+    		Ext.MessageBox.alert("提示信息","服务特征初始化失败");
+    },
+    params:{Fun:'ltreseturlsort',srvid:mysrvid,flag:1}
+  });
+ }
+ 
+</SCRIPT>
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+    Ext.onReady(function()
+    {
+	  		Ext.QuickTips.init();
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+				var myId=rid.value;
+				var mainPanel= {
+									id: 'main-panel',
+									region:'center',
+	                collapsible: false,
+	                split:true,
+	                layout:'fit',
+	                height:screen.height-300,
+	                margins:'0 5 0 0',
+	                draggable:false,
+	                items:
+	                    new Ext.TabPanel({
+	                        border:false,
+	                        activeTab:0,
+	                        items:[{
+                                title: '服务特征',
+                                autoScroll:false,
+										            html: "<IFRAME id='Typefrm' name='Typefrm' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=ltupdateurlType&my_id=" +myId + "'  border='0' frameborder='0' scrolling='yes'></iframe>"
+                            	},{
+														    title:'IP列表',
+														    collapsible:false,
+														    html: "<IFRAME id='IPfrm' name='IPfrm' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=msaUpdateIP&my_id=" +myId + "'  border='0' frameborder='0' scrolling='yes'></iframe>"
+												      },{
+														    title:'域名列表',
+														    collapsible:false,
+														    html: "<IFRAME id='Areafrm' name='Areafrm' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=msaUpdateArea&my_id=" +myId + "'  border='0' frameborder='0' scrolling='yes'></iframe>"
+														  }]
+	                    })
+	      }
+			  new Ext.Viewport({
+							layout: 'border',
+							items: [
+							 {
+	              region:'north',
+	              contentEl: 'north',
+	              split:true,
+	              height: 100,
+	              minSize: 100,
+	              maxSize: 300,
+	              collapsible: false,
+	              margins:'0 0 0 0'
+	             },mainPanel],
+			        renderTo: Ext.getBody()
+			  });		
+	      myMask.hide();
+  });  
+</SCRIPT>
+
+</HEAD>
+<BODY   oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+		<DIV id=north>
+			<input type="hidden"  name="rid" value="[$rid$]">
+				<CENTER>
+				   <TABLE id=FT cellSpacing=0 cellPadding=0 width="100%"  border=0>	
+				   		<tr>
+							  <td width="211" align="right">服务名称</td>
+							  <td><input type="text"  name="srvname" value="[$srvname$]" size="28" class="inputf0" ></td>
+							  <td>&nbsp;</td>
+							</tr>
+							<tr>
+							  <td width="211" align="right">服务描述</td>
+							  <td><input type="text"  name="srvdesc" value="[$srvdesc$]" size="28" class="inputf0" ></td>
+							  <td>&nbsp;</td>
+							</tr>
+					    <tr> 
+					      <td align="right">阻断形式</td>
+					      <td> 
+					        <select name="denytype" id="denytype"  class=inputself0  >
+					          <option value="0" [$denytype0sel$] >拒绝时阻断当前连接</option>
+					          <option value="1" [$denytype1sel$] >拒绝时阻断目标IP所有连接</option>
+					          <option value="2" [$denytype2sel$] >拒绝时临时锁定源地址两分钟</option>
+					        </select>
+					      </td>
+					      <td>&nbsp;</td>
+					    </tr>
+					    <tr> 
+					      <td align="right">服务危害级别</td>
+					      <td> 
+					        <select name="level" id="level"  class=inputself0  >
+					          <option value="0" [$level0sel$] >未构成危害</option>
+					          <option value="1" [$level1sel$] >★</option>
+					          <option value="2" [$level2sel$] >★ ★</option>
+					          <option value="3" [$level3sel$] >★ ★ ★</option>
+					          <option value="4" [$level4sel$] >★ ★ ★ ★</option>
+					          <option value="5" [$level5sel$] >★ ★ ★ ★ ★</option>
+					        </select>
+					      </td>
+					      <td><input type="button" onClick="savelistfun();"  value="保存/修改"  class=inputf0 size=10>
+					      &nbsp;&nbsp;<input type="button" onClick="resetlistfun();"  value="服务特征初始化"  class=inputf0 size=10>
+					      </td>
+					    </tr>
+				   </TABLE>
+				</CENTER>
+		</DIV>
+</BODY>
+</HTML>

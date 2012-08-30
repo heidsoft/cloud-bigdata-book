@@ -1,0 +1,348 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link href="/ext-ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+    var intervaltime;
+		pagesize=100;
+        intervaltime=20;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;						
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();					
+    var runner = new Ext.util.TaskRunner();
+    
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'msaToSrvRule',ruleid:'[$ruleid$]'},
+        fields: [
+           {name: 'srvname'},
+           {name: 'rflowu', type:'int'},
+           {name: 'strflowbps'},
+           {name: 'flowp' ,type:'float'},      
+           {name: 'daytime', type:'int'},
+           {name: 'strdaytime'},
+           {name: 'dayflow',type:'int'},
+           {name: 'strdayflow'},
+           {name: 'lasttime'}
+           
+        ]
+    });
+    xtzystore.load();
+    // create the Grid
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '共{2}条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+    	   var pageSizeItems = [ 
+                     '-','每', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 300, 
+									    maxText: '不允许超过300秒', 
+									    selectOnFocus: true, 
+									    value: intervaltime, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlTimeKeyDown, 
+									        blur: this.onHlTimeBlur 
+									    } 
+                     }),'秒刷新','-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+		         var userItems = this.items || []; 
+		         this.items = userItems.concat(pageSizeItems); 
+		         HlPagingToolbar.superclass.initComponent.call(this); 
+		    }, 
+		    onHlPagingKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    this.pageSize = field.getValue(); 
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh(); 
+		             } 
+		        } 
+		    }, 
+		    onHlPagingBlur: function(field){ 
+		        if(field.isValid()){ 
+		            this.pageSize = field.getValue(); 
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh(); 
+		        } 
+		    },
+		    onHlTimeKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    intervaltime = field.getValue(); 
+		                    runner.stopAll();
+												var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+												};
+												runner.start(task);
+		             } 
+		        } 
+		    }, 
+		    onHlTimeBlur: function(field){ 
+		        if(field.isValid()){ 
+		            intervaltime = field.getValue(); 
+		            runner.stopAll();
+                var task = {
+														run: function(){
+															 xtzystore.load();
+														},
+														interval: intervaltime*1000 // 每30秒一周期
+								};
+								runner.start(task);
+		        } 
+		    }  
+		});
+    
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    function pctChange(val){
+        if(val > 0){
+            return val + '%';
+        }else if(val < 0){
+            return val + '%';
+        }
+        return val;
+    }
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        tbar: pagingBar,
+        viewConfig:{forceFit: true, scrollOffset: 0},
+        columns: [
+            {id:'srvname',header: "服务名称", width: 70, sortable: true, dataIndex: 'srvname'},
+            {header: "当前速率bps", width: 70, sortable: true,   dataIndex: 'strflowbps'},
+            {header: "占比", width: 60, sortable: true,  renderer: pctChange,  dataIndex: 'flowp'},
+            {header: "当天总流量", width: 70, sortable: true,   dataIndex: 'strdayflow'},
+            {header: "访问时长", width: 70, sortable: true,   dataIndex: 'strdaytime'},
+            {header: "最后访问时间", width: 70, sortable: true,   dataIndex: 'lasttime'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'srvname',
+        width:(screen.width-200)*0.7,
+        height:screen.height-210,
+        title:'[$text$]策略通道服务策略详情',
+		    collapsible:true,
+		    draggable:true
+    });
+    
+    
+  var toolsClose = [{
+        id:'close',
+        handler: function(e, target, panel){
+        	  panel.hide();
+            //panel.ownerCt.remove(panel, true);
+        }
+     }];
+
+     var xtzyPanel1 = new Ext.Panel({
+			        title: '当前速率示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'rflowu',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+		 });
+    
+
+		var xtzyPanel2 = new Ext.Panel({
+			        title: '当天总流量示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'dayflow',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+			    });
+		var xtzyPanel3 = new Ext.Panel({
+			        title: '当天时长示意图',
+			        height:(screen.height-220)/3,
+			        width:(screen.width-200)*0.25,
+			        tools: toolsClose,
+			        frame:true,
+					    collapsible:false,
+					    draggable:false,
+					    items: {
+			            store: xtzystore,
+			            xtype: 'piechart',
+			            dataField: 'daytime',
+			            categoryField: 'srvname',
+			            //extra styles get applied to the chart defaults
+			            extraStyle:
+			            {
+			                legend:
+			                {
+			                    display: 'right',
+			                    padding: 5,
+			                    font:
+			                    {
+			                        family: 'Arial',
+			                        size: 6
+			                    }
+			                }
+			            }
+			        }
+			    });
+
+					  new Ext.Viewport({
+									id:'tree-xtzy-panel',
+								  layout:'table',
+									layoutConfig: {
+										columns: 2
+									},
+									defaults: {
+										bodyStyle:'valign:top'
+									},
+								  items: [{
+								        items:xtzygrid,
+								        height:screen.height-210,
+												rowspan: 3
+								    },{
+								        height:(screen.height-220)/3,
+								        width:(screen.width-200)*0.25,
+								        items:xtzyPanel1
+								    },{
+								    	height:(screen.height-220)/3,
+								    	width:(screen.width-200)*0.25,
+										  items:xtzyPanel2
+										},{
+								    	height:(screen.height-220)/3,
+								    	width:(screen.width-200)*0.25,
+										  items:xtzyPanel3
+										}],
+					        renderTo: Ext.getBody()
+					    });
+            
+
+						myMask.hide();
+						 
+            var task = {
+								run: function(){
+									 xtzystore.load();
+								},
+								interval: intervaltime*1000 // 每30秒一周期
+						};
+						
+						runner.start(task);
+  
+            
+  });
+  
+</SCRIPT>
+
+</HEAD>
+<BODY  oncontextmenu="return false" >
+
+
+</BODY></HTML>

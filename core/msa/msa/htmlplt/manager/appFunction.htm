@@ -1,0 +1,1237 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT><SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type="text/javascript">
+ function addlistfun() {
+	listform.submit();
+} 
+</SCRIPT>
+<SCRIPT type=text/javascript>
+ 
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif'; 
+Ext.onReady(function(){
+	var wing1;
+	var wing2;
+	var wing3;
+	var wing4;
+	var wing5;
+	var wing6;
+	var wing7;
+	//设置监视内容
+	var panel1 =new Ext.Panel({
+			layout:'fit',
+			height:500,
+			autoScroll: true,
+			contentEl:'additive1'
+	});
+	var button_1 = Ext.get('Service_1');
+	button_1.on('click', function(){
+		var myipmon;
+		var myhttpmon;
+		var myipreportmon;
+		var myhttpreportmon;
+		var mysmtpmon;
+		var myformmon;
+		var mypop3mon;
+		var myblockmon;
+		var myimmon;
+		var myfilemon;
+		var mysearchmon;
+		var myusermon;
+			if(!wing1){
+			wing1 = new Ext.Window({
+					title: '设置监视参数',
+					closeAction: 'hide',
+					width: 420,
+					height:360,
+					plain:true,
+					autoScroll:false,
+					items:panel1,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	                text: '保存参数',
+					   handler  : function(){
+					   	 myipmon=document.getElementById('ipmon');
+						   myhttpmon=document.getElementById('httpmon');
+						   myipreportmon=document.getElementById('ipreportmon');
+						   myhttpreportmon=document.getElementById('httpreportmon');
+						   mysmtpmon=document.getElementById('smtpmon');
+						   myformmon=document.getElementById('formmon');
+						   mypop3mon=document.getElementById('pop3mon');
+						   myblockmon=document.getElementById('blockmon');
+						   myimmon=document.getElementById('immon');
+						   myfilemon=document.getElementById('filemon');
+						   mysearchmon=document.getElementById('searchmon');
+						   myusermon=document.getElementById('usermon');
+					   	if(document.getElementById('ipmon').checked){myipmon=1;}else{myipmon=0;}
+					   	if(document.getElementById('httpmon').checked){myhttpmon=1;}else{myhttpmon=0;}
+					   	if(document.getElementById('ipreportmon').checked){myipreportmon=1;}else{myipreportmon=0;}
+					   	if(document.getElementById('httpreportmon').checked){myhttpreportmon=1;}else{myhttpreportmon=0;}
+					   	if(document.getElementById('smtpmon').checked){mysmtpmon=1;}else{mysmtpmon=0;}
+					   	if(document.getElementById('formmon').checked){myformmon=1;}else{myformmon=0;}
+					   	if(document.getElementById('pop3mon').checked){mypop3mon=1;}else{mypop3mon=0;}
+					   	if(document.getElementById('blockmon').checked){myblockmon=1;}else{myblockmon=0;}
+					   	if(document.getElementById('immon').checked){myimmon=1;}else{myimmon=0;}
+					   	if(document.getElementById('filemon').checked){myfilemon=1;}else{myfilemon=0;}
+					   	if(document.getElementById('searchmon').checked){mysearchmon=1;}else{mysearchmon=0;}
+					   	if(document.getElementById('usermon').checked){myusermon=1;}else{myusermon=0;}
+					   		   Ext.Ajax.request({
+										    method : 'POST', 
+										    url:'/msa/main.xp', 
+										    success: function() { 
+													Ext.MessageBox.alert('提示','设置监视参数成功！'); 
+										    },
+										    failure: function() {     
+										     	Ext.MessageBox.alert('提示','设置监视参数失败！'); 
+										    },
+										    params:{
+										      Fun:'ltappFunctionok',actiontype:3,
+										      ipmon:myipmon,
+										      httpmon:myhttpmon,
+										      ipreportmon:myipreportmon,
+										      httpreportmon:myhttpreportmon,
+										      smtpmon:mysmtpmon,
+										      formmon:myformmon,
+										      pop3mon:mypop3mon,
+										      blockmon:myblockmon,
+										      immon:myimmon,
+										      filemon:myfilemon,
+										      searchmon:mysearchmon,
+										      usermon:myusermon
+										    } 
+									});
+						wing1.hide();
+					}},{
+	                text: '取消',
+					     handler: function(){
+						     wing1.hide();
+					      }
+					   }
+					]
+				});
+			}
+			wing1.show();
+	});
+			
+	  //设置显示方式
+	var panel2 =new Ext.Panel({
+			layout:'fit',
+			height:300,
+			contentEl:'additive2'
+	});
+	var button_2 = Ext.get('Service_2');
+	button_2.on('click', function(){
+		var mynomondisk;
+		var myrecordkeepday;
+		var mymailkeepday;
+		var myaimkeepday;
+		var myvidkeepday;
+		var myuserkeepday;
+		var myformkeepday;
+		var myhistorykeepday;
+		var myloglevel;
+			if(!wing2){
+			wing2 = new Ext.Window({
+					title: '设置记录保存参数',
+					closeAction: 'hide',
+					width: 640,
+					height:240,
+					plain:true,
+					autoScroll:false,
+					items:panel2,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	             text: '保存',
+					     handler: function(){
+								mynomondisk=document.getElementById('nomondisk').value;
+								myrecordkeepday=document.getElementById('recordkeepday').value;
+								mymailkeepday=document.getElementById('mailkeepday').value;
+								myaimkeepday=document.getElementById('aimkeepday').value;
+								myformkeepday=document.getElementById('formkeepday').value;
+								myhistorykeepday=document.getElementById('historykeepday').value;
+								myvidkeepday=document.getElementById('vidkeepday').value;
+								myuserkeepday=document.getElementById('userkeepday').value;
+								myloglevel=document.getElementById('loglevel').value;
+								var regRate=/^[0-9]+([.]{1}[0-9]+){0,1}$/;
+								if(!(mynomondisk==""))
+								{
+								  if(regRate.test(mynomondisk)){
+									Rate_flag = true;
+									}else{
+									Rate_flag = false;
+									}
+									if (!Rate_flag){
+									  alert("对不起，存储比例格式错误！");
+										nomondisk.focus();
+										nomondisk.select();
+									  return false;
+									}
+								}
+					      Ext.Ajax.request({
+															    method : 'POST', 
+															    url:'/msa/main.xp', 
+															    success: function() { 
+																			Ext.MessageBox.alert('提示','记录参数设置成功！'); 
+															    },
+															    failure: function() {     
+															     	Ext.MessageBox.alert('提示','记录参数设置失败！'); 
+															    },
+															    params:{
+															      Fun:'ltappFunctionok',actiontype:4,       
+																		nomondisk:mynomondisk,           
+																		recordkeepday:myrecordkeepday,           
+																		mailkeepday:mymailkeepday,         
+																		aimkeepday:myaimkeepday,            
+																		formkeepday:myformkeepday,         
+																		historykeepday:myhistorykeepday,  
+																		vidkeepday:myvidkeepday,         
+																		userkeepday:myuserkeepday,     
+																		loglevel:myloglevel     
+															    } 
+								 });
+						     wing2.hide();
+					      }
+					      },{
+	                text: '取消',
+					     handler: function(){
+						     wing2.hide();
+					      }
+					      }]
+				});
+			}
+			wing2.show();
+	});
+	 	//设置功能参数
+	var panel3 =new Ext.Panel({
+			layout:'fit',
+			height:300,
+			autoScroll: false,
+			contentEl:'additive3'
+	});
+	var button_3 = Ext.get('Service_3');
+	button_3.on('click', function(){
+		var mysupportEmail;
+		var mysupportForm;
+		var myonlineusertype;
+		var mynoautoadduser;
+		var myattprev;
+		var mynopicblock;
+		var mydefaultuserflag;
+		var mygetuidfrommail;
+			if(!wing3){
+			wing3 = new Ext.Window({
+					title: '设置功能参数',
+					closeAction: 'hide',
+					width: 420,
+					height:300,
+					plain:true,
+					autoScroll:false,
+					items:panel3,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	                text: '保存设置',
+					   handler  : function(){
+							mydefaultuserflag=document.getElementById('defaultuserflag').value;
+					   	if(document.getElementById('onlineusertype').checked){myonlineusertype=1;}else{myonlineusertype=0;}
+					   	if(document.getElementById('noautoadduser').checked){mynoautoadduser=1;}else{mynoautoadduser=0;}
+					   	if(document.getElementById('attprev').checked){myattprev=1;}else{myattprev=0;}
+					   	if(document.getElementById('nopicblock').checked){mynopicblock=1;}else{mynopicblock=0;}
+					   	if(document.getElementById('getuidfrommail').checked){mygetuidfrommail=1;}else{mygetuidfrommail=0;}
+					   	 
+					   		   Ext.Ajax.request({
+										    method : 'POST', 
+										    url:'/msa/main.xp', 
+										    success: function() { 
+													Ext.MessageBox.alert('提示','功能参数设置成功！'); 
+										    },
+										    failure: function() {     
+										     	Ext.MessageBox.alert('提示','功能参数设置失败！'); 
+										    },
+										    params:{
+										      Fun:'ltappFunctionok',actiontype:1,
+										      onlineusertype:myonlineusertype,
+										      noautoadduser:mynoautoadduser,
+										      attprev:myattprev,
+										      nopicblock:mynopicblock,
+										      defaultuserflag:mydefaultuserflag,
+										      getuidfrommail:mygetuidfrommail
+										    } 
+										});
+						wing3.hide();
+					}},{
+	                text: '取消',
+					     handler: function(){
+						     wing3.hide();
+					      }
+					   }
+					]
+				});
+			}
+			wing3.show();
+	});
+	 	//设置限定参数
+	var panel4 =new Ext.Panel({
+			layout:'fit',
+			height:220,
+			autoScroll: true,
+			contentEl:'additive4'
+	});
+	var button_4 = Ext.get('Service_4');
+	button_4.on('click', function(){
+		var mymaxusertimeout;
+		var mymaxuseronlietime;
+		var myuserproccesstime;
+		var mymaxtcpsessiontimeout;
+		var mytcpproccesstime;
+		var mytimerate;
+		var myflowrate;
+			if(!wing4){
+			wing4 = new Ext.Window({
+					title: '设置系统参数',
+					closeAction: 'hide',
+					width: 640,
+					height:240,
+					plain:true,
+					autoScroll:false,
+					items:panel4,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	             text: '保存设置',
+					     handler: function(){
+					     	mymaxusertimeout=document.getElementById('maxusertimeout').value;
+					     	mymaxuseronlietime=document.getElementById('maxuseronlietime').value;
+					     	myuserproccesstime=document.getElementById('userproccesstime').value;
+					     	mymaxtcpsessiontimeout=document.getElementById('maxtcpsessiontimeout').value;
+					     	mytcpproccesstime=document.getElementById('tcpproccesstime').value;
+								mytimerate=document.getElementById('timerate').value;
+								myflowrate=document.getElementById('flowrate').value;
+								var regRate=/^[0-9]+([.]{1}[0-9]+){0,1}$/;
+								var Rate_flag=false;
+								if(!(mytimerate==""))
+								{
+								  if(regRate.test(mytimerate)){
+									Rate_flag = true;
+									}else{
+									Rate_flag = false;
+									}
+									if (!Rate_flag){
+									  alert("对不起，费率格式错误！");
+										timerate.focus();
+										timerate.select();
+									  return false;
+									}
+								}
+								if(!(myflowrate==""))
+								{
+								  if(regRate.test(myflowrate)){
+									Rate_flag = true;
+									}else{
+									Rate_flag = false;
+									}
+									if (!Rate_flag){
+									  alert("对不起，费率格式错误！");
+										flowrate.focus();
+										flowrate.select();
+									  return false;
+									}
+								}
+								
+               	Ext.Ajax.request({
+								    method : 'POST', 
+								    url:'/msa/main.xp', 
+								    success: function() { 
+												Ext.MessageBox.alert('提示','限定参数设置成功！'); 
+								    },
+								    failure: function() {     
+								     	Ext.MessageBox.alert('提示','限定参数设置失败！'); 
+								    },
+								    params:{
+								      Fun:'ltappFunctionok',actiontype:2,
+								      maxusertimeout:mymaxusertimeout,
+								      maxuseronlietime:mymaxuseronlietime,
+								      userproccesstime:myuserproccesstime, 
+								      maxtcpsessiontimeout:mymaxtcpsessiontimeout,
+								      tcpproccesstime:mytcpproccesstime,     
+											timerate:mytimerate,     
+											flowrate:myflowrate   
+								    } 
+								});
+						     wing4.hide();
+					      }
+					      },{
+	                text: '取消',
+					     handler: function(){
+						     wing4.hide();
+					      }
+					      }]
+				});
+			}
+			wing4.show();
+	});
+	 	//设置snmp参数
+	var panel5 =new Ext.Panel({
+			layout:'fit',
+			height:520,
+			autoScroll: false,
+			contentEl:'additive5'
+	});
+	var button_5 = Ext.get('Service_5');
+	button_5.on('click', function(){
+		var mysnmpebable;
+		var mysnmpcommunity,mysnmpsip,mysnmpoid,mysnmpv;
+		var mysnmpcommunity2,mysnmpsip2,mysnmpoid2,mysnmpv2;
+		var mysnmpcommunity3,mysnmpsip3,mysnmpoid3,mysnmpv3;
+		var mysnmpcommunity4,mysnmpsip4,mysnmpoid4,mysnmpv4;
+		var mysnmpcommunity5,mysnmpsip5,mysnmpoid5,mysnmpv5;
+		var mysnmpcommunity6,mysnmpsip6,mysnmpoid6,mysnmpv6;
+			if(!wing5){
+			wing5 = new Ext.Window({
+					title: '设置snmp参数',
+					closeAction: 'hide',
+					width: 650,
+					height:520,
+					plain:true,
+					autoScroll:false,
+					items:panel5,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	                text: '保存设置',
+					  handler  : function(){
+					   	if(document.getElementById('snmpebable').checked){mysnmpebable=1;}else{mysnmpebable=0;}
+							mysnmpcommunity=document.getElementById('snmpcommunity').value;
+							mysnmpsip=document.getElementById('snmpsip').value;      
+							mysnmpoid=document.getElementById('snmpoid').value;
+							mysnmpv=document.getElementById('snmpv').value;
+							
+							mysnmpcommunity2=document.getElementById('snmpcommunity2').value;
+							mysnmpsip2=document.getElementById('snmpsip2').value;      
+							mysnmpoid2=document.getElementById('snmpoid2').value;
+							mysnmpv2=document.getElementById('snmpv2').value;
+							
+							mysnmpcommunity3=document.getElementById('snmpcommunity3').value;
+							mysnmpsip3=document.getElementById('snmpsip3').value;      
+							mysnmpoid3=document.getElementById('snmpoid3').value;
+							mysnmpv3=document.getElementById('snmpv3').value;
+							
+							mysnmpcommunity4=document.getElementById('snmpcommunity4').value;
+							mysnmpsip4=document.getElementById('snmpsip4').value;      
+							mysnmpoid4=document.getElementById('snmpoid4').value;
+							mysnmpv4=document.getElementById('snmpv4').value;
+							
+							mysnmpcommunity5=document.getElementById('snmpcommunity5').value;
+							mysnmpsip5=document.getElementById('snmpsip5').value;      
+							mysnmpoid5=document.getElementById('snmpoid5').value;
+							mysnmpv5=document.getElementById('snmpv5').value;
+							
+							mysnmpcommunity6=document.getElementById('snmpcommunity6').value;
+							mysnmpsip6=document.getElementById('snmpsip6').value;      
+							mysnmpoid6=document.getElementById('snmpoid6').value;
+							mysnmpv6=document.getElementById('snmpv6').value;
+//					   	if(mysnmpsip==""||mysnmpsip2==""||mysnmpsip3==""||mysnmpsip4==""||mysnmpsip5==""||mysnmpsip6=="")
+//							{
+//								alert("SNMP1的服务IP地址不能为空！");
+//							  return false;
+//							}
+						  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+						  var IP_flag=false;
+							if(!(mysnmpsip==""))
+							{
+							  if(regIP.test(mysnmpsip)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip.focus();
+									snmpsip.select();
+								  return false;
+								}
+							}
+							if(!(mysnmpsip2==""))
+							{
+							  if(regIP.test(mysnmpsip2)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip2.focus();
+									snmpsip2.select();
+								  return false;
+								}
+							}
+							if(!(mysnmpsip3==""))
+							{
+							  if(regIP.test(mysnmpsip3)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip3.focus();
+									snmpsip3.select();
+								  return false;
+								}
+							}
+							if(!(mysnmpsip4==""))
+							{
+							  if(regIP.test(mysnmpsip4)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip4.focus();
+									snmpsip4.select();
+								  return false;
+								}
+							}
+							if(!(mysnmpsip5==""))
+							{
+							  if(regIP.test(mysnmpsip5)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip5.focus();
+									snmpsip5.select();
+								  return false;
+								}
+							}
+							if(!(mysnmpsip6==""))
+							{
+							  if(regIP.test(mysnmpsip6)){
+								IP_flag = true;
+								}else{
+								IP_flag = false;
+								}
+								if (!IP_flag){
+								  alert("对不起，ip地址格式错误！");
+									snmpsip6.focus();
+									snmpsip6.select();
+								  return false;
+								}
+							} 
+			   		  Ext.Ajax.request({
+								    method : 'POST', 
+								    url:'/msa/main.xp', 
+								    success: function() { 
+											Ext.MessageBox.alert('提示','功能参数设置成功！'); 
+								    },
+								    failure: function() {     
+								     	Ext.MessageBox.alert('提示','功能参数设置失败！'); 
+								    },
+								    params:{
+								      Fun:'ltappFunctionok',actiontype:5,
+								      snmpebable:mysnmpebable,
+								      snmpcommunity:mysnmpcommunity,
+								      snmpsip:mysnmpsip,
+								      snmpoid:mysnmpoid,
+								      snmpv:mysnmpv,
+								      snmpcommunity2:mysnmpcommunity2,
+								      snmpsip2:mysnmpsip2,
+								      snmpoid2:mysnmpoid2,
+								      snmpv2:mysnmpv2,
+								      snmpcommunity3:mysnmpcommunity3,
+								      snmpsip3:mysnmpsip3,
+								      snmpoid3:mysnmpoid3,
+								      snmpv3:mysnmpv3,
+								      snmpcommunity4:mysnmpcommunity4,
+								      snmpsip4:mysnmpsip4,
+								      snmpoid4:mysnmpoid4,
+								      snmpv4:mysnmpv4,
+								      snmpcommunity5:mysnmpcommunity5,
+								      snmpsip5:mysnmpsip5,
+								      snmpoid5:mysnmpoid5,
+								      snmpv5:mysnmpv5,
+								      snmpcommunity6:mysnmpcommunity6,
+								      snmpsip6:mysnmpsip6,
+								      snmpoid6:mysnmpoid6,
+								      snmpv6:mysnmpv6
+								    } 
+							});
+							wing5.hide();
+						}
+					},{
+	                text: '取消',
+					     handler: function(){
+						     wing5.hide();
+					     }
+					}
+					]
+				});
+			}
+			wing5.show();
+	});
+	 	//设置验证服务参数
+	var panel6 =new Ext.Panel({
+			layout:'fit',
+			height:300,
+			autoScroll: true,
+			contentEl:'additive6'
+	});
+	var button_6 = Ext.get('Service_6');
+	button_6.on('click', function(){
+		//var myauthport;
+		var mystrAuthIP;
+		var mystrAuthOKUrl;
+		var mystrAuthUrl;
+		var myauthoktype;
+		var mydenyUrl;
+		var mysupportTCP;
+		var mysupportUDP;
+			if(!wing6){
+			wing6 = new Ext.Window({
+					title: '设置验证服务参数',
+					closeAction: 'hide',
+					width: 640,
+					height:280,
+					plain:true,
+					autoScroll:false,
+					items:panel6,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	             text: '保存设置',
+					     handler: function(){
+					     	//myauthport=document.getElementById('authport').value;
+					     	mystrAuthIP=document.getElementById('strAuthIP').value;
+					     	
+					     	mystrAuthOKUrl=document.getElementById('strAuthOKUrl').value;
+					     	mystrAuthUrl=document.getElementById('strAuthUrl').value;
+					     	myauthoktype=document.getElementById('authoktype').value;
+
+						   	if(document.getElementById('supportTCP').checked){mysupportTCP=1;}else{mysupportTCP=0;}
+						   	if(document.getElementById('supportUDP').checked){mysupportUDP=1;}else{mysupportUDP=0;}
+					     	mydenyUrl=document.getElementById('denyUrl').value;
+					     	
+//					     	if(mystrAuthIP=="")
+//								{
+//									alert("验证服务IP地址不能为空！");
+//								  return false;
+//								}
+							  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+							  var IP_flag=false;
+								if(!(mystrAuthIP==""))
+								{
+								  if(regIP.test(mystrAuthIP)){
+									IP_flag = true;
+									}else{
+									IP_flag = false;
+									}
+									if (!IP_flag){
+									  alert("对不起，ip地址格式错误！");
+										strAuthIP.focus();
+										strAuthIP.select();
+									  return false;
+									}
+								}
+								
+								
+//								if(denyUrl.value=="" ){
+//									alert("第三方拒绝访问页面地址不能为空!");
+//									denyUrl.focus();
+//									return;
+//								}
+								if(!(denyUrl.value=="")){
+									var myurl=denyUrl.value;
+								  var regURL=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/;
+								  var URL_flag=false;
+								  if(regURL.test(myurl)){
+									URL_flag = true;
+									}else{
+									URL_flag = false;
+									}
+									if (!URL_flag){
+									  alert("对不起，URL地址格式错误！");
+										denyUrl.focus();
+										denyUrl.select();
+									  return false;
+									}
+								}
+					      Ext.Ajax.request({
+								    method : 'POST', 
+								    url:'/msa/main.xp', 
+								    success: function() { 
+												Ext.MessageBox.alert('提示','限定参数设置成功！'); 
+								    },
+								    failure: function() {     
+								     	Ext.MessageBox.alert('提示','限定参数设置失败！'); 
+								    },
+								    params:{
+								      Fun:'ltappFunctionok',actiontype:6,
+								      strAuthIP:mystrAuthIP,
+								      supportTCP:mysupportTCP,
+								      supportUDP:mysupportUDP,
+								      strAuthOKUrl:mystrAuthOKUrl,
+								      strAuthUrl:mystrAuthUrl,
+								      authoktype:myauthoktype,
+								      denyUrl:mydenyUrl
+								    } 
+								});
+						    wing6.hide();
+					     }
+					 },{
+	             text: '取消',
+					     handler: function(){
+						     wing6.hide();
+					     }
+					 }]
+				});
+			}
+			wing6.show();
+	});
+	 	//设置工作时间
+	var worktimepanelWIN;
+	var worktime = Ext.get('setWorkTime');
+	worktime.on('click', function(){
+			if(!worktimepanelWIN){
+				 worktimepanelWIN =new  Ext.Window({
+			                id: 'worktimepanelWIN',
+			                title: '设置工作时间',
+			                height: 450,
+			                width: 550,
+											frame:true,
+			                closeAction: 'hide',
+			                modal: 'true',
+			                maximizable:'true',
+			                margins:'0 5 0 0',
+			                html: "<IFRAME  name='worktime' width=100% height=100% SRC = '/msa/main.xp?Fun=msaSetWorkTime'></iframe>",
+			                buttons: [{
+						             text: '关闭窗口',
+										     handler: function(){
+											     worktimepanelWIN.hide();
+										     }
+										  }]
+				          });
+					worktimepanelWIN.show();
+					worktimepanelWIN.maximize();
+			}
+			worktimepanelWIN.show();
+			worktimepanelWIN.maximize();
+	});
+		 	//定制用户验证页面
+	var setuserWIN;
+	var setuser = Ext.get('setUser');
+	setuser.on('click', function(){
+			if(!setuserWIN){
+				setuserWIN =new  Ext.Window({
+			                id: 'setuserWIN',
+			                title: '自定义用户验证页面',
+			                height: 450,
+			                width: 550,
+											frame:true,
+			                closeAction: 'hide',
+			                modal: 'true',
+			                maximizable:'true',
+			                margins:'0 5 0 0',
+			                html: "<IFRAME  name='setuserinfo' width=100% height=100% SRC = '/msa/main.xp?Fun=msaSetUserinfo'></iframe>"
+				          });
+					setuserWIN.show();
+					//setuserWIN.maximize();
+			}
+			setuserWIN.show();
+	});
+	//设置登录参数
+	var panel7 =new Ext.Panel({
+			layout:'fit',
+			height:500,
+			autoScroll: true,
+			contentEl:'additive7'
+	});
+	var button_7 = Ext.get('Service_7');
+	button_7.on('click', function(){
+		var mylocktime;
+		var mylogpass;
+			if(!wing7){
+			wing7 = new Ext.Window({
+					title: '设置登录参数',
+					closeAction: 'hide',
+					width: 420,
+					height:200,
+					plain:true,
+					autoScroll:false,
+					items:panel7,
+					bodyStyle:'padding:5px;',
+					buttons: [{
+	                text: '保存参数',
+					   handler  : function(){
+					   	 mylocktime=document.getElementById('locktime').value;
+						   myideltime=document.getElementById('ideltime').value;
+					   		   Ext.Ajax.request({
+										    method : 'POST', 
+										    url:'/msa/main.xp', 
+										    success: function() { 
+													Ext.MessageBox.alert('提示','设置登录参数成功！'); 
+										    },
+										    failure: function() {     
+										     	Ext.MessageBox.alert('提示','设置登录参数失败！'); 
+										    },
+										    params:{
+										      Fun:'ltappFunctionok',actiontype:7,
+										      ideltime:myideltime,
+										      locktime:mylocktime
+										    } 
+									});
+						wing7.hide();
+					}},{
+	                text: '取消',
+					     handler: function(){
+						     wing7.hide();
+					      }
+					   }
+					]
+				});
+			}
+			wing7.show();
+	});
+});
+</SCRIPT>
+</head>
+<body  oncontextmenu="return false"  bgcolor="#ffffff" text="#000000"  leftmargin="1" topmargin="0">
+	<div id="mainviewdiv" valign="top" align="center" STYLE="position:absolute; top=30; left=30; z-index:1;">
+    <form name="listform">
+	<table width="768" align="center">
+		<tr> 
+      <td colspan="3">
+        <img src="/msa/images/tu15.gif" width="40" height="40" align="absmiddle">设置登录参数      
+      </td>
+    </tr>	
+    <tr>
+		  <td><input type="button" name="Service_7" id="Service_7" class="inputf0" border="0" value="设置登录参数" ></td>
+		  <td></td>
+		</tr>	
+		<tr> 
+        <td colspan="3">
+            <img src="/msa/images/tt1.gif" width="40" height="40" align="absmiddle">高级系统参数设定        </td>
+    </tr>  	
+    <tr>
+		  <td><input type="button" name="Service_4" id="Service_4" class="inputf0" border="0" value="设置系统参数" ></td>
+		  <td><input type="hidden" name="Service_3" id="Service_3" class="inputf0" border="0" value="设置功能参数" ></td>
+		</tr>	
+		<tr>
+		  <td><input type="hidden" name="Service_5" id="Service_5" class="inputf0" border="0" value="设置snmp配置参数" ></td>
+		  <td><input type="hidden" name="Service_6" id="Service_6" class="inputf0" border="0" value="设置验证服务参数" ></td>
+		</tr>
+		<tr> 
+      <td colspan="3">
+        <img src="/msa/images/tu3.gif" width="40" height="40" align="absmiddle">监视参数设定      </td>
+    </tr>	
+		<tr>
+			<td>
+				<input type="button" name="Service_2" id="Service_2" class="inputf0" border="0" value="设置记录保存参数" >
+			</td>
+			<td>
+				<input type="hidden" name="Service_1" id="Service_1" class="inputf0" border="0" value="设置监视内容参数" >
+			</td>
+		</tr>
+		<tr> 
+      <td colspan="3">
+        <!--<img src="/msa/images/warning.gif" width="40" height="40" align="absmiddle">其他参数设定 -->     
+      </td>
+    </tr>	
+		<tr>
+		  <td>
+		  	<input type="hidden" name="setWorkTime" id="setWorkTime" class="inputf0" border="0" value="设置工作时间" >
+		  </td>
+		  <td>
+		  	<input type="hidden" name="setUser" id="setUser" class="inputf0" border="0" value="自定义用户验证页面" >
+		  </td>
+		</tr>
+	</table>
+<div style='DISPLAY:none' additive><div id="additive7" >		
+<table height="100" border="0" align="left">
+	<input type="hidden" name="Encode64" class=inputsel value="0">
+    <tr>
+	  <td align=right>空闲超时时间(分)：</td>
+      <td align=left>
+        <input name='ideltime' type='text' value="[$ideltime$]" class="inputf0"/>
+      </td>
+	  </tr>
+	  <tr> 
+	  <td align=right>锁定登陆时间(分)：</td><td align=left>
+	  	<input type="text" id="locktime" name="locktime" value="[$locktime$]"  class="inputf0"/>
+	  </td>
+	  </tr>
+</table>			
+</div>	
+</div>
+<div style='DISPLAY:none' additive><div id="additive1" >		
+<table height="100" border="0" align="left">
+	  <tr> 
+	  <td><input type="checkbox" id="ipmon" name="ipmon" [$ipmonchk1$]>记录网络访问记录</td>
+	  </tr>
+    <tr>
+	  <td ><input type="checkbox" id="httpmon" name="httpmon" value="1" [$httpmonchk1$]>记录Http访问记录</td>
+	  </tr>
+	  <tr>
+		<td ><input type="checkbox" id="ipreportmon" name="ipreportmon" value="1"  [$ipreportmonchk1$]>记录服务汇总</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="httpreportmon" name="httpreportmon" value="1"  [$httpreportmonchk1$]>记录http汇总</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="smtpmon" name="smtpmon" value="1"  [$smtpmonchk1$]>监控SMTP邮件</td>
+	  </tr>
+	  <tr>
+    <td ><input type="checkbox" id="formmon" name="formmon" value="1"  [$formmonchk1$]>监控网页表单</td>
+	  </tr>
+	  <tr>
+		<td ><input type="checkbox" id="pop3mon" name="pop3mon" value="1"  [$pop3monchk1$]>监控POP3邮件</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="blockmon" name="blockmon" value="1"  [$blockmonchk1$]>记录拦截记录</td>
+	  </tr>
+		<tr> 
+    <td ><input type="checkbox" id="immon" name="immon" value="1"  [$immonchk1$]>监控即时通信</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="filemon" name="filemon" value="1"  [$filemonchk1$]>监控文件传输记录</td>
+	  </tr>
+	  <tr>
+    <td ><input type="checkbox" id="searchmon" name="searchmon" value="1"  [$searchmonchk1$]>监控搜索关键字</td>
+    </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="usermon" name="usermon" value="1"  [$usermonchk1$]>监控虚拟身份和轨迹</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  </tr> 
+</table>			
+</div>	
+</div>
+<div style='DISPLAY:none' additive><div id="additive2" >		
+<table height="100" border="0" align="center">
+		<tr> 
+    <td >超过这个存储比例后不再记录</td>
+    <td><input type="text" id="nomondisk" name="nomondisk" value="[$nomondisk$]"  class="inputf0"/>%</td>
+    </tr>
+    <tr>
+		<td >访问记录保存时间(DAY)</td>
+		<td ><input type="text" id="recordkeepday" name="recordkeepday" value="[$recordkeepday$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+	  <tr>
+		<td><!--邮件监控记录保存时间(DAY)--></td>
+		<td><input id="mailkeepday" name="mailkeepday" type="hidden" value="100" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+    <tr>
+	  <td><!--即时通信记录保存时间(DAY)--></td>
+		<td><input id="aimkeepday" name="aimkeepday" type="hidden" value="100" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+	  <tr>
+		<td><!--表单监控记录保存时间(DAY)--></td>
+		<td><input id="formkeepday" name="formkeepday" type="hidden" value="100" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+    <tr>
+	  <td>汇总数据保存时间(DAY)</td>
+		<td><input id="historykeepday" name="historykeepday" type="text" value="[$historykeepday$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+	  <tr>
+		<td><!--轨迹身份记录保存时间(DAY)--></td>
+		<td><input id="vckeepday" name="vidkeepday" type="hidden" value="[$vidkeepday$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+    <tr>
+	  <td><!--删除以下天数没有访问的账户(DAY)--></td>
+		<td><input id="userkeepday" name="userkeepday" type="hidden" value="[$userkeepday$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>
+	  <tr>
+		<td >审计记录记录级别1-5</td>
+		<td ><select id="loglevel" name="loglevel" class=inputsel>
+          <option value="1" [$loglevel1sel$] > 1:仅记录主域名访问</option>                     
+          <option value="2" [$loglevel2sel$] > 2:记录html访问</option> 
+          <option value="3" [$loglevel3sel$] > 3:记录上下流量都大于1K的访问</option> 
+          <option value="4" [$loglevel4sel$] > 4:记录上下流量大于1K的访问</option> 
+          <option value="5" [$loglevel5sel$] > 5:全部记录各条连接</option> 
+        </select>
+    </td>
+	  </tr>
+</table>			
+</div></div>
+<div style='DISPLAY:none' additive><div id="additive3" >		
+<table height="100" border="0" align="left">
+
+	  <tr>
+	  <td ><input type="checkbox" id="onlineusertype" name="onlineusertype" value="1"  [$onlineusertypechk1$]>无法同时在线踢出前一用户</td>
+	  </tr>
+	  <tr>
+    <td ><input type="checkbox" id="noautoadduser" name="noautoadduser" value="1"  [$noautoadduserchk1$]>默认禁止自动添加用户</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="attprev" name="attprev" value="1"  [$attprevchk1$]>启动特殊附件内容检索(DOC|PPT|XLS|PDF)</td>
+	  </tr>
+	  <tr>
+	  <td ><input type="checkbox" id="nopicblock" name="nopicblock" value="1"  [$nopicblockchk1$]>不阻断辅助图片或者辅助脚本</td>
+	  </tr> 
+	  <tr>
+	  <tr>
+	  <td ><input type="checkbox" id="getuidfrommail" name="getuidfrommail" value="1"  [$getuidfrommailchk1$] >在邮件归类时通过邮箱识别用户</td>
+	  </tr> 
+	  <tr>
+		<td >用户超量时默认状态
+			<select id="defaultuserflag" name="defaultuserflag" class=inputsel>
+          <option value="99" [$defaultuserflag99sel$] >免监控</option>                     
+          <option value="100" [$defaultuserflag100sel$] >禁止访问</option>  
+        </select>
+    </td>
+	  </tr>
+</table>			
+</div>	
+</div>
+<div style='DISPLAY:none' additive><div id="additive4" >		
+<table height="110" border="0" align="center">
+	  <tr>
+		<td >在线用户超时时间(秒)</td>
+		<td ><input name="maxusertimeout" type="text" id="maxusertimeout" value="[$maxusertimeout$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>(建议300-3600)</td>
+	  </tr>
+	  <tr>
+		<td >连接超时时间基数(秒)</td>
+		<td ><input name="maxtcpsessiontimeout" type="text" id="maxtcpsessiontimeout" value="[$maxtcpsessiontimeout$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>(建议30-900)</td>
+	  </tr>
+	  <tr>
+		<td>允许用户最长在线时间(秒)</td>
+		<td><input name="maxuseronlietime" type="text"  id="maxuseronlietime" value="[$maxuseronlietime$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>(建议0,无限制)</td>
+	  </tr>
+	  <tr>
+		<td>在线用户进程检查时间间隔(秒)</td>
+		<td><input name="userproccesstime" type="text" id="userproccesstime" value="[$userproccesstime$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>(建议30-300)</td>
+	  </tr>
+	  <tr>
+		<td>连接进程检查时间间隔基数(秒)</td>
+		<td><input name="tcpproccesstime" type="text" id="tcpproccesstime" value="[$tcpproccesstime$]" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>(建议30-300)</td>
+	  </tr>
+	  <tr>
+		<td><!--时间计费费率--></td>
+		<td><input name="timerate" type="hidden" id="timerate" value="0" class="inputf0"/><!--(元/小时)--></td>
+		</tr>
+	  <tr>
+		<td><!--流量计费费率--></td>
+		<td><input name="flowrate" type="hidden" id="flowrate" value="0" class="inputf0"/><!--(元/M)--></td>
+		</tr>
+</table>			
+</div>			
+</div>
+<div style='DISPLAY:none' additive><div id="additive5" >
+<table height="100" border="0" align="center">
+	<tr> 
+    <td>
+     <input type="checkbox" name="snmpebable" value="1" [$snmpebablechk1$]>启动SNMP学习功能,默认oid为[1.3.6.1.2.1.4.22.1.2]
+  	</td>
+    <td></td>
+	</tr>
+  <tr> 
+    <td>第一组SNMP信息</td>
+  </tr> 
+  <tr> 
+    <td>
+       	SNMP1的团体名[community]<input type="text" size=15 name="snmpcommunity"  class="input" value="[$snmpcommunity$]" > 
+    </td>
+    <td>
+       SNMP1的服务IP<input type="text" size=25 name="snmpsip"  class="input" value="[$snmpsip$]" > 
+    </td>
+  </tr>
+  
+  <tr> 
+    <td>
+       SNMP1的对象标示oid<input type="text" size=30 name="snmpoid"  class="input" value="[$snmpoid$]" > 
+    </td>
+  
+    <td>
+       SNMP1的版本<input type="text" size=4 name="snmpv"  class="input" value="[$snmpv$]" > 
+    </td>
+  </tr>
+  
+  <tr> 
+     <td>第二组SNMP信息</td>
+     <td>
+        <img src="/images/hr.gif" width="100%" height="2">
+     </td>
+  </tr>   
+  <tr> 
+		 <td>
+		     SNMP2的团体名[community]<input type="text" size=15 name="snmpcommunity2"  class="input" value="[$snmpcommunity2$]" > 
+		 </td>
+		 <td>
+		     SNMP2的服务IP<input type="text" size=25 name="snmpsip2"  class="input" value="[$snmpsip2$]" > 
+		 </td>
+  </tr>
+  <tr> 
+  <td>
+      SNMP2的对象标示oid<input type="text" size=30 name="snmpoid2"  class="input" value="[$snmpoid2$]" > 
+  </td>
+  <td>
+      SNMP2的版本<input type="text" size=4 name="snmpv2"  class="input" value="[$snmpv2$]" > 
+  </td>
+  </tr>
+  <tr> 
+		 <td>第三组SNMP信息</td>
+		 <td>
+        <img src="/images/hr.gif" width="100%" height="2">
+     </td>
+  </tr>   
+   
+  <tr> 
+     <td>
+        	SNMP3的团体名[community]<input type="text" size=15 name="snmpcommunity3"  class="input" value="[$snmpcommunity3$]" > 
+     </td>
+  
+     <td>
+        SNMP3的服务IP<input type="text" size=25 name="snmpsip3"  class="input" value="[$snmpsip3$]" > 
+     </td>
+  </tr>
+   
+  <tr> 
+     <td>
+        	SNMP3的对象标示oid<input type="text" size=30 name="snmpoid3"  class="input" value="[$snmpoid3$]" > 
+     </td>
+  
+     <td>
+        SNMP3的版本<input type="text" size=4 name="snmpv3"  class="input" value="[$snmpv3$]" > 
+     </td>
+  </tr>
+   
+  <tr> 
+     <td>
+        	第四组SNMP信息
+     </td>
+     
+     <td>
+        <img src="/images/hr.gif" width="100%" height="2">
+     </td>
+  </tr>   
+   
+  <tr> 
+     <td>
+        	SNMP4的团体名[community]<input type="text" size=15 name="snmpcommunity4"  class="input" value="[$snmpcommunity4$]" > 
+     </td>
+  
+     <td>
+        SNMP4的服务IP<input type="text" size=25 name="snmpsip4"  class="input" value="[$snmpsip4$]" > 
+     </td>
+   </tr>
+   
+   <tr> 
+       <td>
+        	SNMP4的对象标示oid<input type="text" size=30 name="snmpoid4"  class="input" value="[$snmpoid4$]" > 
+     </td>
+  
+     <td>
+        SNMP4的版本<input type="text" size=4 name="snmpv4"  class="input" value="[$snmpv4$]" > 
+     </td>
+   </tr>
+   
+        <tr> 
+     <td>
+        	第五组SNMP信息
+     </td>
+  
+     <td>
+        <img src="/images/hr.gif" width="100%" height="2">
+     </td>
+   </tr>   
+   
+     <tr> 
+     <td>
+        	SNMP5的团体名[community]<input type="text" size=15 name="snmpcommunity5"  class="input" value="[$snmpcommunity5$]" > 
+     </td>
+  
+     <td>
+        SNMP5的服务IP<input type="text" size=25 name="snmpsip5"  class="input" value="[$snmpsip5$]" > 
+     </td>
+   </tr>
+   
+   <tr> 
+       <td>
+        	SNMP5的对象标示oid<input type="text" size=30 name="snmpoid5"  class="input" value="[$snmpoid5$]" > 
+     </td>
+  
+     <td>
+        SNMP5的版本<input type="text" size=4 name="snmpv5"  class="input" value="[$snmpv5$]" > 
+     </td>
+   </tr>
+   
+   
+    <tr> 
+     <td>
+        	第六组SNMP信息
+     </td>
+  
+     <td>
+        <img src="/images/hr.gif" width="100%" height="2">
+     </td>
+   </tr>   
+   
+     <tr> 
+     <td>
+        	SNMP6的团体名[community]<input type="text" size=15 name="snmpcommunity6"  class="input" value="[$snmpcommunity6$]" > 
+     </td>
+  
+     <td>
+        SNMP6的服务IP<input type="text" size=25 name="snmpsip6"  class="input" value="[$snmpsip6$]" > 
+     </td>
+   </tr>
+   
+   <tr> 
+       <td>
+        	SNMP6的对象标示oid<input type="text" size=30 name="snmpoid6"  class="input" value="[$snmpoid6$]" > 
+     </td>
+  
+     <td>
+        SNMP6的版本<input type="text" size=4 name="snmpv6"  class="input" value="[$snmpv6$]" > 
+     </td>
+   </tr>
+</table>
+</div></div>
+<div style='DISPLAY:none' additive><div id="additive6" >	
+<table height="150" border="0" align="center">
+	<!--  <tr>
+		<td >内置验证服务端口</td>
+		<td ><input name="authport" type="text" id="authport" value="[$authport$]" size="5"  maxlength="5" class="inputf0" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+	  </tr>-->
+	  <tr>
+		<td >内置验证服务IP</td>
+		<td ><input name="strAuthIP" type="text" id="strAuthIP" value="[$strAuthIP$]" size="20"  maxlength="20"  class="inputf0"/></td>
+	  </tr>
+	  <tr>
+		<td >验证成功后页面跳转类型</td>
+		<td >
+			  <select id="authoktype" name="authoktype" class=inputsel>
+          <option value="0" [$authoktype0sel$] > 0:验证成功进入帐号主页面和跳转页面</option>                     
+          <option value="1" [$authoktype1sel$] > 1:仅仅进入个人账户主页面</option> 
+          <option value="2" [$authoktype2sel$] > 2:不进入帐号主页面</option> 
+        </select>
+		</td>
+	  </tr>
+	  <tr>
+		<td>支持发送TCP页面提示和伪装阻断包</td>
+		<td ><input type="checkbox" id="supportTCP" name="supportTCP" value="1"  [$supportTCPchk1$]></td>
+	  </tr>
+	  <tr>
+	  <td>支持发送UDP伪装阻断包</td>
+		<td ><input type="checkbox" id="supportUDP" name="supportUDP" value="1"  [$supportUDPchk1$]></td>
+	  </tr>
+	  <tr>
+		<td>验证成功后访问的主页面</td>
+		<td ><input name="strAuthOKUrl" type="text" id="strAuthOKUrl" value="[$strAuthOKUrl$]" size="40"  maxlength="40"  class="inputf0"/></td>
+		</tr>
+	  <tr>
+		<td>第三方验证服务地址</td>
+		<td ><input name="strAuthUrl" type="text" id="strAuthUrl" value="[$strAuthUrl$]" size="40"  maxlength="40"  class="inputf0"/></td>
+		</tr>
+	  <tr>
+		<td>第三方拒绝访问页面地址</td>
+		<td ><input name="denyUrl" type="text" id="denyUrl" value="[$denyUrl$]" size="40"  maxlength="40"  class="inputf0"/></td>
+		</tr>
+</table>
+</div></div>
+</form>
+</body>
+</html>

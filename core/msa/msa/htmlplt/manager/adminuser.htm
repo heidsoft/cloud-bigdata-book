@@ -1,0 +1,453 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<script type="text/javascript">
+function xxxxfun(xName){
+	listform.logname.value=xName;
+	listform.Fun.value="msaAdminUserList";
+	listform.submit();
+}
+function dellistfun() {
+	if(listform.logname.value==""){
+		alert("请选择用户！");
+		return ;
+	}
+	if(listform.logname.value=="admin"){
+		alert("你不能删除admin用户");
+		return;
+	}
+	listform.actiontype.value="2";
+	listform.submit();
+
+}
+function downloadfun() {
+	if(listform.logname.value==""){
+		alert("请选择用户！");
+		return ;
+	}
+	var preJson = {
+						 title:'提示',
+						 msg:'点击下载按钮开始下载？(请将文件保存在C盘根目录)',
+						 buttons:{yes:'开始下载',no:'取消'},
+						 fn:function(btn){
+						          if (btn == 'yes') {
+												 downloadFile(usrl);
+						          }
+						 }
+	}
+	Ext.MessageBox.show({
+		msg: '正在准备文件，请稍等...',
+		progressText: 'waitting...',
+		width:450,
+		wait:true,
+		waitConfig: {interval:1000},
+		icon:'ext-mb-download'
+	});
+	Ext.Ajax.request({
+    method : 'POST',
+    url:'/msa/main.xp',
+    success: function(response, options){
+			var retxt=response.responseText;
+			if(retxt.substring(0,1)=="0" ){
+				 Ext.MessageBox.hide();
+				 usrl="/msa/main.xp?Fun=msaDataCenetrDownLoad+downLoadFileName=msakey.dat+downLoadFile=msakey.dat";
+				 Ext.Msg.show(preJson);
+			}else{//进行中
+			  Ext.MessageBox.alert("提示","请稍后再试");
+			}
+    },
+    failure : function(){
+    	Ext.MessageBox.alert("提示","请稍后再试");
+    },
+    params:{Fun:'creatMsakey',
+    		uname:listform.logname.value}
+	});
+
+}
+function  updatepowerfun() {
+	if(listform.logname.value=="admin"){
+		alert("你不能修改admin用户");
+		return;
+	}
+	if(listform.logname.value==""){
+		alert("请选择用户！");
+		return ;
+	}
+	listform.actiontype.value="3";
+	listform.submit();
+}
+function  changelistfun(){
+  if(listform.logname.value==""){
+		alert("请选择用户！");
+		return ;
+	}
+	if(listform.logname.value=="admin"){
+		alert("你不能修改admin用户！");
+		return ;
+	}
+	if(listform.pass.value==""){
+		alert("密码不能为空!");
+		listform.pass.focus();
+		listform.pass.select();
+		return;
+	}
+	if(listform.pass.value!=listform.repass.value){
+		listform.pass.value="";
+		listform.repass.value="";
+		listform.pass.focus();
+		alert("密码不一致!");
+		return;
+	}
+	var mypass=listform.pass.value;
+	for(var i=0;i<mypass.length;i++)
+     {
+       var myChar= mypass.toLowerCase().charAt(i);
+       var myLenth=mypass.replace(/[^\x00-\xff]/g,'**').length;
+       if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')))
+       {
+			  alert("对不起，密码不安全！");
+				listform.pass.value="";
+				listform.repass.value="";
+				listform.pass.focus();
+      	return;
+       }
+       else if((myLenth>=0)&&(myLenth<8))
+       {
+			  alert("对不起，密码不安全！");
+				listform.pass.value="";
+				listform.repass.value="";
+				listform.pass.focus();
+      	return;
+       }
+     }
+	var Pass_flag=false;
+	var reg=/^(?=.*[0-9].*)(?=.*[a-zA-Z].*).{8,}$/;
+	if(reg.test(mypass)){
+		Pass_flag = true;
+		}else{
+		Pass_flag = false;
+		}
+		if (!Pass_flag){
+		  alert("对不起，密码不安全！");
+			listform.pass.value="";
+			listform.repass.value="";
+			listform.pass.focus();
+		  return false;
+		}
+
+	if(listform.bindip.value!=""){
+		var myip=listform.bindip.value;
+	  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	  var IP_flag=false;
+	  if(regIP.test(myip)){
+		IP_flag = true;
+		}else{
+		IP_flag = false;
+		}
+		if (!IP_flag){
+		  alert("对不起，ip地址格式错误！");
+			listform.bindip.select();
+		  return false;
+		}
+		return;
+	}
+
+	listform.actiontype.value="7";
+	listform.submit();
+}
+function  changepassfun() {
+	if(listform.logname.value=="admin"  ){
+		alert("你不能修改admin用户");
+		return ;
+	}
+	if(listform.logname.value==""  ){
+		alert("请选择用户！");
+		return ;
+	}
+	if(listform.pass.value==""){
+		alert("密码不能为空!");
+		listform.pass.focus();
+		listform.pass.select();
+		return;
+	}
+	if(listform.pass.value!=listform.repass.value){
+		alert("密码不一致!");
+		listform.pass.value="";
+		listform.repass.value="";
+		listform.pass.focus();
+		return;
+	}
+	var mypass=listform.pass.value;
+	for(var i=0;i<mypass.length;i++)
+     {
+       var myChar= mypass.toLowerCase().charAt(i);
+       var myLenth=mypass.replace(/[^\x00-\xff]/g,'**').length;
+       if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')))
+       {
+			  alert("对不起，密码不安全！");
+				listform.pass.focus();
+				listform.pass.select();
+      	return;
+       }
+       else if((myLenth>=0)&&(myLenth<8))
+       {
+			  alert("对不起，密码不安全！");
+				listform.pass.focus();
+				listform.pass.select();
+      	return;
+       }
+     }
+	var Pass_flag=false;
+	var reg=/^(?=.*[0-9].*)(?=.*[a-zA-Z].*).{8,}$/;
+	if(reg.test(mypass)){
+		Pass_flag = true;
+		}else{
+		Pass_flag = false;
+		}
+		if (!Pass_flag){
+		  alert("对不起，密码不安全！");
+			listform.pass.focus();
+			listform.pass.select();
+		  return false;
+		}
+	listform.actiontype.value="4";
+	listform.submit();
+}
+
+function  updateipfun() {
+	if(listform.logname.value==""  ){
+		alert("请选择用户！");
+		return ;
+	}
+	if(!(listform.bindip.value==""))
+	{
+		var myip=listform.bindip.value;
+	  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	  var IP_flag=false;
+	  if(regIP.test(myip)){
+		IP_flag = true;
+		}else{
+		IP_flag = false;
+		}
+		if (!IP_flag){
+		  alert("对不起，ip地址格式错误！");
+			listform.bindip.focus();
+			listform.bindip.select();
+		  return false;
+		}
+  }
+	listform.actiontype.value="5";
+	listform.submit();
+}
+
+function updategroupfun() {
+	if(listform.logname.value==""  ){
+		alert("请选择用户！");
+		return ;
+	}
+	if(listform.logname.value=="admin"){
+		alert("你不能修改admin用户");
+		return;
+	}
+	listform.actiontype.value="6";
+	listform.submit();
+}
+</script>
+
+<script type="text/javascript">
+	var searchbox;
+	
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+				var comboxstroe = new Ext.data.JsonStore({
+		        root: 'Results',
+		        totalProperty: 'totalCount',
+		        url:'/msa/main.xp',
+		        baseParams:{Fun:'groupmanager',keyword:''},
+		        fields: [
+		        	 {name: 'roleid'},
+		           {name: 'rolename'},
+		           {name: 'roledesc'}
+		        ]
+		    });
+		    comboxstroe.on('load', function() {
+						searchbox.setValue([$roleid$]);
+				});
+		    comboxstroe.load();
+				searchbox = new Ext.form.ComboBox({
+							renderTo: 'rolename',
+			        store: comboxstroe,
+			        valueField:'roleid',
+				      displayField:'rolename',
+			        width: 120,
+			        id:'searchbox',
+			        emptyText:'角色',
+				      blankText:'角色',
+				      maxHeight:400,
+				      minHeight:200,
+				      anchor:'95.2%',
+				      selectOnFocus:true,
+				      triggerAction:'all',
+				      typeAhead:true,
+				      typeAheadDelay:250,
+				      editable:true,
+				      forceSelection:true,
+				      mode: 'local'
+    		});
+				searchbox.on('load', function() {
+						combo.setValue(1);
+				});
+});
+function addlistfun() {
+				if(listform.logname.value=="" ){
+					alert("用户名不能为空!");
+					listform.logname.focus();
+					listform.logname.select();
+					return;
+				}
+				if(listform.pass.value=="" ){
+					alert("密码不能为空!");
+					listform.pass.focus();
+					listform.pass.select();
+					return;
+				}
+				if(listform.pass.value!=listform.repass.value ){
+					alert("密码不一致!");
+					listform.pass.value="";
+					listform.repass.value="";
+					listform.pass.focus();
+					return;
+				}
+
+				var mypass=listform.pass.value;
+				for(var i=0;i<mypass.length;i++)
+			     {
+			       var myChar= mypass.toLowerCase().charAt(i);
+			       var myLenth=mypass.replace(/[^\x00-\xff]/g,'**').length;
+			       if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')))
+			       {
+						  alert("对不起，密码不安全！");
+							listform.pass.focus();
+							listform.pass.select();
+			      	return;
+			       }
+			       else if((myLenth>=0)&&(myLenth<8))
+			       {
+						  alert("对不起，密码不安全！");
+							listform.pass.focus();
+							listform.pass.select();
+			      	return;
+			       }
+			     }
+				var Pass_flag=false;
+				var reg=/^(?=.*[0-9].*)(?=.*[a-zA-Z].*).{8,}$/;//必须包含数字和字母
+				if(reg.test(mypass)){
+					Pass_flag = true;
+					}else{
+					Pass_flag = false;
+					}
+					if (!Pass_flag){
+					  alert("对不起，密码不安全！");
+						listform.pass.focus();
+						listform.pass.select();
+					  return false;
+					}
+				//Ext.getCmp('searchbox').getValue();
+				listform.roleid.value=Ext.getCmp('searchbox').getValue()//角色ID
+				listform.submit();
+	}
+</script>
+<style type="text/css">
+<!--
+.hand {  cursor: hand}
+.unnamed1 {  width: 160px}
+-->
+</style>
+</head>
+
+<body bgcolor="#F0F0F0" text="#000000" topmargin="0" leftmargin="0" >
+  <form name="listform" action="/msa/main.xp" method="POST">
+  <table width="90%" border="0" cellspacing="0" cellpadding="2" align="center">
+    <tr>
+      <td>
+        <div align="right">
+
+					<input type="button" onClick="addlistfun();"  value="添加用户"  class=input size=10  >
+          <input type="hidden" onClick="changelistfun();"  value="修改用户"  class=input size=10  >
+          <input type="button" onClick="changepassfun();"  value="修改密码"  class=input size=10  >
+          <input type="button" onClick="dellistfun();"  value="删除用户"  class=input size=10  >
+          <input type="button" onClick="downloadfun();"  value="生成登陆KEY文件"  class=input size=10  >
+          <input type="hidden" name="Fun" value="msaAdminAction" >
+          <input type="hidden" name="actiontype" value="1" >
+          <input type="hidden" name="rightype" value="1" >
+          <input type="hidden" name="roleid" value="[$roleid$]" >
+        </div>
+      </td>
+    </tr>
+  </table>
+  <table width="90%" border="1" cellspacing="0" cellpadding="0" align="center" bordercolor="#666666" style="BORDER-COLLAPSE: collapse" bgcolor="#F0f0f0">
+    <tr>
+      <td>
+        <table border="0" align="center" cellpadding="3" cellspacing="0" width="100%">
+          <tr>
+            <td colspan="3" >
+              <table width="100%" border="0" cellspacing="0" cellpadding="4">
+                <tr>
+                  <td width="20%">用户名 </td>
+                  <td width="88%" colspan="2">
+                    <input type="text" name="logname" size="20" maxlength="20" value="[$logname$]"  class=input>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="20%">密码及确认</td>
+                  <td width="38%">
+                    <input type="password" name="pass" size="20" maxlength="18"  class=input  >
+                  </td>
+                  <td width="50%">
+                    <input type="password" name="repass" size="20" maxlength="18"  class=input  >
+                  </td>
+                </tr>
+                <tr>
+                  <td width="20%">角色 </td>
+                  <td id="rolename" name="rolename"> </td>
+                  <td></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+    <tr >
+      <td width="32"  height="20" background="/images/barbg.gif">&nbsp;</td>
+      <td width="250"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;管理员名称
+      </td>
+      <td width="350"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;最后一次访问时间
+      </td>
+    </tr>
+    [$begintable list$]
+    <tr onClick="xxxxfun('[$logname$]');" bgcolor="#F3F3F3" >
+      <td width="32" >
+        <div align="center">
+          <input type="checkbox" name="chk[$num$]" value="[$num$]">
+        </div>
+      </td>
+      <td width="250" >&nbsp;[$logname$]</td>
+      <td width="350" >&nbsp;[$lasttime$]</td>
+    </tr>
+    [$endtable$]
+  </table>
+</form>
+</body>
+</html>

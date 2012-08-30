@@ -1,0 +1,286 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+    
+    var pagesize;
+		pagesize=100;
+    
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+						
+
+    
+    var xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msas/main.xp?Fun=msasClientList+gid=[$gid$]+level=[$level$]',
+        baseParams:{Fun:'msasClientList',gid:'[$gid$]',level:'[$level$]'},
+        fields: [
+           {name: 'isonline'},
+           {name: 'gnmkey'},
+           {name: 'Service_code'},
+           {name: 'Service_name'},
+           {name: 'Address'},
+           {name: 'Principal'},
+           {name: 'Principal_tel'},
+           {name: 'usernum'},
+           {name: 'startday'},
+           {name: 'endday'}
+        ]
+    });
+
+    xtzystore.load();
+    
+     HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+					    displayInfo: true, 
+					    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+					    emptyMsg: "无记录", 
+					    initComponent : function(){ 
+		    	      	var pageSizeItems = [ 
+		                     '-','每页', 
+		                     this.inputItem = new Ext.form.NumberField({ 
+											    cls: 'x-tbar-page-number', 
+											    allowDecimals: false, 
+											    allowNegative: false, 
+											    enableKeyEvents: true, 
+											    maxValue: 500, 
+											    maxText: '每页不允许超过500条', 
+											    selectOnFocus: true, 
+											    value: this.pageSize, 
+											    submitValue: false, 
+											    listeners: { 
+											        scope: this, 
+											        keydown: this.onHlPagingKeyDown, 
+											        blur: this.onHlPagingBlur 
+											    } 
+		                     }),'条','-',{
+								            //pressed: true,
+								            icon: '/msas/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn, pressed){
+								                downloadViewDataActive(xtzygrid);
+								            }
+								        },'-']; 
+				         var userItems = this.items || []; 
+				         this.items = userItems.concat(pageSizeItems); 
+				         HlPagingToolbar.superclass.initComponent.call(this); 
+				    }, 
+				    onHlPagingKeyDown: function(field, e){ 
+				        if(field.isValid()){ 
+				            var k = e.getKey(); 
+				             if (k == e.RETURN) { 
+				                    e.stopEvent(); 
+				                    this.pageSize = field.getValue(); 
+				                    pagesize=this.pageSize;
+				                    //alert(this.pageSize);
+				                    this.doRefresh(); 
+				             } 
+				        } 
+				    }, 
+				    onHlPagingBlur: function(field){ 
+				        if(field.isValid()){ 
+				            this.pageSize = field.getValue(); 
+				            //alert(this.pageSize);
+				            pagesize=this.pageSize;
+				            this.doRefresh(); 
+				        } 
+				    } 
+				});
+    
+
+    var pagingBar= new HlPagingToolbar({
+		        store: xtzystore,
+		        pageSize: pagesize,
+		        displayInfo: true});
+		 
+		/*function pctChange(val){
+			if(val==1){
+				return '在线';
+			}else{
+				return '离线';
+			}
+    }*/
+    
+		function pctChange(val){
+			if(val==1){
+				return String.format(
+	　		'<input id="up" type=image src="./images/status_online.png"/>'
+				);
+			}else{
+				return String.format(
+	　		'<input id="up" type=image src="./images/status_offline.png"/>'
+				);
+			}
+    }
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        columns: [
+            {header: "是否在线",   width: 70, sortable: true, renderer: pctChange,  dataIndex: 'isonline'},
+            {id:'Service_name',header: "客户名称", width: 100, sortable: true, dataIndex: 'Service_name'},
+            {header: "序列号",   width: 70, sortable: true,  dataIndex: 'gnmkey'},
+            {header: "编号",  width: 70, sortable: true,  dataIndex: 'Service_code'},
+            {header: "地址",   width: 100, sortable: true,  dataIndex: 'Address'},
+            {header: "联系人",  width: 70, sortable: true,  dataIndex: 'Principal'},
+            {header: "电话",   width: 70, sortable: true,  dataIndex: 'Principal_tel'},
+            {header: "注册数",   width: 70, sortable: true,  dataIndex: 'usernum'},
+            {header: "服务开始期",  width: 70, sortable: true,  dataIndex: 'startday'},
+            {header: "服务结束期", width: 80, sortable: true, dataIndex: 'endday'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'Service_name',
+        width:280,
+        height:screen.height-350,
+        title:'探针终端列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+    
+    
+    
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'liulanbaogao',
+                    iconCls:'load-icon',
+                    text:'编辑探针信息',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("gnmkey"); 
+                        
+                        var mywin =new  Ext.Window(
+							          {
+							                    id: 'east-panel',
+							                    title: '编辑探针信息',
+							                    height: 400,
+							                    width: 500,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    html: "<IFRAME  name='menufrm' width=100% height='440' SRC = '/msas/main.xp?Fun=msasTermInfoView&gnmkey=" + myid + "'></iframe>" 
+							                    
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                    }
+                },{
+                    id:'delclient',
+                    iconCls:'load-icon',
+                    text:'删除该探针设备',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("gnmkey"); 
+                        function confirmdelclient(btn){
+													        if(btn=='yes'){
+																			xtzystore.load({params:{Fun:'msasClientList',gid:'[$gid$]',level:'[$level$]',delflag:'1',gnmkey:myid}});
+													        }
+											 };
+                       Ext.MessageBox.confirm('Confirm', '您确认要删除该探针设备?', confirmdelclient); 
+                    }
+                }
+            ]});
+     
+      
+      xtzygrid.addListener('rowclick', rightClickFn);
+      xtzygrid.addListener('rowcontextmenu', rightClickFn);
+		  function rightClickFn(client, rowIndex, e) {
+					                rightClick.showAt(e.getXY()); 
+					                detailEl=  rowIndex;
+		  }              
+			
+			
+   
+  
+   
+    var mainPanel= {
+				    id: 'main-panel',
+                    region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 400,
+                    maxSize: 600,
+                    layout:'fit',
+                    margins:'0 0 0 0',
+                    height:600,
+                    items:[xtzygrid]
+    }
+
+
+	
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+            
+ 
+						
+	         
+			     myMask.hide();
+					 
+				
+            var task = {
+								run: function(){
+								   xtzystore.load();
+								},
+								interval: 120000 // 每30秒一周期
+						};
+						var runner = new Ext.util.TaskRunner();
+						runner.start(task);
+  
+            
+  });
+  
+
+	
+		  
+	</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY oncontextmenu="return false">
+
+</BODY>
+</HTML>
+

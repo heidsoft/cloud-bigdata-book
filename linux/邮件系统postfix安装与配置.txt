@@ -1,0 +1,752 @@
+postfix是Wietse Venema在IBM的GPL协议之下开发的MTA（邮件传输
+代理）软件。下面一段话摘自postfix的官方站点（http://www.postfix.org）：
+“postfix是Wietse Venema想要为使用最广泛的sendmail提供替代品的一个尝试。在Internet世界中，大部分的电子邮件都是通过sendmail来投递的，大约有100万用户使用sendmail，每天投递上亿封邮件。这真实一个让人吃惊的数字。Postfix试图更快、更容易管理、更安全，同时还与sendmail保持足够的兼容性。”
+
+1.1 postfix的特点
+1. postfix是免费的：
+    postfix想要作用的范围是广大的Internet用户，试图影响大多数的Internet上的电子邮件系统，因此它是免费的。
+2. 更快：
+    postfix在性能上大约比sendmail快三倍。一部运行postfix的台式PC每天可以收发上百万封邮件。
+3. 兼容性好:
+    postfix是sendmail兼容的，从而使sendmail用户可以很方便地迁移到postfix。Postfix支持/var[/spool]/mail、/etc/aliases、 NIS、和 ~/.forward 文件。
+   4. 更健壮：
+postfix被设计成在重负荷之下仍然可以正常工作。当系统运行超出了可用的内存或磁盘空间时，postfix会自动减少运行进程的数目。当处理的邮件数目增长时，postfix运行的进程不会跟着增加。
+5. 更灵活：
+postfix是由超过一打的小程序组成的，每个程序完成特定的功能。你可以
+通过配置文件设置每个程序的运行参数。
+   6. 安全性
+postfix具有多层防御结构，可以有效地抵御恶意入侵者。如大多数的postfix程序可以运行在较低的权限之下，不可以通过网络访问安全性相关的本地投递程序等等。
+
+1.2 postfix的总体结构
+postfix由十几个具有不同功能的半驻留进程组成，并且在这些进程中并无特定的进程间父子关系。某一个特定的进程可以为其他进程提供特定的服务。
+大多数的postfix进程由一个进程统一进行管理，该进程负责在需要的时候调用其他进程，这个管理进程就是master进程。该进程也是一个后台程序。
+这些postfix进程是可以配置的，我们可以配置每个进程运行的数目，可重用的次数，生存的时间等等。通过灵活的配置特性可以使整个系统的运行成本大大降低。
+
+
+1.2.1 postfix的邮件队列（mail queues）
+postfix有四种不同的邮件队列，并且由队列管理进程统一进行管理：
+1． maildrop：本地邮件放置在maildrop中，同时也被拷贝到incoming中。
+2． incoming：放置正在到达或队列管理进程尚未发现的邮件。
+3． active：放置队列管理进程已经打开了并正准备投递的邮件，该队列有
+             长度的限制。
+4． deferred：放置不能被投递的邮件。
+队列管理进程仅仅在内存中保留active队列，并且对该队列的长度进行限
+制，这样做的目的是为了避免进程运行内存超过系统的可用内存。
+    
+1.2.2 postfix对邮件风暴的处理
+当有新的邮件到达时，postfix进行初始化，初始化时postfix同时只接受两个并发的连接请求。当邮件投递成功后，可以同时接受的并发连接的数目就会缓慢地增长至一个可以配置的值。当然，如果这时系统的消耗已到达系统不能承受的负载就会停止增长。还有一种情况时，如果postfix在处理邮件过程中遇到了问题，则该值会开始降低。
+当接收到的新邮件的数量超过postfix的投递能力时，postfix会暂时停止投递deferred队列中的邮件而去处理新接收到的邮件。这是因为处理新邮件的延迟要小于处理deferred队列中的邮件。Postfix会在空闲时处理deferred中的邮件。
+
+1.2.3 postfix对无法投递的邮件的处理
+当一封邮件第一次不能成功投递时，postfix会给该邮件贴上一个将来的时间邮票。邮件队列管理程序会忽略贴有将来时间邮票的邮件。时间邮票到期时，postfix会尝试再对该邮件进行一次投递，如果这次投递再次失败，postfix就给该邮件贴上一个两倍于上次时间邮票的时间邮票，等时间邮票到期时再次进行投递，依此类推。当然，经过一定次数的尝试之后，postfix会放弃对该邮件的投递，返回一个错误信息给该邮件的发件人。
+
+1.2.4 postfix对不可到达的目的地邮件的处理
+postfix会在内存中保存一个有长度限制的当前不可到达的地址列表。这样就避免了对那些目的地为当前不可到达地址的邮件的投递尝试。从而大大提高了系统的性能。
+
+1.2.2 postfix的安全性
+postfix通过一系列的措施来提高系统的安全性，这些措施包括：
+1． 动态分配内存，从而防止系统缓冲区溢出；
+2． 把大邮件分割成几块进行处理，投递时再重组；
+3． Postfix的各种进程不在其他用户进程的控制之下运行，而是运行在驻留 
+   主进程master的控制之下，与其他用户进程无父子关系，所有有很好的
+   绝缘性。
+4． Postfix的队列文件有其特殊的格式，只能被postfix本身识别；
+
+二、 postfix对邮件的处理过程
+2.1 接收邮件的过程
+
+图二、postfix对接收邮件的处理
+
+当postfix接收到一封新邮件时，新邮件首选在incoming队列处停留，然后针对不同的情况进行不同的处理：
+1．对于来自于本地的邮件：sendmail进程负责接收来自本地的邮件放在maildrop队列中，然后pickup进程对maildrop中的邮件进行完整性检测。maildrop目录的权限必须设置为某一用户不能删除其他用户的邮件。
+2．对于来自于网络的邮件：smtpd进程负责接收来自于网络的邮件，并且进行安全性检测。可以通过UCE（unsolicited commercial email）控制smtpd的行为。
+3．由postfix进程产生的邮件：这是为了将不可投递的信息返回给发件人。这些邮件是由bounce后台程序产生的。
+5． 由postfix自己产生的邮件：提示postmaster（也即postfix管理员）postfix
+运行过程中出现的问题。（如SMTP协议问题，违反UCE规则的记录等等。）
+
+关于cleanup后台程序的说明：cleanup是对新邮件进行处理的最后一道工序
+它对新邮件进行以下的处理：添加信头中丢失的Form信息；为将地址重写成标准的user@fully.qualified.domain格式进行排列；重信头中抽出收件人的地址；将邮件投入incoming队列中，并请求邮件队列管理进程处理该邮件；请求trivial-rewrite进程将地址转换成标准的user@fully.qualified.domain格式。
+
+2.2 投递邮件的过程
+    新邮件一旦到达incoming队列，下一步就是开始投递邮件，postfix投递邮件时的处理过程如图三所示。相关的说明如下：
+    邮件队列管理进程是整个postfix邮件系统的心脏。它和local、smtp、pipe等投递代理相联系，将包含有队列文件路径信息、邮件发件人地址、邮件收件人地址的投递请求发送给投递代理。队列管理进程维护着一个deferred队列，那些无法投递的邮件被投递到该队列中。除此之外，队列管理进程还维护着一个active队列，该队列中的邮件数目是有限制的，这是为了防止在负载太大时内存溢出。邮件队列管理程序还负责将收件人地址在relocated表中列出的邮件返回给发件人，该表包含无效的收件人地址。
+
+
+如果邮件队列管理进程请求，rewrite后台程序对收件人地址进行解析。但是缺省地，rewrite只对邮件收件人是本地的还是远程的进行区别。
+如果邮件对你管理进程请求，bounce后台程序可以生成一个邮件不可投递的报告。
+本地投递代理local进程可以理解类似UNIX风格的邮箱，sendmail风格的系统别名数据库和sendmail风格的.forward文件。可以同时运行多个local进程，但是对同一个用户的并发投递进程数目是有限制的。你可以配置local将邮件投递到用户的宿主目录，也可以配置local将邮件发送给一个外部命令，如流行的本地投递代理procmail。在流行的linux发行版本RedHat中，我们就使用procmail作为最终的本地投递代理。
+远程投递代理SMTP进程根据收件人地址查询一个SMTP服务器列表，按照顺序连接每一个SMTP服务器，根据性能对该表进行排序。在系统负载太大时，可以有数个并发的SMTP进程同时运行。
+pipe是用于UUCP协议的投递代理。
+
+三、 postfix的安装过程
+3.1源代码包的安装
+1． 获取postfix的源代码包
+   从postfix官方站点www.postfix.org取得postfix的源代码包postfix-19991231-pl08.tar.gz。将其拷贝到/tmp
+2．解开源代码包，将生成/tmp/ postfix-19991231-pl08目录。
+tar xvzf  postfix-19991231-pl08.tar.gz
+   3．编译源代码包
+cd /tmp/ postfix-19991231-pl08
+make
+   4．建立一个新用户“postfix”，该用户必须具有唯一的用户id和组id号，同时应该让该用户不能登录到系统，也即不为该用户指定可执行的登录外壳程序和可用的用户宿主目录。我们可以先用adduser postfix 添加用户再编辑/etc/passwd文件中的相关条目如下所示：         
+      postfix:*:12345:12345:postfix:/no/where:/no/shell
+5．确定/etc/aliases文件中包含如下的条目：
+      postfix: root
+6． 以root用户登录，在/tmp/ postfix-19991231-pl08目录下执行命令：
+./INSTALL.sh
+7． 启动postfix
+# postfix start
+8．关于maildrop目录权限的说明：
+   postfix可以使用一个所有用户都可写的（也即目录权限为1773）的maildrop
+目录来让本地用户提交邮件。这种方法避免了使用set-uid 或 set-gid 软件，并且在邮件系统不可用时，用户仍然可以提交邮件。其他用户没有访问该目录中的队列文件的权限。接收来自网络的邮件时postfix不使用maildrop目录。但是，由于该目录的权限是733，其他用户可以建立一个硬连接到该目录中的文件从而导致该邮件被投递多次或无法删除，也就是说这将导致安全性问题。如果你想要使用这种方式来让用户提交邮件，就要在INSTALL.sh 脚本问你是否需要set-gid 时回答no。
+如果你的系统有多个用户的话，最好取消以上的方式而采用利用set-gid 用
+户权限提交邮件的方式。这时，我们首先需要建立一个组id唯一的组"maildrop" 并且确定该组中没有用户成员。然后在INSTALL.sh 问你是否需要set-gid 时指定"maildrop"。
+    提示：在安装postfix之前，请删除已经安装的sendmail。
+
+3.2 rpm包的安装
+1． 获取postfix的rpm软件包。
+   我们可以从http://www.alltrading.es/postfix/RPMS/i386/ 获得postfix的rpm软件包。当前的最新版本是postfix-20000531-2.i386.rpm。
+2． 备份你的/etc/aliases和/etc/aliases.db，因为postfix要使用该别名数据库。
+3． 用以下命令查看系统是否安装了sendmail:
+      [root@mail /root]# rpm -qa |grep sendmail
+      sendmail-doc-8.9.3-15
+      sendmail-8.9.3-15
+      sendmail-cf-8.9.3-15
+4． 用以下命令强行卸载sendmail：
+   [root@mail /root]# rpm -e sendmail sendmail-cf sendmail-doc --nodeps
+5． 用以下命令杀死运行中的sendmail进程：
+[root@mail /root]# killall sendmail
+6． 安装postfix：
+   [root@mail /root]# rpm -Uvh postfix-20000531-2.i386.rpm
+    postfix ##################################################
+    postfix-script: warning: creating missing Postfix pid directory
+    postfix-script: warning: creating missing Postfix incoming directory
+    postfix-script: warning: creating missing Postfix active directory
+    postfix-script: warning: creating missing Postfix bounce directory
+    postfix-script: warning: creating missing Postfix defer directory
+    postfix-script: warning: creating missing Postfix deferred directory
+    postfix-script: warning: creating missing Postfix saved directory
+    postfix-script: warning: creating missing Postfix corrupt directory
+    postfix-script: warning: creating missing Postfix public directory
+    postfix-script: warning: creating missing Postfix private directory
+[root@mail /root]#
+7． 启动postfix
+      [root@mail /root]# /etc/rc.d/init.d/postfix start
+
+3.3 配置系统每次启动时自动启动postfix
+1.如果你安装的是postfix的源代码包，可以在/etc/rc.d/rc.local文件中加入如下的语句让系统每次启动时自动启动postfix：
+if  [ -f  /usr/libexec/postfix ]; then
+/usr/libexec/postfix start
+fi
+2.如果你安装的是postfix的rpm包，可以通过setup命令来设置在系统启动时启动postfix。
+四、 postfix的配置详解
+4.1 postfix的配置文件结构
+    postfix的配置文件位于/etc/postfix下，安装完postfix以后，我们可以通过ls命令查看postfix的配置文件：
+    [root@mail postfix]# ls
+install.cf main.cf master.cf postfix-script
+
+    这四个文件就是postfix最基本的配置文件，它们的区别在于：
+    mail.cf：是postfix主要的配置文件。
+    Install.cf：包含安装过程中安装程序产生的postfix初始化设置。
+master.cf：是postfix的master进程的配置文件，该文件中的每一行都是用来配置postfix的组件进程的运行方式。
+postfix-script：包装了一些postfix命令，以便我们在linux环境中安全地执行这些postfix命令。
+
+4.2 postfix的基本配置
+postfix大约有100个配置参数，这些参数都可以通过main.cf 指定。配置的格式是这样的，用等号连接参数和参数的值。如：
+myhostname ＝ mail.mydomain.com
+等号的左边是参数的名称，等号的右边是参数的值； 当然，我们也可以在参数的前面加上$来引用该参数，如：
+myorigin = $myhostname
+虽然postfix有100个左右的参数，但是postfix为大多数的参数都设置了缺省值，所以在让postfix正常为你服务之前，你只需要配置为数不多的几个参数。下面我们一起来看一看这些基本的postfix参数。需要注意的是，一旦你更改了main.cf文件的内容，则必须运行postfix reload命令使其生效。
+
+1． myorigin
+myorigin参数指明发件人所在的域名。如果你的用户的邮件地址为user@domain.com,则该参数指定@后面的域名。缺省地，postfix使用本地主机名作为myorigin，但是建议你最好使用你的域名，因为这样更具有可读性。比如：安装postfix的主机为mail.domain.com则我们可以这样指定myorigin:
+myorigin = domain.com
+当然我们也可以引用其他参数，如：
+    myorigin = $mydomain 
+   
+2． mydestination
+mydestination参数指定postfix接收邮件时收件人的域名，换句话说，也就
+是你的postfix系统要接收什么样的邮件。比如：你的用户的邮件地址为user@domain.com, 也就是你的域为domain.com, 则你就需要接收所有收件人为user_name@domain.com的邮件。与myorigin一样，缺省地，postfix使用本地主机名作为mydestination。如：
+      mydestination = $mydomain
+      mydestination = domain.com
+   
+3． notify_classes
+在postfix系统中，必须指定一个postfix系统管理员的别名指向一个用户，
+只有这样，在用户遇到问题时才有报告的对象，postfix也才能将系统的问题报告给管理员。notify_classes参数就是用来指定向postfix管理员报告错误时的信息级别。共有以下几种级别： 
+
+bounce：将不可以投递的邮件的拷贝发送给postfix管理员。出于个人隐私的缘故，该邮件的拷贝不包含信头。 
+
+2bounce：将两次不可投递的邮件拷贝发送给postfix管理员。
+
+delay：将邮件的投递延迟信息发送给管理员，仅仅包含信头。
+
+policy：将由于UCE规则限制而被拒绝的用户请求发送给postfix管理员，包含整个SMTP会话的内容。
+
+protocol：将协议的错误信息或用户企图执行不支持的命令的记录发送给postfix管理员。同样包含整个SMTP会话的内容。
+
+resource：将由于资源错误而不可投递的错误信息发送给postfix管理员，比如：队列文件写错误等等。 
+
+software：将由于软件错误而导致不可投递的错误信息发送给postfix管理员。
+
+缺省值为：
+notify_classes = resource, software
+
+    4．myhostname
+myhostname 参数指定运行postfix邮件系统的主机的主机名。缺省地，该值被设定为本地机器名。你也可以指定该值，需要注意的是，要指定完整的主机名。如：
+    myhostname = mail.domain.com 
+
+    5．mydomain
+mydomain参数指定你的域名，缺省地，postfix将myhostname的第一部分删除而作为mydomain的值。你也可以自己指定该值，如：
+mydomain = domain.com
+
+6．mynetworks
+mynetworks 参数指定你所在的网络的网络地址，postfix系统根据其值来区别用户是远程的还是本地的，如果是本地网络用户则允许其访问。你可以用标准的A、B、C类网络地址，也可以用CIDR（无类域间路由）地址来表示,如：
+192.168.1.0/24
+192.168.1.0/26
+
+7．inet_interfaces
+inet_interfaces 参数指定postfix系统监听的网络接口。缺省地，postfix监听
+所有的网络接口。如果你的postfix运行在一个虚拟的ip地址上，则必须指定其监听的地址。如：
+   inet_interfaces = all
+   inet_interface = 192.168.1.1
+
+4.3 postfix的UCE（unsolicited commercial email）控制
+所谓UCE控制就是指控制postfix接收或转发来自于什么地方的邮件。
+
+缺省地，postfix转发符合以下条件的邮件：
+* 来自客户端ip地址符合$mynetworks的邮件。
+* 来自客户端主机名符合$relay_domains及其子域的邮件。
+* 目的地为$relay_domains及其子域的邮件。
+
+缺省地，postfix接受符合以下条件的邮件：
+* 目的地为$inet_interfaces的邮件。
+* 目的地为$mydestination的邮件。
+* 目的地为$virtual_maps的邮件。
+但是我们也可以通过下面的规则来实现更强大的控制功能。
+
+1． 信头过滤
+通过header_checks参数限制接收邮件的信头的格式，如果符合指定的格式，则拒绝接收该邮件。可以指定一个或多个查询列表，如果新邮件的信头符合列表中的某一项则拒绝该接收邮件。如：
+header_checks = regexp:/etc/postfix/header_checks 
+header_checks = pcre:/etc/postfix/header_checks
+缺省地，postfix不进行信头过滤。
+
+2．客户端主机名/地址限制
+通过smtpd_client_restrictions参数限制可以向postfix发起SMTP 连接的客户端的主机名或ip地址。可以指定一个或多个参数值，中间用逗号隔开。限制规则是按照查询的顺序进行的，第一条符合条件的规则被执行。可用的规则有：
+
+reject_unknown_client：如果客户端的ip地址在DNS中没有PTR记录则拒绝转发该客户端的连接请求。可以用unknown_client_reject_code参数指定返回给客户机的错误代码（缺省为450）。如果你有用户没有作DNS记录则不要启用该选项。
+
+permit_mynetworks：如果客户端的ip地址符合$mynetworks参数定义的范围则接受该客户端的连接请求，并转发该邮件。
+
+check_client_access  maptype:mapname：根据客户端的主机名、父域名、ip地址或属于的网络搜索access数据库。如果搜索的结果为REJECT 或者 "[45]XX text" 则拒绝该客户端的连接请求；如果搜索的结果为OK、RELAY 或数字则接受该客户端的连接请求，并转发该邮件。。可以用access_map_reject_code参数指定返回给客户机的错误代码（缺省为554）。
+
+reject_maps_rbl：如果客户端的网络地址符合$maps_rbl_domains参数的值则拒绝该客户端的连接请求。可以用maps_rbl_reject_code参数指定返回给客户机的错误代码（缺省为554）。
+
+示例：
+    smtpd_client_restrictions = hash:/etc/postfix/access, reject_maps_rbl 
+        smtpd_client_restrictions = permit_mynetworks, reject_unknown_client
+   该参数的缺省值为：
+   smtpd_client_restrictions =
+   也即接收来自任何客户端的SMTP连接。
+
+3. 是否请求HELO命令
+可以通过smtpd_helo_required参数指定客户端在SMTP会话的开始是否发
+送一个HELO命令。你可以指定该参数的值为yes或no。缺省值为：
+    smtpd_helo_required = no
+    
+4. HELO主机名限制
+可以通过smtpd_helo_restrictions参数指定客户端在执行HELO命令时发送
+给postfix的主机名。缺省地，postfix接收客户端发送的任意形式的主机名。可以指定一个或多个参数值，中间用逗号隔开。限制规则是按照查询的顺序进行的，第一条符合条件的规则被执行。可用的规则有：
+reject_invalid_hostname：如果HELO命令所带的主机名参数不符合语法规范则拒绝客户机的连接请求。可以用invalid_hostname_reject_code参数指定返回给客户机的错误代码（缺省为501）。
+
+permit_naked_ip_address：RFC要求客户端的HELO命令包含的ip地址放在方括号内，你可以用permit_naked_ip_address参数取消该限制。因为有的mail客户端不遵守该RFC的规定。
+
+reject_unknown_hostname：如果客户端执行HELO命令时的主机名在DNS中没有相应的A 或 MX 记录则拒绝该客户端的连接请求。可以用invalid_hostname_reject_code参数指定返回给客户机的错误代码（缺省为450）。
+
+reject_non_fqdn_hostname：如果客户端执行HELO命令时的主机名不是RFC规定的完整的域名则拒绝客户端的连接请求。可以用invalid_hostname_reject_code参数指定返回给客户机的错误代码（缺省为504）。
+
+check_helo_access  maptype:mapname：根据客户端HELO的主机名、父域名搜索access数据库。如果搜索的结果为REJECT 或者 "[45]XX text" 则拒绝该客户端的连接请求；如果搜索的结果为OK、RELAY 或数字则接受该客户端的连接请求。可以用access_map_reject_code参数指定返回给客户机的错误代码（缺省为554）。
+
+示例：
+smtpd_helo_restrictions = permit_mynetworks, reject_invalid_hostname
+
+5. RFC 821信头限制
+RFC 821对邮件的信头做了严格的规定，但是广泛使用的sendmail并不支
+持该规定，所以对于该参数我们只能说不，即：
+    strict_rfc821_envelopes = no
+
+6. 通过发件人地址进行限制
+可以用smtpd_sender_restrictions参数通过发件人在执行MAIL FROM命令时提供的地址进行限制。可以指定一个或多个参数值，中间用逗号隔开。限制规则是按照查询的顺序进行的，第一条符合条件的规则被执行。可用的规则有：
+
+reject_unknown_sender_domain：如果MAIL FROM命令提供的主机名在DNS中没有相应的A 或 MX 记录则拒绝该客户端的连接请求。可以用unknown_address_reject_code参数指定返回给客户机的错误代码（缺省为450）。
+
+check_sender_access maptype:mapname：根据MAIL FROM命令提供的主机名、父域搜索access数据库。如果搜索的结果为REJECT 或者 "[45]XX text" 则拒绝该客户端的连接请求；如果搜索的结果为OK、RELAY 或数字则接受该客户端的连接请求。可以用access_map_reject_code参数指定返回给客户机的错误代码（缺省为554）。可以通过该参数过滤来自某些不受欢迎的发件人的邮件。
+
+reject_non_fqdn_sender：如果MAIL FROM命令提供的主机名不是RFC规定的完整的域名则拒绝客户端的连接请求。可以用non_fqdn_reject_code 参数指定返回给客户机的错误代码（缺省为504）。
+缺省地，postfix接受来自任何发件人的邮件。
+示例：
+smtpd_sender_restrictions = hash:/etc/postfix/access, reject_unknown_sender_domain
+
+7. 通过收件人地址进行过滤
+可以用smtpd_recipient_restrictions参数通过发件人在执行RCPT TO命令
+时提供的地址进行限制。缺省值为：
+smtpd_recipient_restrictions = permit_mynetworks, check_relay_domains
+   可以指定一个或多个参数值，中间用逗号隔开。限制规则是按照查询的顺序
+进行的，第一条符合条件的规则被执行。可用的规则有：
+
+check_relay_domains：如果符合以下的条件，则接受SMTP连接请求，否则拒绝该连接，可以用relay_domains_reject_code 参数指定返回给客户机的错误代码（缺省为504）。
+* 客户端主机名符合$relay_domains及其子域
+* 目的地为$inet_interfaces、$mydestination或$virtual_maps
+
+permit_auth_destination：不管客户端的主机名，只要符合以下的条件，就
+接受SMTP连接请求：
+* 解析后的目标地址符合$relay_domains及其子域
+* 解析后的目标地址符合$inet_interfaces、$mydestination或$virtual_maps
+
+reject_unauth_destination：不管客户端的主机名，只要符合以下的条件，
+就拒绝该客户端SMTP连接请求：
+* 解析后的目标地址符合$relay_domains及其子域
+* 解析后的目标地址符合$inet_interfaces、$mydestination或$virtual_maps
+
+check_recipient_access：根据解析后的目标地址、父域搜索access数据库。如果搜索的结果为REJECT 或者 "[45]XX text" 则拒绝该客户端的连接请求；如果搜索的结果为OK、RELAY 或数字则接受该客户端的连接请求。可以用access_map_reject_code参数指定返回给客户机的错误代码（缺省为554）。
+    
+reject_unknown_recipient_domain：如果收件人的邮件地址在DNS中没有相应的A 或 MX 记录则拒绝该客户端的连接请求。可以用unknown_address_reject_code参数指定返回给客户机的错误代码（缺省为450）。
+
+reject_non_fqdn_recipient：如果发件人在执行RCPT TO命令时提供的地址
+不是完整的域名则拒绝其SMTP连接请求。可以用The non_fqdn_reject_code参数指定返回给客户机的错误代码（缺省为504）。
+
+4.4 posftfix的性能控制
+之所以对postfix的性能进行控制，是为了在遇到邮件风暴时保证postfix可以正常运行。通常，我们可以通过对下列postfix参数的配置来调节postfix的性能，这些参数都是通过mail.cf配置文件进行配置的，修改以后不要忘了运行postfix reload命令来使配置生效。
+
+1． 进程数限制
+可以通过default_process_limit 参数来控制postfix系统同时可以运行的最
+大进程数目。缺省值是50个。 
+
+2． 对同一目标主机的并发连接限制
+当向同一目标主机发出SMTP连接时，postfix初始化发出两个SMTP连接，
+如果投递成功则增加并发的SMTP连接数目，遇到拥塞时又减少并发连接的数目。postfix中通过以下的参数对同一目标主机的并发连接进行控制：
+* initial_destination_concurrency：控制对同一目标主机的初始化并发连接数目。缺省值为2。
+* default_destination_concurrency_limit：控制初始化连接后对同一目标主机的最大并发连接数目。缺省值为10。
+* local_destination_concurrency_limit：控制对同一本地收件人的最大同时投递的邮件数目。缺省值为2，因为对本地同一收件人投递邮件时投递工作只能一个接一个的进行，所以设得在大也没用。
+
+3． 对同一封邮件的收件人数目限制
+通过default_destination_recipient_limit参数来控制postfix的投递代理（如
+smtp进程）可以将同一封邮件发送给多少个收件人。缺省值为50。也可以用明确指出该投递代理的参数来覆盖该缺省值。如用smtpd_recipient_limit来指定smtp投递代理可以将同一封邮件发送给多少个收件人，该参数的缺省值为1000。
+    
+4． 推迟投递控制
+通过defer_transports参数，我们可以推迟投递该参数指定的邮件直到postfix明确的提出投递要求。下面我们看一个例子：
+有一个小型的局域网，用户都将邮件发送给局域网内部的一台postfix
+邮件服务器，然后通过在该服务器上拨号将邮件发送出去。这时我们可以这样指定该参数的值：
+   defer_transports = smtp
+该语句表示postfix推迟投递所有的邮件直到执行sendmail -q命令，这样
+我们就可以在ppp的脚本中加上sendmail -q，以便在拨号成功后让postfix开始投递邮件。
+
+邮件系统postfix安装与配置(二)
+
+http://LinuxAid.com.cn 01-01-12 11:26 318p bye2000
+--------------------------------------------------------------------------------
+
+
+5． 关于延迟邮件的再投递控制
+可以通过以下的几个参数实现对延迟邮件的再投递控制：
+queue_run_delay：设置队列管理进行扫描deferred邮件队列的频率，缺省值为1000秒。
+maximal_queue_lifetime：设置postfix在放弃投递而返回不可投递信息前，被延迟邮件再deferred邮件队列中的生存时间。
+minimal_backoff_time：当一封邮件投递失败后，邮件队列将在一段时间内忽视该邮件的存在，也就是我们前面讲的时间邮票。该参数就是用来设置最小的时间邮票。缺省值为1000秒。
+maximal_backoff_time：设置最大的时间邮票。
+
+6． 对拒绝服务攻击的处理
+postfix对每一个SMTP会话都设置一个错误计数器，当该客户端的请求未
+被接受或违反那UCE规则时，该计数器就增1。随着计数器的增加，postfix将采取不同的措施来防止恶意用户的拒绝服务攻击。
+smtpd_error_sleep_time：当该错误计数器的值还很小时，postfix将暂停
+smtpd_error_sleep_time指定的时间，然后向客户端报告一个错误。该参数的缺省值为5秒。
+    smtpd_soft_error_limit：当错误计数器的值超过该参数指定的值时，postfix在响应该客户端请求前将沉睡一段时间。缺省值为10。
+smtpd_hard_error_limit：当错误计数器的值超过该参数指定的值时，postfix
+中断同该客户端的连接。缺省值为100。
+
+4.5 postfix对使用资源的控制
+通过特定的postfix配置参数，我们可以实现postfix运行时对所消耗的资源的灵活控制。可以通过以下几个方面来控制postfix消耗的资源：
+
+1． 限制内存中的对象的大小
+要控制对内存资源的消耗，必须控制内存中对象的大小。可以用以下的参数来进行对象大小的控制：
+line_length_limit：控制读入数据时每一行的大小，如果太长则强行将其分割成更短的行，太长的行在投递时再重组。缺省值为2048 bytes。
+header_size_limit：限制信头长度。缺省值为102400bytes。
+message_size_limit：限制postfix队列文件的大小。缺省值为10240000 bytes。
+queue_minfree：邮件队列中可用的空间大小。缺省为无限制。建议该值最好时message_size_limit的数倍以便于处理大邮件。
+bounce_size_limit：限制某一邮件不可投递时，返回给发件人不可投递报告的大小，缺省值为50000 bytes。
+
+2． 限制内存中对象的数目
+qmgr_message_recipient_limit：设置内存中收件人地址的最大数目。缺省值为10000。
+qmgr_message_active_limit：设置active邮件队列中邮件数目的最大值。缺省值为1000。
+duplicate_filter_limit：设置需要local和cleanup后台程序记住的收件人地址的最大数目。缺省值为1000。
+
+    3．限制等待一个外部命令完成的时间
+command_time_limit：设置local程序等待一个外部命令完成的时间。缺省值为1000秒。
+
+4． 限制文件锁定的操作时间
+   deliver_lock_attempts：设置锁定一个文件的最大尝试次数。缺省值为5次。
+   deliver_lock_delay：设置如果锁定一个文件失败后再次尝试的等待时间，缺省值为1秒。
+   
+5． 控制错误恢复
+在某些情况下（如高负载），postfix的某个进程可能会死掉，这时master进
+程会试图重新启动该进程，我们可以通过下面的参数来控制这种行为：
+fork_attempts：试图重启动一个进程的最大尝试次数。缺省值为5次。
+fork_delay：每两次尝试之间的等待时间，缺省值为1秒。
+transport_retry_time：队列管理进程每两次尝试连接一个不正常的投递代理进程之间的等待时间。缺省为60秒。
+
+4.6 postfix中的地址操作
+
+1． 将地址改写为标准格式
+在cleanup进程进行表查询之前，它首选请求trivial-rewrite进程将新
+邮件地址改写成标准的user@fully.qualified.domain格式。改写的目的是为了减少查询表中的条目，从而提供查询的效率。trivial-rewrite进程可以实现以下的地址改写：
+* 将包含源路由信息的地址如@hosta,@hostb:user@site写成user@site，因为postfix不支持包含源路由信息的地址格式。
+* 将形如user%domain的地址改写成user@domain的形式。该特性可通过allow_percent_hack参数进行控制，其缺省值为yes。
+* 将只包含user的地址改写成user@$myorigin。该特性可通过append_at_myorigin参数进行控制，其缺省值为yes。最好不要改动其缺省值，因为大多数的postfix进程更擅长处理地址形如user@$myorigin的邮件。
+* 将形如user@host的地址改写成user@host.$mydomain。该特性可通过append_dot_mydomain参数进行控制，其缺省值为yes。
+* 将形如user@site.的地址改写成 user@site，也即除去了最后的点号。
+
+2． 规范地址映射
+在cleanup进程将一封新邮件存入incoming邮件队列之前，cleanup进程
+将根据查询规范表来进行地址改写，从而使之更具可读性。主要是替换形如Firstname.Lastname 风格的地址以及清除无效的域。缺省postfix是不进行规范地址改写的，你可以通过指定canonical_maps参数的值来使其生效。如：
+     canonical_maps = hash:/etc/postfix/canonical 
+     也可以分别为收件人和发件人地址分别指定不同的改写规范，这时参数sender_canonical_maps和recipient_canonical_maps的优先级比canonical_maps高。如：
+     sender_canonical_maps = hash:/etc/postfix/sender_canonical 
+     recipient_canonical_maps = hash:/etc/postfix/recipient_canonical
+
+3． 地址欺骗
+就是将形如user@host.domain的地址改写成user@domain或user@other.domain, 
+好像是从其他的邮件服务器发出的一样。缺省该功能是被禁止的，可以用参数masquerade_domains使其生效，如：
+    masquerade_domains = $mydomain
+    也可以通过masquerade_exceptions参数对特定的用户不进行地址欺骗，如：
+masquerade_exceptions = root
+注意：地址欺骗只对发件人地址有作用。
+
+4． 虚拟地址映射
+在运用了规范地址映射和地址欺骗之后，cleanup将使用虚拟表映射将邮件
+重定向到所有的收件人。注意，该操作仅仅作用于信头上的收件人地址。这样，我们就可以将发送到虚拟域的邮件投递到真实用户的邮箱。系统的别名数据库同样可以起到相同的作用。缺省该功能是被禁止的，可以用参数virtual_maps使其生效，如：
+     virtual_maps = hash:/etc/postfix/virtual
+     
+5． Relocated数据库查询
+    Relocated表格提供如何将邮件发送给在系统中没有帐号的用户。缺省该功能是被禁止的，可以用参数relocated_maps使其生效，如：
+    relocated_maps = hash:/etc/postfix/relocated
+    
+6． 别名数据库查询
+当邮件在本地投递时，local投递代理进程会在别名数据库（linux下为
+/etc/aliases）中查询收件人的别名。该操作不会作用于邮件信头中的地址。可以用alias_maps指定使用的别名数据库。缺省地，该功能是有效的，如：
+    alias_maps = hash:/etc/aliases 
+可以通过alias_database参数控制别名数据库的路径，如：
+alias_database = hash:/etc/aliases
+
+五、 postfix的配置实例
+5.1为拨号用户配置postfix
+假设有一个小公司使用拨号上网，公司通过ISP的SMTP服务器（假设其域名为mail.isp.com，ip地址为201.110.1.100）发送邮件；公司内部的员工通过公司的SMTP服务器（运行postfix）收发邮件，下面我们一起来配置公司内部的SMTP服务器。
+
+1． 因为没有自己的固定ip和域名，所以必须指定ISP的SMTP服务器作
+为邮件网关（智能主机）。可以用如下的参数指定：
+   relayhost = [201.110.1.100]
+注意：relayhost的值可以是domain、host、host:port、[address]或[address]。
+
+2. 当接收到新邮件时，postfix就会尝试投递该邮件。如果将该公司内部的
+SMTP服务器设置为按需拨号，也就是一有程序请求外联就拨号，则会增加上网的费用。这时我们可以通过postfix的defer_transports参数推迟投递新邮件直到postfix提出明确的要求，如指定：
+    defer_transports = smtp
+这时如果我们在ppp的脚本（如/etc/ppp/ip-up.local）加上如下命令，则postfix只在拨号成功后投递新邮件：
+/usr/sbin/sendmail
+
+3． 因为我们是将邮件转发到邮件网关（201.110.1.100）而不是自己进行投
+递，所以我们没有必要使用DNS，因此我们通过如下的参数取消DNS查询：
+disable_dns_lookups = yes
+
+4. 为了保证我们能收到回信，我们必须进行域伪装。
+masquerade_domains = isp.com
+
+下面就是我们的配置文件mail.cf：
+
+#指定邮件网关
+relayhost =  [201.110.1.100]
+# 在拨号成功后才投递邮件
+defer_transports = smtp
+#取消DNS查询
+disable_dns_lookups = yes
+#一般常规配置
+queue_directory = /var/spool/postfix
+program_directory = /usr/libexec/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+mail_owner = postfix
+default_privs = nobody
+mail_spool_directory = /var/spool/mail
+mailbox_command = /usr/bin/procmail
+local_destination_concurrency_limit = 2
+default_destination_concurrency_limit = 10
+debug_peer_level = 2
+debugger_command=PATH=/usr/bin:/usr/X11R6/bin,xxgdb$
+                 daemon_directory/$ process_name $process_id & sleep 5
+    # 假设本地网络为192.168.1.1/24
+mynetworks = 192.168.1.1/24
+# host specific information
+myhostname = yourhost.isp.com
+mydomain = local.isp.com
+myorigin = $mydomain
+where do we receive mail and who do we accept/receive mail for?
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, $mydomain
+default_transport = smtp
+masquerade_domains = isp.com
+
+需要注意的是：这里的$mydomain、$myorigin、$mydestination不能为isp.com, 因为你如果设定为isp.com，内部SMTP服务器就会认为你的邮件是转发给它的，故而在本地尝试投递邮件，结果只会返回“unknown user”的错误。其次，该配置只实现了将邮件通过SMTP发送到ISP的SMTP服务器的手段，缺乏从ISP的邮件服务器取信的方法，这一点就只能通过如outlook或foxmail等的mail客户端软件来实现了。
+
+5.2为中小型企业用户配置postfix
+假设有一家数千名员工的公司，该公司通过租用专线上网。现在公司决定
+通过postfix来建立自己的邮件系统。在这里我们假设该公司的域为some.com, 邮件服务器的域名mail.some.com，地址为202.200.180.2，DNS服务器的域名为dns.some.com,地址为202.200.180.1。
+1． 配置DNS服务器，设置MX记录指向mail.some.com。相关的配置文件
+为/var/named/some.com(假设其zone文件就叫some.com, 有关DNS配置的内容请参看本书的相关章节)的内容如下：
+
+@       IN      SOA  dns.some.com. root.dns.some.com (
+                       2000011307  ; serial
+                       28800       ; refresh, seconds
+                       14400              ; retry, seconds
+                       3600000              ; expire, seconds
+                       86400            ; minimum, seconds
+                        )
+
+@             IN    NS      dns.some.com.
+@             IN    A       202.200.180.1
+@             IN    MX      10  mail.some.com. 
+
+localhost     IN    A        127.0.0.1
+dns         IN     A        202.200.180.1
+mail         IN    A        202.200.180.2
+host1        IN     A       202.200.180.3
+host2        IN     A       202.200.180.4
+
+2． 配置postfix，其配置文件及相关的解释如下：
+
+#设置一般的路径信息
+queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+mail_spool_directory = /var/spool/mail
+
+#设置邮件及邮件队列的所有者为postfix
+mail_owner = postfix
+
+#设置邮件服务器的主机名
+myhostname = mail.some.com
+
+#设置mydomain、myorigin和mydomain参数
+mydomain = some.com
+myorigin =$mydomain 
+mydestination = $mydomain
+
+#设置postfix服务监听的端口
+inet_interfaces = all
+
+#设置本地收件人的用户名查询手段，缺省是查询/etc/passwd文件
+#和别名数据库
+local_recipient_maps = $alias_maps unix:passwd.byname
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+#设置最终的本地投递代理程序，在这里我们使用流行的procmail
+mailbox_command = /usr/bin/procmail
+
+#设置该值为$mydomain以便客户端的连接
+relay_domains = $mydomain
+mynetworks = 202.200.180.0/24
+
+#设置向用户显示的主机名和版本信息
+smtpd_banner = $myhostname ESMTP $mail_name
+
+#对于并发进程的限制，保持系统缺省值就可以满足要求了。
+local_destination_concurrency_limit = 2
+default_destination_concurrency_limit = 10
+
+#如果你不知道你在做什么，最好不要改变下面的设置
+debug_peer_level = 2
+debugger_command =
+         PATH=/usr/bin:/usr/X11R6/bin
+         xxgdb $daemon_directory/$process_name $process_id & sleep 5
+
+3． 在RedHat中我们通常使用imap作为pop3服务器，可以通过rpm -q imap
+命令查看系统有没有安装imap。如果没有安装则插入linux光盘，用rpm -ivh imap-4.5-4.rpm 进行安装。
+
+4． 缺省地，pop3服务器是由inet 启动的，所以必须去掉/etc/inetd.conf文
+件中有关pop3的一行注释。如下所示：
+  pop-3  stream  tcp    nowait  root   /usr/sbin/ipop3d    ipop3d
+
+5． 重新启动inet服务器，启动postfix:
+#/etc/rc.d/init.d/inet restart
+#postfix start
+
+5.3在防火墙内部配置postfix
+    假设一公司通过租用专线上网，公司内部使用192.168.0.0的私有ip, 然后通过防火墙（双宿主主机）的ip欺骗上网，公司的邮件服务器（mail.some.com）也在内部网中，也使用私有ip。我们假设在防火墙上进行了端口转发，可以将Internet对防火墙25端口的请求包转发到内部的邮件服务器上，并且运行DNS服务的防火墙的MX记录指向防火墙本身。
+在这个例子中，我想着重说明的是有关映射文件的用法。main.cf配置文件和相关的解释如下所示：
+
+
+    #表明自己的身份
+myhostname = mail.some.com
+mydomain = some.com
+mydestination = $mydomain, $myhostname, localhost.$mydomain
+myorigin = $mydomain
+#让postfix监听所有接口
+inet_interfaces = all
+
+#通过mynetworks参数接受内部网用户的SMTP连接请求
+mynetworks = 192.168.0.0/8  
+
+#向postfix管理员报告的信息量
+notify_classes = resource, software, bounce, policy
+
+#如果客户端的ip地址符合$maps_rbl_domains参数中列出的则拒绝之
+maps_rbl_domains = rbl.maps.vix.com, dul.maps.vix.com
+
+#对可以连接的客户端进行严格的限制
+smtpd_client_restrictions = 
+             #客户端ip符合$mynetworks定义的范围则接受连接
+permit_mynetworks, 
+        #根据access的查询结果判断客户端连接的合法性
+              check_client_access hash:/etc/postfix/access, 
+     #拒绝ip符合$maps_rbl_domains定义范围的连接
+               reject_maps_rbl, 
+    #如果客户端在DNS中没有记录则拒绝连接，要慎用
+               reject_unknown_hostname
+
+#通过发件人的地址进行限制
+smtpd_sender_restrictions = 
+    permit_mynetworks, 
+check_sender_access hash:/etc/postfix/access
+    
+#设置虚拟主机数据库，别忘了执行"postmap virtual"进行格式转换
+virtual_maps = hash:/etc/postfix/virtual 
+    
+#对无系统帐号的邮件进行转发设置，如离开公司的员工
+relocated_maps = hash:/etc/postfix/relocated
+   
+#设置别名数据库
+alias_maps = hash:/etc/postfix/aliases
+    
+# 我们使用smtp投递代理
+default_transport = smtp
+    
+# 一些常规设置
+mail_owner = postfix
+default_privs = nobody
+
+#设置路径信息
+queue_directory = /var/spool/postfix 
+program_directory = /usr/libexec/postfix 
+command_directory = /usr/sbin 
+daemon_directory = /usr/libexec/postfix 
+mail_spool_directory = /var/spool/mail 
+mailbox_command = /usr/bin/procmail
+   
+#并发连接设置
+local_destination_concurrency_limit = 2 
+default_destination_concurrency_limit = 10 
+
+然后，我们执行以下命令：
+
+#进入postfix配置目录
+cd /etc/postfix
+#用newaliases初始化别名数据库
+newaliases
+#用postmap分别建立virtual、access和relocated查询数据库
+postmap virtual
+postmap access
+postmap relocated
+#启动postfix
+/etc/rc.d/init.d/postfix start
+
+现在我们来看看virtual、access和reloacted几个查询文件的格式，下面是这几个文件的示例和注释：
+
+    #virtual文件示例
+#假设在这个例子中我们有个虚拟域为other.com
+other.com
+     
+    #access 文件示例
+#如果符合前面的条件则进行后面操作，可以有三种操作：
+#1. [45]XX $messag：拒绝接受并且向客户端显示预定义的信息
+#2. REJECT：拒绝接受，不显示信息
+#3. OK允许连接
+    ispy99@noman.com.cn     550 Go away
+    friend.com     OK
+    202.192     REJECT
+    
+    #relocated 文件示例
+    #该文件主要是将发给无系统帐号的邮件进行转发
+    who@some.com     onetwo@newone.com
+六、 postfix中的命令行工具及其它
+下面我们来看一看postfix的命令行工具，通过这些工具的使用可能会使你
+对postfix的管理更简单。
+
+6.1 sendmail兼容的命令行工具
+
+1． mailq  对邮件队列文件进行列表。表中的每一个条目包含有以下信息：
+队列文件ID、邮件的大小、到达的时间、发件人、收件人和投递延迟的原因（如果投递有延迟的话）。该命令主要是与showq后台程序通信来获取队列文件的相关信息。该命令无参数。
+
+2． newaliases 该工具进行别名数据库的初始化。如果没有指定数据库的类
+型，则使用系统默认的数据库类型（在linux下为hash）。该命令可以不带参数执行。
+
+6.2 postfix自带的命令行工具
+
+1． postcat  打印邮件队列文件的内容。后面界要显示的队列文件名，可以
+带一个-v的参数进行冗余显示。
+
+2． postconf  打印配置参数设置后的值或postfix的其他信息。
+             -d 打印配置参数的缺省值。
+             -m 列出所有支持的查询表类型。
+                不带参数则打印配置参数设置后的值。
+
+3． postmap  建立postfix查询数据库。在linux下可以直接跟上原始文件
+而不带任何参数来建立该数据库。
+
+6.3 postfix的日志
+     postfix的日志文件位于/etc/log/maillog, 文件中包含有postfix的启动信息、出错信息以及同其他SMTP服务器的会话等等。如下所示：
+
+Sep 10 05:54:17 mail postfix/smtpd[5072]: disconnect from unknown[204.140.244.150]
+Sep 10 06:06:00 mail postfix/qmgr[467]: 50D403DF8: from=<bye2000@yxtc.edu.cn>;, size=6591 (queue active)
+Sep 10 06:11:06 mail postfix/smtp[5085]: connect to bjmx2.163.net[202.108.255.241]: read timeout (port 25)
+Sep 10 06:16:07 mail postfix/smtp[5085]: connect to bjmx3.163.net[202.108.255.242]: read timeout (port 25)
+Sep 10 06:21:08 mail postfix/smtp[5085]: connect to bjmx1.163.net[202.108.255.240]: read timeout (port 25)
+
+6.4 在postfix中使用MySQL数据库
+     Scott Cotton 和 Joshua Marcus写了一段可以在postfix中添加mysql映射类型的代码，从而我们可以将postfix查询的别名数据库等数据存储在mysql数据库中，让postfix进行mysql查询来得到结果。这样做将有助于提供postfix的运行效率， 有其对需要不断对映射数据的站点特别有用。
+
+   1.为postfix添加识别mysql数据库映射的功能
+a. 由于这段代码使用了mysql客户端库，所以我们必须安装mysql的开包。
+可以到www.redhat.com等linux相关站点下载mysql开发包，也可以从某些linux的资源光盘中取得mysql的开发包，如MySQL-client-3.22.30-1.i386.rpm。
+   b. 安装该开发包：
+   rpm -ivh MySQL-client-3.22.30-1.i386.rpm
+c. 下载postfix的源代码包，根据本章“3.1源代码包的安装”的提示进行
+安装，但是注意在执行make命令之前先执行以下命令：
+make -f Makefile.init makefiles 'CCARGS=-DHAS_MYSQL -I /usr/include/mysql' 
+                          'AUXLIBS=/usr/lib/mysql/libmysqlclient.a -lm'
+   
+5. 配置postfix使用mysql数据库映射
+我们以alias_maps进行说明。在main.cf中指定：
+   alias_maps = mysql:/etc/postfix/mysql-aliases.cf
+
+6. 编辑mysql-aliases.cf
+
+#首先指定登录到mysql服务器的用户名和密码
+user = your_user_name
+password = your_password
+
+#连接的数据库名称
+dbname = your_database_name
+
+#查询的表名
+table = mytable
+
+#添加表的字段名称
+#forward_addr为转发地址
+#alias为别名数据
+select_field＝forward_addr
+where_field=alias
+#添加附加的查询条件
+additional_conditions=and status='paid'
+
+#指定要连接的MySQL服务器
+hosts=your.mysql.server
+
+这样，当发生一个查询的时候，postfix是以这样的SQL语句进行查询的：
+select forward_addr from mytable where alias='$lookup' and status='paid'
+
+以上只是一个例子。在实际的运用中您可以指定多个mysql数据库，使用多个数据表格。

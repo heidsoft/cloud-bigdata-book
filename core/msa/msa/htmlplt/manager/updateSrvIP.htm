@@ -1,0 +1,101 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script type=text/javascript  src="/msa/publicjs/select_time_st_1.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<script type="text/javascript">
+ function savelistfun() {
+	var mysrvid=north.srvid.value;
+	var mysrvip=north.srvip.value;	
+	alert(mysrvid);
+	/*if(mysrvip!="")
+	{
+	  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	  var IP_flag=false;
+	  if(regIP.test(mysrvip)){
+		IP_flag = true;
+		}else{
+		IP_flag = false;
+		}
+		if (!IP_flag){
+		  alert("对不起，IP地址格式错误！");
+			north.srvip.focus();
+			north.srvip.select();
+		  return false;
+		}
+	}
+	
+	if(mysrvarea!="")
+	{
+	  var regAREA=/^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?$/;
+	  var AREA_flag=false;
+	  if(regAREA.test(mysrvarea)){
+		AREA_flag = true;
+		}else{
+		AREA_flag = false;
+		}
+		if (!AREA_flag){
+		  alert("对不起，域名格式错误！");
+			north.srvarea.focus();
+			north.srvarea.select();
+		  return false;
+		}
+	}*/
+	
+	Ext.Ajax.request({
+		method : 'POST', 
+    url:'/msa/main.xp', 
+    success: function() 
+	  {
+	  	alert("编辑服务器IP成功!");
+	    //parent.parent.mainviewfrm.location.href="main.xp?Fun=lturlsort"; 
+    },
+    failure : function() 
+    {   
+	  	alert("编辑服务器IP失败!"); 
+    },
+    params:{Fun:'msaUpdateType',srvip:mysrvip,srvid:mysrvid,flag:1}
+  });
+ }
+</SCRIPT>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	new Ext.Panel({
+		renderTo:Ext.getBody(),
+		layout:'fit',
+		height:screen.height-210,
+		contentEl:'mainviewdiv'
+		});
+});
+</SCRIPT>
+</head>
+<body bgcolor="#ffffff" text="#000000"  leftmargin="1" topmargin="0" >
+	<div id="mainviewdiv" valign="top" align="center" STYLE="position:absolute; top=30; left=30; z-index:1;">
+    <form name="north">
+    	<input type="hidden"  name="srvid" value="[$srvid$]">
+	<table width="974" align="center">
+		<tr>
+		<td >到以下域名的HTTP访问归类为此服务</td>
+	  </tr>
+		<tr>
+		<td ><textarea name="srvip" cols="60" rows="8" style="overflow-x:hidden;overflow-y:hidden;">[$srvip$]</textarea></td>
+	  </tr>
+		<tr><td colspan="3"><hr/></td></tr>
+		<tr><td colspan="3">
+			<input type="button" onClick="savelistfun();"  value="保存/修改"  class=inputf0 size=10>
+			<input type="hidden" name="type" value="1" >
+		</td>
+		</tr>
+	</table>
+</form>
+</div>
+</body>
+</html>

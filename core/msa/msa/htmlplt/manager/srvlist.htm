@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>服务列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<SCRIPT LANGUAGE="JavaScript">
+function goto2(t){
+		parent.ftop.location.href=t
+}
+function goto(t){
+	self.location.href=t
+}
+function mouseovertr2 (o){
+var i;
+  df=o.style.backgroundColor
+  o.style.backgroundColor= "#003399";
+	o.style.borderColor= "#FFFF00";
+	o.style.cursor="hand";	
+	for(i=0; i<o.cells.length; i++){
+		o.cells(i).style.color="#ffffff";
+	}	
+}
+function mouseouttr2(o){
+	o.style.backgroundColor=df
+  for(i=0; i<o.cells.length; i++){
+	 o.cells(i).style.color="#000000";
+ }
+}
+function updatelistfun(id) {
+	tt=window.open("/msa/main.xp?Fun=ltupdatesrvlist+srvid="+id, "新服务", "toolbar=no,scrollbars=yes,directories=no,menubar=no,width=600,height=400");
+}
+function dellistfun() {
+	listform.submit();
+}
+</SCRIPT>
+<style type="text/css">
+<!--
+.unnamed1 {  cursor: hand}
+-->
+</style>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" topmargin="0" leftmargin="0"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;"  >
+<form name="listform" action="/msa/main.xp" method="POST">
+<input type="hidden" name="allnum" value="[$caIndex$]">
+<table border=0 cellspacing=2 width="100%" cellpadding=0 align="center">
+  <tbody> 
+  <tr> 
+    <td id=clearStart height="530" valign="top" width="85%" > 
+        <table border="0" align="center" cellpadding="3" cellspacing="0" width="96%">
+          <tr> 
+            <td colspan="5" > 
+              <div align="right">
+                <img src="./images/del.gif" onClick="dellistfun();" class="unnamed1"> 
+                <input type="hidden" name="Fun" value="ltdelsrv">
+              </div>
+            </td>
+        </tr>
+      </table>
+        <table width="96%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+          <tr  > 
+            <td width="32" bgcolor="#f0f0f0"  height="20" background="./images/barbg.gif">&nbsp;</td>
+	        <td width="120" bgcolor="#f0f0f0"  height="20" valign="bottom" background="./images/barbg.gif">名称 
+            </td>
+            <td width="100" bgcolor="#f0f0f0"  height="20" valign="bottom" background="./images/barbg.gif">状态 
+            </td>
+            <td width="100"  height="20" valign="bottom" background="./images/barbg.gif">协议 
+            </td>
+	        <td  bgcolor="#f0f0f0"  height="20" valign="bottom" background="./images/barbg.gif">特征 
+          </td>
+        </tr>
+	[$begintable list$]
+          <tr   onMouseOver="mouseovertr2(this)" onMouseOut="mouseouttr2(this)"  onClick="goto2('/msa/main.xp?Fun=ltshowoneservice+srvid=[$srvid$]')"  bgcolor="#EEEEEE" > 
+            <td width="32"> 
+              <div align="center"> 
+              <input type="checkbox" name="checkbox[$indexnum$]" value="[$srvid$]">
+            </div>
+          </td>
+	        <td width="120">&nbsp;[$srvname$]</td>
+          <td width="100">&nbsp;[$srvflag$]</td>
+          <td width="100">&nbsp;[$srvProt$]</td>
+	        <td >[$nPortL$]-[$nPortU$] ([$srvDirect$])</td>
+        </tr>
+       [$endtable$]
+        </table>
+      </td>
+  </tr>
+  </tbody> 
+</table>
+ <input type="hidden" name="allnum" value="[$allnum$]" >
+</form>    
+</body>
+</html>

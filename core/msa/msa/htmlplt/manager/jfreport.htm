@@ -1,0 +1,477 @@
+<html class="x-viewport"><head><title>网络7层管理和过滤的领导者</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK 	rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link 	href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css" type="text/css">
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+
+
+<style type="text/css">HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+.settings {
+	BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_wrench.png)
+}
+.nav {
+	BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_go.png)
+}
+</style>
+
+<script type="text/javascript">
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+    var wing;
+    var uid;//用户id
+	  var gid=0;//部门id
+	  pagesize=100;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var win;
+				var myMask = new Ext.LoadMask(Ext.getBody(),
+		    {
+		        	msg:"Please wait..."
+		    });
+				myMask.show();
+				var treepan=new Ext.tree.TreePanel({
+				    	  id: 'tree-panel',
+				        split: true,
+				        useArrows:true,
+				        autoScroll: true,
+				        height:350,
+				        rootVisible: false,
+				        lines: false,
+				        useArrows: true,
+				        loader: new Ext.tree.TreeLoader({
+				        dataUrl:'/msa/main.xp?Fun=msaGroupTree',
+				        baseParams:{Fun:'msaGroupTree',type:0}
+				        }),
+				        root: new Ext.tree.AsyncTreeNode(),
+				        listeners: {
+				             click: function(node, e){
+							       gid=node.id;
+								     }
+								}
+		    });
+			  var cm=new Ext.grid.ColumnModel([
+						{header:'报告名称',dataIndex:'reportname',sortable:true,width:250},
+						{header:'报告状态',dataIndex:'reportstate',sortable:true,width:250},
+						{header:'报告生成日期 ',dataIndex:'dates',sortable:true,width:250}
+				]);
+				xtzystore=new Ext.data.GroupingStore({
+	      url:'/msa/main.xp',
+	      baseParams:{Fun:'msaReportJsonStore',reportdir:"jfreport"},
+	      reader: new Ext.data.JsonReader({
+	           root:'Results',
+	           totalProperty:'totalCount',
+	           remoteSort:true,
+	           fields: [
+		           			{name: 'reportname'},
+										{name: 'dates'},
+										{name: 'bydate'},
+										{name: 'reportdir'},
+										{name: 'bfile'},
+										{name: 'reportstate'},
+										{name: 'condition'}
+					   ]
+	      }),
+	      sortInfo:{field: 'reportname', direction: 'ASC'},
+	      groupField:['bydate']
+				});
+				xtzystore.load();
+				HlPagingToolbar = Ext.extend(Ext.PagingToolbar, {
+			    displayInfo: true,
+			    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条',
+			    emptyMsg: "无记录",
+			    initComponent : function(){
+			    							var pageSizeItems = [
+			                     '-','每页',
+			                      this.inputItem = new Ext.form.NumberField({
+												    cls: 'x-tbar-page-number',
+												    allowDecimals: false,
+												    allowNegative: false,
+												    enableKeyEvents: true,
+												    maxValue: 500,
+												    maxText: '每页不允许超过500条',
+												    selectOnFocus: true,
+												    value: this.pageSize,
+												    submitValue: false,
+												    listeners: {
+												        scope: this,
+												        keydown: this.onHlPagingKeyDown,
+												        blur: this.onHlPagingBlur
+												    }
+			                     }),'条','-',{
+									            icon: '/msa/images/grid.png',
+									            enableToggle:true,
+									            text: '导出本页数据到Excel',
+									            cls: 'x-btn-text-icon details',
+									            toggleHandler: function(btn, pressed){
+									                downloadViewDataActive(xtzygrid);
+									            }
+									        },'-',{
+									            icon: '/msa/images/drop-yes.gif',
+									            enableToggle:true,
+									            text: '开始分析',
+									            cls: 'x-btn-text-icon details',
+									            toggleHandler: function(btn, pressed){
+													         	document.getElementById("north").style.display="";
+										      					var mywin = new Ext.Window({
+																						title: '选择条件',
+																						closeAction: 'hide',
+																						width: (screen.width-200)/2,
+																						height:(screen.height+200)/3,
+																						resizable:false,
+																						plain:true,
+																						autoScroll:false,
+																						contentEl:'north',
+																						bodyStyle:'padding:5px;',
+																						buttons: [{
+																	            text: '生成报告',
+																	            tooltip:'根据你的选择，将生成相应计费报告', //悬停提示
+																			        tooltipType:'qtip',
+																							handler  : function(){
+																							    				var email = Ext.getDom('email').value;
+																													var email_Flag = false;
+																													var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+																													if(sdate.value==""||edate.value==""){
+																														Ext.MessageBox.alert("系统提示","日期不能为空!");
+																														return;
+																													}
+																													if(email!=""){
+																														email_Flag = reg.test(email);
+																														if(!email_Flag){
+																															Ext.MessageBox.alert("提示信息","对不起，您输入的邮箱地址格式错误。");
+																															Ext.getDom('email').focus();
+																															Ext.getDom('email').select();
+																															return false;
+																														}
+																													}
+																													Ext.Ajax.request({
+																								                method : 'POST',
+																								                url:'/msa/main.xp',
+																								                success: function(response,options){
+																								                		var temp=0;
+																																		temp=Number(response.responseText);
+																																		var procdir="jfreport/"+temp;
+																				                            Ext.MessageBox.show({
+																																           msg: '报告正在生成中,请稍后...',
+																																           progressText: 'apply...',
+																																           width:300,
+																																           wait:true,
+																																           waitConfig: {interval:500},
+																																           icon:'ext-mb-download'
+																																		});
+																										            	  var task = {
+																										                     run: function(){
+																											                     Ext.Ajax.request({
+																											                           method : 'POST',
+																											                           url:'/msa/main.xp',
+																											                           success: function(response, options) {
+																											                           	  var retxt=0;
+																										                                retxt=Number(response.responseText);
+																										                                if(retxt==100){
+																										                                	  runner.stopAll();
+																											                             			Ext.MessageBox.hide();
+																											                             			Ext.MessageBox.alert("提示信息","操作成功");
+																										                                	  mywin.hide();
+																																												xtzystore.load();
+																										                                }else if(retxt==0){
+																										                                	  runner.stopAll();
+																														                            Ext.MessageBox.hide();
+																														                            Ext.MessageBox.alert('提示信息','操作失败!');
+																										                                }else{
+																										                                		var progressText = "当前进度："+retxt+"%";
+																										                                  	Ext.MessageBox.updateProgress(retxt,progressText);
+																										                                }
+																											                           },
+																											                           failure : function() {
+																											                             runner.stopAll();
+																											                             Ext.MessageBox.hide();
+																											                             Ext.MessageBox.alert('提示信息','操作失败!');
+																																								 },
+																											                           params:{
+																											                               Fun:'msaupdateProgress',
+																											                               procdir:procdir
+																											                           }
+																											           					 });
+																										                     },
+																																				 interval: 500
+																												            };
+																										                runner = new Ext.util.TaskRunner();
+																										                runner.start(task);
+																																},
+																																failure: function(response,options){
+																																		Ext.MessageBox.alert("提示信息","操作失败");
+																																},
+																													      params:{
+																							                    				Fun:'jfreport',
+																												                  edate:edate.value,
+																												                  sdate:sdate.value,
+																												                  punit:punit.value,
+																												                  gid:gid,
+																																					accountflag:accountflag.value,
+																																					email:email,
+																												                  reportname:reportname.value
+																							                  }
+																										      });
+																					  	}
+																					  	}]
+																		});
+
+													          mywin.show();
+
+									        }},'-'];
+			         var userItems = this.items || [];
+			         this.items = userItems.concat(pageSizeItems);
+			         HlPagingToolbar.superclass.initComponent.call(this);
+			    },
+			    onHlPagingKeyDown: function(field, e){
+			        if(field.isValid()){
+			             var k = e.getKey();
+			             if (k == e.RETURN) {
+			                    e.stopEvent();
+			                    this.pageSize = field.getValue();
+			                    pagesize=this.pageSize;
+			                    this.doRefresh();
+			             }
+			        }
+			    },
+			    onHlPagingBlur: function(field){
+			        if(field.isValid()){
+			            this.pageSize = field.getValue();
+			            pagesize=this.pageSize;
+			            this.doRefresh();
+			        }
+			    }
+			  });
+
+				var pagingBar= new HlPagingToolbar({
+			      store: xtzystore,
+			      pageSize: pagesize,
+			      displayInfo: true
+			  });
+
+				var sm = new Ext.grid.CheckboxSelectionModel();
+				var xtzygrid=new Ext.grid.GridPanel({
+			      store           :xtzystore,
+			      sm: sm,
+			      columns					:[
+			      			new Ext.grid.RowNumberer(),
+			        		sm,
+			      			{id:'reportname',header: "报告名称", width: 100, sortable: true, dataIndex: 'reportname'},
+				          {header: "报告状态",   width: 100, sortable: true,  dataIndex: 'reportstate'},
+				          {header: "报告生成日期",   width: 120, sortable: true,  dataIndex: 'dates'},
+				          {header: "报告日期",   width: 120, sortable: true,  dataIndex: 'bydate'}
+			      ],
+			      view: new Ext.grid.GroupingView({
+			      	hideGroupedColumn:true,
+			        forceFit:true,
+			        groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+						}),
+			      tbar: pagingBar,
+			      stripeRows      :true,
+			      autoExpandColumn:'reportname',
+			      frame           :false,
+				    collapsible     :false,
+				    loadMask        :{msg:'正在加载数据，请稍侯……'},
+				    draggable       :false
+				});
+
+				function showsysdelrule(btn){
+						if(btn=='yes'){
+							 var record = xtzygrid.getStore().getAt(detailEl);
+					     var files=record.get("bfile");
+					     var reportdirs=record.get("reportdir");
+					  	 Ext.Ajax.request({
+				            url:'/msa/main.xp',
+				            method: "post",
+				            success: function (response, opts) {
+				            	  var resptxt=response.responseText;
+	          					  if(resptxt.substring(0,1)==1){
+	          					    	 xtzygrid.store.load();
+	          					  }else{
+					           	  		 Ext.MessageBox.alert('提示','删除失败');
+	          					  }
+				            },
+				            failure: function () {
+				                Ext.Msg.alert('提示','删除失败');
+				            },
+				            params: {Fun:'msaReportJsonStore',
+													    file:files,
+													    reportdir:reportdirs
+										}
+				       });
+					  	 xtzystore.load();
+						}
+				};
+				var rightClick  = new Ext.menu.Menu({
+		                id:'feeds-ctx',
+		                items: [{
+                				id:'shanchubaogao',
+												iconCls:'load-icon',
+												text:'删除报告',
+												scope: this,
+												handler:function(){
+													  Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+												}
+		                },{
+		                    id:'liulanbaogao',
+		                    iconCls:'load-icon',
+		                    text:'浏览报告',
+		                    scope: this,
+		                    handler:function(){
+		                        var record = xtzygrid.getStore().getAt(detailEl);
+		                        var files=record.get("bfile");
+		                        var reportdirs=record.get("reportdir");
+		                        var usrl="/msadata/report/"+reportdirs+"/"+files+"/index.htm";
+							   						window.open(usrl,'');
+							   				}
+		                 },{
+		                    id:'xiazaibaogao',
+		                    iconCls:'load-icon',
+		                    text:'下载报告',
+		                    scope: this,
+		                    handler:function(){
+		                        var record = xtzygrid.getStore().getAt(detailEl);
+		                        var files=record.get("bfile");
+		                        var reportdirs=record.get("reportdir");
+                        		var usrl="/msa/main.xp?Fun=msaDataCenetrDownLoad+downLoadFileName=report.tgz+downLoadFile=report/"+reportdirs+"/"+files+"/report.tgz";
+		                        downloadFile(usrl);
+
+		                    }
+		    							}]
+		   	});
+				xtzygrid.addListener('rowclick', rightClickFn);
+				function rightClickFn(client, rowIndex, e) {
+							                rightClick.showAt(e.getXY());
+							                detailEl=  rowIndex;
+				}
+
+		    var mainPanel= {
+		    			title:'计费报告',
+							id: 'main-panel',
+							region:'center',
+              collapsible: false,
+              split:true,
+              width: 135,
+              minSize: 125,
+              maxSize: 400,
+              layout:'fit',
+              margins:'0 5 0 0',
+              items:[xtzygrid]
+		    }
+			  var comboxWithTree = new Ext.form.ComboBox({
+					   store:new Ext.data.SimpleStore({fields:[],data:[[]]}),
+					   editable:false,
+					   shadow:false,
+					   mode: 'local',
+					   triggerAction:'all',
+					   maxHeight: 350,
+					   tpl: '<tpl for="."><div style="height:350"><div id="tree1"></div></div></tpl>',
+					   selectedClass:'',
+					   renderTo: 'combox',
+		         width:200,
+		         //不允许为空
+		         allowBlank:true,
+		         //默认值
+				     emptyText:'全部部门',
+				     //当为空的时候提示
+				     blankText:'全部部门',
+						 onSelect:Ext.emptyFn
+				});
+			  treepan.on('click',function(node){
+			     comboxWithTree.setRawValue(node.text);
+			     comboxWithTree.collapse();
+			  });
+			  comboxWithTree.on('expand',function(){
+			    treepan.render('tree1');
+			  });
+		    new Ext.Viewport({
+						layout: 'border',
+						items: [mainPanel],
+		        renderTo: Ext.getBody()
+				});
+				myMask.hide();
+    });
+	</script>
+<meta name="GENERATOR" content="MSHTML 8.00.6001.18702"></head>
+<body oncontextmenu="return false">
+<DIV id=north style="display:none">
+	<fieldset style="width:300;height:30;border:2px groove" align=center>
+    <legend>部门对象</legend>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr>
+        <td  height="20"><div>选择部门&nbsp;&nbsp;:</div></td><td><div align="left" id="combox"></div></td>
+      </tr>
+    </table>
+  </fieldset>
+	<br>
+  <br>
+  <fieldset style="width:300;height:30;border:2px groove" align=center>
+    <legend>日期对象</legend>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr>
+        <td  height="20" colspan="2"><div align="left"> 开始日期&nbsp;&nbsp;:
+            <input type="text"  class=inputf0 name="sdate"  id="sdate" size="20" value="" readonly onClick=setday(sdate)>
+          </div></td>
+      </tr>
+      <tr>
+        <td  height="20" colspan="2"><div align="left"> 结束日期&nbsp;&nbsp;:
+            <input type="text"  class=inputf0 name="edate" id="edate" size="20" value="" readonly onClick=setday(edate)>
+          </div></td>
+      </tr>
+    </table>
+  </fieldset>
+	<br>
+  <br>
+  <fieldset style="width:300;height:30;border:2px groove" align=center>
+    <legend>其他属性</legend>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr>
+        <td  height="20" colspan="2"><div align="left"> 排序方式&nbsp;&nbsp;:
+            <select name="punit"  class=inputself0  id="punit">
+	                <option value="0">计费流量  </option>
+	                <option value="1">计费时间 </option>
+	                <option value="2">本期计费金额  </option>
+	              </select>
+          </div></td>
+      </tr>
+      <tr>
+      	<td  height="20" colspan="2"><div align="left"> 时 间 段&nbsp;&nbsp;:
+	              <select name="accountflag"  class=inputself0  id="accountflag">
+	                <option value="100" selected>全部时间 </option>
+	                <option value="1">计费时间  </option>
+	                <option value="0">非计费时间 </option>
+	              </select>
+            </div></td>
+	   	</tr>
+      <tr>
+      	<td  height="20" colspan="2"><div align="left"> 账单名称&nbsp;&nbsp;:
+      		<input type="text" name="reportname"  class=input  id="reportname" size="20" maxlength="32" value=""  >
+            </div></td>
+	   	</tr>
+      <tr>
+      	<td  height="20" colspan="2"><div align="left"> 邮件地址&nbsp;&nbsp;:
+      		<input type="text"  class=inputf0 name="email" size="20" maxlength="32" value="" title="填写邮件地址后生成的报告可自动发送到您的邮箱">
+            </div></td>
+	   	</tr>
+    </table>
+  </fieldset>
+</div>
+</body>
+</html>
+

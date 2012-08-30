@@ -1,0 +1,420 @@
+﻿<HTML><HEAD><TITLE></TITLE>
+<META http-equiv=Pragma content=no-cache>
+<META http-equiv=Cache-Control content=no-cache>
+<META http-equiv=Expires content=0>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+
+<SCRIPT LANGUAGE="JavaScript">
+
+function updatefun() {
+
+	if(listform.gnmkey.value=="" ){
+		alert("探针注册号不能为空!");
+		return;
+	}
+	listform.submit();
+}
+</SCRIPT>
+
+<SCRIPT type=text/javascript  src="/msas/publicjs/select_time_long.js"></SCRIPT>
+<META content="MSHTML 6.00.2800.1458" name=GENERATOR></HEAD>
+<BODY bottomMargin=0 bgColor=#f0f0f0 leftMargin=0 topMargin=0 onload="return " rightMargin=0 marginheight="0" marginwidth="0">
+
+<form name="listform" action="/msas/main.xp" method="POST">
+ <INPUT name="gnmkey"  type="hidden" value="[$gnmkey$]">
+ <INPUT name="Fun"  type="hidden" value="msasTermInfoUpdate">
+<CENTER>
+
+<TABLE id=FT cellSpacing=0 cellPadding=0 width="100%"  border=0>
+<!-- #E5ECF2 -->
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              
+              <TR>
+                <TD  align=right width="25%" height=22> 探针分组路径：</TD>
+                <TD  align=left width="25%" colspan="3" >[$group$]</TD>
+              </TR>
+              
+              <TR>
+                
+                <TD  align=right width="25%" height=22>探针注册号</TD>
+                <TD  align=left width="25%" >[$gnmkey$]</TD>
+                <TD  align=right width="25%" height=22>单位编号与序号:</TD>
+                <TD  align=left width="25%" >
+               [$clientid$]-[$UnitNo$]</TD>
+              </TR>
+               
+              <TR>
+                <TD  align=right width="25%" height=22>最终客户名称:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input  name="clientname" value="[$clientname$]"></TD>
+                <TD  align=right width="25%" height=22>客户地址:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input    class=input   name="clientadd" value="[$clientadd$]"></TD>
+             </TR>
+                
+                 <TR>
+                <TD  align=right width="25%" height=22>客户联系人:</TD>
+                <TD  align=left width="25%" >
+                <input type="text"   class=input   name="zherenren" value="[$zherenren$]"></TD>
+                <TD  align=right width="25%" height=22>联系人身份证:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="zherenrenid" value="[$zherenrenid$]"></TD>
+                 </TR>
+                 
+               <TR>
+                <TD  align=right width="25%" height=22>联系人电话:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="zherenrentel" value="[$zherenrentel$]"></TD>
+                <TD  align=right width="25%"  height=22>联系人Email:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="zherenrenemail" value="[$zherenrenemail$]"></TD>
+                 </TR>
+                 
+              <TR>
+                <TD  align=right width="25%" height=22>营业面积:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="yingyearea" value="[$yingyearea$]"></TD>
+                <TD  align=right width="25%"  height=22>从业人数:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="congyenum" value="[$congyenum$]"></TD>
+              </TR>
+              
+              <TR>
+                <TD  align=right width="25%" height=22>机器台数:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="termnum" value="[$termnum$]"></TD>
+                <TD  align=right width="25%" height=22></TD>
+                <TD  align=left width="25%"></TD>
+              </TR>
+              
+              <TR>
+                <TD  align=right width="25%" 
+                height=22>代理名称:</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="secname" value="[$secname$]"></TD>
+                <TD  align=right width="25%"  height=22>联系人电话:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="sectel" value="[$sectel$]"></TD>
+              </TR>
+              <TR>
+                <TD  align=right width="25%" 
+                height=22>代理联系人:</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="secid" value="[$secid$]"></TD>
+                <TD  align=right width="25%"  height=22>联系人Email</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="secemail" value="[$secemail$]"></TD>
+              </TR>
+              
+                 <TR>
+                <TD  align=right width="25%" 
+                height=22>IP地址:</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="iplist" value="[$iplist$]"></TD>
+                <TD  align=right width="25%" 
+                height=22>网络接入方式:</TD>
+                <TD  align=left width="25%"  >
+                
+              
+                <select name="connecttype"  class=inputsel  >
+                <option value="01"  [$nsel1$] >专网、真实地址
+                <option value="02"  [$nsel2$] >专线
+                <option value="03"  [$nsel3$] >ADSL拨号
+                <option value="04"  [$nsel4$] >IDSN
+                <option value="05"  [$nsel5$] >普通拨号
+                <option value="06"  [$nsel6$] >Cable modem拨号
+                <option value="07"  [$nsel7$] >电力线
+                <option value="08"  [$nsel8$] >无线上网
+                <option value="99"  [$nsel99$] >其他
+                </select>
+                
+                </TD>
+              </TR>
+              <TR>
+                <TD  align=right width="25%" 
+                heigh未知t=22>终端类型:</TD>
+                <TD  align=left width="25%" >
+                
+                
+               
+                <select name="clienttype" class=inputsel>
+                <option value="1" [$csel1$]  >宾馆酒店休闲娱乐
+                <option value="2" [$csel2$]  >政府机关
+                <option value="3" [$csel3$]  >企业单位或公司
+                <option value="4" [$csel4$]  >教育或事业单位
+                <option value="5" [$csel5$] >其他
+                </select>
+                
+                </TD>
+                <TD  align=right width="25%" 
+                height=22>运营商代码</TD>
+                <TD  align=left width="25%" 
+                >
+                
+                
+                
+                <select class=inputsel  name="producer_code">
+                <option value="01" [$psel1$] >中国电信
+                <option value="02" [$psel2$] >中国网通
+                <option value="03" [$psel3$] >中国联通
+                <option value="04" [$psel4$] >中国长城宽带
+                <option value="05" [$psel5$] >中国铁通
+                <option value="06" [$psel6$] >中国移动
+                <option value="07" [$psel7$] >中国卫星通信
+                <option value="08" [$psel8$] >教育部门
+                <option value="09" [$psel9$] >中科院
+                <option value="99" [$psel99$] >其他
+                </select>
+                
+                
+                </TD>
+              </TR>
+                 
+                 <TR>
+                <TD  align=right width="25%" 
+                height=22>设备状态码:</TD>
+                <TD  align=left width="25%" 
+                >
+                
+                
+                <select class=inputsel  name="clientstatus">
+                <option value="1"  [$ssel1$] >装机开始服务
+                <option value="2"  [$ssel2$]  >装机停止服务
+                <option value="3"  [$ssel3$] >未装机开始服务
+                <option value="4"  [$ssel4$] >未装机停止服务
+                <option value="9"  [$ssel9$] >其他
+                
+                
+                </select>
+                
+                
+                
+                </TD>
+                 <TD  align=right width="25%" 
+                height=22>设备型号码</TD>
+                <TD  align=left width="25%" >
+                
+                 <select  class=inputsel name="usernum">
+                <option value="50"  [$usel1$] >GNM50
+                <option value="100" [$usel2$] >GNM100
+                <option value="200" [$usel3$] >GNM200
+                <option value="300" [$usel4$] >GNM300
+                <option value="500" [$usel5$] >GNM500
+                <option value="800" [$usel6$] >GNM800
+                <option value="1000" [$usel7$] >GNM1000
+                <option value="2000" [$usel8$] >GNM2000
+                <option value="3000" [$usel9$] >GNM3000
+                <option value="5000" [$usel10$] >GNM5000
+                <option value="8000" [$usel1$] >GNM8000
+                <option value="10000" [$usel12$] >GNM10000
+                <option value="20000" [$usel13$] >GNM20000
+                <option value="50000" [$usel14$] >GNM50000
+                <option value="100000" [$usel15$] >GNM100000
+                </select>
+                
+                </TD>
+    					</TR>
+         
+              <TR>
+                <TD  align=right width="25%" 
+                height=22>网监部门:</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="Net_monitor_department" value="[$Net_monitor_department$]"></TD>
+                 <TD  align=right width="25%" 
+                height=22>网监部门联系人</TD>
+                <TD  align=left width="25%" >
+                <INPUT name="Net_monitor_man"  type="text" class=input   value="[$Net_monitor_man$]">
+                </TD>
+    					</TR>
+    					
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>网监部门联系电话:</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="Net_monitor_man_tel" value="[$Net_monitor_man_tel$]"></TD>
+                 <TD  align=right width="25%" 
+                height=22>&nbsp;邮编：</TD>
+                <TD  align=left width="25%" >
+                &nbsp;<input type="text" class=input   name="Zip" value="[$Zip$]">
+                </TD>
+    					</TR>
+      
+      
+      				<TR>
+                <TD  align=right width="25%" 
+                height=22>通信间隔(秒):</TD>
+                <TD  align=left width="25%" 
+                ><input type="text" class=input   name="intervalfig" value="[$intervalfig$]"></TD>
+                 <TD  align=right width="25%" 
+                height=22>最后通信时间: </TD>
+                <TD  align=left width="25%" >
+               [$lasttime$]
+                </TD>
+    					</TR>
+    					
+    					  <TR>
+                <TD  align=right width="25%" 
+                height=22>上传报警记录:</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="alarmlog" value="Y" [$alarmlog$] ></TD>
+                 <TD  align=right width="25%" height=22>上传用户上线记录</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="trlog" value="Y" [$trlog$] >
+                </TD>
+    					</TR>
+    					
+           
+             <TR>
+                <TD  align=right width="25%" 
+                height=22>上传网站记录:</TD>
+                <TD  align=left width="25%" 
+                ><input type="checkbox" name="onlinelog" value="Y" [$onlinelog$] ></TD>
+                 <TD  align=right width="25%" 
+                height=22>上传身份记录</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="identitylog" value="Y" [$identitylog$] >
+                </TD>
+    					</TR>
+             
+              <TR>
+                <TD  align=right width="25%" 
+                height=22>上传网络内容:</TD>
+                <TD  align=left width="25%" 
+                ><input type="checkbox" name="conlog" value="Y" [$conlog$] ></TD>
+                 <TD  align=right width="25%" 
+                height=22>上传统计信息</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="statlog" value="Y" [$statlog$] >
+                </TD>
+    					</TR>
+    					
+    					<TR>
+                <TD  align=right width="25%"  height=22>上传信息方式:</TD>
+                <TD  align=left width="25%">
+	                <select name="uploadtype">
+	                <option value="0" [$upsel0$] >定时上传
+	                <option value="1" [$upsel1$] >即时上传
+	                </select>
+                </TD>
+                 <TD  align=right width="25%" 
+                 height=22>上传信息定时间隔</TD>
+                <TD  align=left width="25%" >
+                <input type="text" class=input   name="uploadtimeval" value="[$uploadtimeval$]"  >
+                </TD>
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                 height=22>仅上传本IP的记录:</TD>
+                <TD  align=left width="25%">
+	              <input type="text" class=input   name="uploadcmd" value="[$uploadcmd$]" >
+                </TD>
+                 <TD  align=right width="25%"  height=22></TD>
+                <TD  align=left width="25%" >
+                </TD>
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>服务期:</TD>
+                <TD  align=left width="25%" 
+                >从：<input type="text" class=input id="startday"  name="startday" value="[$startday$]"  onClick="setday(startday)" ></TD>
+                 <TD  align=right width="25%" 
+                height=22>到：<input type="text" class=input  id="endday"  name="endday" value="[$endday$]" onClick="setday(endday)" ></TD>
+                <TD  align=left width="25%" >
+               &nbsp;
+                </TD>
+    					</TR>
+             
+               <TR>
+                <TD  align=right width="25%" 
+                height=22>提供升级服务:</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="updateflag" value="1" [$updateflag$] ></TD>
+                 <TD  align=right width="25%" height=22>目前设备版本</TD>
+                <TD  align=left width="25%" >
+               &nbsp;<input type="text" class=input   name="lastappupdatev" value="[$lastappupdatev$]"  >
+                </TD>
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                 height=22>采用VPN连接?以及IP地址:</TD>
+                <TD  align=left width="25%" >
+                <input type="checkbox" name="vpnserver" value="1" [$vpnserverchk$]>
+                <input type="text" class=input  size=15 clsss=myinput name="vpnaddress" value="[$vpnaddress$]"  ></TD>
+                 <TD  align=right width="25%" height=22>VPN连接的校验密码：</TD>
+                <TD  align=left width="25%" >
+                
+								<input type="text" class=input   clsss=myinput name="vpnpass" value="[$vpnpass$]"  >
+                </TD>
+    					</TR>
+
+               <TR>
+                <TD  align=right width="25%" 
+                height=22>注册客户名称:</TD>
+                <TD  align=left width="25%" colspan=3
+                > [$registname$] </TD> 
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>注册客户联系人:</TD>
+                <TD  align=left width="25%" colspan=3
+                > [$registuser$] </TD> 
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>è册客户地址:</TD>
+                <TD  align=left width="25%" colspan=3
+                > [$registadd$] </TD> 
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>注册客户电话:</TD>
+                <TD  align=left width="25%" colspan=3
+                > [$registtel$] </TD> 
+    					</TR>
+    					
+    					 <TR>
+                <TD  align=right width="25%" 
+                height=22>注册客户邮件:</TD>
+                <TD  align=left width="25%" colspan=3
+                > [$registmail$] </TD> 
+    					</TR>
+             
+           
+            </TBODY></TABLE></TD></TR></TBODY></TABLE><!-- 显示主体 --></TD></TR></TBODY></TABLE>
+<CENTER>
+<TABLE id=FT height=10 cellSpacing=0 cellPadding=0 width="100%" align=center 
+bgColor=#3f99c9 border=0>
+  <TBODY></TBODY></TABLE></FORM>
+
+<hr>     
+<TABLE id=FT height=10 cellSpacing=0 cellPadding=0 width="100%" align=center  border=0>
+  <TBODY>
+   <TABLE cellSpacing=0 cellPadding=0 width="100%"  border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top align=center colSpan=10>&nbsp;&nbsp;
+           <INPUT class=input style="cursor: hand" onclick="updatefun();"  type="button" value=更新探针 name=BtnReload>&nbsp;
+          </TD></TR></TBODY>
+          </TABLE>
+  
+  </TBODY>
+</TABLE>
+</FORM>
+<hr>
+</CENTER></CENTER></BODY></HTML>

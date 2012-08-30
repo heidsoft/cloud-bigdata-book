@@ -1,0 +1,242 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<STYLE type=text/css>
+.x-tree-node-italic-blue span {color:blue!important;font:italic 11px arial,tahoma,helvetica,sans-serif;white-space:nowrap;}
+</STYLE>
+<SCRIPT type=text/javascript>
+		var pagesize=100;
+		var limit=100;
+		var start=0;
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var topsrv=0;
+				var twoServiceTree;
+				var rulesrv;
+				var hheight=screen.height-460;
+				var myMask = new Ext.LoadMask(Ext.getBody(),{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+		var saveAndClose=function(){
+				Ext.Ajax.request({
+	        method : 'POST',
+	        url:'/msa/main.xp',
+	        success: function(response, options){
+	        		parent.xtzystore.load();
+	        		parent.addwin.close();
+	        },
+	        failure : function(){
+	        },
+	      	params:{Fun:'[$function$]',sname:document.getElementById('sname').value,ruleaction:document.getElementById('ruleaction').value,qosid:document.getElementById('qosid').value,rulesrv:document.getElementById('rulesrv').value,sid:document.getElementById('sid').value,ruleid:[$ruleid$]}
+				});
+		}
+		/**
+		 *checkTree全选
+		 */
+		var treeCheckTrue = function(node)
+		{
+		    node.eachChild(function (child) {
+		        child.getUI().toggleCheck(true);
+		        child.attributes.checked = true;
+		        treeCheckTrue(child);
+		    });
+		}
+		/**
+		 *checkTree清空
+		 */
+		var treeCheckfalse = function(nodes)
+		{
+		    if(nodes && nodes.length){
+		     for(var i=0;i<nodes.length;i++){
+		      //设置UI状态为未选中状态
+		      nodes[i].getUI().toggleCheck(false);
+		      //设置节点属性为未选中状态
+		      nodes[i].attributes.checked=false;
+		     }
+		    }
+		}
+		var oneServiceTree=new Ext.tree.TreePanel({
+        split: true,
+        height:hheight,
+        title:'一级服务',
+        useArrows:true,
+        autoScroll: true,
+        rootVisible: false,
+        lines: true,
+        useArrows: true,
+        checkModel:false,
+        loader: new Ext.tree.TreeLoader({
+        	  dataUrl:'/msa/main.xp',
+						baseParams:{Fun:'msaRuleSrvTree',sid:[$sid$]}
+        }),
+        root: new Ext.tree.AsyncTreeNode(),
+        listeners: {
+							    click: function(node, e) {
+							    	    topsrv=node.id;
+								 		    twoServiceTree.getLoader().load(twoServiceTree.root);
+							    }
+				}
+		});
+	  twoServiceTree=new Ext.tree.TreePanel({
+        split: true,
+        height:hheight,
+        id:'servicetree',
+        title:'二级服务',
+        useArrows:true,
+        autoScroll: true,
+        rootVisible: false,
+        lines: false,
+        useArrows: true,
+        checkModel:false,
+        tbar : [{
+             	xtype : 'button',
+            	tooltip:{text:'<b>选择所有服务</b>'},
+            	text:'全选',
+            	//iconCls:'connect',
+            	handler:function(){
+            		var rootNode = Ext.getCmp('servicetree').getRootNode();
+            		treeCheckTrue(rootNode);
+            }},'-',{
+             	xtype : 'button',
+            	tooltip:{text:'<b>取消选择</b>'},
+            	text:'清空',
+            	//iconCls:'connect',
+            	handler:function(){
+            		var nodes = Ext.getCmp('servicetree').getChecked();
+				        treeCheckfalse(nodes);
+            }}
+				],
+        loader: new Ext.tree.TreeLoader({
+        	  dataUrl:'/msa/main.xp',
+						baseParams:{Fun:'msaltServiceTree'}
+        }),
+        root: new Ext.tree.AsyncTreeNode()
+		});
+		twoServiceTree.on('checkchange',function(node,checked){
+				rulesrv=document.getElementById('rulesrv').value;
+				if(checked){
+                if(node.leaf){
+                    if(node.id=='0'){
+                      rulesrv = '1' + rulesrv.substring(Number(node.id)+1);
+                    }else if(node.id=='999'){
+                      rulesrv = rulesrv.substring(0,Number(node.id)) +  '1';
+                    }else{
+                      rulesrv = rulesrv.substring(0,Number(node.id)) +  '1' + rulesrv.substring(Number(node.id)+1,1000);
+                    }
+		            }
+								document.getElementById('rulesrv').value=rulesrv;
+				}else {
+								if(node.leaf){
+                    if(node.id=='0'){
+                      rulesrv = '0' + rulesrv.substring(Number(node.id)+1);
+                    }else if(node.id=='999'){
+                      rulesrv = rulesrv.substring(0,Number(node.id)) +  '0';
+                    }else{
+                      rulesrv = rulesrv.substring(0,Number(node.id)) +  '0' + rulesrv.substring(Number(node.id)+1,1000);
+                    }
+		            }
+								document.getElementById('rulesrv').value=rulesrv;
+				}
+				//alert(document.getElementById('rulesrv').value);
+		});
+		twoServiceTree.loader.on("beforeload", function(loader, node) {
+	        loader.baseParams.topsrv=topsrv;
+	        loader.baseParams.rulesrv=document.getElementById('rulesrv').value;
+	  });
+		//添加 srvrulesrv
+		var srvrulesrv= new Ext.Panel({
+				region:'north',
+        split:true,
+        collapsible: false,
+        collapseMode: 'mini',
+        height:110,
+        frame:true,
+        minWidth: 150,
+        border: false,
+        //baseCls:'x-plain',
+        contentEl:'srvrulesrv'
+		});
+		var srvPanel = new Ext.Panel({
+        region:'center',
+        deferredRender:true,
+        layout:'fit',
+        margins:'0 4 4 0',
+        items:[{
+            id:'srv-srv',
+            closable:false,
+            autoScroll:true,
+        		layout:'column',
+						plain:true,
+						bbar:['->',
+							{
+             	xtype : 'button',
+            	tooltip:{text:'<b>选择所有服务</b>'},
+            	text:'选择所有服务并保存',
+            	icon: '/msa/images/saving.gif',
+							cls: 'x-btn-text-icon details',
+            	//iconCls:'connect',
+            	handler:function(){
+            		document.getElementById('rulesrv').value='1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111';
+            		saveAndClose();
+            	}},'-',{icon: '/msa/images/saving.gif',
+							enableToggle:true,
+							cls: 'x-btn-text-icon details',
+            	tooltip:{text:'<b>保存该策略服务</b>'},
+            	text:'保存选择的服务',
+            	//iconCls:'connect',
+            	handler:function(){
+            		saveAndClose();
+              }}
+						],
+						items:[
+									{	columnWidth:.4,
+										items: [oneServiceTree]
+									},
+									{	columnWidth:.6,
+				   					items: [twoServiceTree]
+				   				}
+				    ]
+        }]
+    });
+    viewport = new Ext.Viewport({
+           layout:'border',
+           items:[srvrulesrv,srvPanel]});
+		myMask.hide();
+});
+	</SCRIPT>
+</HEAD>
+<body oncontextmenu="return true" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="srvrulesrv" valign="top" align="center" STYLE="position:absolute; top=0;z-index:1;">
+<table width="90%" border="0" cellspacing="0" cellpadding="1" align="center" bordercolor="#B0BDD3" style="BORDER-COLLAPSE: collapse">
+	<input type="hidden" id="rulesrv" name="rulesrv" value="[$rulesrv$]">
+	<input type="hidden" id="sid" name="sid" value="[$sid$]">
+	<input type="hidden" class="inputself0" id="qosid" value="0">
+	<tr>
+		<TD VALIGN='middle'><font face='宋体' >名称： </font></TD>
+		<TD VALIGN='middle'>
+					<INPUT TYPE='text'  class="input"   id="sname" NAME="sname" VALUE="[$sname$]">
+		</TD>
+	</tr>
+	<tr>
+		<TD VALIGN='middle'><font face='宋体' >动作： </font></TD>
+		<TD VALIGN='middle'>
+			<select name="ruleaction" class="inputself0" id="ruleaction">
+				<option value="0">拒绝访问</option>
+				<option value="1" [$ruleaction1$]>允许访问</option>
+			</select>
+		</TD>
+	</tr>
+</table>
+</div>
+</BODY>
+</HTML>

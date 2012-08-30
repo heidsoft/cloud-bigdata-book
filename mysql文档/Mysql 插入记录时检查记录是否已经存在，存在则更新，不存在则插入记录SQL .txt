@@ -1,0 +1,79 @@
+Mysql 插入记录时检查记录是否已经存在，存在则更新，不存在则插入记录SQL .
+我们在开发数据库相关的逻辑过程中， 经常检查表中是否已经存在这样的一条记录， 如果存在则更新或者不做操作， 如果没有存在记录，则需要插入一条新的记录。
+
+ 
+
+这样的逻辑固然可以通过两条sql语句完成。
+
+ 
+
+SELECT COUNT(*) FROM xxx WHERE ID=xxx;
+
+ 
+
+if (x == 0)
+
+    INSERT INTO xxx VALUES;
+
+else
+
+    UPDATE xxx SET ;
+
+ 
+
+但是这样操作在性能上有所损失， 代码结构感觉有点丑陋。
+
+ 
+
+其实Mysql提供了可以在一个SQL语句中完成上述逻辑的支持。
+
+ 
+
+官方文档如下：
+
+ 
+
+MySQL provides many extentions to SQL which help performance in many common use scenarios. Among these are INSERT ... SELECT, INSERT ... ON DUPLICATE KEY UPDATE, and REPLACE. 
+
+
+I rarely hesitate to use the above since they are so convenient and provide real performance benefits in many situations. MySQL has other keywords which are more dangerous, however, and should be used sparingly. These include INSERT DELAYED, which tells MySQL that it is not important to insert the data immediately (say, e.g., in a logging situation). The problem with this is that under high load situations the insert might be delayed indefinitely, causing the insert queue to baloon. You can also give MySQL index hints about which indices to use. MySQL gets it right most of the time and when it doesn't it is usually because of a bad scheme or poorly written query. 
+
+ 
+
+ 
+
+重要的就是上面提到的 :
+
+INSERT ... SELECT
+
+INSERT ... ON DUPLICATE KEY UPDATE
+
+INSERT ... ON DUPLICATE REPLACE
+
+ 
+
+比如想往表中插入一条数据，如果表中没有该条数据才插入，如果已经存在该条数据就不插入。
+
+首先，在创建表时，将不需要重复的字段设置为unique，然后在插入时，使用insert ignore语句。
+
+例如：（数据库用的是mysql5）
+创建一张表用来存储用户：
+create table user_info
+(
+   uid mediumint(10) unsigned NOT NULL auto_increment primary key,
+   last_name char(20) not null,
+   first_name char(20) not null,
+   unique ( last_name, first_name)
+);
+alter table anser add UNIQUE (last_name,first_name)
+插入数据：
+insert ignore into user_info (last_name,first_name) values ('x','y');
+这样一来，如果表中已经存在last_name='x'且first_name='y'的数据，就不会插入，如果没有就会插入一条新数据。
+insert ignore into user_info (last_name,first_name) values ('x','y');
+insert ignore into user_info (last_name,first_name) values ('x','y');
+replace into user_info (last_name,first_name) values ('x','y');
+ 
+ replace into user_info (last_name,first_name) values ('身上','44');
+
+上面的是一种用法， 也可以用 INSERT .... SELECT 来实现。
+

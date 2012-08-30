@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>网络对象</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/icm/publiccss/pubcss.css" type="text/css">
+<SCRIPT LANGUAGE="JavaScript">
+
+function addlistfun() {
+	var mybip=listform.bip.value;
+	var myeip=listform.eip.value;
+	if(mybip=="" || myeip==""){
+		alert("开始ip地址或终止ip地址不能为空!");
+		return;
+	}
+	var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+	var SIP_flag=false;
+	if(regIP.test(mybip)){
+		SIP_flag = true;
+		}else{
+		SIP_flag = false;
+		}
+		if (!SIP_flag){
+		  alert("对不起，开始ip地址格式错误！");
+			listform.bip.focus();
+			listform.bip.select();
+		  return false;
+		}
+	var EIP_flag=false;
+	if(regIP.test(myeip)){
+		EIP_flag = true;
+		}else{
+		EIP_flag = false;
+		}
+		if (!EIP_flag){
+		  alert("对不起，终止ip地址格式错误！");
+			listform.eip.focus();
+			listform.eip.select();
+		  return false;
+		}
+	listform.actiontype.value=1;
+	listform.submit();
+}
+
+function dellistfun() {
+
+	
+	listform.actiontype.value=2;
+	listform.submit();
+
+}
+
+function  applylistfun() {
+
+	listform.Fun.value="ltapplynetarea";
+	listform.submit();
+
+}
+
+</SCRIPT>
+<style type="text/css">
+<!--
+.hand {  cursor: hand}
+-->
+</style>
+</head>
+
+<body bgcolor="#F0f0f0" text="#000000" oncontextmenu="return false" topmargin="0" leftmargin="0"   style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+
+<form name="listform" action="/icm/main.xp" method="POST">
+<table border=0 cellspacing=2 width="100%" cellpadding=0 align="center">
+
+  <tbody> 
+  <tr> 
+    <td id=clearStart height="530" valign="top" width="85%" > 
+<table border="0" align="center" cellpadding="3" cellspacing="0" width="96%">
+          <tr> 
+          <td colspan="3" > 
+	    起始 IP <input type="text"  class=inputf0 name="bip" size="15">
+      终止 IP<input type="text" class=inputf0  name="eip" size="15">
+	    <select name="netflag" class=inputself0 >
+	 	<option value="1" > 本网段IP/MAC手工绑定
+		<option value="99" > 不监控该网段
+		<option value="100"> 禁止使用该网段
+     </select>
+    <select name="snmpnum" class=inputself0 >
+	 	<option value="0" selected > 不通过SNMP识别MAC
+		<option value="1" > 通过SNMP1识别MAC
+		<option value="2" > 通过SNMP2识别MAC
+		<option value="3" > 通过SNMP3识别MAC
+		<option value="4" > 通过SNMP4识别MAC
+		<option value="5" > 通过SNMP5识别MAC
+		<option value="6" > 通过SNMP6识别MAC
+         </select>
+             <input type="button" name="ok"  value="添加" onClick="addlistfun()"  class=inputf0  >
+             <input type="button" name="ok"  value="删除" onClick="dellistfun()"  class=inputf0  >
+	   				<input type="hidden" name="actiontype" value="1" >
+           <input type="hidden" name="Fun" value="ltnetareaaction" >
+           <input type="hidden" name="allnum" value="[$allnum$]" >
+          </td>
+        </tr>
+      
+        
+        
+      </table>
+
+<div id="Layer1" style="position:absolute; width:100%; height:540; z-index:1; overflow: scroll;">        
+        <table width="96%" border="1" cellspacing="0" cellpadding="3" align="center" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+          <tr > 
+            <td width="32"  height="20" background="/images/barbg.gif">&nbsp;</td>
+            <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;起始IP 
+            </td>
+            <td width="180"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;终止IP 
+            </td>
+	        <td width="190"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;MAC识别</td>
+	        <td width="165"  height="20" valign="bottom" background="/images/barbg.gif">&nbsp;IP/MAC绑定特征</td>
+        </tr>
+	[$begintable ipbindlist$]
+          <tr bgcolor="#F3F3F3"> 
+            <td width="32"> 
+              <div align="center"> 
+              <input type="checkbox" name="checkbox[$inum$]" value="[$listindex$]">
+            </div>
+          </td>
+            <td width="180">&nbsp;[$bip$]</td>
+            <td width="180">&nbsp;[$eip$]</td>
+            <td width="190">&nbsp;[$snmpnum$]</td>
+	        <td width="165">&nbsp;[$listdesc$]</td>
+        </tr>
+	[$endtable$]
+        </table>
+</div>
+      </td>
+    
+  </tr>
+  </tbody> 
+</table>
+</form>            
+
+</body>
+</html>
+
+

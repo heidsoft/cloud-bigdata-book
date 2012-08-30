@@ -1,0 +1,235 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+
+
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+
+</STYLE>
+
+
+<SCRIPT type=text/javascript>
+    
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+ 
+    Ext.onReady(function(){
+	
+						Ext.QuickTips.init();
+
+						var detailEl;
+						var mainViewEl;
+						
+						var myMask = new Ext.LoadMask(Ext.getBody(), 
+						{
+								        	msg:"Please wait..."
+						});
+									
+						myMask.show();
+            
+						
+						// This is the main content center region that will contain each example layout panel.
+						// It will be implemented as a CardLayout since it will contain multiple panels with
+						// only one being visible at any given time.
+						var northPanel =new Ext.BoxComponent({
+			                    region:'north',
+			                    el: 'north',
+			                    height:24
+			      });
+						
+						var contentPanel = {
+							id: 'content-panel',
+							region: 'center', // this is what makes this panel into a region within the containing layout
+							margins: '2 5 5 0',
+							activeItem: 0,
+							border: false,
+							el:'mainviewdiv'
+						};
+					    
+
+              
+						  // Go ahead and create the TreePanel now so that we can use it below
+					    var treePanel = new Ext.tree.TreePanel({
+					    	  id: 'tree-panel',
+					        region:'north',
+					        split: true,
+					        height: screen.height-280,
+					        minSize: 150,
+					        autoScroll: true,
+					        rootVisible: false,
+					        lines: false,
+					        useArrows: true,
+					        loader: new Ext.tree.TreeLoader({
+					            dataUrl:'/msas/data/manager-tree-data.json'
+					        }),
+					        
+					        root: new Ext.tree.AsyncTreeNode()
+					   });
+					  
+					  
+						// Assign the changeLayout function to be called on tree node click.
+					  treePanel.on('click', function(n){
+					    	var sn = this.selModel.selNode || {}; // selNode is null on initial selection
+					    	//if(n.leaf && n.id != sn.id){  // ignore clicks on folders and currently selected node 
+								if(n.leaf){  // ignore clicks on folders and currently selected node 
+								 if(n.id=='onlineadmuser'){
+								    mainviewfrm.location.href='/msas/manager/adminlistinfo.htm';
+								 }else if(n.id=='msasAdmlog'){
+								    mainviewfrm.location.href='/msas/manager/admloglist.htm';
+								 }else if(n.id=='sysshutdown'){
+								     function confirmdelgroup(btn){
+													        if(btn=='yes'){
+     																		Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	Ext.MessageBox.alert('提示',"系统关闭中，在30秒后可以安全关闭电源");
+							   																	//retxt.substring(0,1)=='1'
+												                        },
+												                        failure : function() {
+												                         	Ext.MessageBox.alert('提示','关闭系统失败!'); 
+							                                  },
+							 					                        params:{Fun:'msasSysShutdown'} 
+												  						 });
+													        }
+										 };
+                     Ext.MessageBox.confirm('Confirm', '您确认要关闭设备吗?', confirmdelgroup); 
+								 }else if(n.id=='sysreboot'){
+								     function confirmdelgroup1(btn){
+													        if(btn=='yes'){
+     																		Ext.Ajax.request({
+													                      method : 'POST', 
+													                      url:'/msas/main.xp', 
+												                        success: function(response, options) {
+							   																	var retxt=response.responseText;
+							   																	Ext.MessageBox.alert('提示',"系统重新启动中，在2分钟后重新登录");
+							   																	//retxt.substring(0,1)=='1'
+												                        },
+												                        failure : function() {
+												                         	Ext.MessageBox.alert('提示','重新启动系统失败!'); 
+							                                  },
+							 					                        params:{Fun:'msasSysReset'} 
+												  						 });
+													        }
+										 };
+                     Ext.MessageBox.confirm('Confirm', '您确认要重新启动系统吗?', confirmdelgroup1); 
+								 }else if(n.id=='sysclean'){
+								    Ext.MessageBox.alert('提示',"系统暂时不提供该功能");
+								 }else if(n.id=='vpnonline'){
+								    mainviewfrm.location.href='/msas/manager/vpnonlineuser.htm';
+								 }else if(n.id=='vpnsetting'){
+									 mainviewfrm.location.href='/msas/main.xp?Fun=tovpnsetting';
+                 }else{
+									 mainviewfrm.location.href='/msas/main.xp?Fun='+ n.id;
+                 }
+                 
+              
+					    	}
+					  });
+					  
+					  
+
+										
+						
+						var westPanel ={
+                    title:'系统管理',
+                    width: 175,
+                    minSize: 125,
+                    maxSize: 400,
+        						collapsible: true,
+        						cmargins:'0 5 5 5',
+						        lines:false,
+						        autoScroll:true,
+						        collapseFirst:false,
+								    layout: 'border',
+						    	  id: 'layout-browser',
+						        border: false,
+						        split:true,
+								    margins: '2 0 5 5',
+								    items: [treePanel]
+						};
+						
+
+						
+						var eastPanel= {
+					          id: 'east-panel',
+                    region:'west',
+                    collapsible: true,
+                    split:true,
+                    width: 280,
+                    minSize: 155,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 0 0 0',
+                    title:'选择主线',
+                    items:
+                        new Ext.TabPanel({
+                            border:false,
+                            activeTab:0,
+                            items:[
+                            {
+                                title: '终端管理',
+                                html: "<IFRAME  name='menufrm' width=100% height='" + (screen.height-280) + "' SRC = '/msas/manager/grouptree.html'   border='0' frameborder='0' scrolling='yes'   ></iframe>",
+                                autoScroll:true
+                            },westPanel]
+                        })
+              }
+						
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					    new Ext.Viewport({
+									layout: 'border',
+									bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+                  }),
+									items: [
+									  northPanel,
+									  eastPanel,
+										contentPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+             
+            myMask.hide();
+  });
+	</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY  oncontextmenu="return false" >
+<LINK rel=stylesheet type=text/css href="publiccss/pubcss.css">
+<DIV id=north>
+<P>设置终端探针参数、管理员权限等。</P>
+</DIV>
+<div style="display:none;">
+    
+        <!-- Start page content -->
+
+        <div id="proxy"></div>
+        <div id="mainviewdiv">
+            <iframe id="mainviewfrm" name="mainviewfrm" src="/msas/main.xp?Fun=msasShowClientList&gid=&level=0" valign=top width="100%" height="50" border="0" frameborder="0" scrolling="yes"></iframe>
+        </div>
+        
+        <!-- Basic layouts -->
+        
+       
+    </div>
+<script>
+document.all("mainviewfrm").style.height=screen.height-230;
+</script>
+</BODY></HTML>

@@ -1,0 +1,73 @@
+Apache 2的一些标准模块与出错信息汇总 
+
+
+root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 358 of /etc/httpd/conf/httpd.conf:
+Invalid command 'Order', perhaps mis-spelled or defined by a module not included
+in the server configuration
+                                                           [FAILED]
+需添加：
+
+LoadModule access_module /etc/httpd/modules/mod_access.so
+LoadModule auth_module /etc/httpd/modules/mod_auth.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 368 of /etc/httpd/conf/httpd.conf:
+Invalid command 'UserDir', perhaps mis-spelled or defined by a module not includ
+ed in the server configuration
+                                                           [FAILED]
+需添加：LoadModule userdir_module /etc/httpd/modules/mod_userdir.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 396 of /etc/httpd/conf/httpd.conf:
+Invalid command 'DirectoryIndex', perhaps mis-spelled or defined by a module not
+included in the server configuration
+                                                           [FAILED]
+需添加：LoadModule dir_module /etc/httpd/modules/mod_dir.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 419 of /etc/httpd/conf/httpd.conf:
+Invalid command 'TypesConfig', perhaps mis-spelled or defined by a module not in
+cluded in the server configuration
+                                                           [FAILED]
+需添加：LoadModule mime_module /etc/httpd/modules/mod_mime.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 491 of /etc/httpd/conf/httpd.conf:
+Invalid command 'LogFormat', perhaps mis-spelled or defined by a module not incl
+uded in the server configuration
+                                                           [FAILED]
+需添加：LoadModule log_config_module /etc/httpd/modules/mod_log_config.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 555 of /etc/httpd/conf/httpd.conf:
+Invalid command 'Alias', perhaps mis-spelled or defined by a module not included
+in the server configuration
+                                                           [FAILED]
+需添加：LoadModule alias_module /etc/httpd/modules/mod_alias.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 582 of /etc/httpd/conf/httpd.conf:
+Invalid command 'SetEnvIf', perhaps mis-spelled or defined by a module not inclu
+ded in the server configuration
+                                                           [FAILED]
+需添加：LoadModule setenvif_module /etc/httpd/modules/mod_setenvif.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 636 of /etc/httpd/conf/httpd.conf:
+Invalid command 'IndexOptions', perhaps mis-spelled or defined by a module not i
+ncluded in the server configuration
+                                                           [FAILED]
+需添加：LoadModule autoindex_module /etc/httpd/modules/mod_autoindex.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd: Syntax error on line 784 of /etc/httpd/conf/httpd.conf:
+Invalid command 'LanguagePriority', perhaps mis-spelled or defined by a module n
+ot included in the server configuration
+                                                           [FAILED]
+需添加：LoadModule negotiation_module /etc/httpd/modules/mod_negotiation.so
+
+[root@srv-2 modules]# /etc/init.d/httpd start
+Starting httpd:                                            [  OK  ]
+[root@srv-2 modules]#
+

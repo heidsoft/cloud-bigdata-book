@@ -1,0 +1,207 @@
+linux命令行下用Fetion飞信发送免费短信
+
+一、最新版本2009
+
+通过linux命令行来发送短信的方法，觉得甚是好用，适用运维监控。这里向大家推荐的是飞信机器人的软件，支持linux、命令行下的飞信、完全免费（目前为止）； 官网地址： http://www.it-adv.net/ 
+环境 debian lenny
+
+下载最新linux版本客户端 http://bbs.it-adv.net/viewthread.php?tid=155&extra=page%3D1
+
+解压 tar -xzvf fetion20091117-linux.tar.gz
+
+把依赖的库文件和执行程序放到相同的目录，默认解压后都在fx目录下。 
+
+ 
+
+linux下，请使用如下命令： 
+    LD_LIBRARY_PATH=. ./fetion --mobile=13711123456 --pwd=mypwd --to=137xxxxxxxx --msg-utf8=测试
+    LD_LIBRARY_PATH=. ./fetion --sid=6630321 --pwd=mypwd --to=137xxxxxxxx --msg-utf8=测试
+    LD_LIBRARY_PATH=. ./fetion --config=sample.conf --index=1 --to=137xxxxxxxx --msg-utf8=测试 
+
+ 
+
+或者把lib库文件复制到/usr/lib/目录下，cp libACE-5.7.2.so libACE_SSL-5.7.2.so libcrypto.so.4 libssl.so.4 /usr/lib/. ，直接执行./fetion即可执行发信息。#./fetion --mobile=134******* --pwd=cwcsb361  --to=134******* --msg-utf8=试试能收到吗？谢谢
+
+ 
+
+发送消息中如果需要换行，请用 /n 
+  // 以下为 sample.conf 内容，文件内容中， #号为注释行 
+  # This config file is for fetion robot tool.
+   # Usage demo: ./fetion --config=/etc/fetion.conf --index=1
+   # ID Mobile  Password
+   1  137xxxx  1234234 
+
+ 
+
+
+
+
+ 
+
+二、2008版本
+
+
+1、        nagios是一个非常好的系统监控工具，现在我的nagios系统已经正常运行，使用短信猫和邮件可以报警。使用飞信可以节约我们的短信猫和短信费用。
+2、        飞信首先手机要开通中国移动的飞信业务。目前使用飞信发送短信是免费的。需要把接受短信的手机和飞信发送手机加为好友。
+3、        下载飞信的linux客户端程序.解开包后只有一个文件sms。不错。这个就是飞信发送短信的程序啦。现在的飞信还是不能用的。因为它需要libace的glibc库的支持。
+二、        飞信linux程序下载：
+1、        飞信官方网站：http://www.it-adv.net/ 
+2、        飞信官方命令下载：sms
+http://www.it-adv.net/fetion/fetion_linux_20080402.tar.gz 
+3、        飞信官方lib库下载：
+32位官方lib库：http://www.it-adv.net/fetion/library32.rar 
+64位官方lib库：http://www.it-adv.net/fetion/library64_linux.tar.gz 
+
+三、        飞信程序测试：
+1、        飞信命令测试：
+# wget http://www.it-adv.net/fetion/fetion_linux_20080402.tar.gz 
+# tar xvfz fetion_linux_20080402.tar.gz
+# cp sms /usr/bin
+# sms -h
+sms -f mobile -p pwd -t mobile1,.. -m message -a message -d
+sms -f mobile -p pwd -t mobile1,.. -i file_name[utf8] -a invite_message -d 1
+-f:Fetion mobile account(only supports mobile phone No.)
+-p:Account password
+-t:Destination mobile list
+-m:Message
+-i:File name(only supports utf8)
+-a:Auto send invite using invite_message.
+-d:Debug on.
+如果没有安装lib库，将会提示 缺少libACE.so.5.4.7包
+四、        解决缺少lib库的方法：
+说明： 在centOS5下装提示需要libACE.so.5.4.7这个库，千万不要自己去安装ACE包，很麻烦，官方已经给了liunx的下载版本：
+1.先检查一下缺少的lib文件
+[root@nagios libexec]# ldd sms
+        linux-gate.so.1 =>  (0x00b00000)
+        libACE.so.5.4.7 => not found
+        libACE_SSL.so.5.4.7 => not found
+        libssl.so.0.9.8 => not found
+        libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x02a05000)
+        libm.so.6 => /lib/libm.so.6 (0x00cd4000)
+        libgcc_s.so.1 => /lib/libgcc_s.so.1 (0x029f7000)
+        libc.so.6 => /lib/libc.so.6 (0x00b92000)
+        /lib/ld-linux.so.2 (0x001c3000)
+2.下载lib库：
+    32位官方lib库：http://www.it-adv.net/fetion/library32.rar 
+64位官方lib库：http://www.it-adv.net/fetion/library64_linux.tar.gz 
+   3、安装lib库
+[root@nagios library32]# ls
+libACE.so.5.4.7  libACE_SSL.so.5.4.7  libcrypto.so.0.9.8  libssl.so.0.9.8
+[root@nagios library32]# cp *.* /lib/
+[root@nagios library32]# cp *.* /usr/lib/
+4、测试sms：
+[root@nagios libexec]# ./sms
+************************ IMPORTANT STATEMENT ************************
+**                                                                 **
+**   PLEASE DON'T USE THIS SOFTWARE TO SEND JUNK SHORT MESSAGES.   **
+**   OTHERWISE PLEASE BEAR YOUR OWN CONSEQUENCES.                  **
+**                                                                 **
+**                                       [version:2008-4-2]        **
+*********************************************************************
+This program is for sending short messages via CMCC Fetion!
+http://www.fetion.com.cn/ 
+AUTHOR:KelvinHan MSN/EMAIL:shichangguo@msn.com 2008/3/8
+Usage:
+    sms -f mobile -p pwd -t mobile1,.. -m message -a message -d
+    sms -f mobile -p pwd -t mobile1,.. -i file_name[utf8] -a invite_message -d 1
+        -f:Fetion mobile account(only supports mobile phone No.)
+        -p:Account password
+        -t:Destination mobile list
+        -m:Message
+        -i:File name(only supports utf8)
+        -a:Auto send invite using invite_message.
+        -d:Debug on.
+五、        Nagios飞信测试：
+1、        需要注册一个可以使用飞信的手机号码，测试期间可以自己发送给自己做测试。
+2、        给别的手机发飞信，需要给把手机绑定为好友。
+3、        飞信环境解决了，发短信测试一下
+136933XXXXX为发飞信的注册手机号码
+136833XXXXX、36733XXXXX 为接收飞信短信的手机号码
+
+[root@nagios libexec]# ./sms -f 136933XXXXX -p password -t 136833XXXXX -m hello,this is test
+
+也可以要发的消息在一个文本文件里，如 message.txt
+./sms -f 136933XXXXX -p password -t 136833XXXXX,136733XXXXX -i message.txt
+
+如果接收短信的手机号码在你的好友列表里，就会发送成功。
+如果不在好友列表里，发送是不成功的。如果你想让程序邀请他们加入，那么就用 -a 参数
+sms -f 136933XXXXX -p password -t 136833XXXXX,136733XXXXX -m 你好，飞信 -a UBUNTU
+
+这样，对方就会收到移动发的确认短信。
+六、        Nagios配置：
+1、        nagios命令配置commands.cfg：
+more /usr/local/nagios/etc/commands.cfg
+define command{
+        command_name notify-service-by-sms
+
+        command_line /usr/bin/sms -f 13901111111 -p 562128  -t $CONTACTPAGER$ -m "$HOSTNAME$ $SERVICEDESC$ is $SERVICESTATE$ 
+on $TIME$ result is $SERVICEOUTPUT$" $CONTACTPAGER$
+}
+
+2、        nagios发送配置contacts.cfg：
+
+[root@nagios ~]# more /usr/local/nagios/etc/contacts.cfg 
+define contact{
+        contact_name                    sa
+        alias                           system admin
+        host_notification_period        24x7
+        service_notification_period     24x7
+        host_notification_options       d,r,
+        service_notification_options    c,w,r
+       service_notification_commands   notify-service-by-email,notify-service-by-sms
+#       service_notification_commands   notify-service-by-email
+        host_notification_commands      notify-host-by-email
+#        email                           1234@sina.com 
+       pager                           158010775111
+        }
+[root@nagios ~]#
+
+ 
+
+2008-04-16 21:07:12 
+
+最近在做公司的服务器网络监控。由于要做到实时监控，所以想到要用发送短信到手机的方式。在网上找到一个linux 命令行下的飞信工具。来配合 nagios做监控。服务器有任何状况都可以发送短信到手机上。这样对于系统管理者来说很是方便。我在Debian和Ubuntu下测试成功。下面是飞信在debian系统的安装 过程。
+
+1.首先手机要开通中国移动的飞信业务。目前使用飞信发送短信是免费的。
+
+2.下载飞信的linux客户端程序.解开包后只有一个文件sms。不错。这个就是飞信发送短信的程序啦。现在的飞信还是不能用的。因为它需要libace的glibc库的支持。
+
+3.安装飞信所需要的环境。在Debian下安装很容易。由于飞需要Glibc2.4以上的版本。把Dbian系统源设置为tesing既可（Ubuntu的源一般比较新，所以不用设置）。
+
+apt-get update
+apt-get upgrade
+apt-get install libace-dev libace-ssl-dev libc6
+
+4.安装完成后就可以用sms发送免费短信了。
+
+发送方法 ：
+Usage:
+sms -f mobile -p pwd -t mobile1,.. -m message -a message -d
+sms -f mobile -p pwd -t mobile1,.. -i file_name[utf8] -a invite_message -d 1
+-f:Fetion mobile account(only supports mobile phone No.)
+-p:Account password
+-t:Destination mobile list
+-m:Message
+-i:File name(only supports utf8)
+-a:Auto send invite using invite_message.
+-d:Debug on.
+
+例子：
+你的飞信账号是：13761592001
+你的飞信密码是：pwd12345
+你想发的手机是：13761592002 13761592003
+要发的消息是：你好，飞信
+那么就用
+sms -f 13761592001 -p pwd12345 -t 13761592002,13761592003 -m 你好，飞信
+
+如果你要发的消息在一个文本文件里，比如说是 a.txt
+sms -f 13761592001 -p pwd12345 -t 13761592002,13761592003 -i a.txt
+
+如果13761592002,13761592003 在你的好友列表里，就会发送成功。
+
+如果不在好友列表里，是发不成功的。如果你想让程序自动邀请他们加入，那么就用 -a 参数
+
+sms -f 13761592001 -p pwd12345 -t 13761592002,13761592003 -m 你好，飞信 -a UBUNTU
+
+这样，对方就会收到移动发的确认短信。 
+

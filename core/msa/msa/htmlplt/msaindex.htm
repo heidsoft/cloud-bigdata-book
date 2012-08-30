@@ -1,0 +1,98 @@
+﻿<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>MSA管理网关-让网络更快更安全更易管理</title>
+<meta http-equiv="keywords" content="宝创MSA系统">
+<meta http-equiv="description" content="It's BaoChuang！copyRight(c) BaoChuang Inc">
+<meta http-equiv="pragma" content="no-cache">  
+<meta http-equiv="cache-control" content="no-cache, must-revalidate">  
+<meta http-equiv="expires" content="0">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<link href="/Content/IconCls.css" rel="stylesheet" type="text/css" />
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+
+<script type="text/javascript">
+  var webContext = '';
+  var runMode = '0';
+  var ajaxErrCode = '999';
+  var micolor = 'color:blue;';
+  Ext.QuickTips.init();
+  Ext.form.Field.prototype.msgTarget = 'qtip';
+  Ext.BLANK_IMAGE_URL = '/ext/resources/images/default/s.gif';
+  
+  Ext.Ajax.on('requestexception', function(conn, response, options) {
+		if (response.status == ajaxErrCode) {
+			setTimeout(function(){
+				//延时避免被failure回调函数中的aler覆盖
+				top.Ext.MessageBox.alert('提示', '由于长时间未操作,空闲会话已超时;您将被强制重定向到登录页面!', function() {
+					 location.href =  '/msa/main.xp?Fun=msaShowAdminLogon';
+				});
+			},200);
+		}
+  });
+
+  
+  Ext.Ajax.on('requestexception', function(conn, response, options) {
+		if (response.status == '998') {
+			setTimeout(function(){
+				//延时避免被failure回调函数中的aler覆盖
+				top.Ext.MessageBox.alert('提示', '您的会话连接由于在其它窗口上被注销而失效,系统将把您强制重定向到登录界面.', function() {
+					location.href =  '/msa/main.xp?Fun=msaShowAdminLogon';
+				});
+			},200);
+		}
+  });
+
+//全局参数表
+//Ext.Ajax.on('beforerequest', function(conn, opts) {
+//  if(window.userid) Ext.Ajax.extraParams={'loginuserid':userid};
+//});
+
+</script>
+</head>
+
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/index.js"></SCRIPT>
+
+<body  oncontextmenu="return false"  >
+	<div id="hello-win" class="x-hidden">
+		<div id="hello-tabs">
+			<img border="0" width="450" height="50" src="/msa/images/top11.jpg" />
+		</div>
+	</div>
+	<div id="aboutDiv" class="x-hidden" style='SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;height : 98px;color: black; padding-left: 10px; padding-top: 12px; font-size: 12px; overflow : auto;'>
+		欢迎使用宝创MSA系统！
+		<br>
+
+		<br>
+		<p>非常感谢您使用宝创MSA新一代互联网管理网关，作为专业的网关系统供应商，
+我们将不断的给客户提供网络过滤和管理的新技术、新手段。同时，希望能得到您大力的支持。</p>
+
+
+<p>联系我们<br>
+  您可以通过以下方式联系我们，咨询产品或得到帮助。 <br>
+  <br>
+  咨询：<br>
+  客户服务中心能为您提供有关金盾产品或我们其他产品的任何资料、建议、方案规划和产品介绍以及技术支持。 <br>
+  邮件联系方式是：support@baochuang.com.cn <br>
+  电话联系方式是：400-889-2728 <br>
+  <br>
+  技术支持： <br>
+  客户服务中心能为您提供24小时的技术支持.<br>
+  在得到技术支持之前，您需要准备以下资料： <br>
+  您的客户服务名称 您所安装的金盾产品的产品序列号 您所遇到问题的简洁描述 <br>
+  邮件联系方式是：support@baochuang.com.cn <br>
+  电话联系方式是：400-889-2728 <br> </p>
+<p><br>
+		<br>
+		官方网站:<a href="http://www.baochuang.com.cn" target="_blank">www.baochuang.com.cn</a>
+		<br>
+		<br>
+		<br>
+		<br>
+	</div>
+	
+</body>
+</html>

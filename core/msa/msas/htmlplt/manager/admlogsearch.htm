@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>管理员操作日志查询</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<style type="text/css">
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+.anjujue {  background-image: url(/images/anjj.gif); width: 60px; background-repeat: no-repeat; height: 30px}
+.anfasong {  background-image: url(/images/ansend.gif); width: 60px; background-repeat: no-repeat; height: 30px}
+
+-->
+</style>
+<script language="JavaScript">
+<!--
+function gg(){
+ form1.submit();
+ self.close();
+}
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#F0F0F0" text="#000000" >
+<form name="form1" method="post" action="/msas/main.xp">
+<input type="hidden" name="Fun" value="msasAdmlogSearch">
+
+  <table width="513" border="0" cellspacing="0" align="center" >
+
+    <tr> 
+      <td width="90" height="26">
+        <div align="right">操作员：</div>
+      </td>
+      <td height="26"> 
+        <input type="text" name="name" size="15" maxlength="15" value="" >
+      </td>
+     </tr> 
+     <tr> 
+      <td  height="26">
+       <div align="right">客体或操作内容：</div>
+      </td>
+      <td width="110" height="26">
+      	<input type="text" name="subject" size="20" maxlength="50" value="" >
+      </td>
+     </tr>
+     <tr> 
+      <td width="90" height="32">
+        <div align="right">行为类型</div>
+      </td>
+      <td height="32" width="110"> 
+         	<select name="loglevel">
+          <option value="0" selected>全部</option>
+          <option value="1">管理员的登陆尝试</option>
+          <option value="2">管理员信息的修改</option>
+          <option value="3">系统配置修改或尝试</option>
+          <option value="5">增加、修改或删除管理员</option>
+          <option value="7">数据的接收或规则的派发</option>
+          <option value="8">备份和恢复</option>
+          <option value="9">系统的启动或关闭</option>
+        </select>
+        
+      </td>
+    </tr>
+    
+    <tr> 
+      <td rowspan="2"  width="90">
+        <div align="right">日期范围</div>
+      </td>
+      <td height="33"> 
+        <input type="radio" name="dtype" value="1" checked >
+        从 
+        <input type="text" name="sdate" size="10" maxlength="10"   value="2008-01-01" >
+        到 
+        <input type="text" name="edate" size="10" maxlength="10"  value="2008-12-01" ></td>
+    </tr>
+    
+    <tr> 
+   
+      <td height="33"> 
+        <input type="radio" name="dtype" value="2">
+        在 
+        <input type="text" name="sdate3" size="10" maxlength="10" value="2008-01-01" >
+        从
+        <input type="text" name="stime" size="10" maxlength="8" value="00:00:00">-
+        <input type="text" name="etime" size="10" maxlength="8"  value="23:59:59" >
+    </td>
+    </tr>
+    
+    <tr> 
+      <td width="90" height="33">&nbsp;</td>
+      <td  height="33"> 
+        <div align="left"> 
+          <input type="button" name="ok"  value="条件查询" onClick="gg()" style="border: 2 solid #a5b4b4;cursor: hand" >
+
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<title>服务协议分析报告</title>
+<style type="text/css">
+<!--
+b {
+	font-size: 16pt; 
+}
+table {
+	font-size: 9pt;
+}
+-->
+</style>
+</head>
+<body> 
+ <div style="width:815px;margin:auto;" >  
+  <img src="banner.jpg" width="815" height="136" />
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#437fbe">
+                <tr>
+                  <td width="65"><img src="right-top.jpg" width="65" height="29" /></td>
+                  <td width="664" valign="bottom"><div style="margin-top:10px; margin-right:5px; float:left; color:#FFFFFF;">报告名称：[$reportname$]&nbsp;&nbsp;&nbsp;   报告时间：[[$bdate$]->[$edate$]] &nbsp;&nbsp;   报告种类：服务协议访问报告 &nbsp;&nbsp;  </a> </td>
+				  <td valign="bottom"> <div style="margin-top:10px; margin-right:5px;float:right; color:#FFFFFF; "><a  onclick='window.print();'>打印报告 </div></td>
+                </tr>
+              </table>
+<br><br>
+<table width="815" border="1" cellpadding="0" cellspacing="0" bordercolor="#d0d0d0" class="table" style="border-collapse:collapse; margin-top:3px; margin-bottom:3px; text-align:center;" align="center">
+          <tr>
+            <td width="239" height="28" bgcolor="5489c0" class="bai">部门</td>
+            <td width="239" bgcolor="5489c0" class="bai">服务名称</td>
+            <td width="239" bgcolor="5489c0" class="bai">连接次数</td>
+            <td width="245" bgcolor="5489c0" class="bai">连接流量[KB]</td>
+          </tr> 
+ 
+  [$begintable flowlist$] 
+  <tr align="center" > 
+    <td   height="13" align="center"><b>[$gname$]</b></td>
+    <td    height="13">&nbsp;[$sname$]</td>
+    <td    height="13">[$sc$]</td>
+    <td    height="13">&nbsp;[$sbyte$]</td>
+  </tr>
+  [$endtable$] 
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="13"><img src="up-1.jpg" width="13" height="68" /></td>
+        <td align="center" background="up-2.jpg" class="upfont"><br />
+          版权所有</td>
+        <td width="13"><img src="up-3.jpg" width="13" height="68" /></td>
+      </tr>
+    </table>
+	</div>
+</body>
+</html>

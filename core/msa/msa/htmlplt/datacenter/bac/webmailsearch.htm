@@ -1,0 +1,1130 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META 	content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/ext-all.css">
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/xtheme-default.css"/>
+<link 	rel="stylesheet" type="text/css" href="/Content/IconCls.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css"/>
+<link   rel="stylesheet" type="text/css" href="/msa/publiccss/grid-examples.css"/>
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<script language="JavaScript">
+  Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var xtzygrid; 
+    var pagesize;
+    var mynode;
+    var mywin;
+    var grouptext="";	  
+		var mygid="[$gid$]";
+		var myuser="[$uid$]";
+		var mytabname="[$mytabname$]";
+		var myusername="";
+		var myglevel=0;
+    var wingtree;  
+    pagesize=100;
+    var preJson = {
+				 title:'提示',
+				 msg:'点击下载按钮开始下载？',
+				 buttons:{yes:'开始下载',no:'取消'},
+				 fn:function(btn){
+				          if (btn == 'yes') {
+				          	 location.href =usrl;
+				          }
+				 }
+		}
+
+	function gg(){//记录查询			
+		var myflags=flags.value;
+		var mymtype=mtype.value;
+		var mysubject=subject.value;
+		var mydip=dip.value;
+		var myfrom=from.value;
+		var myto=to.value;
+		mytabname=seldate.value;	
+		//流量范围
+		var flow=document.getElementsByName("btype"); 
+		for(var i=0;i <flow.length;i++){ 
+	      if(flow[i].checked==true) 
+	      mybtype=flow[i].value; //流量范围
+		} 
+		var mybbyte=bbyte.value;//字节
+		//附件
+		var myfbtype;
+		var fj=document.getElementsByName("fbtype");
+		for(var i=0;i <fj.length;i++){ 
+		      if(fj[i].checked==true) 
+		      myfbtype=fj[i].value; //流量范围
+		} 
+		var myfbbyte=fbbyte.value;
+		var myosort;//分组方式
+		var paiX=document.getElementsByName("osort"); 
+		for(var i=0;i <paiX.length;i++){ 
+		      if(paiX[i].checked==true) 
+		      myosort=paiX[i].value; 
+		} 
+		var myorderby=orderby.value;//排序方式
+	  var mytabtype=tabtype.value;	  
+	  if(mytabname=='-1'){
+			  	Ext.MessageBox.alert('提示','请选择查询日期!'); 
+			  	return false;
+	  }else{
+					xtzystore.baseParams={
+										Fun:'ltmsamailquery',
+									  user:myuser,
+								    flags:myflags,
+								    mtype:mymtype,
+								    subject:mysubject,
+								    dip:mydip,
+								    from:myfrom,
+								    to:myto,											    
+								    tabname:mytabname,											   
+								    btype:mybtype,//流量范围
+								    bbyte:mybbyte,//字节
+								    fbtype:myfbtype,
+								    fbbyte:myfbbyte,
+								    osort:myosort,
+								    orderby:myorderby,
+								    groupid:mygid,
+								    tabtype:mytabtype,
+								    action:0
+					};	
+										
+			  	xtzystore.load({
+			  			params:{
+								    start:0,
+								    limit:pagesize
+							},
+							callback : function(r, options, success) {
+					        if (success == false) {
+					            Ext.Msg.alert("提示", "加载数据出错.");
+					        }else{
+					            xtzygrid.getSelectionModel().selectFirstRow();// 选中第一行并获得焦点
+					            row = xtzygrid.getView().getRow(0);
+					            var element = Ext.get(row);
+					            if (typeof (element) != "undefined" && element != null) {
+					                element.focus();
+					            }
+					        }
+			        }
+					});
+	  }
+	  
+		mywin.hide();
+
+	   
+	}
+
+
+	function gg1(){//记录删除
+		var myflags=flags.value;//类型
+		var mymtype=mtype.value;//分类
+		var mysubject=subject.value;//主题
+		var mydip=dip.value;//远端ip地址
+		var myfrom=from.value;//发件人
+		var myto=to.value;//收件人
+		mytabname=seldate.value;
+		//流量范围
+		var flow=document.getElementsByName("btype"); 
+		for(var i=0;i <flow.length;i++){ 
+		      if(flow[i].checked==true) 
+		      mybtype=flow[i].value; //流量范围
+		} 
+		var mybbyte=bbyte.value;//字节
+	
+		//附件
+		var myfbtype;
+		var fj=document.getElementsByName("fbtype");
+		for(var i=0;i <fj.length;i++){ 
+		      if(fj[i].checked==true) 
+		      myfbtype=fj[i].value; //流量范围
+		} 
+		var myfbbyte=fbbyte.value;
+		var myosort;//分组方式
+		var paiX=document.getElementsByName("osort"); 
+		for(var i=0;i <paiX.length;i++){ 
+		      if(paiX[i].checked==true) 
+		      myosort=paiX[i].value; 
+		} 
+		var myorderby=orderby.value;//排序方式	
+	  var mytabtype=tabtype.value;	
+	  mywin.hide();
+		Ext.MessageBox.show({
+						msg: '条件删除中，请稍等...',
+						progressText: 'waitting...',
+						width:300,
+						wait:true,
+						waitConfig: {interval:500},
+						icon:'ext-mb-download'
+		});	
+		Ext.Ajax.request({
+		                  method : 'POST', 
+		                  url:'/msa/main.xp', 
+		                  success: function(response, options) { 
+		                    var retxt=response.responseText;
+												if(retxt.substring(0,1)=='1'){
+													Ext.MessageBox.hide();
+													Ext.MessageBox.alert('提示','条件删除成功！'); 
+												}else{
+													Ext.MessageBox.hide();
+													Ext.MessageBox.alert('提示','条件删除失败！'); 
+												}
+												xtzystore.load();
+		                  },
+		                  failure : function() {
+		                      Ext.MessageBox.hide();      
+		                   	  Ext.MessageBox.alert('提示','条件删除失败!'); 
+		                  },
+		                  params:{
+		                    Fun:'ltmsamailquery',
+		                          user:myuser,
+													    flags:myflags,
+													    mtype:mymtype,
+													    subject:mysubject,
+													    dip:mydip,
+													    from:myfrom,
+													    to:myto,											    
+													    tabname:mytabname,											   
+													    btype:mybtype,//流量范围
+													    bbyte:mybbyte,//字节
+													    fbtype:myfbtype,
+													    fbbyte:myfbbyte,
+													    osort:myosort,
+													    orderby:myorderby,
+													    groupid:mygid,
+													    tabtype:mytabtype,
+													    action:1,
+													    start:0,
+													    limit:pagesize
+			               } 
+		});    
+	}
+
+	function gg4(){/*记录导出excel*/
+		var myflags=flags.value;
+		var mymtype=mtype.value;
+		var mysubject=subject.value;
+		var mydip=dip.value;
+		var myfrom=from.value;
+		var myto=to.value;
+		mytabname=seldate.value;
+		//流量范围
+		var flow=document.getElementsByName("btype"); 
+		for(var i=0;i <flow.length;i++){ 
+		      if(flow[i].checked==true) 
+		      mybtype=flow[i].value; //流量范围
+		} 
+		var mybbyte=bbyte.value;//字节
+		var myfbtype;		//附件
+		var fj=document.getElementsByName("fbtype");
+		for(var i=0;i <fj.length;i++){ 
+		      if(fj[i].checked==true) 
+		      myfbtype=fj[i].value; //流量范围
+		} 
+		var myfbbyte=fbbyte.value;
+		var myosort;//分组方式
+		var paiX=document.getElementsByName("osort"); 
+		for(var i=0;i <paiX.length;i++){ 
+		      if(paiX[i].checked==true) 
+		      myosort=paiX[i].value; 
+		} 
+		var myorderby=orderby.value;//排序方式
+	  var mytabtype=tabtype.value;	
+		var form = new Ext.form.FormPanel({
+						        baseCls: 'x-plain',
+						        layout:'absolute',
+						        defaultType: 'textfield',
+						        items: [{
+						            x: 0,
+						            y: 5,
+						            xtype:'label',
+						            text: '起始位置:'
+						        },{
+						            x: 60,
+						            y: 0,
+						            allowBlank:false,
+						            name: 'startD',
+						            anchor:'100%',
+						            id: 'startD'
+						        },{
+						            x: 0,
+						            y: 35,
+						            xtype:'label',
+						            text: '结束位置:'
+						        },{
+						            x: 60,
+						            y: 35,
+						            name: 'endD',
+						            anchor: '100%',
+						            id: 'endD'
+						        }]
+						});
+						
+			var window = new Ext.Window({
+					  layout:'fit',
+			          title: '选择导出记录条数',
+			          width :200,
+			          height:150,
+			          closeAction :'hide',
+			          plain:true,
+			          items:form,
+			          buttons: [{
+		            text: '确定',
+		            handler  : function(){             
+		              var mystart= Ext.getCmp('startD').getValue();
+								  var myend  = Ext.getCmp('endD').getValue();							  
+								  Ext.MessageBox.show({
+									     msg: '数据导出中，请稍后',
+									     progressText: 'apply...',
+									     width:300,
+									     wait:true,
+									     waitConfig: {interval:500},
+									     icon:'ext-mb-download'
+									});
+									/*
+							  	Ext.Ajax.request({
+									          method : 'POST', 
+									          url:'/msa/main.xp', 
+									          success: function(response, options) { 
+									          	var retxt=response.responseText;
+															if(retxt.substring(0,1)!=""){															
+																Ext.Ajax.request({
+													          method : 'POST', 
+													          url:'/msa/main.xp', 
+									          				success: function(response, options) { 
+											          				 		var resptxt=response.responseText;
+											          					   if(resptxt.substring(0,1)==1){
+											          					    	 Ext.MessageBox.hide();													
+																							   var usrl="/tempdir/"+retxt+"/download.xls";		
+										                             downloadFile(usrl);
+											          					   }else{
+											          					   		 Ext.MessageBox.hide();
+															           	  		 Ext.MessageBox.alert('提示','导出失败'); 
+											          					   }		
+									          				},
+													          failure : function() {   
+													          	  Ext.MessageBox.hide();
+													           	  Ext.MessageBox.alert('提示','导出失败'); 
+													          },
+																    params:{ Fun:'msaIfCreatXlsOK',
+																    	tempdir:retxt
+																    }
+																	}); 	             
+							 
+															  
+														}else{															
+															Ext.MessageBox.alert('提示','导出失败'); 
+														}
+								          },
+								          failure : function() {
+								              Ext.MessageBox.hide();      
+								           	  Ext.MessageBox.alert('提示','导出失败'); 
+								          },
+								          params:{
+								                 Fun:'ltmsamailquery',
+					                          user:myuser,
+																    flags:myflags,
+																    mtype:mymtype,
+																    subject:mysubject,
+																    dip:mydip,
+																    from:myfrom,
+																    to:myto,											    
+																    tabname:mytabname,											   
+																    btype:mybtype,//流量范围
+																    bbyte:mybbyte,//字节
+																    fbtype:myfbtype,
+																    fbbyte:myfbbyte,
+																    osort:myosort,
+																    orderby:myorderby,
+																    groupid:mygid,
+																    tabtype:mytabtype,
+																    action:3,
+																    start:mystart,
+																    limit:myend
+								            } 
+									}); 
+									*/	
+									Ext.Ajax.request({
+										          method : 'POST',
+										          url:'/msa/main.xp',
+										          success: function(response, options) {
+										          	var retxt=response.responseText;
+																if(retxt.substring(0,1)!=""){
+																	var runner;
+																	Ext.MessageBox.show({
+																			msg: '正在查找',
+																			progressText: '正在搜集信息....',
+																			width:370,
+																			wait:true,
+																			progress:true,
+																			waitConfig: {interval:200},
+																			icon:'ext-mb-download'
+																	});
+																	runner = new Ext.util.TaskRunner();
+																	var task = {
+																	run: function(){
+																				Ext.Ajax.request({
+																          method : 'POST',
+																          url:'/msa/main.xp',
+												          				success: function(response, options) {
+														          				 		 var resptxt=response.responseText;
+														          				 		 if(resptxt.substring(0,1)==1){
+														          					    	 Ext.MessageBox.hide();
+														          					    	 runner.stopAll();
+																										   usrl='/msa/main.xp?Fun=msaDataCenetrDownLoadMore+delflag=delflag+downLoadFileName=download.xls+downLoadFile='+retxt;
+																											 Ext.Msg.show(preJson);
+														          					   }
+												          				},
+																          failure : function() {
+																          	  Ext.MessageBox.hide();
+																          	  runner.stopAll();
+																           	  Ext.MessageBox.alert('提示','导出失败');
+																          },
+																			    params:{ Fun:'msaIfCreatXlsOK',
+																			    	tempdir:retxt
+																			    }
+																				});
+																	},
+																	interval:600 // 每30秒一周期
+																	};
+																	runner.start(task);
+								               }
+									          },
+									          failure : function() {
+									              Ext.MessageBox.hide();
+									           	  Ext.MessageBox.alert('提示','导出失败');
+									          },
+									          params:{
+								                 Fun:'ltmsamailquery',
+					                          user:myuser,
+																    flags:myflags,
+																    mtype:mymtype,
+																    subject:mysubject,
+																    dip:mydip,
+																    from:myfrom,
+																    to:myto,											    
+																    tabname:mytabname,											   
+																    btype:mybtype,//流量范围
+																    bbyte:mybbyte,//字节
+																    fbtype:myfbtype,
+																    fbbyte:myfbbyte,
+																    osort:myosort,
+																    orderby:myorderby,
+																    groupid:mygid,
+																    tabtype:mytabtype,
+																    action:3,
+																    start:mystart,
+																    limit:myend
+								            }
+									});
+		              window.hide();           
+		          }
+		      }]
+		  });
+		  mywin.hide();
+			window.show();				
+	}
+	
+	
+	Ext.onReady(function(){		
+  		Ext.QuickTips.init();
+			var detailEl;
+			var myMask = new Ext.LoadMask(Ext.getBody(), {
+			    msg:"Please wait..."
+			});
+			myMask.show();
+				
+			var treepangroup=new Ext.tree.TreePanel({
+						height: 400,
+						split: true,
+						useArrows:true,
+						autoScroll: true,
+						rootVisible: false,
+						lines: false,
+						useArrows: true,
+						renderTo:"mygroup",
+						tbar:[new Ext.form.TextField({ width: 200,
+		     					emptyText:'Find a Group',
+							    listeners:{
+							       render: function(f){
+							         f.el.on('keydown', filterTree, f, {buffer: 350});
+		        				 }
+		              }
+		        })],
+						root: new Ext.tree.AsyncTreeNode(),
+						loader: new Ext.tree.TreeLoader({
+							dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+							baseAttrs:{uiProvider:Ext.tree.TreeCheckNodeUI},
+							baseParams:{Fun:'msaGroupTreeView'} 
+						}),
+						listeners: {
+									    click: function(node, e) {
+									    mygid=node.id;		
+									    myusername="";			
+									    grouptext="";		       						       					       
+											myglevel=node.getDepth()-1;
+											peoplestore.baseParams={Fun:'msaUserTree',gid:mygid} 
+						  				peoplestore.load();
+								 	 	  var tempNode=node.parentNode;
+								 	 	  if(tempNode.parentNode==null){
+								 	 	  	grouptext="/"+node.text;
+								 	 	  }else{
+								 	 	  	  var tempThreeNode=tempNode.parentNode;
+								 	 	  	  if(tempThreeNode.parentNode==null){
+								 	 	  	  	grouptext="/"+tempNode.text+"/"+node.text;
+								 	 	  	  }else{
+								 	 	  	  	var tempFourNode=tempThreeNode.parentNode;
+								 	 	  	  	if(tempFourNode.parentNode==null){
+								 	 	  	  		grouptext="/"+tempThreeNode.text+"/"+tempNode.text+"/"+node.text;
+								 	 	  	  	}else{
+								 	 	  	  		var tempFiveNode=tempFourNode.parentNode;
+								 	 	  	  		if(tempFiveNode.parentNode==null){
+								 	 	  	  			grouptext="/"+tempFourNode.text+"/"+tempThreeNode.text+"/"+tempNode.text+"/"+node.text;
+								 	 	  	  		}else{
+								 	 	  	  		  var tempSixNode=tempFiveNode.parentNode;
+								 	 	  	  		  if(tempSixNode.parentNode==null){
+								 	 	  	  		  	grouptext="/"+tempFiveNode.text+"/"+tempFourNode.text+"/"+tempThreeNode.text+"/"+tempNode.text+"/"+node.text;
+								 	 	  	  		  }
+								 	 	  	  		}
+								 	 	  	  	}
+								 	 	  	  	
+								 	 	  	  }
+								 	 	  }		
+								 	 	  	 
+											
+									   }
+								}		
+			  });		
+	
+			
+			  var hiddenPkgs = [];
+			  function filterTree(e){
+			   			var text = e.target.value;
+			        Ext.each(hiddenPkgs, function(n){
+			             n.ui.show();
+			        });
+			   
+			         if(!text){
+			             filter.clear();           
+			             return;
+			         }   
+			         treepangroup.expandAll();
+			         var re = new RegExp(Ext.escapeRe(text), 'i');         
+			         filter.filterBy(function(n){           
+			         		var textval = n.text;
+			            return !n.isLeaf() || re.test(n.text);
+			         });
+			 
+			         hiddenPkgs = [];
+			         treepangroup.root.cascade(function(n) {
+			             if(!n.isLeaf()&& n.ui.ctNode.offsetHeight<3){
+			                 n.ui.hide();
+			                 hiddenPkgs.push(n);
+			             }
+			         });
+			 
+			  }
+	  
+			  var filter = new Ext.tree.TreeFilter(treepangroup, {
+					   clearBlank: true,
+					   autoClear: true
+			  });
+	  
+
+		    var peoplestore = new Ext.data.JsonStore({
+				    	root: 'Results',
+			        totalProperty: 'totalCount',
+			        url:'/msa/main.xp',
+			        baseParams:{Fun:'msaUserTree'},
+				      fields: [
+				         {name: 'id'},
+				       	 {name: 'qtip'},
+				         {name: 'text'}
+				    ]
+				});
+
+				var bbar = new Ext.PagingToolbar({   
+			      pageSize: 20,   
+			      store: peoplestore
+			      //displayInfo: true,   
+			      //displayMsg: '显示第 {0} - {1}条记录 共{2}条记录',   
+			      //displaySize:'5|10|15|20|all'
+			      //emptyMsg: "无记录"  
+			  }); 
+				var peoplegrid = new Ext.grid.GridPanel({
+			        store: peoplestore,
+			        columns: [
+			            {id:'id',header: "用户名", width: 200, sortable: true, dataIndex: 'text'}
+			        ],
+			        stripeRows: true,
+			        region:'center',
+			        bbar:bbar, 
+			        height: 400,
+			        frame:true,
+					    collapsible:false,
+					    loadMask:{msg:'正在加载数据，请稍侯……'},
+					    draggable:false
+			   }); 
+			   
+			   peoplegrid.addListener('rowclick', rightClickFn2);
+			   function rightClickFn2(client, rowIndex, e) { 
+								 detailEl= rowIndex;
+								 var record = peoplegrid.getStore().getAt(detailEl);
+								 myuser=record.get("id");    
+								 myusername=record.get("text");  
+							   
+				 }  
+   
+				var btn_Manager=Ext.get('group');
+				btn_Manager.on('click', function(){
+							if(!wingtree){
+								wingtree = new Ext.Window({
+										title: '部门选择',
+										closeAction: 'hide',
+										width: 500,
+									  height:500,
+									  layout:'column',
+									  region:'center',
+										plain:true,
+										items:[
+													{	columnWidth:.5,
+														items: [treepangroup]
+													},
+													{	columnWidth:.5,
+								   					items: [peoplegrid]
+								   				}
+								    ],
+										bodyStyle:'padding:5px;',
+										buttons: [{
+					            text: '确定',
+											handler  : function(){		
+																if(myusername==""){
+													 	 	  	document.getElementById("group").value=grouptext;
+													 	 	  }else{
+													 	 	  	document.getElementById("group").value=grouptext+"/"+myusername;
+													 	 	  }	
+																wingtree.hide();
+									  	}
+									  	},
+									  	{
+					            text: '取消',
+											handler  : function(){		
+																myusername="";
+																grouptext="";
+												 	 	  	document.getElementById("group").value="";
+																wingtree.hide();
+									  	}
+									  	}]
+									
+								});
+							}
+							wingtree.show();		
+			 	  }); 
+	    
+				 xtzystore = new Ext.data.JsonStore({
+					      root: 'Results',
+				        totalProperty: 'totalCount',
+				        url:'/msa/main.xp',
+				        baseParams:{
+				        	Fun:'ltmsamailquery'       	
+				        },
+					      fields: [
+					         {name: 'uid'},
+					         {name: 'uname'},       //用户名
+					         {name: 'groupname'},
+					         {name: 'mymailfile'}, //邮件文件名
+						       {name: 'mymailfrom'},  //发件人
+	  				  	   {name: 'mymailto'},    //收件人
+					         {name: 'mymailsub'},   //主题
+					         {name: 'mysdate'},     //发送日期
+					         {name: 'mystime'},     //发送时间
+					         {name: 'mymailasize'}, //附件
+					         {name: 'mymailsize'},  //邮件大小
+							     {name: 'myflags'},     //邮件状态
+					         {name: 'mymtype'},     //邮件分类
+					         {name: 'myip'},        //源IP
+					         {name: 'myrback'},
+					         {name: 'myfstart'},
+					         {name: 'datetime'},
+					         {name: 'myflen'}
+					    ]
+				 });
+				 
+			xtzystore.baseParams={Fun:'ltmsamailquery',
+															  user:'[$uid$]',
+															  groupid:'[$gid$]',			
+														    flags:'[$myflags$]',
+														    mtype:'[$mymtype$]',//规则
+														    subject:'[$mysubject$]',
+														    dip:'[$mydip$]',
+														    from:'[$myfrom$]',
+														    to:'[$myto$]',											    
+														    tabname:'[$mytabname$]',											   
+														    btype:'[$mybtype$]',//流量范围
+														    bbyte:'[$mybbyte$]',//字节
+														    fbtype:'[$myfbtype$]',
+														    fbbyte:'[$myfbbyte$]',
+														    osort:'[$myosort$]',
+														    orderby:'[$myorderby$]',												   										    
+														    tabtype:'[$mytabtype$]',
+														    action:0
+			};
+			 
+
+	  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+	    displayInfo: true, 
+	    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+	    emptyMsg: "无记录", 
+	    initComponent : function(){ 
+	        var pageSizeItems = [ 
+	                     '-','每页', 
+	                     this.inputItem = new Ext.form.NumberField({ 
+										    cls: 'x-tbar-page-number', 
+										    allowDecimals: false, 
+										    allowNegative: false, 
+										    enableKeyEvents: true, 
+										    maxValue: 500, 
+										    maxText: '每页不允许超过500条', 
+										    selectOnFocus: true, 
+										    value: this.pageSize, 
+										    submitValue: false, 
+										    listeners: { 
+										        scope: this, 
+										        keydown: this.onHlPagingKeyDown, 
+										        blur: this.onHlPagingBlur 
+										    } 
+	                     }),'条','-',{
+							            //pressed: true,
+							            icon: '/msa/images/grid.png',
+							            enableToggle:true,
+							            text: '导出本页数据到Excel',
+							            cls: 'x-btn-text-icon details',
+							            toggleHandler: function(btn, pressed){
+							                downloadViewDataActive(xtzygrid);
+							            }
+							        },'-',{
+						            icon: '/msa/images/drop-yes.gif',
+						            enableToggle:true,
+						            text: '选择条件',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){	
+						            	    document.getElementById("south").style.display="";			          
+										          mywin = new Ext.Window({
+																			title: '条件设置',		
+																			closeAction: 'hide',
+																			width: (screen.width-300)/4*3,
+																			height:(screen.height)/2,
+																			plain:true,
+																			autoScroll:true,
+																			contentEl:'south',
+																			bodyStyle:'padding:5px;',
+																			buttons: [{
+														            text: '查询',
+														            tooltip:'记录查询', //悬停提示  
+																        tooltipType:'qtip',  
+																				handler  : function(){		
+																									if(myusername==""){
+																						 	 	  	document.getElementById("group").value=grouptext;
+																						 	 	  }else{
+																						 	 	  	document.getElementById("group").value=grouptext+"/"+myusername;
+																						 	 	  }
+																									gg();
+																									mywin.hide();
+																		  	}
+																		  	},
+																		  	{
+														            text: '导出(Excel)',
+														            tooltip:'记录导出', //悬停提示  
+																        tooltipType:'qtip',  
+																				handler  : function(){		
+																					        gg4();
+																									mywin.hide();
+																		  	}
+																		  	},
+																		  	{
+														            text: '删除',
+														            tooltip:'记录删除', //悬停提示  
+																        tooltipType:'qtip',  
+																				handler  : function(){		
+																					        gg1();
+																									mywin.hide();
+																		  	}
+																		  	}]	
+															});
+		
+										          mywin.show();
+		
+						        }},'-']; 
+	         var userItems = this.items || []; 
+	         this.items = userItems.concat(pageSizeItems); 
+	         HlPagingToolbar.superclass.initComponent.call(this); 
+	    }, 
+	    onHlPagingKeyDown: function(field, e){ 
+	        if(field.isValid()){ 
+	            var k = e.getKey(); 
+	             if (k == e.RETURN) { 
+	                    e.stopEvent(); 
+	                    this.pageSize = field.getValue(); 
+	                    pagesize=this.pageSize;
+	                    this.doRefresh(); 
+	             } 
+	        } 
+	    }, 
+	    onHlPagingBlur: function(field){ 
+	        if(field.isValid()){ 
+	            this.pageSize = field.getValue(); 
+	            pagesize=this.pageSize;
+	            this.doRefresh(); 
+	        } 
+	    } 
+	    });
+	    var pagingBar= new HlPagingToolbar({
+	        store: xtzystore,
+	        pageSize: pagesize,
+	        displayInfo: true});
+	      
+	    
+	   
+	    	xtzygrid = new Ext.grid.GridPanel({
+	        store: xtzystore,
+	        viewConfig: {
+            forceFit:false,
+            scrollOffset: 0,
+            enableRowBody:true,
+            showPreview:true,
+            getRowClass : function(record, rowIndex, p, store){
+                if(this.showPreview){
+                    p.body = '<p>'+record.data.mymailsub+'</p>';
+                    return 'x-grid3-row-expanded';
+                }
+                return 'x-grid3-row-collapsed';
+            }
+          },
+	        columns: [
+	            {id:'uname',header: "用户名", width: 100, sortable: true, dataIndex: 'uname'},
+	            {header: "部门", width: 160, sortable: true, dataIndex: 'groupname'},
+	            //{header: "邮件文件名",width: 100, sortable: true,  dataIndex: 'mymailfile'},
+	            {header: "发件人",width: 100, sortable: true,  dataIndex: 'mymailfrom'},
+	            {header: "收件人",width: 100, sortable: true,  dataIndex: 'mymailto'},
+	            {header: "远端IP地址",  width: 100, sortable: true,  dataIndex: 'myip'},
+	            {header: "发送时间", width: 100, sortable: true, dataIndex: 'datetime'},
+	            {header: "邮件大小", width: 80, sortable: true, dataIndex: 'mymailsize'},
+	            {header: "附件大小", width: 80, sortable: true,  dataIndex: 'mymailasize',hidden:true},
+	            {header: "邮件状态", width: 100, sortable: true,  dataIndex: 'myflags'},
+	            {header: "邮件分类", width: 100, sortable: true,  dataIndex: 'mymtype',hidden:true}
+	        ],
+	        tbar: pagingBar,
+	        stripeRows: true,
+	        autoExpandColumn: 'uname',
+	        height:screen.height-200,
+	        frame:true,
+			    collapsible:false,
+			    loadMask:{msg:'正在加载数据，请稍侯……'},
+			    draggable:false
+	    });
+	    
+	     xtzygrid.getSelectionModel().on('rowselect', function(sm, rowIdx, r) {
+             var mymailfile=r.get("mymailfile");
+             var mysdate=r.get("mysdate");      
+             var mystime=r.get("mystime").substring(0,2); 
+             var myfstart=r.get("myfstart");   
+             var usrl;
+             if(document.getElementById("tabtype").value==4){
+             		usrl='/msa/main.xp?Fun=msaShowContent+file='+mymailfile+'+sdate='+mysdate+'+stime='+mystime+'+fstart='+myfstart+'+type=1';
+             }
+             if(document.getElementById("tabtype").value==5){
+             		usrl='/msa/main.xp?Fun=msaShowContent+file='+mymailfile+'+sdate='+mysdate+'+stime='+mystime+'+fstart='+myfstart+'+type=0';
+             }            
+             mapview.location.href=usrl;
+       });
+	    
+	    
+	    
+	    
+	     xtzygrid.on("rowcontextmenu", function (grid, rowIndex, e) {
+	        e.preventDefault();
+	        if (rowIndex < 0) { return; }
+	        var treeMenu = new Ext.menu.Menu
+	        ([
+	            {
+	                xtype: "",
+	                text: "该用户详细信息",
+	                iconCls: 'context-dog',
+	                pressed: false,
+	                handler: function () {
+	                    var record = grid.getStore().getAt(rowIndex);
+	                    var uid=record.get("uid");      
+                      var usrl="/msa/main.xp?Fun=msaTermInfoView+uid="+uid;						  
+					       			var hgt=(screen.height)-190;
+                      var mywin =new  Ext.Window({
+						                    id: 'east-panelmy',
+						                    title: '表单浏览',
+						                    height: 400,
+						                    width: 550,
+						                    closeAction: 'close',
+						                    modal: 'true',
+						                    maximizable:'true',
+						                    margins:'0 5 0 0',
+						                    html: "<IFRAME  name='menufrm' width=100% height='"+(hgt-90)+"' SRC = '"+usrl+"'  border='0' frameborder='0' scrolling='yes'></iframe>" 
+						          }); 
+						          mywin.show(); 
+						          mywin.maximize();
+	                }
+	            }
+	        ]);
+	        treeMenu.showAt(e.getXY());
+	    });
+	    	    
+
+     
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+          collapsible: false,
+          split:true,
+          height:screen.height-200,
+          minSize: 100,
+          maxSize: 200,
+          layout:'fit',
+          margins:'0 0 0 0',
+          items:[xtzygrid]
+     }
+     
+	   var southPanel= new Ext.Panel({
+	   	    id:'south-panel',
+    			title: '邮件内容',   	
+          region:'south',
+          contentEl: 'mailPane',
+          split:true,
+          height:screen.height-500,
+          minSize: 100,
+          maxSize: 200,
+          collapsible: false,
+          collapsed : false, 
+          margins:'0 0 0 0'
+    });   
+		
+	  new Ext.Viewport({
+				layout: 'border',
+				items: [
+				 mainPanel,southPanel
+				],
+        renderTo: Ext.getBody()
+    });  
+			
+		
+		 xtzystore.load({
+	   		params:{										    
+						    start:0,
+						    limit:pagesize
+				},
+				callback : function(r, options, success) {
+		        if (success == false) {
+		            Ext.Msg.alert("提示", "加载数据出错.");
+		        }else{
+		            xtzygrid.getSelectionModel().selectFirstRow();
+		            row = xtzygrid.getView().getRow(0);
+		            var element = Ext.get(row);
+		            if (typeof (element) != "undefined" && element != null) {
+		                element.focus();
+		            }
+		        }
+	      }
+	   });
+	   
+	   myMask.hide();	
+	}); 
+	
+</script>
+
+
+</head>
+<body  oncontextmenu="return false" style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="south" style="display: none;">
+		<fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>日期对象</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >    
+        <tr>
+         <td  height="20"> 
+        	<div align="left"> 
+           选择日期&nbsp;&nbsp;:
+            <select name="seldate" class="inputself0">   
+		        <!--option value="-1" selected>请选择</option-->   
+		          [$begintable datelist$]         
+		          <option value=[$dayname$]>[$strdate$]</option>   
+		          [$endtable$]
+        		</select>
+          </div>
+        </td>
+      </tr>    
+    </table>
+    </fieldset>   
+    <br><br>
+    
+   <fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>部门对象</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+        <tr>
+         <td  height="20"> 
+        	<div align="left"> 
+           选择部门&nbsp;&nbsp;:
+            <input type="text" class=inputf0  id="group"  name="group" size="65" maxlength="100" value=""  style="cursor:hand;background-image:url(/msa/images/drop-yes2.gif);background-position:right bottom; background-repeat: repeat-y">
+          </div>
+        </td>
+      </tr>   
+    </table>
+    </fieldset>    
+    <br><br>
+	
+	 <fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>类型对象</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+        <tr>
+         <td  height="20"> 
+        	<div align="left"> 
+           选择类型&nbsp;&nbsp;:
+            <select name="flags"   class=inputself0 >
+		          <option value="-1"  [$tse-1$]>全部邮件</option> 
+		          <option value="1"  [$tse1$]>163邮箱</option> 
+		          <option value="2"  [$tse2$]>126邮箱</option> 
+		          <option value="3"  [$tse3$]>QQ邮箱</option> 
+		          <option value="7"  [$tse7$]>Livemail</option> 
+		          <option value="8"  [$tse8$]>新浪邮箱</option> 
+		          <option value="9"  [$tse9$]>139邮箱</option> 
+		          <option value="13"  [$tse13$]>189邮箱</option> 
+		          <option value="15"  [$tse15$]>Yeah邮箱</option> 
+		          <option value="19"  [$tse19$]>263邮箱</option> 
+          	</select>
+          </div>
+        </td>
+      </tr>        
+    </table>
+    </fieldset>   
+    <br><br>
+    
+   <fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>邮件分类</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >      
+        <tr>
+         <td  height="20"> 
+        	<div align="left"> 
+           选择分类&nbsp;&nbsp;:
+                <select name="mtype"  class=inputself0 >
+					          <option value="-1" selected>选择分类</option> 
+					           [$begintable mtypelist$]         
+					            <option value=[$rid$]>[$rname$]</option>   
+					           [$endtable$]
+					      </select>
+          </div>
+        </td>
+      </tr>        
+    </table>
+    </fieldset>   
+    <br><br>
+    
+   <fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>过滤元素</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >             
+      <tr>
+       <td  height="20"> 
+      	<div align="left"> 
+         主题包括&nbsp;&nbsp;:
+          <input type="text"  class=inputf0 name="subject" size="25" maxlength="48" value="" >
+        </div>
+      </td>
+    </tr>       
+     
+    <tr>
+       <td  height="20"> 
+      	<div align="left"> 
+         远端地址&nbsp;&nbsp;:
+          <input type="text"  class=inputf0 name="dip" size="25" maxlength="48" value="" >(IP)
+        </div>
+      </td>
+    </tr>  
+    
+     <tr>
+       <td  height="20"> 
+      	<div align="left"> 
+         发&nbsp;件&nbsp;&nbsp;人&nbsp;&nbsp;:
+          <input type="text"  class=inputf0 name="from" size="25" maxlength="48" value="" >
+        </div>
+      </td>
+    </tr>  
+    
+     <tr>
+       <td  height="20"> 
+      	<div align="left"> 
+         收&nbsp;件&nbsp;&nbsp;人&nbsp;&nbsp;:
+           <input type="text"  class=inputf0 name="to" size="25" maxlength="48" value="" >
+        </div>
+      </td>
+    </tr>  
+    
+     <tr>
+       <td  height="20"> 
+      	<div align="left"> 
+         大小&nbsp;&nbsp;:
+          <input type="radio" name="btype" value="unit1" checked >&nbsp;
+					全部
+					  <input type="radio" name="btype" value="unit2">
+					大于&nbsp;
+					<input type="text"  class=inputf0 name="bbyte" size="8" maxlength="10"   value="0" >
+					字节&nbsp; 
+        </div>
+      </td>
+    </tr> 
+    
+     <tr>
+       <td  height="20"> 
+      	<div align="left" style="display: none;"> 
+         附件&nbsp;&nbsp;:
+          <input type="radio" name="fbtype" value="unit1" checked >&nbsp;
+	        全部
+	        <input type="radio" name="fbtype" value="unit2">
+	        有附件
+	 				 <input type="hidden" name="fbbyte" size="10" maxlength="10"   value="0" >
+        </div>
+      </td>
+    </tr>  
+        
+    </table>
+    </fieldset>   
+    <br><br>
+    
+    <fieldset style="width:450;height:30;border:2px groove" align=center>
+    <legend>排序方式</legend>  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >        
+      <tr>
+         <td  height="20"> 
+        	<div align="left"> 
+        	<TR><input type="radio" name="osort" value="nosort" checked >不排序</TR>
+        	<TR>
+        		<input type="radio" name="osort" value="date">日期
+		        <input type="radio" name="osort" value="user">用户
+		        <input type="radio" name="osort" value="dip">远端IP地址
+		        <input type="radio" name="osort" value="size">大小
+		        <input type="radio" name="osort" value="from">发件地址
+		        <input type="radio" name="osort" value="to">收件地址
+		        <select name="orderby"   class=inputself0 >
+		          <option value="0" selected >升序</option>
+		          <option value="1" >降序</option>
+		        </select>
+		        </TR>
+          </div>
+        </td>
+      </tr> 
+    </table>
+    </fieldset>
+    <input type="hidden" name="tabtype"    value="[$mytabtype$]">
+</div>
+<div id="mailPane">
+		<iframe id="mapview" name="mapview" frameborder="no"  scrolling="yes"  width="100%"  height="100%"></iframe>
+</div>
+<div id="mygroup" style="display: none;">
+</div>
+</body>
+</html>

@@ -1,0 +1,603 @@
+<html><head><title>网络7层管理和过滤的领导者</title>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script language = "Javascript" src = "/msas/publicjs/select_time_s.js"></script>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+
+<script type="text/javascript">
+    Ext.BLANK_IMAGE_URL = '/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+		pagesize=100;
+
+		function mysearch(){
+		  var  stopflag;
+		  var  myseldate,myseltime,mysip,mydip,mydport,myselsrv,mysearchconX,mygroup,mysearchname;
+		  mysearchname=searchname.value;
+		  if(mysearchname==""){
+		    Ext.MessageBox.alert('提示','必须设置查询名称！'); 
+		  	return;
+		  }
+		  myseldate=seldate.value;
+		  if(myseldate==""){
+		    Ext.MessageBox.alert('提示','必须设置查询日期！'); 
+		  	return;
+		  }
+		  myseltime=seltime.value;
+		  mysip=sip.value;
+		  mydip=dip.value;
+		  mydport=dport.value;
+		  myselsrv=selsrv.value;
+		  if(myselsrv=='999'){
+		  	myselsrv='';
+		  }
+		  mysearchconX=searchconX.value;
+		  mygroup=group.value;
+		  
+      stopflag=0;
+		  
+		  Ext.MessageBox.show({
+							msg: '系统查询中，这需要一段时间，您可以继续等待或者稍后察看结果',
+							progressText: 'waitting...',
+							width:300,
+							wait:true,
+							waitConfig: {interval:500},
+							icon:'ext-mb-download'
+			});
+			setTimeout(function(){
+						if(stopflag==0){
+							Ext.MessageBox.hide();
+							xtzystore.load();
+						}
+						stopflag=1;
+			}, 15000); 
+		  
+		  Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/msas/main.xp', 
+					                        success: function(response, options) { 
+																		if(stopflag==0){
+																			Ext.MessageBox.hide();
+																			xtzystore.load();
+																		}
+																		stopflag=1;
+					                        },
+					                        failure : function() {
+					                          Ext.MessageBox.hide();      
+					                         	Ext.MessageBox.alert('提示','失败！'); 
+                                  },
+ 					                        params:{
+	 					                        Fun:'msasIpbackSearch',
+	 					                        seldate:myseldate,
+	 					                        seltime:myseltime,
+	 					                        sip:mysip,
+	 					                        dip:mydip,
+	 					                        dport:mydport,
+	 					                        selsrv:myselsrv,
+	 					                        searchconX:mysearchconX,
+	 					                        gid:mygroup,
+	 					                        searchname:mysearchname
+ 					                        } 
+				});                
+		}
+		
+		function myexport(){
+		  var  stopflag;
+		  var  myseldate,myseltime,mysip,mydip,mydport,myselsrv,mysearchconX,mygroup;
+		  myseldate=seldate.value;
+		  myseltime=seltime.value;
+		  mysip=sip.value;
+		  mydip=dip.value;
+		  mydport=dport.value;
+		  myselsrv=selsrv.value;
+		  if(myselsrv=='999'){
+		  	myselsrv='';
+		  }
+		  mysearchconX=searchconX.value;
+		  mygroup=group.value;
+		  if(myseldate==""){
+		    Ext.MessageBox.alert('提示','必须设置查询日期！'); 
+		  	return;
+		  }
+      var myurl="/msas/main.xp?Fun=msasIpbackSearch&searchname=1&exportaction=1&seldate=" + myseldate + "&seltime=" + myseltime + "&sip=" + mysip + "&dip=" + mydip + "&dport=" + mydport + "&selsrv=" + myselsrv + "&searchconX=" + mysearchconX + "&gid=" + mygroup ;
+	 					       
+	 	  //alert(myurl);
+			downloadFile(myurl);
+            
+		}
+		
+
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				var win;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+
+    
+			 xtzystore = new Ext.data.JsonStore({
+	        root: 'Results',
+	        totalProperty: 'totalCount',
+	        url:'/msas/main.xp',
+	        baseParams:{Fun:'msasNewSearchList'},
+	        fields: [
+			       {name: 'sname'},
+				     {name: 'sdate'},
+				     {name: 'suser'},
+				     {name: 'scon'},
+				  	 {name: 'myurl'},
+					   {name: 'stype'},
+					   {name: 'fproc'}
+			    ]
+	     });
+    
+    xtzystore.load();
+
+  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+        var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msas/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+         var userItems = this.items || []; 
+         this.items = userItems.concat(pageSizeItems); 
+         HlPagingToolbar.superclass.initComponent.call(this); 
+    }, 
+    onHlPagingKeyDown: function(field, e){ 
+        if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            //alert(this.pageSize);
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+});
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+        columns: [
+            {id:'sname',header: "查询结果标记", width: 130, sortable: true, dataIndex: 'sname'},
+            {header: "查询时间",  width: 110, sortable: true,  dataIndex: 'sdate'},
+            {header: "查询条件",  width: 350, sortable: true,  dataIndex: 'scon'},
+            {header: "查询人",    width: 80, sortable: true,  dataIndex: 'suser'},
+            {header: "状态",    width:80, sortable: true,  dataIndex: 'fproc'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'sname',
+        height:screen.height-210,
+        title:'查询结果列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    }); 
+   
+
+
+      function showsysdelrule(btn){
+					        if(btn=='yes'){
+					        	var record = xtzygrid.getStore().getAt(detailEl);
+									  var myurl=record.get("myurl");   
+									  xtzystore.load({params:{Fun:'msasNewSearchList',delfile:myurl}});   
+					        }
+					        
+					};
+
+      var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'shanchubaogao',
+                    iconCls:'load-icon',
+                    text:'删除查询结果',
+                    scope: this,
+                    handler:function(){
+                        Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+                    }
+                },{
+                    id:'chakan',
+                    iconCls:'load-icon',
+                    text:'察看查询结果',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myurl=record.get("myurl"); 
+                        var myurlmore='LocalSearch/' + myurl;       
+												xtzystore1 = new Ext.data.JsonStore({
+										        root: 'Results',
+										        totalProperty: 'totalCount',
+										        url:'/msas/main.xp',
+										        baseParams:{Fun:'msasAccessList',fileurl:myurlmore},
+										             fields: [
+															     {name: 'v1'},
+												           {name: 'v2'},
+												           {name: 'v3'},
+												           {name: 'v4'},
+												           {name: 'v5'},
+												           {name: 'v6'},
+												           {name: 'v7'},
+												           {name: 'v8'},
+												           {name: 'v9'},
+												           {name: 'v10'},
+												           {name: 'v11'},
+												           {name: 'v12'},
+												           {name: 'v13'},
+												           {name: 'v14'},
+												           {name: 'v15'},
+												           {name: 'v16'}
+															    ]
+										    });
+										    xtzystore1.load({params:{Fun:'msasAccessList',fileurl:myurlmore,start:0,limit:pagesize}});
+										    
+										    var pagingBar1= new HlPagingToolbar({
+									        store: xtzystore1,
+									        pageSize: pagesize,
+									        displayInfo: true});
+									     
+									      xtzygrid1 = new Ext.grid.GridPanel({
+										        region:'center',
+										        store: xtzystore1,
+										        columns: [
+										            {header: "服务场所", width: 100, sortable: true, dataIndex: 'v2'},
+										            {header: "服务类型", width: 60, sortable: true,  dataIndex: 'v12'},
+										            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'v13'},
+										            {id:'v14',header: "关键字2",  width: 100, sortable: true, dataIndex: 'v14'},
+										            {header: "关键字3",  width: 50, sortable: true,  dataIndex: 'v15'},
+										            {header: "关键字4",  width: 50, sortable: true,  dataIndex: 'v16'},
+										            {header: "源ip", width: 80, sortable: true, dataIndex: 'v6'},
+										            {header: "目的ip", width: 80, sortable: true,  dataIndex: 'v10'},
+										            {header: "时间",  width: 80, sortable: true,  dataIndex: 'v9'},
+										            {header: "端口",  width: 50, sortable: true, dataIndex: 'v11'},
+										            {header: "用户",  width: 80, sortable: true,  dataIndex: 'v3'},
+										            {header: "身份类型",  width: 50, sortable: true,  dataIndex: 'v4'},
+										            {header: "身份号码",  width: 80, sortable: true,  dataIndex: 'v5'}
+										        ],
+										        tbar: pagingBar1,
+										        stripeRows: true,
+										        width:280,
+										        height:screen.height-350,
+										        frame:true,
+												    collapsible:true,
+												    loadMask:{msg:'正在加载数据，请稍侯……'},
+												    draggable:true
+										    });
+                        var mywin =new  Ext.Window(
+							          {
+							                    id: 'viewpanel',
+							                    title: '察看查询结果',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    layout: 'border',
+											  					items: [xtzygrid1]
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                    }
+                },{
+                    id:'xiazai',
+                    iconCls:'load-icon',
+                    text:'下载查询结果',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myfile=record.get("myurl"); 
+                        myurl="/msas/main.xp?Fun=msasDataCenetrDownLoad&downLoadFile=/LocalSearch/"+ myfile +"/search.csv";
+								        //alert(myurl);
+								        downloadFile(myurl);
+                    }
+                } 
+				]});
+                
+   
+   
+   var rightClickS  = new Ext.menu.Menu({
+                id:'feeds-ctxs',
+                items: [{
+                    id:'shanchubaogaos',
+                    iconCls:'load-icon',
+                    text:'删除查询结果',
+                    scope: this,
+                    handler:function(){
+                        Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+                    }
+                },{
+                    id:'chakans',
+                    iconCls:'load-icon',
+                    text:'察看查询结果',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("mytime"); 
+                        var myfile=record.get("myurl"); 
+												var type=record.get("type");
+												if(type=='form'||type=='mail'){
+													var usrl="/backlist/Search/" + myid + "/" + myfile;
+												}else{
+                            var usrl="/main/main.xp?Fun=toshowsearch+myid="+myid+"+type="+type;
+												}
+
+                        var mywin =new  Ext.Window(
+							          {
+							                    id: 'east-panels',
+							                    title: '察看查询结果',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+											  					html: "<IFRAME  name='menufrm' width=100% height='440' SRC='"+usrl+"'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                    }
+                }
+				]});
+   
+					    xtzygrid.addListener('rowclick', rightClickFn);
+					    function rightClickFn(client, rowIndex, e) {
+					               
+					                 detailEl=  rowIndex;
+					                 
+					                 var record = xtzygrid.getStore().getAt(detailEl);
+					                 
+												   var type=record.get("type");
+												   if(type=='form'||type=='mail'){
+													   rightClickS.showAt(e.getXY()); 
+												   }else{
+                             rightClick.showAt(e.getXY()); 
+												   }
+					                
+					    }   
+
+
+       
+　　
+    
+    var northPanelTop = new Ext.Panel({
+    	frame:true,
+    　region:'north',
+    	title: '选择查询的条件',
+    	collapsible:true,
+    	contentEl:'north'
+    });
+    
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+            }
+    
+
+
+ 
+           new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 northPanelTop,mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+
+						myMask.hide();
+						
+
+  
+            
+  });
+  
+		  
+	</script>
+
+</head>
+<body >
+
+<DIV style="DISPLAY: none">
+ 
+<DIV id=north>
+
+
+        <input type="hidden" class=inputf0  id="group" name="group" maxlength="24" value="[$group$]">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  
+             <tr> 
+               <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  > 
+                <div align="left">
+                  搜索区域:[$searcharea$]
+              </div></td>
+             </tr> 
+             
+             <tr> 
+               <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  > 
+                <div align="left">
+                  选择时段&nbsp;&nbsp;:
+                    <input type="text"  class=inputf0 name="seldate" size="10" maxlength="8"     onClick="setday(this)">
+                   <SELECT class=inputsel name=seltime> 
+                   <OPTION selected 
+                    value=0>00:00--00:59</OPTION> <OPTION 
+                    value=1>01:00--01:59</OPTION> <OPTION 
+                    value=2>02:00--03:59</OPTION> <OPTION 
+                    value=3>03:00--03:59</OPTION> <OPTION 
+                    value=4>04:00--04:59</OPTION> <OPTION 
+                    value=5>05:00--05:59</OPTION> <OPTION 
+                    value=6>06:00--06:59</OPTION> <OPTION 
+                    value=7>07:00--07:59</OPTION> <OPTION 
+                    value=8>08:00--08:59</OPTION> <OPTION 
+                    value=9>09:00--09:59</OPTION> <OPTION 
+                    value=10>10:00--10:59</OPTION> <OPTION 
+                    value=11>11:00--11:59</OPTION> <OPTION 
+                    value=12>12:00--12:59</OPTION> <OPTION 
+                    value=13>13:00--13:59</OPTION> <OPTION 
+                    value=14>14:00--14:59</OPTION> <OPTION 
+                    value=15>15:00--15:59</OPTION> <OPTION 
+                    value=16>16:00--16:59</OPTION> <OPTION 
+                    value=17>17:00--17:59</OPTION> <OPTION 
+                    value=18>18:00--18:59</OPTION> <OPTION 
+                    value=19>19:00--19:59</OPTION> <OPTION 
+                    value=20>20:00--20:59</OPTION> <OPTION 
+                    value=21>21:00--21:59</OPTION> <OPTION 
+                    value=22>22:00--22:59</OPTION> <OPTION 
+                    value=23>23:00--23:59</OPTION>
+                    </SELECT>
+              </div></td>
+             </tr> 
+            
+           
+              <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 源IP地址&nbsp;&nbsp;:
+                 <input type="text" class=inputf0  id="sip"  name="sip" size="16" maxlength="15" value=""  >
+								 目的IP地址:
+                 <input type="text" class=inputf0  id="dip"  name="dip" size="16" maxlength="15" value=""  >
+                </div>
+              </td>
+              </tr> 
+              
+            
+              
+              <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 目的端口&nbsp;&nbsp;:
+                 <input type="text" class=inputf0  id="dport"  name="dport" size="10" maxlength="5" value=""  >
+                 服务类型:
+                  <SELECT class=inputsel name=selsrv> 
+                    <OPTION selected value='999' >所有服务</OPTION> 
+                    [$begintable srvlist$] 
+                    <OPTION value='[$srvid$]'>[$srvname$]</OPTION> 
+                    [$endtable$]
+                    </SELECT> 
+                </div>
+              </td>
+              </tr> 
+              
+                 <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 任意关键字:
+                 <input type="text" class=inputf0  id="searchconX"   name="searchconX" size="30" maxlength="48" value=""  >
+                </div>
+              </td>
+              </tr> 
+              
+                <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 搜索结果保存名称标记：
+                 <input type="text" class=inputf0  id="searchname"   name="searchname" size="30" maxlength="48" value=""  >
+                </div>
+              </td>
+              </tr>    
+               
+             <tr> 
+              <td height="15">&nbsp; </td>
+              <td height="15">
+                <input type="button" class=inputf0  border="0" value="按条件查询并保存数据"  onclick="mysearch();" > 
+                <input type="button" class=inputf0  border="0" value="直接导出本时段搜索数据(仅显示前5万条）"  onclick="myexport();" > 
+              </td>
+            </tr>
+
+        </table>
+
+</div>
+</div>
+</body>
+</html>
+ 
+ 

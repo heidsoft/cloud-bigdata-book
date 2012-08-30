@@ -1,0 +1,672 @@
+﻿<html class="x-viewport"><head><title>网络7层管理和过滤的领导者</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/feed-viewer.css">
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/xtheme-default.css">
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="/msa/extjs/ext-all.js"></script>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<script language = "Javascript" src = "/msa/publicjs/select_time.js"></script>
+<SCRIPT type=text/javascript src="/msa/publicjs/exportexcel.js"></SCRIPT>
+
+<style type="text/css">
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+.settings {
+	BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_wrench.png)
+}
+.nav {
+	BACKGROUND-IMAGE: url(/msa/extjs/shared/icons/fam/folder_go.png)
+}
+</style>
+
+<script type="text/javascript">
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var pagesize;
+    var groupid;	
+    var grouptext;	
+    var wing1;
+    var level;
+		pagesize=100;
+
+		function mysearch(){
+		  var  stopflag;
+		  var  myseldate,myseltime,mysip,mydip,myurltype,myhost,mysearchconX,mygname,mygid,myglevel,mysearchname;
+		  mysearchname=searchname.value;
+		  if(mysearchname==""){
+		    Ext.MessageBox.alert('提示','必须设置查询名称！'); 
+		  	return;
+		  }
+		  myseldate=seldate.value;
+		  myseltime=seltime.value;
+		  mysip=sip.value;
+		  mydip=dip.value;
+		  myurltype=urltype.value;
+		  myhost=host.value;
+		  mysearchconX=searchconX.value;
+		  mygname=grouptext;
+		  mygid=groupid;
+		  myglevel=level;
+		  
+		  
+      stopflag=0;
+		  
+		  Ext.MessageBox.show({
+							msg: '系统查询中，这需要一段时间，您可以继续等待或者稍后察看结果',
+							progressText: 'waitting...',
+							width:300,
+							wait:true,
+							waitConfig: {interval:500},
+							icon:'ext-mb-download'
+			});
+			setTimeout(function(){
+						if(stopflag==0){
+							Ext.MessageBox.hide();
+							xtzystore.load();
+						}
+						stopflag=1;
+			}, 15000); 
+		  
+		  Ext.Ajax.request({
+	                      method : 'POST', 
+	                      url:'/msa/main.xp', 
+                        success: function(response, options) { 
+													if(stopflag==0){
+														Ext.MessageBox.hide();
+														xtzystore.load();
+													}
+													stopflag=1;
+                        },
+                        failure : function() {
+                          Ext.MessageBox.hide();      
+                         	Ext.MessageBox.alert('提示','失败！'); 
+                        },
+                        params:{
+	                        Fun:'msaipbacksearch',
+	                        seldate:myseldate,
+	                        seltime:myseltime,
+	                        sip:mysip,
+	                        dip:mydip,
+	                        urltype:myurltype,
+	                        host:myhost,
+	                        searchconX:mysearchconX,
+	                        gid:mygid,
+					                gname:mygname,
+					                glevel:myglevel,
+	                        searchname:mysearchname,
+	                        showtype:3
+                        } 
+				});                
+		}
+		
+		function myexport(){
+		  var  stopflag;
+		  var  myseldate,myseltime,mysip,mydip,myurltype,myhost,mysearchconX,mygname,mygid,myglevel,mysearchname;
+		  myseldate=seldate.value;
+		  myseltime=seltime.value;
+		  mysip=sip.value;
+		  mydip=dip.value;
+		  myurltype=urltype.value;
+		  myhost=host.value;
+		  mysearchconX=searchconX.value;
+		  mygname=grouptext;
+		  mygid=groupid;
+		  myglevel=level;
+		  
+      var myurl="/msa/main.xp?Fun=msaipbacksearch&showtype=3&searchname=1&exportaction=1&seldate=" + myseldate + "&seltime=" + myseltime + "&sip=" + mysip + "&dip=" + mydip + "&urltype=" + myurltype + "&host=" + myhost+ "&searchconX=" + mysearchconX + "&gid=" + mygid + "&gname=" + mygname+ "&glevel=" + myglevel;
+
+			downloadFile(myurl);
+            
+		}
+		
+			var treepangroup=new Ext.tree.TreePanel({
+				height:300,
+				split: true,
+				useArrows:true,
+				autoScroll: true,
+				rootVisible: false,
+				lines: false,
+				useArrows: true,
+				root: new Ext.tree.AsyncTreeNode(),
+				loader: new Ext.tree.TreeLoader({
+					dataUrl:'/msa/main.xp?Fun=msaGroupTreeView',
+					baseParams:{Fun:'msaGroupTreeView'} 
+				}),
+				listeners: {
+							    click: function(node, e) {
+							     groupid=node.id;
+						       grouptext=node.text						       
+									 level=node.getDepth()-1;
+							     wing1.hide();
+							   }
+						}		
+	  });
+		
+
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				var win;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+				
+				var btn_Manager=Ext.get('group');
+				btn_Manager.on('click', function(){
+				if(!wing1){
+					wing1 = new Ext.Window({
+							title: '选择所属部门',
+							closeAction: 'hide',
+							width: 500,
+							height:300,
+							plain:true,
+							items:treepangroup,
+							bodyStyle:'padding:5px;'
+						});
+					}
+					wing1.show();		
+				}); 
+
+    
+			 xtzystore = new Ext.data.JsonStore({
+	        root: 'Results',
+	        totalProperty: 'totalCount',
+	        url:'/msa/main.xp',
+	        baseParams:{Fun:'msaNewSearchList',showtype:'3'},
+	        fields: [
+			       {name: 'sname'},
+				     {name: 'sdate'},
+				     {name: 'suser'},
+				     {name: 'scon'},
+				  	 {name: 'myurl'},
+					   {name: 'stype'},
+					   {name: 'fproc'}
+			    ]
+	     });
+    
+    xtzystore.load();
+
+  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+        var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msa/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+         var userItems = this.items || []; 
+         this.items = userItems.concat(pageSizeItems); 
+         HlPagingToolbar.superclass.initComponent.call(this); 
+    }, 
+    onHlPagingKeyDown: function(field, e){ 
+        if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            //alert(this.pageSize);
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+});
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        bbar: new Ext.StatusBar({
+								      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+        viewConfig:{forceFit: false, scrollOffset: 0},
+        columns: [
+            {id:'sname',header: "查询结果标记", width: 100, sortable: true, dataIndex: 'sname'},
+            {header: "查询时间",  width: 100, sortable: true,  dataIndex: 'sdate'},
+            {header: "查询条件",  width: 800, sortable: true,  dataIndex: 'scon'},
+            {header: "查询人",    width: 80, sortable: true,  dataIndex: 'suser'},
+            {header: "状态",    width:200, sortable: true,  dataIndex: 'fproc'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'sname',
+        height:screen.height-210,
+        title:'查询结果列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    }); 
+   
+
+
+      function showsysdelrule(btn){
+					        if(btn=='yes'){
+					        	var record = xtzygrid.getStore().getAt(detailEl);
+									  var myurl=record.get("myurl");   
+									  xtzystore.load({params:{Fun:'msaNewSearchList',showtype:'3',delfile:myurl}});   
+					        }
+					        
+					};
+
+      var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'shanchubaogao',
+                    iconCls:'load-icon',
+                    text:'删除查询结果',
+                    scope: this,
+                    handler:function(){
+                        Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+                    }
+                },{
+                    id:'chakan',
+                    iconCls:'load-icon',
+                    text:'察看查询结果',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myurl=record.get("myurl"); 
+                        var myurlmore="httpsearch/" + myurl + "/search";                        
+												xtzystore1 = new Ext.data.JsonStore({
+										        root: 'Results',
+										        totalProperty: 'totalCount',
+										        url:'/msa/main.xp',
+										        baseParams:{Fun:'HttpmsaAccessList',url:myurlmore},
+										             fields: [
+															     {name: 'v1'},
+																   {name: 'v2'},
+																   {name: 'v3'}, 
+																   {name: 'v4'},  
+										//					     {name: 'v5'},
+										//					     {name: 'v6'},
+										//						   {name: 'v7'},
+										//					     {name: 'v8'},    
+																   {name: 'v9'},
+																   {name: 'v10'},
+																   {name: 'v11'},
+																   {name: 'v12'},
+																   {name: 'v13'},
+																   {name: 'v14'},
+																   {name: 'v15'},
+																   {name: 'v16'},
+																   {name: 'v17'},
+																   {name: 'v18'},
+																   {name: 'v19'},
+																   {name: 'v20'}
+															    ]
+										    });
+										    xtzystore1.load({params:{Fun:'HttpmsaAccessList',url:myurlmore,start:0,limit:pagesize}});
+										    
+										    HlPagingToolbar1 = Ext.extend(Ext.PagingToolbar, { 
+												    displayInfo: true, 
+												    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+												    emptyMsg: "无记录", 
+												    initComponent : function(){ 
+												        var pageSizeItems = [ 
+												                     '-','每页', 
+												                     this.inputItem = new Ext.form.NumberField({ 
+																					    cls: 'x-tbar-page-number', 
+																					    allowDecimals: false, 
+																					    allowNegative: false, 
+																					    enableKeyEvents: true, 
+																					    maxValue: 500, 
+																					    maxText: '每页不允许超过500条', 
+																					    selectOnFocus: true, 
+																					    value: this.pageSize, 
+																					    submitValue: false, 
+																					    listeners: { 
+																					        scope: this, 
+																					        keydown: this.onHlPagingKeyDown, 
+																					        blur: this.onHlPagingBlur 
+																					    } 
+												                     }),'条','-','-']; 
+												         var userItems = this.items || []; 
+												         this.items = userItems.concat(pageSizeItems); 
+												         HlPagingToolbar1.superclass.initComponent.call(this); 
+												    }, 
+												    onHlPagingKeyDown: function(field, e){ 
+												        if(field.isValid()){ 
+												            var k = e.getKey(); 
+												             if (k == e.RETURN) { 
+												                    e.stopEvent(); 
+												                    this.pageSize = field.getValue(); 
+												                    pagesize=this.pageSize;
+												                    //alert(this.pageSize);
+												                    this.doRefresh(); 
+												             } 
+												        } 
+												    }, 
+												    onHlPagingBlur: function(field){ 
+												        if(field.isValid()){ 
+												            this.pageSize = field.getValue(); 
+												            //alert(this.pageSize);
+												            pagesize=this.pageSize;
+												            this.doRefresh(); 
+												        } 
+												    } 
+												});
+										    
+										    
+										    var pagingBar1= new HlPagingToolbar1({
+									        store: xtzystore1,
+									        pageSize: pagesize,
+									        displayInfo: true});
+									     
+									      xtzygrid1 = new Ext.grid.GridPanel({
+										        region:'center',
+										        store: xtzystore1,
+										        viewConfig:{forceFit: false, scrollOffset: 0},
+										        columns: [
+										              {header: "用户名", width: 80, sortable: true, dataIndex: 'v2'},           
+											            {header: "显示名", width: 80, sortable: true,  dataIndex: 'v3'},
+											            {header: "部门",   width: 80, sortable: true,  dataIndex: 'v4'},
+											            {header: "源IP",   width: 80, sortable: true,  dataIndex: 'v9'},
+											            {header: "自身MAC", width: 80, sortable: true, dataIndex:'v10'},
+											            {header: "目的IP",  width: 80, sortable: true,  dataIndex: 'v11'}, 
+											            {header: "开始连接时间", width: 80, sortable: true, dataIndex: 'v12'},
+											            {header: "最后连接时间", width: 80, sortable: true, dataIndex: 'v13'},
+											            {header: "上行流量", width: 80, sortable: true, dataIndex: 'v14'},
+														      {header: "下行流量", width: 80, sortable: true, dataIndex: 'v15'},
+														      {header: "数据包数目", width: 80, sortable: true, dataIndex: 'v16'},
+														      {header: "虚拟通道", width: 80, sortable: true, dataIndex: 'v17'},
+														      {header: "URL分类", width: 80, sortable: true, dataIndex: 'v18'},
+														      {header: "URL地址", width: 300, sortable: true, dataIndex:'v19'},
+														      {header: "文件类型", width: 300, sortable: true, dataIndex:'v20'} 
+																					        ],
+										        tbar: pagingBar1,
+										        stripeRows: true,
+										        width:280,
+										        height:screen.height-350,
+										        frame:true,
+												    collapsible:true,
+												    loadMask:{msg:'正在加载数据，请稍侯……'},
+												    draggable:true
+										    });
+                        var mywin =new  Ext.Window(
+							          {
+							                    id: 'viewpanel',
+							                    title: '察看查询结果',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    layout: 'border',
+											  					items: [xtzygrid1]
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                    }
+                },{
+                    id:'xiazai',
+                    iconCls:'load-icon',
+                    text:'下载查询结果',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myfile=record.get("myurl"); 
+                        myurl="/msa/main.xp?Fun=msaBackListDownLoadCSV+downLoadFile=httpsearch/"+ myfile + "/search.csv";
+								        downloadFile(myurl);
+                    }
+                } 
+				]});
+                
+     
+			 xtzygrid.addListener('rowclick', rightClickFn);
+			 function rightClickFn(client, rowIndex, e) {      
+					                 detailEl=  rowIndex;
+					                 var record = xtzygrid.getStore().getAt(detailEl);
+					                 rightClick.showAt(e.getXY()); 
+			 }   
+    
+    var northPanelTop = new Ext.Panel({
+    	frame:true,
+    　region:'north',
+    	title: '选择查询的条件',
+    	collapsible:true,
+    	contentEl:'north'
+    });
+    
+     var mainPanel= {
+					id: 'main-panel',
+					region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+            }
+    
+
+
+ 
+           new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 northPanelTop,mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });
+
+						myMask.hide();
+						
+
+  
+            
+  });
+</script>
+
+
+</head>
+<body >
+
+<DIV style="DISPLAY: none">
+ 
+<DIV id=north>
+
+
+        <input type="hidden" class=inputf0  id="stime" name="stime" maxlength="24" value="">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  
+            <tr> 
+               <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  > 
+                <div align="left">
+                  选择时段&nbsp;&nbsp;: <SELECT class=inputsel name=seldate> 
+                    [$begintable datelist$] 
+                    <OPTION value=[$strdate$]>[$strdate$]</OPTION> 
+                    [$endtable$]
+                    </SELECT> 
+                    
+                   <SELECT class=inputsel name=seltime> 
+                   <OPTION selected 
+                    value=0>00:00--00:59</OPTION> <OPTION 
+                    value=1>01:00--01:59</OPTION> <OPTION 
+                    value=2>02:00--03:59</OPTION> <OPTION 
+                    value=3>03:00--03:59</OPTION> <OPTION 
+                    value=4>04:00--04:59</OPTION> <OPTION 
+                    value=5>05:00--05:59</OPTION> <OPTION 
+                    value=6>06:00--06:59</OPTION> <OPTION 
+                    value=7>07:00--07:59</OPTION> <OPTION 
+                    value=8>08:00--08:59</OPTION> <OPTION 
+                    value=9>09:00--09:59</OPTION> <OPTION 
+                    value=10>10:00--10:59</OPTION> <OPTION 
+                    value=11>11:00--11:59</OPTION> <OPTION 
+                    value=12>12:00--12:59</OPTION> <OPTION 
+                    value=13>13:00--13:59</OPTION> <OPTION 
+                    value=14>14:00--14:59</OPTION> <OPTION 
+                    value=15>15:00--15:59</OPTION> <OPTION 
+                    value=16>16:00--16:59</OPTION> <OPTION 
+                    value=17>17:00--17:59</OPTION> <OPTION 
+                    value=18>18:00--18:59</OPTION> <OPTION 
+                    value=19>19:00--19:59</OPTION> <OPTION 
+                    value=20>20:00--20:59</OPTION> <OPTION 
+                    value=21>21:00--21:59</OPTION> <OPTION 
+                    value=22>22:00--22:59</OPTION> <OPTION 
+                    value=23>23:00--23:59</OPTION>
+                    </SELECT>
+					         <!--SELECT class=inputsel name=group> 
+                    [$begintable glist$] 
+                    <OPTION value='[$gid$]'>[$gname$]</OPTION> 
+                    [$endtable$]
+                    </SELECT--> 
+                     <input type="button" id="group" class=inputf0 border="0" name="group" value="选择部门">
+              </div></td>
+             </tr> 
+            
+           
+              <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 源IP地址&nbsp;&nbsp;:
+                 <input type="text" class=inputf0  id="sip"  name="sip" size="16" maxlength="15" value=""  >
+								 目的IP地址:
+                 <input type="text" class=inputf0  id="dip"  name="dip" size="16" maxlength="15" value=""  >
+                </div>
+              </td>
+              </tr> 
+              
+              
+              <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 URL分类&nbsp;&nbsp;&nbsp;:
+                 <SELECT class=inputsel name=urltype> 
+                    <OPTION selected value='-1' >所有分类</OPTION> 
+                    [$begintable urltypelist$] 
+                    <OPTION value='[$urltypeid$]'>[$urltypename$]</OPTION> 
+                    [$endtable$]
+                  </SELECT> 
+                 
+                
+                </div>
+              </td>
+              </tr> 
+              
+            
+              
+              <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 URL包括&nbsp;&nbsp;&nbsp;:
+                 <input type="text" class=inputf0  id="host"  name="host" size="16" maxlength="48" value=""  >
+                
+                </div>
+              </td>
+              </tr> 
+              
+                 <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 任意关键字:
+                 <input type="text" class=inputf0  id="searchconX"   name="searchconX" size="30" maxlength="48" value=""  >
+                </div>
+              </td>
+              </tr> 
+              
+                <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 搜索结果保存名称标记：
+                 <input type="text" class=inputf0  id="searchname"   name="searchname" size="30" maxlength="48" value=""  >
+                </div>
+              </td>
+              </tr>    
+               
+             <tr> 
+              <td height="15">&nbsp; </td>
+              <td height="15">
+                <input type="button" class=inputf0  border="0" value="按条件查询并保存数据"  onclick="mysearch();" > 
+                <input type="button" class=inputf0  border="0" value="直接导出本时段搜索数据"  onclick="myexport();" > 
+              </td>
+            </tr>
+
+        </table>
+
+</div>
+</div>
+</body>
+</html>
+ 
+ 

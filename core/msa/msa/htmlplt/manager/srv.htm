@@ -1,0 +1,574 @@
+﻿<html>
+<head>
+<title>服务选项</title>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msa/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msa/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msa/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msa/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time_st.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<script language="JavaScript">
+	
+function isAlpha(ch) { 
+  if(ch >= "a" && ch <= "e") return true;
+  if(ch >= "A" && ch <= "E") return true;
+  return false;
+}
+
+function isNumber(ch) { 
+  if(ch >= "0" && ch <= "9") return true;
+  return false;
+}
+
+
+function CheckValidStr(value)
+{
+  var count=0;
+  for(var i=0;i<value.length;++i) 
+  {
+    var ch = value.charAt(i);
+    if(isAlpha(ch)||isNumber(ch)){
+      count++;
+    }else{
+    	alert("字符匹配错误，字符字节范围是0到E");
+      return false;
+    }
+  }
+  
+  if(count%2!=0)
+  {
+  	  alert("字符匹配错误，输入字符个数应为2的倍数");
+      return false;
+  }else{
+  	  return true;
+  }
+}
+	
+	
+	function matchfun(){
+		if(north.chkip.checked){
+			north.srvip.style.display="";
+		}else{
+			north.srvip.value="";
+			north.srvip.style.display="none";
+		}
+		if(north.chkarea.checked){
+			north.srvarea.style.display="";
+		}else{
+			north.srvarea.value="";
+			north.srvarea.style.display="none";
+		}
+		if(north.chkdescmatch.checked){
+			divdesc.style.display="";
+		}else{
+			divdesc.style.display="none";
+			north.srvdescmatch1.value="";
+			north.srvdescmatch2.value="";
+			north.srvdescmatch3.value="";
+		}
+		if(north.chkascmatch.checked){
+			divasc.style.display="";
+		}else{
+			divasc.style.display="none";
+			north.srvascmatch1.value="";
+			north.srvascmatch2.value="";
+			north.srvascmatch3.value="";
+		}
+	}
+	function addlistfun() {
+		var mysrvname=north.srvname.value;
+		var mymatchDirect=north.matchDirect.value;
+		var mymatchAgree=north.matchAgree.value;
+		var mymatchportL=north.matchportL.value;
+		var mymatchportU=north.matchportU.value;
+		var mymatchload=north.matchload.value;
+		var mysrvip=north.srvip.value;
+		var mysrvarea=north.srvarea.value;
+		var mysrvdescmatch1=north.srvdescmatch1.value;
+		var mysrvdescmatch2=north.srvdescmatch2.value;
+		var mysrvdescmatch3=north.srvdescmatch3.value;
+		if(CheckValidStr(mysrvdescmatch3)==false){
+			return false;
+		}
+		var mysrvascmatch1=north.srvascmatch1.value;
+		var mysrvascmatch2=north.srvascmatch2.value;
+		var mysrvascmatch3=north.srvascmatch3.value;
+		if(CheckValidStr(mysrvascmatch3)==false){
+			return false;
+		}
+		
+		
+		var mysrvascmatchtype;
+		if(north.srvascmatchtype.checked){
+				mysrvascmatchtype=0;//and
+		}else{
+				mysrvascmatchtype=1;//or
+		}
+		
+		if(mysrvname=="")
+{
+		 Ext.MessageBox.alert("提示","协议名称不能为空！");
+		 north.srvname.focus();
+		 return false;
+	  }
+	  
+	if(mymatchportL=="")
+	{
+		Ext.MessageBox.alert("提示","匹配端口不能为空！");
+		north.matchportL.focus();
+		return false;
+	}
+	
+	if(mymatchportL!="")
+	{
+		if(mymatchportL<0 || mymatchportL>1500)
+		{
+			Ext.MessageBox.alert("提示","匹配端口号必须位于1-1500之间！");
+			north.matchportL.focus();
+		  north.matchportL.select();
+			return false;
+		}
+	}
+	
+	if(mymatchportU=="")
+	{
+		Ext.MessageBox.alert("提示","匹配端口不能为空！");
+		north.matchportU.focus();
+		return false;
+	}
+	
+	if(mymatchportU!="")
+	{
+		if(mymatchportU<0 || mymatchportU>1500)
+		{
+			Ext.MessageBox.alert("提示","匹配端口号必须位于1-1500之间！");
+			north.matchportL.focus();
+		  north.matchportL.select();
+			return false;
+		}
+	}
+	
+	if(north.chkip.checked)
+	{
+		if(mysrvip=="")
+		{
+			Ext.MessageBox.alert("提示","服务器IP不能为空！");
+			north.srvip.focus();
+			return false;
+		}
+		if(mysrvip!="")
+		{
+		  var regIP=/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+		  var IP_flag=false;
+		  if(regIP.test(mysrvip)){
+			IP_flag = true;
+			}else{
+			IP_flag = false;
+			}
+			if (!IP_flag){
+			  Ext.MessageBox.alert("提示","对不起，IP格式错误！");
+				north.srvip.focus();
+				north.srvip.select();
+			  return false;
+			}
+		}
+	}
+	
+	if(north.chkarea.checked)
+	{
+		if(mysrvarea=="")
+		{
+			Ext.MessageBox.alert("提示","域名不能为空！");
+			north.srvarea.focus();
+			return false;
+		}
+		if(mysrvarea!="")
+		{
+		  var regAREA=/^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?$/;
+		  var AREA_flag=false;
+		  if(regAREA.test(mysrvarea)){
+			AREA_flag = true;
+			}else{
+			AREA_flag = false;
+			}
+			if (!AREA_flag){
+			  Ext.MessageBox.alert("提示","对不起，域名格式错误！");
+				north.srvarea.focus();
+				north.srvarea.select();
+			  return false;
+			}
+		}
+	}
+	
+	Ext.Ajax.request({
+			method : 'POST', 
+	    url:'/msa/main.xp', 
+	    success: function(response, options){
+	    	 var retxt=response.responseText;
+	    	 if(retxt.substring(0,1)=="0"){
+	    	 	 Ext.MessageBox.alert("提示","添加服务规则成功!");
+		       xtzystore.load({params:{Fun:'ltSrvaction', start:0,limit:pagesize}});
+	    	 }else{
+	    	 	 Ext.MessageBox.alert("提示","添加服务规则失败!");
+	    	 }
+		    
+      },
+	    failure : function(){   
+		  	Ext.MessageBox.alert("提示","添加服务规则失败!"); 
+	    },
+	    params:{Fun:'ltSrvaction',
+	    	srvname:mysrvname,
+	    	matchDirect:mymatchDirect,
+	    	matchAgree:mymatchAgree,
+	    	matchportL:mymatchportL,
+	    	matchportU:mymatchportU,
+	    	matchload:mymatchload,
+	    	srvip:mysrvip,
+	    	srvarea:mysrvarea,
+	    	srvdescmatch1:mysrvdescmatch1,
+	    	srvdescmatch2:mysrvdescmatch2,
+	    	srvdescmatch3:mysrvdescmatch3,
+	    	srvascmatch1:mysrvascmatch1,
+	    	srvascmatch2:mysrvascmatch2,
+	    	srvascmatch3:mysrvascmatch3,
+	    	srvascmatchtype:mysrvascmatchtype//匹配方式
+	    }
+	
+	});
+ }
+</script>
+
+<script type="text/javascript">
+		var xtzystore;
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+		var pagesize;
+		var havesearch;
+		pagesize=50;
+		havesearch=0;
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+        xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msa/main.xp',
+        baseParams:{Fun:'ltSrvlist'},
+        fields: [
+           {name: 'srvid'},
+           {name: 'srvname'},
+           {name: 'matchDirect'},
+           {name: 'matchAgree'},
+           {name: 'matchport'},
+           {name: 'matchload'},
+           {name: 'srvip'},
+           {name: 'srvarea'},
+           {name: 'srvdescmatch1'},
+           {name: 'srvdescmatch2'},
+           {name: 'srvdescmatch3'},
+           {name: 'srvascmatch1'},
+           {name: 'srvascmatch2'},
+           {name: 'srvascmatch3'}
+        ]
+    });
+    xtzystore.load({params:{Fun:'ltSrvlist', start:0,limit:pagesize}});
+       var pagingBar = new Ext.PagingToolbar({
+        pageSize: pagesize,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据",
+        items:[
+            '-','每页',this.inputItem = new Ext.form.NumberField({ 
+						    cls: 'x-tbar-page-number', 
+						    allowDecimals: false, 
+						    allowNegative: false, 
+						    enableKeyEvents: true,
+						    value: pagesize,
+						    maxValue: 500, 
+						    maxText: '每页不允许超过500条', 
+						    selectOnFocus: true, 
+						    submitValue: false,
+						    listeners: { 
+						        scope: this, 
+						        keydown: function(field, e){ 
+							        if(field.isValid()){ 
+							            var k = e.getKey(); 
+							             if (k == e.RETURN) { 
+							                    e.stopEvent(); 
+							                    pagesize = field.getValue();
+							                    if(havesearch==1){
+							                      xtzystore.load({params:{Fun:'ltSrvlist', start:0,limit:pagesize}});
+							                    }
+							             } 
+							        } 
+						        }, 
+						        blur: function(field){
+							        if(field.isValid()){
+							            pagesize = field.getValue();
+							            if(havesearch==1){
+							                      xtzystore.load({params:{Fun:'ltSrvlist', start:0,limit:pagesize}});
+							            }
+							        } 
+						        }
+						}}),'条',
+					  '-', {
+	            icon: '/msa/images/grid.png',
+	            enableToggle:true,
+	            text: '导出本页数据到Excel',
+	            cls: 'x-btn-text-icon details',
+	            toggleHandler: function(btn, pressed){
+	                downloadViewDataActive(xtzygrid);
+	            }
+        		},'-',{
+				            icon: '/msa/images/warning.gif',
+				            enableToggle:true,
+				            text: '应用服务',
+				            cls: 'x-btn-text-icon details',
+				            toggleHandler: function(btn, pressed){
+				            	Ext.MessageBox.confirm('提示','你确定要应用服务吗？',function(button,text)
+										  {
+					            });
+				        }
+				      },
+				   '-']
+    });
+    function conChange1(val1){
+        if(val1 == 0){
+            return '上行(Out)';
+        }else if(val1 == 1){
+            return '下行(In)';
+        }else if(val1 == 2){
+            return '全部(Both)';
+        }
+        return val1;
+    }
+    function conChange2(val2){
+        if(val2 == 0){
+            return 'TCP协议';
+        }else if(val2 == 1){
+            return 'UDP协议';
+        }else if(val2 == 2){
+            return '全部协议';
+        }
+        return val2;
+    }
+    function conChange3(val3){
+        if(val3 == 0){
+            return '全部负载';
+        }else if(val3 == 1){
+            return 'HTTP内容负载';
+        }
+        return val3;
+    }
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+            {header: "协议ID",width: 85, sortable: true,  dataIndex: 'srvid'},
+            {header: "协议名称",  width: 95, sortable: true,  dataIndex: 'srvname'},
+            {header: "匹配方向",  width: 95, sortable: true,  dataIndex: 'matchDirect',renderer: conChange1},
+            {header: "匹配协议",  width: 95, sortable: true,  dataIndex: 'matchAgree',renderer: conChange2},
+            {header: "匹配端口",  width: 95, sortable: true,  dataIndex: 'matchport'},
+            {id:"matchload",header: "匹配负载",  width: 95, sortable: true,  dataIndex: 'matchload',renderer: conChange3}
+        ],
+        viewConfig:{
+			   		forceFit: true,
+			 			scrollOffset: 0 
+			  },
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'matchload',
+        width:280,
+        height:screen.height-350,
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+    
+    var detailEl;
+	  var rightClick  = new Ext.menu.Menu({
+							id:'feeds-ctx',
+							items: [{
+								id:'delsrvfilterlist',
+								iconCls:'load-icon',
+								text:'删除服务规则',
+								scope: this,
+								handler:function(){
+									var record = xtzygrid.getStore().getAt(detailEl);
+									var my_id=record.get("srvid"); 
+									var deflag=1;
+									  Ext.MessageBox.confirm('提示','你确定要删除此服务规则吗？',function(button,text)
+									  {
+											if(button=="yes")
+											{
+												Ext.Ajax.request
+												({
+													url:'/msa/main.xp',
+													params:{Fun:'ltSrvlist',deflag:'1',srvid:my_id,start:0,limit:pagesize},
+													success:function(response,options){
+															var retxt=response.responseText;
+                              if(retxt==0){
+															   Ext.MessageBox.alert('提示','服务规则删除成功!');
+		                             xtzystore.load({params:{Fun:'ltSrvlist', start:0,limit:pagesize}});
+                              }else{
+                                 Ext.MessageBox.alert('提示','服务规则删除失败!');
+                              }
+													},
+													failure:function(){
+                                 Ext.MessageBox.alert('提示','服务规则删除失败!');}
+												});		    
+												 xtzystore.load({params:{Fun:'ltSrvlist',start:0,limit:pagesize}});
+									    }
+									   });
+								}
+							},{
+                    id:'Editorformfilterlist',
+                    iconCls:'load-icon',
+                    text:'编辑服务规则',
+                    scope: this,
+                    handler:function(){
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myid=record.get("srvid");
+                        var mywin =new  Ext.Window(
+							          {
+		                    id: 'east-panel',
+		                    title: '编辑服务规则信息',
+		                    height: 550,
+		                    width: 700,
+		                    closeAction: 'close',
+		                    modal: 'true',
+		                    maximizable:'true',
+		                    margins:'0 5 0 0',
+		                    html: "<IFRAME  name='menufrm' width=100% height=100% SRC = '/msa/main.xp?Fun=msaShowSrv&my_id=" +myid + "'></iframe>"
+							          });
+							          mywin.show();
+							          mywin.maximize();
+                    }
+                }
+							/*,{添加新的右键菜单}*/
+						]});
+						 xtzygrid.addListener('rowclick', rightClickFn); 
+						 function rightClickFn(client, rowIndex, e) 
+						 {
+						   rightClick.showAt(e.getXY()); 
+						   detailEl=  rowIndex;
+             }  
+             
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  {
+                    region:'north',
+                    contentEl:'north',
+                    split:true,
+                    height: 288,
+                    minSize: 100,
+                    maxSize: 300,
+                    collapsible: true,
+                    title:'服务规则',
+                    margins:'0 0 0 0'
+                   },xtzygrid
+									],
+					        renderTo: Ext.getBody()
+					    });
+			     myMask.hide();
+  });
+</SCRIPT>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" link="#C0C0C0">
+<form name="north" method="post" action="/msa/main.xp">
+  <input type="hidden" name="srvid" value="[$srvid$]">
+  <table width="90%" border="0" cellspacing="0" align="center" height="26%">
+    <tr> 
+      <td width="161" height="27" align="right"><div>协议名称</div></td>
+      <td height="27" align="left" colspan="2"> 
+        <div><input type="text" name="srvname"  class="input" value="[$srvname$]" maxlength="20" > </div>
+      </td>
+    </tr>
+    <tr>
+      <td width="161" height="20" align="right"><div>匹配方向</div> </td>
+      <td height="20" colspan="2"><div>
+        <select name="srvDirect" id="matchDirect"  class=inputself0  >
+          <option value="0" [$sel0$] >上行(Out)</option>
+          <option value="1" [$sel1$] >下行(In)</option>
+          <option value="2" [$sel2$] >全部(Both)</option>
+        </select></div>
+      </td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"><div>匹配协议</div></td>
+      <td height="20" colspan="2"><div>
+        <select name="matchAgree" id="matchAgree"  class=inputself0  >
+          <option value="0" [$sel3$] >TCP</option>
+          <option value="1" [$sel4$] >UDP</option>
+          <option value="2" [$sel5$] >全部</option>
+        </select></div>
+      </td>
+    </tr>
+    <tr> 
+      <td width="161" height="32" align="right"><div>匹配端口</div></td>
+      <td width="320" height="32" colspan="2"> <div>
+        <input type="text" name="matchportL"  class="input" size="8" value="[$matchportL$]" maxlength="12" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">-<input type="text" name="matchportU"  class="input" size="8" value="[$matchportU$]" maxlength="12" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></div>
+      </td>
+    </tr>
+    <tr>
+      <td width="161" height="20" align="right"><div>匹配负载</div></td>
+      <td height="20" colspan="2"> <div>
+        <select name="matchload" id="matchload"  class=inputself0 >
+          <option value="0" [$sel6$] >全部负载</option>
+          <option value="1" [$sel7$] >HTTP内容负载</option>
+        </select></div>
+      </td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"><div>服务器IP</div></td>
+      <td height="20" colspan="2"><div><input type="checkbox" name="chkip" id="chkip" onClick="matchfun()"><input id="srvip" type="text" name="srvip"  class="input" size="11" maxlength="20" style="display:none"></div></td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"><div>域名解析</div></td>
+      <td height="20" colspan="2"><div><input type="checkbox" name="chkarea" id="chkarea" onClick="matchfun()"><input id="srvarea" type="text" name="srvarea"  class="input" size="11" maxlength="20" style="display:none"></div></td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"><div>顺序字符匹配</div></td>
+      <td height="20"><div><input type="checkbox" name="chkdescmatch" id="chkdescmatch" onClick="matchfun()"></div></td><td><div id="divdesc" style="display:none">从第<input id="srvdescmatch1" type="text" name="srvdescmatch1"  class="input" size="3" maxlength="20">个字节起第<input id="srvdescmatch2" type="text" name="srvdescmatch2"  class="input" size="3" maxlength="20">个字节为<input id="srvdescmatch3" type="text" name="srvdescmatch3"  class="input" size="5" maxlength="20"></div></td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"><div>倒序字符匹配</div></td>
+      <td height="20"><div><input type="checkbox" name="chkascmatch" id="chkascmatch" onClick="matchfun()" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></div></td><td><div id="divasc" style="display:none">从倒数第<input id="srvascmatch1" type="text" name="srvascmatch1"  class="input" size="3" maxlength="20">个字节起第<input id="srvascmatch2" type="text" name="srvascmatch2"  class="input" size="3" maxlength="20">个字节为<input id="srvascmatch3" type="text" name="srvascmatch3"  class="input" size="5" maxlength="20"></div></td>
+    </tr>
+    
+     <tr> 
+      <td width="161" height="20" align="right"><div>匹配类型</div></td>
+      <td width="394" colspan="2">
+      	<div><input type="checkbox" name="srvascmatchtype " id="srvascmatchtype" checked="true" onClick="matchfun()"></div>
+      </td>
+    </tr>
+    <tr> 
+      <td width="161" height="20" align="right"> <div>&nbsp;</div></td>
+	  <td width="394" colspan="2" align="right">
+	  <div><input type="button" name="add" class="input" value="添加" class="xan3" onClick="addlistfun()" style="cursor:hand"></div>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

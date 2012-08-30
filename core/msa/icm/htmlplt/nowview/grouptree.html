@@ -1,0 +1,74 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/icm/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/icm/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/icm/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/icm/extjs/ext-all.js"></SCRIPT>
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	MARGIN: 0px; BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 0px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/icm/extjs/resources/images/default/s.gif';
+Ext.onReady(function(){
+    
+    var tree = new Ext.tree.TreePanel({
+        renderTo:Ext.getBody(),
+        height: screen.height-300,
+        width: 200,
+        useArrows:true,
+        autoScroll:true,
+        animate:true,
+        rootVisible: false,
+        root: {
+            nodeType: 'async'
+        },  
+        loader: new Ext.tree.TreeLoader({
+						dataUrl:'/icm/main.xp?Fun=icmGroupTree',
+						baseParams:{Fun:'icmGroupTree'} 
+				}),
+    	 listeners: {
+		    click: function(node, e) {
+		            var myurl="/icm/main.xp?Fun=icmShowUserList+groupid=" + node.id + "&grouplevel=" + (node.getDepth()-1) ;
+		            //Ext.MessageBox.alert('提示',myurl);
+		            parent.mainviewfrm.location.href=myurl ;
+		     }        
+		   },        
+       tbar: [{
+						            text:'展开',
+						            id: 'expandclose',
+						            handler: function(){
+						               if(tree.getTopToolbar().items.item(0).text=='展开'){
+						                	tree.getRootNode().expand(true);
+						                	tree.getTopToolbar().items.item(0).setText('闭合');
+						              }else{
+						               		tree.getRootNode().collapse(true);
+															tree.getTopToolbar().items.item(0).setText('展开');
+					                }
+						            },
+						            scope: this
+			}]
+    });
+
+    //tree.getRootNode().expand(true);
+});
+</SCRIPT>
+<style>
+    .complete .x-tree-node-anchor span {
+        text-decoration: line-through;
+        color: #777;
+    }
+</style>
+</head>
+<body>
+</body>
+</html>

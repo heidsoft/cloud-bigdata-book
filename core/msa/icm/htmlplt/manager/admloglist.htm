@@ -1,0 +1,282 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/icm/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/icm/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/icm/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/icm/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/icm/publicjs/select_time_st.js"></script>
+<script type=text/javascript  src="/icm/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    var northPanel;
+    Ext.BLANK_IMAGE_URL = '/icm/extjs/resources/images/default/s.gif';
+    function checkGValue(mydev){
+		}
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=50;
+		havesearch=0;
+		function gg(){
+		    var myname,mysubject,myloglevel,mydtype,mysdate,myedate,mysdate3,mystime,myetime;
+		    var i;
+			  myname=form1.name.value;
+		    mysubject=form1.subject.value;
+		    myloglevel=form1.loglevel.value;
+			  mydtype=1;
+			  mysdate=form1.sdate.value;
+			  myedate=form1.edate.value;
+		    mysdate3=form1.sdate3.value;
+			  mystime=form1.stime.value;
+			  myetime=form1.etime.value;
+		    for(i=0;i<form1.dtype.length;i++){
+			    if(form1.dtype[i].checked==true)
+				  {
+				   mydtype=form1.dtype[i].value;
+			  	}
+			 }
+			 xtzystore.load({params:{Fun:'icmAdmlog', name:myname,subject:mysubject,loglevel:myloglevel,dtype:mydtype,sdate:mysdate,edate:myedate,sdate3:mysdate3,stime:mystime,etime:myetime,start:0,limit:pagesize}});
+			 havesearch=1;
+	 }
+	 function gg1(){
+		    var myname,mysubject,myloglevel,mydtype,mysdate,myedate,mysdate3,mystime,myetime;
+		    var i;
+		    var myurl;
+			  myname=form1.name.value;
+		    mysubject=form1.subject.value;
+		    myloglevel=form1.loglevel.value;
+			  mydtype=1;
+			  mysdate=form1.sdate.value;
+			  myedate=form1.edate.value;
+		    mysdate3=form1.sdate3.value;
+			  mystime=form1.stime.value;
+			  myetime=form1.etime.value;
+		    for(i=0;i<form1.dtype.length;i++){
+			    if(form1.dtype[i].checked==true)
+				  {
+				   mydtype=form1.dtype[i].value;
+			  	}
+			 }
+       myurl="/icm/main.xp?Fun=icmAdmlog&name=" + myname + "&subject=" + mysubject + "&loglevel=" + myloglevel + "&dtype=" + mydtype + "&sdate=" + mysdate + "&edate=" + myedate + "&sdate3=" + mysdate3 + "&stime=" + mystime + "&etime=" + myetime + "&export=1";
+       downloadFile(myurl);
+	 }
+    Ext.onReady(function(){
+	  		Ext.QuickTips.init();
+				var detailEl;
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });
+				myMask.show();
+    xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/icm/main.xp',
+        baseParams:{Fun:'icmAdmlog'},
+        fields: [
+           {name: 'name'},
+           {name: 'sdate'},
+           {name: 'loglevel'},
+           {name: 'subject'}
+        ]
+    });
+    xtzystore.load({params:{Fun:'icmAdmlog', start:0,limit:pagesize}});
+       var pagingBar = new Ext.PagingToolbar({
+        pageSize: pagesize,
+        store: xtzystore,
+        displayInfo: true,
+        displayMsg: '显示 {0} - {1} 共 {2}',
+        emptyMsg: "没有数据",
+        items:[
+            '-','每页',this.inputItem = new Ext.form.NumberField({ 
+    cls: 'x-tbar-page-number', 
+    allowDecimals: false, 
+    allowNegative: false, 
+    enableKeyEvents: true,
+    value: pagesize,
+    maxValue: 500, 
+    maxText: '每页不允许超过500条', 
+    selectOnFocus: true, 
+    submitValue: false,
+    listeners: { 
+        scope: this, 
+        keydown: function(field, e){ 
+	        if(field.isValid()){ 
+	            var k = e.getKey(); 
+	             if (k == e.RETURN) { 
+	                    e.stopEvent(); 
+	                    pagesize = field.getValue();
+	                    if(havesearch==1){ 
+	                    	gg();
+	                    }else{
+	                      xtzystore.load({params:{Fun:'icmAdmlog', start:0,limit:pagesize}});
+	                    }
+	             } 
+	        } 
+        }, 
+        blur: function(field){
+	        if(field.isValid()){
+	            pagesize = field.getValue();
+	            if(havesearch==1){ 
+	                    	gg();
+	            }else{
+	                      xtzystore.load({params:{Fun:'icmAdmlog', start:0,limit:pagesize}});
+	            }
+	        } 
+        }
+    }}),
+    '条','-', {
+            icon: '/icm/images/grid.png',
+            enableToggle:true,
+            text: '导出本页数据到Excel',
+            cls: 'x-btn-text-icon details',
+            toggleHandler: function(btn, pressed){
+                downloadViewDataActive(xtzygrid);
+            }
+        },'-']
+    });
+   function conChange(val){
+        if(val == 1){
+            return '管理员的登陆尝试';
+        }else if(val == 2){
+            return '管理员信息的修改';
+        }else if(val == 3){
+            return '系统配置修改或尝试';
+        }else if(val == 5){
+            return '增加、修改或删除管理员';
+        }else if(val == 7){
+            return '数据的接收或规则的派发';
+        }else if(val == 8){
+            return '备份和恢复';
+        }else if(val == 9){
+            return '系统的启动或关闭';
+        }
+        return val;
+    }
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+            {header: "管理员名称", width: 100, sortable: true, dataIndex: 'name'},
+            {header: "操作时间",   width: 130, sortable: true,  dataIndex: 'sdate'},
+            {header: "操作类型",  width: 160, sortable: true,  dataIndex: 'loglevel',renderer: conChange},
+            {id:'subject',header: "动作记录",  width: 200, sortable: true,  dataIndex: 'subject'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'subject',
+        width:280,
+        height:screen.height-350,
+        frame:true,
+        title:'用户真实身份列表',
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  {
+                    region:'north',
+                    contentEl: 'north',
+                    split:true,
+                    height: 220,
+                    minSize: 100,
+                    maxSize: 300,
+                    collapsible: true,
+                    title:'选择查询条件',
+                    margins:'0 0 0 0'
+                   },xtzygrid
+									],
+					        renderTo: Ext.getBody()
+					    });
+			     myMask.hide();
+  });
+	</SCRIPT>
+</HEAD>
+<BODY>
+<DIV id=north>
+<form id="form1"  name="form1" method="post" action="/icm/main.xp">
+  <table width="513" border="0" cellspacing="0" align="center" >
+    <tr> 
+      <td width="90" height="26">
+        <div align="right">操作员：</div>
+      </td>
+      <td height="26"> 
+        <input type="text" class=input name="name" size="15" maxlength="15" value="" >
+      </td>
+     </tr> 
+     <tr> 
+      <td  height="26">
+       <div align="right">客体或操作内容：</div>
+      </td>
+      <td width="110" height="26">
+      	<input type="text" class=input name="subject" size="20" maxlength="50" value="" >
+      </td>
+     </tr>
+     <tr> 
+      <td width="90" height="32">
+        <div align="right">行为类型</div>
+      </td>
+      <td height="32" width="110"> 
+         	<select name="loglevel" class=inputsel >
+          <option value="0" selected >全部</option>
+          <option value="1">管理员的登陆尝试</option>
+          <option value="2">管理员信息的修改</option>
+          <option value="3">系统配置修改或尝试</option>
+          <option value="5">增加、修改或删除管理员</option>
+          <option value="7">数据的接收或规则的派发</option>
+          <option value="8">备份和恢复</option>
+          <option value="9">系统的启动或关闭</option>
+        </select>
+      </td>
+    </tr>
+    <tr> 
+      <td rowspan="2"  width="90">
+        <div align="right">日期范围</div>
+      </td>
+      <td height="33"> 
+        <input type="radio" name="dtype" value="1" checked >
+        从 
+        <input type="text" name="sdate" class=input size="10" maxlength="10"  onClick=setday(sdate)  value="2010-09-01" >
+        到 
+        <input type="text" name="edate" class=input size="10" maxlength="10" onClick=setday(edate) value="2010-12-01" >
+        </td>
+    </tr>
+    <tr> 
+      <td height="33"> 
+        <input type="radio" name="dtype" value="2">
+        在 
+        <input type="text" name="sdate3"  onClick=setday(sdate3) class=input size="10" maxlength="10" value="2008-01-01" >
+        从
+        <input type="text" name="stime" class=input size="10" maxlength="8" value="00:00:00">-
+        <input type="text" name="etime" class=input size="10" maxlength="8"  value="23:59:59" >
+    </td>
+    </tr>
+    <tr> 
+      <td width="90" height="33">&nbsp;</td>
+      <td  height="33"> 
+        <div align="left"> 
+          <input type="button" class=buttons name="ok"  value="条件查询" onClick="gg()" style="cursor: hand" >
+          <input type="button" class=buttons name="ok"  value="条件导出" onClick="gg1()" style="cursor: hand" >
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+</DIV>
+</BODY>
+</HTML>
+

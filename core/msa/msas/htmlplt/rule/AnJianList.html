@@ -1,0 +1,577 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<style type="text/css">
+.xi{border-left-style:none;border-right-style:none;border-top-style:none;}
+</style>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+					function conChange(val){
+				      if(val == 0){
+				          return '真实身份报警规则';
+				      }else if(val == 1){
+				          return 'MSN帐号报警规则';
+				      }else if(val == 2){
+				          return 'QQ帐号报警规则';
+				      }else if(val == 3){
+				          return 'FTP帐号报警规则';
+				      }else if(val == 4){
+				          return 'POP3帐号报警规则';
+				      }else if(val == 5){
+				          return 'SMTP帐号报警规则';
+				      }else if(val == 6){
+				          return 'HTTP网址关键字报警规则';
+				      }else if(val == 7){
+				          return '表单上传关键字报警规则';
+				      }else if(val == 8){
+				          return '邮件收发关键字报警规则';
+				      }else if(val == 9){
+				          return 'MAC账号报警规则';
+				      }
+				      return val;
+			  	}
+
+    var northPanel;
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+    Ext.onReady(function()
+    {
+	  		Ext.QuickTips.init();
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show(); 
+		    xtzystore = new Ext.data.JsonStore({
+		        root: 'Results',
+		        totalProperty: 'totalCount',
+		        url:'/msas//main.xp',
+		        baseParams:{Fun:'msasAlertAnJianAction',Alertmyanjian_id:[$myanjian_id$]},
+						fields: [
+								 {name: 'Rule_id'},
+								 {name: 'anjian_id'},
+			           {name: 'Rule_name'},
+			           {name: 'Rule_type'},
+			           {name: 'KeyWord1'},
+			           {name: 'KeyWord2'},
+			           {name: 'KeyWord3'},
+			           {name: 'Rule_endtime'},
+			           {name: 'Rule_areacode'},
+			           {name: 'updateflag'}
+						]
+		    });
+        xtzystore.load({params:{Fun:'msasAlertAnJianAction',Alertmyanjian_id:[$myanjian_id$],start:0,limit:pagesize}});
+		    
+		    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+					    displayInfo: true, 
+					    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+					    emptyMsg: "无记录", 
+					    initComponent : function(){ 
+		    	      	var pageSizeItems = [ 
+		                     '-','每页', 
+		                     this.inputItem = new Ext.form.NumberField({ 
+											    cls: 'x-tbar-page-number', 
+											    allowDecimals: false, 
+											    allowNegative: false, 
+											    enableKeyEvents: true, 
+											    maxValue: 500, 
+											    maxText: '每页不允许超过500条', 
+											    selectOnFocus: true, 
+											    value: this.pageSize, 
+											    submitValue: false, 
+											    listeners: { 
+											        scope: this, 
+											        keydown: this.onHlPagingKeyDown, 
+											        blur: this.onHlPagingBlur 
+											    } 
+		                     }),'条','-',{
+								            icon: '/msas/images/grid.png',
+								            enableToggle:true,
+								            text: '导出本页数据到Excel',
+								            cls: 'x-btn-text-icon details',
+								            toggleHandler: function(btn, pressed){
+								                downloadViewDataActive(this.store);
+								            }
+								        },'-']; 
+				         var userItems = this.items || []; 
+				         this.items = userItems.concat(pageSizeItems); 
+				         HlPagingToolbar.superclass.initComponent.call(this); 
+				    }, 
+				    onHlPagingKeyDown: function(field, e){ 
+				        if(field.isValid()){ 
+				            var k = e.getKey(); 
+				             if (k == e.RETURN) { 
+				                    e.stopEvent(); 
+				                    this.pageSize = field.getValue(); 
+				                    pagesize=this.pageSize;
+				                    this.doRefresh(); 
+				             } 
+				        } 
+				    }, 
+				    onHlPagingBlur: function(field){ 
+				        if(field.isValid()){ 
+				            this.pageSize = field.getValue(); 
+				            pagesize=this.pageSize;
+				            this.doRefresh(); 
+				        } 
+				    } 
+				});
+				
+				var pagingBar= new HlPagingToolbar({
+		        store: xtzystore,
+		        pageSize: pagesize,
+		        displayInfo: true});	
+					
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+	            {id:'Rule_name',header: "报警策略",  width: 80, sortable: true,dataIndex: 'Rule_name'},
+	            {header: "报警类型",  width: 80, sortable: true,dataIndex: 'Rule_type',renderer:conChange},
+	            {header: "关键字1",   width: 120, sortable: true,dataIndex: 'KeyWord1'},
+	            {header: "关键字2",   width: 120, sortable: true,dataIndex: 'KeyWord2'},
+	            {header: "关键字3",   width: 80, sortable: true,dataIndex: 'KeyWord3'},
+	            {header: "规则触发结束时间",  width: 120, sortable: true,dataIndex: 'Rule_endtime'},
+	            {header: "规则区域号码",  width: 80, sortable: true,dataIndex: 'Rule_areacode'},
+	            {header: "更新标记",  width: 80, sortable: true,dataIndex: 'updateflag'}
+				],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'Rule_name',//自由设置列宽
+        width:280,
+        height:screen.height-350,
+        frame:true,
+        title:'所属该案件的报警策略',
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+		
+		var detailEl;
+	  var rightClick  = new Ext.menu.Menu({
+							id:'feeds-ctx',
+							items: [{
+								id:'delrealidAlertlist',
+								iconCls:'load-icon',
+								text:'删除报警策略信息',
+								scope: this,
+								handler:function()
+								{
+									var record = xtzygrid.getStore().getAt(detailEl);
+									var myRule_id=record.get("Rule_id"); 
+									var deflag=1;
+									  Ext.MessageBox.confirm('提示','你确定要删除此策略信息吗？',function(button,text)
+									  {
+											if(button=="yes")
+											{
+												Ext.Ajax.request
+												({
+													url:'/msas//main.xp',
+													params:{Fun:'msasShowRule',deflag:'1',start:0,limit:pagesize,delRule_id:myRule_id},
+													success:function(){
+															var retxt=response.responseText;//从这句C文件拿到返回值0  lt_TcpResponse(confd,ltMsgPk,2,"lthead",LT_TYPE_STRING,"Content-type: application/json\n","lthtml",LT_TYPE_STRING,"0");
+                              if(retxt==0){
+															   Ext.MessageBox.alert('提示','删除成功!');
+                              }else{
+                                 Ext.MessageBox.alert('提示','删除失败!'); //没拿到返回值
+                              }
+													},
+													failure:function(){
+                                 Ext.MessageBox.alert('提示','删除失败!');}
+												});		    
+												xtzystore.load({params:{Fun:'msasAlertAnJianAction',Alertmyanjian_id:[$myanjian_id$],start:0,limit:pagesize}});
+									    }
+									   });
+								 }
+							},{
+                    id:'realidclientlist',
+                    iconCls:'load-icon',
+                    text:'查看该策略的报警',
+                    scope: this,
+                    handler:function(){
+												var record = xtzygrid.getStore().getAt(detailEl);
+												var myRule_id=record.get("Rule_id"); 
+                        var realidclientlistxtzystore = new Ext.data.JsonStore({
+								        root: 'Results',
+								        totalProperty: 'totalCount',
+								        url:'/msas/main.xp',
+								        baseParams:{Fun:'msasAlertRuleLsit',AlertmyRule_id:myRule_id},
+								        fields: [
+								           {name: 'Matching_id'},
+								           {name: 'gnmkey'},
+								           {name: 'sname'},
+								           {name: 'Rule_id'},
+								           {name: 'Rule_name'},
+								           {name: 'Matching_time'},
+								           {name: 'Net_ending_ip'},
+								           {name: 'Net_ending_code'},
+								           {name: 'Net_ending_mac'},
+								           {name: 'Destination_ip'},
+								           {name: 'Service_type'},
+								           {name: 'KeyWord1'},
+								           {name: 'KeyWord2'},
+								           {name: 'KeyWord3'},
+								           {name: 'Customer_name'},
+								           {name: 'Certificate_type'},
+								           {name: 'Certificate_code'},
+								           {name: 'Rule_type'},
+								           {name: 'cacontenturl'},
+								           {name: 'caupdateflag'}
+								        ]
+								     });
+								     
+								
+								    realidclientlistxtzystore.load({params:{Fun:'msasAlertRuleLsit',AlertmyRule_id:myRule_id,start:0,limit:pagesize}});
+								    
+								    var realidclientlistpagingBar= new HlPagingToolbar({
+							        store: realidclientlistxtzystore,
+							        pageSize: pagesize,
+							        displayInfo: true});
+
+								    var realidclientlistxtzygrid = new Ext.grid.GridPanel({
+								        region:'center',
+								        store: realidclientlistxtzystore,
+								        columns: [
+								            {id:'sname',header: "上网场所", width: 120, sortable: true, dataIndex: 'sname'},
+								            {header: "报警规则名称", width: 80, sortable: true, dataIndex: 'Rule_name'},
+								            {header: "上网ip",   width: 90, sortable: true,  dataIndex: 'Net_ending_ip'},
+								            {header: "mac地址",  width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+								            {header: "服务类型",  width: 80, sortable: true,  dataIndex: 'Service_type',renderer:conChange},
+								            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+								            {header: "关键字2",  width: 90, sortable: true,  dataIndex: 'KeyWord2'},
+								            {header: "关键字3",  width: 80, sortable: true,  dataIndex: 'KeyWord3'},
+								            {header: "触发时间",  width: 80, sortable: true,  dataIndex: 'Matching_time'}
+								        ],
+								        tbar: realidclientlistpagingBar,
+								        stripeRows: true,
+								        autoExpandColumn: 'sname',
+								        width:280,
+								        height:screen.height-350,
+								        frame:true,								        
+										    collapsible:true,
+										    loadMask:{msg:'正在加载数据，请稍侯……'},
+										    draggable:true
+								    });
+                        
+                     var mywin =new  Ext.Window({
+							                    id: 'realidclientlistwin',
+							                    height: 400,
+							                    width: 500,
+																	title:' 该策略的报警',
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    layout: 'fit',
+							                    items: realidclientlistxtzygrid  
+							        }); 
+							        mywin.show(); 
+							        mywin.maximize(); 
+                    }
+                }
+							/*,{添加新的右键菜单}*/
+						]});
+						 xtzygrid.addListener('rowclick', rightClickFn); 
+						 function rightClickFn(client, rowIndex, e) 
+						 {
+						   rightClick.showAt(e.getXY()); 
+						   detailEl=  rowIndex;
+             }     
+						var northPanelTop = new Ext.Panel({
+						    frame:true,
+						    region:'north',
+						    title:'案件详情',
+						    collapsible:true,
+						    contentEl:'north'
+						    });
+           var realidAlertlistxtzystore = new Ext.data.JsonStore({
+								        root: 'Results',
+								        totalProperty: 'totalCount',
+								        url:'/msas/main.xp',
+								        baseParams:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:[$myanjian_id$]},//[$myanjian_id$]
+								        fields: [
+								           {name: 'Matching_id'},
+								           {name: 'gnmkey'},
+								           {name: 'sname'},
+								           {name: 'Rule_id'},
+								           {name: 'Rule_name'},
+								           {name: 'Matching_time'},
+								           {name: 'Net_ending_ip'},
+								           {name: 'Net_ending_code'},
+								           {name: 'Net_ending_mac'},
+								           {name: 'Destination_ip'},
+								           {name: 'Service_type'},
+								           {name: 'KeyWord1'},
+								           {name: 'KeyWord2'},
+								           {name: 'KeyWord3'},
+								           {name: 'Customer_name'},
+								           {name: 'Certificate_type'},
+								           {name: 'Certificate_code'},
+								           {name: 'Rule_type'},
+								           {name: 'cacontenturl'},
+								           {name: 'caupdateflag'}
+								        ]
+					 });
+					  realidAlertlistxtzystore.load({params:{Fun:'msasRuleAnJianAction',Alertmyanjian_id:[$myanjian_id$],start:0,limit:pagesize}});
+			  		var pagingBar1= new HlPagingToolbar({
+		        store: realidAlertlistxtzystore,
+		        pageSize: pagesize,
+		        displayInfo: true});		        
+					var realidAlertlistxtzygrid = new Ext.grid.GridPanel({
+								        region:'center',
+								        store: realidAlertlistxtzystore,
+								        columns: [
+								            {id:'sname',header: "上网场所", width: 120, sortable: true, dataIndex: 'sname'},
+								            {header: "报警规则名称", width: 80, sortable: true, dataIndex: 'Rule_name'},
+								            {header: "上网ip",   width: 90, sortable: true,  dataIndex: 'Net_ending_ip'},
+								            {header: "mac地址",  width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+								            {header: "服务类型",  width: 80, sortable: true,  dataIndex: 'Service_type',renderer:conChange},
+								            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+								            {header: "关键字2",  width: 90, sortable: true,  dataIndex: 'KeyWord2'},
+								            {header: "关键字3",  width: 80, sortable: true,  dataIndex: 'KeyWord3'},
+								            {header: "触发时间",  width: 80, sortable: true,  dataIndex: 'Matching_time'}
+								        ],
+								        tbar: pagingBar1,
+								        stripeRows: true,
+								        autoExpandColumn: 'sname',
+								        width:280,
+								        height:screen.height-350,
+								        frame:true,
+								        title:'所属该案件的所有报警',
+										    collapsible:true,
+										    loadMask:{msg:'正在加载数据，请稍侯……'},
+										    draggable:true
+					 });
+					 
+					 var mainPanel= {
+										id: 'main-panel',
+										region:'center',
+                    collapsible: true,
+                    split:true,
+                    layout:'fit',
+                    height:screen.height-100,
+                    margins:'0 5 0 0',
+                    items:
+                        new Ext.TabPanel({
+                            border:false,
+                            activeTab:0,
+                            items:[
+                            xtzygrid,
+                            realidAlertlistxtzygrid]
+                        })
+           }
+
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  northPanelTop,
+                    mainPanel
+									],
+					        renderTo: Ext.getBody()
+					    });		
+			     myMask.hide();
+  });  
+</SCRIPT>
+<SCRIPT type=text/javascript>
+														function msasUpdate()
+														{
+															  var myanjian_name=anjian_name.value;
+															  var myanjian_desc=anjian_desc.value;
+															  var myzerenren=zerenren.value;
+															  var myzerenrentel=zerenrentel.value;
+															  var myzerenrenmp=zerenrenmp.value;
+															  var myzerenrenmail=zerenrenmail.value;
+															  var myjingju=jingju.value;
+																 ///////////////////验证//////////////////////////////////////////////
+															  if(myanjian_name=="" || myanjian_desc=="" || myzerenren=="" || myzerenrentel=="" || myzerenrenmp=="" || myzerenrenmail=="" || myjingju=="")
+																{
+																	alert("所有输入框不能为空");
+																	return false;
+																}
+																//邮箱
+															  var email_Flag = false;
+															  var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+																email_Flag = reg.test(myzerenrenmail);
+																if(!email_Flag){
+																  alert("对不起，您输入的邮箱地址格式错误。");
+																	zerenrenmail.focus();
+																	zerenrenmail.select();
+																	return false;
+																}
+																//电话
+																var phone_Flag = false;
+																var reg = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;
+																phone_Flag = reg.test(myzerenrentel);
+																if(!phone_Flag){
+																  alert("对不起，您输入的电话号码格式错误。");
+																	zerenrentel.focus();
+																	zerenrentel.select();
+																  return false;
+																}
+																//手机
+																var mobile_Flag = false;
+																var reg0=/^13\d{9}$/;
+																var reg1=/^151\d{8}$/;
+																var reg2=/^152\d{8}$/;
+																var reg3=/^187\d{8}$/;
+																var reg4=/^153\d{8}$/;
+																var reg5=/^159\d{8}$/;
+																var reg6=/^158\d{8}$/;
+																var reg7=/^150\d{8}$/;
+																if(reg0.test(myzerenrenmp) || reg1.test(myzerenrenmp) || reg2.test(myzerenrenmp) || reg3.test(myzerenrenmp) || reg4.test(myzerenrenmp) || reg5.test(myzerenrenmp) || reg6.test(myzerenrenmp) || reg7.test(myzerenrenmp)){
+																mobile_Flag = true;
+																}else{
+																mobile_Flag = false;
+																}
+																if (!mobile_Flag){
+																  alert("对不起，您输入的手机号码格式错误。");
+																	zerenrenmp.focus();
+																	zerenrenmp.select();
+																  return false;
+																}
+																//输入框特殊字符
+																for(var i=0;i<myanjian_name.length;i++)
+                                {
+                                  var myChar= myanjian_name.toLowerCase().charAt(i);	
+                                  if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')) && (!(myChar=='_'))&& (!(myChar=='$'))&& (!(myChar==' ')))
+                                   { 
+	                                 	alert("案件名不能包含特殊字符！");
+	                                 	anjian_name.focus();
+	                                 	anjian_name.select();
+	                                 	return false;
+                                   }
+                                }
+																for(var i=0;i<myzerenren.length;i++)
+                                {
+                                  var myChar= myzerenren.toLowerCase().charAt(i);	
+                                  if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')) && (!(myChar=='_'))&& (!(myChar=='$')))
+                                  { 
+                                 	alert("责任人名不能包含特殊字符！");
+                                 	zerenren.focus();
+                                 	zerenren.select();
+                                 	return false;
+                                  }
+                                }
+																for(var i=0;i<myjingju.length;i++)
+                                {
+                                  var myChar= myjingju.toLowerCase().charAt(i);	
+                                  if((!(myChar>='0' && myChar<='9')) && (!(myChar>='a' && myChar<='z')) && (!(myChar=='_'))&& (!(myChar=='$'))&& (!(myChar==' ')))
+                                  { 
+                                 	alert("警局名不能包含特殊字符！");
+                                 	jingju.focus();
+                                 	jingju.select();
+                                 	return false;
+                                  }
+                                }
+															   ///////////////////验证//////////////////////////////////////////////
+																
+																		Ext.Ajax.request({
+											                      method : 'POST', 
+											                      url:'/msas//main.xp', 
+														                success: function(response, options) 
+																					   {
+																						  var retxt=response.responseText;//拿到修改时的返回值
+																						  if(retxt==0)
+																						   {
+																						     Ext.MessageBox.alert('提示','修改成功!'); 
+																				         //更新动态树	
+																				     		 parent.alertPanelTree1.getLoader().load(parent.alertPanelTree1.root);//刷新树//从父页面拿到PanelTree
+																						   }
+																						   else
+																						   {
+																							 Ext.MessageBox.alert('提示',"修改失败!");
+																						   }
+																						},
+																				   failure : function() 
+																				   {   
+																					  Ext.MessageBox.alert('提示',"修改用户失败!"); 
+																				   },
+																				params:{Fun:'msasUpdateanjianAction',anjian_name:myanjian_name,anjian_desc:myanjian_desc,zerenren:myzerenren,zerenrentel:myzerenrentel,zerenrenmp:myzerenrenmp,zerenrenmail:myzerenrenmail,jingju:myjingju,anjian_id:[$myanjian_id$]}
+																				});
+																		}
+</SCRIPT>
+</HEAD>
+		<BODY oncontextmenu="return false">
+			<DIV id=north>
+
+				<CENTER>
+						<TABLE id=FT cellSpacing=0 cellPadding=0 width="100%"  border=0>
+				  			<TBODY>
+				  			 <TR>
+				    			<TD width="100%">
+				      			<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+						        	<TBODY>
+								        <TR>
+									        <TD align=middle>
+										        <table width="96%" border="0" align="center">
+															<INPUT TYPE='hidden'  class=input id="anjian_id" NAME="anjian_id" value="[$anjian_id$]">
+										  			<tr>
+										          <td colspan="2">案件的名称：
+															<INPUT TYPE='text'  class=input id="anjian_name" NAME="anjian_name" value="[$anjian_name$]">
+										          </td>
+										        </tr>
+										        <tr>
+										          <td colspan="2">案件的详情：
+															<textarea id="anjian_desc" name="anjian_desc" class=input cols="16" rows="2">[$anjian_desc$]</textarea>
+										          </td>
+										        </tr>
+										  			<tr>
+										          <td colspan="2">案件责任人：
+															<INPUT TYPE='text'  class=input  NAME="zerenren" value="[$zerenren$]">
+										          </td>
+										        </tr>
+										        <tr>
+										          <td colspan="2">责任人电话：
+															<INPUT TYPE='text'  class=input  id="zerenrentel" NAME="zerenrentel" value="[$zerenrentel$]">
+										          </td>
+										        </tr>
+										  			<tr>
+										          <td colspan="2">责任人手机：
+															<INPUT TYPE='text'   class=input  id="zerenrenmp"  NAME="zerenrenmp" value="[$zerenrenmp$]">
+										          </td>
+										        </tr>
+										        <tr>
+										          <td colspan="2">责任人邮箱：
+															<INPUT TYPE='text'  class=input  NAME="zerenrenmail" value="[$zerenrenmail$]">
+										          </td>
+										        </tr>
+										        <tr>
+										          <td colspan="2">警局的名称：
+															<INPUT TYPE='text'  class=input  id="jingju"  NAME="jingju"  size=50 value="[$jingju$]">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										          <INPUT TYPE='submit'  class=input  id="update" NAME="update" value="修改案件" onClick="msasUpdate()"></td>
+										        </tr>
+										      </table>	
+									       </TD>
+									      </TR>
+								      </TBODY>
+							      </TABLE>
+							      <!-- 显示主体 -->
+							      </TD>
+						      </TR>
+					      </TBODY>
+				      </TABLE>
+				<CENTER>
+			
+		</DIV>
+	</BODY>
+</HTML>

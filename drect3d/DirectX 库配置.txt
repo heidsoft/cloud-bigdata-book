@@ -1,0 +1,3 @@
+
+°üº¬Ä¿Â¼£º$(DXSDK_DIR)Include;$(IncludePath)
+°üº¬¿â£º$(DXSDK_DIR)Lib\x86;$(LibraryPath)

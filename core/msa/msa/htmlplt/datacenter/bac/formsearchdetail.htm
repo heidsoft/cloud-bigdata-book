@@ -1,0 +1,188 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META 	content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/ext-all.css">
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/xtheme-default.css"/>
+<link 	rel="stylesheet" type="text/css" href="/Content/IconCls.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css"/>
+<link   rel="stylesheet" type="text/css" href="/msa/publiccss/grid-examples.css"/>
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>
+HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	MARGIN: 0px; BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 0px
+}
+</STYLE>
+<SCRIPT type=text/javascript>
+Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+    var pagesize;
+		pagesize=100;
+		Ext.onReady(function() {
+		Ext.QuickTips.init();
+		var detailEl;
+		var myMask = new Ext.LoadMask(Ext.getBody(),
+		    {
+		        	msg:"Please wait..."
+		    });
+		myMask.show();
+		xtzystore = new Ext.data.JsonStore({
+				      root: 'Results',
+			        totalProperty: 'totalCount',
+			        url:'/msa/main.xp',
+			        baseParams:{
+			        	Fun:'formJson',
+			        	path:'[$path$]',
+			        	date:'[$date$]',
+			        	allcount:'[$allcount$]'
+			        },
+				      fields: [
+				         {name: 'sdate'},
+				         {name: 'hour'},
+				         {name: 'caHost'},
+				         {name: 'caUrl'},
+				         {name: 'caUser'},
+					  	   {name: 'size',type: 'int'},//大小
+					  	   {name: 'fjcount',type: 'int'}, //附件个数
+					  	   {name: 'myfstart'} //位置
+				    ]
+			 });
+	    xtzystore.load({params:{start:0,limit:pagesize}});
+	  	HlPagingToolbar = Ext.extend(Ext.PagingToolbar, {
+	    displayInfo: true,
+	    displayMsg: '',
+	    emptyMsg: "无记录",
+	    initComponent : function(){
+	        var pageSizeItems = [
+	                     '-','每页',
+	                     this.inputItem = new Ext.form.NumberField({
+										    cls: 'x-tbar-page-number',
+										    allowDecimals: false,
+										    allowNegative: false,
+										    enableKeyEvents: true,
+										    maxValue: 500,
+										    maxText: '每页不允许超过500条',
+										    selectOnFocus: true,
+										    value: this.pageSize,
+										    submitValue: false,
+										    listeners: {
+										        scope: this,
+										        keydown: this.onHlPagingKeyDown,
+										        blur: this.onHlPagingBlur
+										    }
+	                     }),'条','-',{
+							            //pressed: true,
+							            icon: '/msa/images/grid.png',
+							            enableToggle:true,
+							            text: '导出本页数据到Excel',
+							            cls: 'x-btn-text-icon details',
+							            toggleHandler: function(btn, pressed){
+							                downloadViewDataActive(xtzygrid);
+							            }
+							        },'-'];
+	         var userItems = this.items || [];
+	         this.items = userItems.concat(pageSizeItems);
+	         HlPagingToolbar.superclass.initComponent.call(this);
+	    },
+	    onHlPagingKeyDown: function(field, e){
+	        if(field.isValid()){
+	            var k = e.getKey();
+	             if (k == e.RETURN) {
+	                    e.stopEvent();
+	                    this.pageSize = field.getValue();
+	                    pagesize=this.pageSize;
+	                    this.doRefresh();
+	             }
+	        }
+	    },
+	    onHlPagingBlur: function(field){
+	        if(field.isValid()){
+	            this.pageSize = field.getValue();
+	            pagesize=this.pageSize;
+	            this.doRefresh();
+	        }
+	    }
+	    });
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+		var xtzygrid = new Ext.grid.GridPanel({
+					region:'north',
+	        store: xtzystore,
+	        height:screen.height/3,
+	        viewConfig: {
+            forceFit:false,
+            scrollOffset: 0,
+            enableRowBody:true,
+            showPreview:true,
+            getRowClass : function(record, rowIndex, p, store){
+                if(this.showPreview){
+                    p.body = '<p>'+record.data.caUrl+'</p>';
+                    return 'x-grid3-row-expanded';
+                }
+                return 'x-grid3-row-collapsed';
+            }
+          },
+	        columns: [
+	            {header: "主机",width: 180, sortable: true,  dataIndex: 'caHost'},
+	            {id:'uname',header: "用户",width: 150, sortable: true,  dataIndex: 'caUser'},
+	            {header: "大小(KB)", width: 100, sortable: true, dataIndex: 'size'},
+	            {header: "附件个数", width: 100, sortable: true,  dataIndex: 'fjcount'}
+	        ],
+	        tbar: pagingBar,
+	        stripeRows: false,
+	        autoExpandColumn: 'uname',
+	        frame:true,
+			    collapsible:false,
+			    loadMask:{msg:'正在加载数据，请稍侯……'},
+			    draggable:false
+	  });
+	  xtzygrid.addListener('rowclick', rightClickFn);
+					function rightClickFn(client, rowIndex, e) {
+								 detailEl=  rowIndex;
+								 var record = xtzygrid.getStore().getAt(detailEl);
+		             var mysdate=record.get("sdate");
+		             var mystime=record.get("hour");
+		             var myfstart=record.get("myfstart");
+		             var usrl='/msa/main.xp?Fun=msaShowContent+file=11`+sdate='+mysdate+'+stime='+mystime+'+fstart='+myfstart+'+type=1';
+		             mapview.location.href=usrl;
+					}
+    new Ext.Viewport({
+				layout: 'border',
+				items: [{
+              region: 'center',
+	        		height:screen.height/2,
+              autoScroll:true,
+              collapsible: false,
+              split:true,
+              layout:'fit',
+              margins:'0 5 0 0',
+              title: '表单内容',
+              contentEl: 'mailPane'
+          },xtzygrid],
+        renderTo: Ext.getBody()
+	  });
+	  myMask.hide();
+});
+</SCRIPT>
+<style>
+    .complete .x-tree-node-anchor span {
+        text-decoration: line-through;
+        color: #777;
+    }
+</style>
+</head>
+<body oncontextmenu="return true" bgcolor="#F0f0f0" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<div id="mailPane">
+ 	<iframe id="mapview" name="mapview" frameborder="no"  scrolling="yes"  width="100%"  height="100%" src=''></iframe>
+</div>
+</body>
+</html>

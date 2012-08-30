@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<style type="text/css">
+<!--
+body {  font-size: 12pt}
+table {  font-size: 9pt}
+b{  font-size: 14pt}
+form {margin: 0px;}
+.unnamed1 {  cursor: hand}
+.titl {font-size:28px; line-height:48px; font-weight:bold;};
+.xiao {font-size:18px; line-height:36px; } 
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-family:"宋体", Arial;  
+	font-size:12px;
+	line-height:18px;
+}
+-->
+</style>
+
+<script>
+
+function myprint(){
+	self.print()
+}
+
+</script>
+
+</head>
+<body>
+<table width="880" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+<tbody id="TableBody">
+<tr><td>
+<img src="banner.jpg" width="815" height="136" />
+</td></tr>
+<tr><td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#437fbe">
+                <tr>
+                  <td width="65"><img src="right-top.jpg" width="65" height="29" /></td>
+                  <td width="664" valign="bottom"><div style="margin-top:10px; margin-right:5px; float:left; color:#FFFFFF;">计费账单</a> </td>
+				  <td valign="bottom"> <div style="margin-top:10px; margin-right:5px;float:right; color:#FFFFFF; "><a  onclick='window.print();'>打印账单 </div></td>
+                </tr>
+              </table>
+</td></tr>
+<tr>
+<td width="100%" height="80">
+<table width="100%" height="100%" cellspacing="1" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="3%">&nbsp;</td><td width="96%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" bordercolor="#437FBE" border="1" bgcolor="#ff0000">
+<tbody>
+<tr>
+<td height="100%">
+<table width="101%" height="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td height="15%" colspan="5">&nbsp;</td>
+</tr>
+<tr>
+<td width="13%">
+	<div align="center">计费日期</div>
+</td><td width="32%" height="70%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="49%" class="Bold">开始日期 start date</td>
+<td width="51%">[$sdate$]</td>
+</tr>
+<tr>
+<td class="Bold">结束日期 ending date</td>
+<td>[$edate$]</td>
+</tr>
+</tbody>
+</table>
+</td><td width="10%">&nbsp;</td><td width="40%">
+<table width="100%" id="tbAmountLimit" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="59%" class="Bold">用户名<font class="Endlish"> User name</font></td>
+<td width="41%">[$uname$]</td>
+</tr>
+<tr>
+<td class="Bold"><font class="Endlish">本期消费金额 Current Balance</font></td>
+<td><span id="lCashAdvanceLimit">￥[$allcount$]</span></td>
+</tr>
+</tbody>
+</table>
+</td><td width="5%">&nbsp;</td>
+</tr>
+<tr>
+<td height="15%" colspan="5">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td><td width="1%">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr id="trRMBAccountSpace">
+<td height="20">&nbsp;</td>
+</tr>
+<tr id="trRMBAccount">
+<td width="100%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="3%">&nbsp;</td><td width="96%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td align="left">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td><td width="1%">&nbsp;</td>
+</tr>
+<tr>
+<td width="3%">&nbsp;</td><td>
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" bordercolor="#437FBE" border="1" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td>
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td width="4%">&nbsp;</td><td width="41%" height="40">
+<table width="117%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="69%" class="Bold">本期计费金额<font class="Endlish"> Current billing amount</font></td><td width="31%"><span id="lRMBCurrentBalance">￥[$allcount$]</span></td>
+</tr>
+</tbody>
+</table>
+</td><td width="10%">&nbsp;</td><td width="40%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td width="51%" class="Bold">计费类型 <font class="Endlish">Billing type</font></td>
+<td width="49%">[$jftype$]</td>
+</tr>
+</tbody>
+</table>
+</td><td width="5%">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td>
+<table style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse; BORDER-RIGHT-WIDTH: 0px" rules="all" id="dgRMBList" cellspacing="0" cellpadding="3" border="0" align="center">
+<tbody>
+<tr class="DGHead" align="center">
+<td class="DGHead">消费日<br>
+<font class="Endlish">Trans Date</font></td><td class="DGHead">记账日<br>
+<font class="Endlish">Post Date</font></td>
+<td class="DGHead">上线时间<br>
+<font class="Endlish">LoginTime</font></td>
+<td class="DGHead">下线时间<br>
+LogoutTime</td>
+<td class="DGHead">在线时长<br>
+<font class="Endlish">onlinetime</font></td>
+<td class="DGHead">当时余额<br>
+Balance</td>
+<td class="DGHead">当日消费金额<br>
+<font class="Endlish">Renting Balance</font></td>
+</tr>
+</tbody>
+<tbody>
+[$begintable list$]
+<tr type="group" bindingid="11">
+<td>
+	<div align="center">[$data$]</div>
+</td>
+<td>
+	<div align="center">[$data$]</div>
+</td>
+<td>
+	<div align="center">[$logintime$]</div>
+</td>
+<td>
+	<div align="center">[$logouttime$]</div>
+</td>
+<td>
+	<div align="center"><font size="2">[$onlinetime$]</font></div>
+</td>
+<td>
+	<div align="center"><font size="2">[$balance$]</font></div>
+</td>
+<td>
+	<div align="center"><font size="2">　[$monetary$]</font></div>
+</td>
+</tr>
+[$endtable$]
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td><td width="1%">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr id="trDeduct">
+<td width="100%">
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+</tbody>
+</table>
+</td>
+</tr>
+<tr id="trHelpfulTips">
+<td width="100%"></td>
+</tr>
+</table>
+
+
+
+ <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="13"><img src="up-1.jpg" width="13" height="68" /></td>
+        <td align="center" background="up-2.jpg" class="upfont"><br />
+          版权所有</td>
+        <td width="13"><img src="up-3.jpg" width="13" height="68" /></td>
+      </tr>
+    </table>
+</table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+C cgi COOKIE 用法简介 session
+
+本来我们公司的嵌入式的板子里WEB页面一直没有使用COOKIES这个功能，这样就算User不登录，也能访问我们某个特定的页面。
+
+为了解决这个问题，我上网看了很多方法，包括别人写得很详细的源代码，但我还是觉得不好用。
+
+经过这几天的摸索，我掌握了一种方法。
+
+1.在登录的时候加入以下代码
+
+char buf[200]="";
+sprintf(buf, "Set-Cookie:time=%d;\r\n", timep);
+printf(buf);
+printf("Content-type: text/html\r\n\r\n");
+
+这样CGI就在我们的客户端设置了time这个Cookies值
+
+2.编写check_session函数，SESSION_TIMEOUT即为timeout时间，大家可以根据自己需求去改动
+
+#define SESSION_TIMEOUT 10*60 //10 minutes
+int check_session()
+{//Hanframe 2008.5.22
+char *id = getenv("COOKIE");
+char sess_id[100];
+char buf[200]="";
+time_t timep;
+char now[200]="";
+
+if(id == NULL)
+    return -1;
+
+time(&timep);
+sprintf(now,"%d",timep);
+
+
+strncpy(sess_id, id, 100);
+
+char *time = strtok(sess_id,"=");
+time = strtok(0,"");
+
+
+if(time!=NULL ) {
+if((atoi(now) - atoi(time)) > SESSION_TIMEOUT) {
+   sprintf(buf, "Set-Cookie:time=;\r\n");//将time清空
+    printf(buf);
+    return -1;
+   }
+   else {
+    sprintf(buf, "Set-Cookie:time=%d;\r\n", timep);//更新time值
+    printf(buf);
+    return 0;
+   }
+}
+}
+
+3.每次当我们调用Cgi去拿WEB的时候，我们先用check_session检查下看是否超时，如果超时则回到登录页面让用户重新登陆并将time设置为空，如果没有超时，就更新time（这些动作都在check_session函数中实现，相信大家都看得懂）
+
+if(check_session() < 0)
+    {
+     mime_header("text/html");
+     printf("<script> location.href=\"index.htm\"; </script>");
+    fflush(stdout);
+     return 0;
+    }

@@ -1,0 +1,3 @@
+
+Ext.getCmp('ifIdValue').enable();  //∆Ù”√
+Ext.getCmp('ifIdValue').disable(); //Ω˚”√

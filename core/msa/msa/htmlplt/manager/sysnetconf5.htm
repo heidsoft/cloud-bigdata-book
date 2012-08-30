@@ -1,0 +1,244 @@
+<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+<SCRIPT LANGUAGE="JavaScript">
+function update() {
+	  var myLanchk1,myLanchk2;
+	  if(listform.Lanchk1.checked==true){
+	  	myLanchk1=1;
+	  	if(listform.outLanA.value>=listform.nownum.value|| listform.outLanA.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk1=0;}
+	  if(listform.Lanchk2.checked==true){
+	  	myLanchk2=1;
+	  	if(listform.outLanB.value>=listform.nownum.value|| listform.outLanB.value==-1){
+	  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+	  		return false;
+	  	}
+	  }else{myLanchk2=0;}	  
+  	if(listform.inLan.value>=listform.nownum.value|| listform.inLan.value==-1){
+  		Ext.MessageBox.alert('提示','不可配置空网口或未启用网口！');
+  		return false;
+  	}
+    Ext.Ajax.request({
+		    method : 'POST', 
+		    url:'/msa/main.xp', 
+		    success: function() { 
+						Ext.MessageBox.alert('提示','边缘防火墙设置成功！'); 
+		    },
+		    failure: function() {     
+		     	Ext.MessageBox.alert('提示','边缘防火墙设置失败！'); 
+		    },
+		    params:{
+		      Fun:'ltsysnetconfok',actiontype:5,
+		      Lanchk1:myLanchk1,
+		      Lanchk2:myLanchk2,
+		      outLanA:listform.outLanA.value,
+		      outLanB:listform.outLanB.value,
+		      inLan:listform.inLan.value,
+		      outmaskA:listform.outmaskA.value,
+		      outmaskB:listform.outmaskB.value,
+		      inmask:listform.inmask.value,
+		      outIPA:listform.outIPA.value,
+		      outIPB:listform.outIPB.value,
+		      inIP:listform.inIP.value
+		    } 
+		});
+}
+function tabfun(){
+	if(listform.Lanchk1.checked==true){
+		document.getElementById("outIPA").disabled=false;
+		document.getElementById("outLanA").disabled=false;
+		document.getElementById("outmaskA").disabled=false;
+	}else{
+		document.getElementById("outIPA").disabled=true;
+		document.getElementById("outLanA").disabled=true;
+		document.getElementById("outmaskA").disabled=true;
+	}
+	if(listform.Lanchk2.checked==true){
+		document.getElementById("outIPB").disabled=false;
+		document.getElementById("outLanB").disabled=false;
+		document.getElementById("outmaskB").disabled=false;
+	}else{
+		document.getElementById("outIPB").disabled=true;
+		document.getElementById("outLanB").disabled=true;
+		document.getElementById("outmaskB").disabled=true;
+	}
+}
+</SCRIPT>
+
+<style type="text/css">
+<!--
+.unnamed1 {  width: 110px}
+-->
+</style>
+</head>
+<body bgcolor="#f0f0f0" text="#000000" topmargin="2"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onLoad="tabfun()">
+<form name="listform" action="/msa/main.xp" method="POST">
+<input type="hidden" id="nownum" value="[$nownum$]">
+<table width="100%" border="0" height="100%">
+  <tr> 
+    <td valign="top"> 
+      <table>
+        <tr> 
+          <td>配置网络参数:双口边缘防火墙<font color="red">(不可配置空网口或未启用网口)</font></td>
+        </tr>
+      </table>
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td width="43%">
+		         <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk1" value="0" class="inputchk"  [$Lanchk1chk$] onClick="tabfun()">启动外网口一</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="7%">外网口</td>
+				          <td width="19%"> 
+					          <select id="outLanA" name="outLanA" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$outLanA0sel$]>网口〇</option>
+										 	<option value="1"[$outLanA1sel$]>网口一</option>
+										 	<option value="2"[$outLanA2sel$]>网口二</option>
+										  <option value="3"[$outLanA3sel$]>网口三</option>
+										 	<option value="4"[$outLanA4sel$]>网口四</option>
+										 	<option value="5"[$outLanA5sel$]>网口五</option>
+										 	<option value="6"[$outLanA6sel$]>网口六</option>
+										  <option value="7"[$outLanA7sel$]>网口七</option>
+										 	<option value="8"[$outLanA8sel$]>网口八</option>
+										  <option value="9"[$outLanA9sel$]>网口九</option>
+					    	</select> 
+				          </td>
+				          <td width="9%">外网口IP</td>
+				          <td width="26%"> 
+				          <input type="text" name="outIPA" value="[$outIPA$]"  class="input" >
+				          </td>
+				          <td width="16%">子网掩码</td>
+				          <td width="23%"> 
+				             <input type="text" name="outmaskA" value="[$outmaskA$]"  class="input" >
+			              </td>
+				        </tr>
+				      </table>
+				  </fieldset>
+		 	  </td>
+			  </tr>
+			  <tr>
+		     	<td width="57%">
+		         <fieldset style="width:786;height:30;border:2px groove" align=center>
+		          <legend><input type="checkbox" name="Lanchk2" value="0" class="inputchk" [$Lanchk2chk$] onClick="tabfun()">启动外网口二</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+				        <tr> 
+				          <td width="7%">外网口</td>
+				          <td width="19%"> 
+				          <select id="outLanB" name="outLanB" class=inputsel>
+				          	<option value="-1">转发网口</option>
+									 	<option value="0"[$outLanB0sel$]>网口〇</option>
+									 	<option value="1"[$outLanB1sel$]>网口一</option>
+									 	<option value="2"[$outLanB2sel$]>网口二</option>
+									  <option value="3"[$outLanB3sel$]>网口三</option>
+									 	<option value="4"[$outLanB4sel$]>网口四</option>
+									 	<option value="5"[$outLanB5sel$]>网口五</option>
+									 	<option value="6"[$outLanB6sel$]>网口六</option>
+									  <option value="7"[$outLanB7sel$]>网口七</option>
+									 	<option value="8"[$outLanB8sel$]>网口八</option>
+									  <option value="9"[$outLanB9sel$]>网口九</option>
+					      </select></td>
+				          <td width="9%">外网口IP</td>
+				          <td width="26%"> 
+				          <input type="text" name="outIPB" value="[$outIPB$]"  class="input" >
+				          </td>
+				          <td width="16%">子网掩码</td>
+				          <td width="23%"> 
+				             <input type="text" name="outmaskB" value="[$outmaskB$]"  class="input" >
+			              </td>
+				        </tr>
+				      </table>
+				  	</fieldset>
+		 	    </td>
+		  </tr>
+		  </table>
+		  
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend>内网口</legend> 
+		          <table width="100%" border="0" align="center">
+					        <tr> 
+					          <td width="7%">内网口</td>
+					          <td width="19%"> 
+					          <select id="inLan" name="inLan" class=inputsel>
+					          	<option value="-1">转发网口</option>
+										 	<option value="0"[$inLan0sel$]>网口〇</option>
+										 	<option value="1"[$inLan1sel$]>网口一</option>
+										 	<option value="2"[$inLan2sel$]>网口二</option>
+										  <option value="3"[$inLan3sel$]>网口三</option>
+										 	<option value="4"[$inLan4sel$]>网口四</option>
+										 	<option value="5"[$inLan5sel$]>网口五</option>
+										 	<option value="6"[$inLan6sel$]>网口六</option>
+										  <option value="7"[$inLan7sel$]>网口七</option>
+										 	<option value="8"[$inLan8sel$]>网口八</option>
+										  <option value="9"[$inLan9sel$]>网口九</option>
+							    </select> 
+					          </td>
+					          <td width="9%">内网口IP</td>
+					          <td width="26%"> 
+					          <input type="text" name="inIP" value="[$inIP$]"  class="input" >
+					          </td>
+					          <td width="16%">内网口子网掩码</td>
+					          <td width="23%"> 
+					             <input type="text" name="inmask" value="[$inmask$]"  class="input" >
+				              </td>
+					        </tr>
+			  	 </table>
+				  </fieldset>
+			  </td>
+		  </tr>
+		</table>
+		  
+     	<table width="96%" border="0" align="center">
+	     	<tr>
+		     	<td align="right">
+      <input type="button" name="qd" value="保存配置"  class="input"  onclick="update()">
+			  </td>
+		  </tr>
+		</table>
+		  
+     	<table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td>
+		         <fieldset style="width:786" height:30;border:2px groove" align=center>
+		          <legend>图例</legend> 
+		          <table width="100%" border="0" align="center">
+					        <tr> 
+					          <td width="25%"> 
+					          <img src="/msa/images/connect2tmp.jpg" width="768">	
+					          </td>
+					        </tr>
+			  	 </table>
+				  </fieldset>
+			  </td>
+		  </tr>
+		</table>
+    </td>
+  </tr>
+  
+</table>
+</form></body>
+</html>

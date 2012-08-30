@@ -1,0 +1,220 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Jon Eyrick" CONTENT="no-cache">
+<title>main</title>
+<script>
+var dfd1="0"
+function gotoPage(pagenum)
+{
+    location.href="/main/main.xp?Fun=ltadmlog+CurPg=" + pagenum + "+where=" +  form1.where.value ;
+}
+
+function goto(t){
+ tt=showModalDialog(t, window, 'status:no;center:yes;help:no;minimize:no;maximize:yew;border:thick;statusbar:no;dialogWidth:600px;scroll:yes;dialogHeight:480px');
+}
+function goto1(t){
+ tt=showModalDialog(t, window, 'status:no;center:yes;help:no;minimize:no;maximize:yew;border:thick;statusbar:no;dialogWidth:700px;scroll:no;dialogHeight:360px');
+}
+function mouseovertr2 (o){
+var i;
+df=o.style.backgroundColor
+	o.style.backgroundColor= "#ffff00";
+	o.style.borderColor= "#FFFF00";
+	o.style.cursor="hand";	
+for(i=0; i<o.cells.length; i++)
+{
+	o.cells(i).style.color="#ffffff";
+}	
+}
+function mouseouttr2(o){
+	o.style.backgroundColor=df
+	for(i=0; i<o.cells.length; i++)
+	{
+		o.cells(i).style.color="#000000";
+	}
+}
+function checkme(p)
+{
+	var tt=p.value
+	if (tt>yy)
+	{
+		MM_changeProp('browsdopage','','value',yy,'INPUT/TEXT')
+	}
+	if (tt==0)
+	{
+		MM_changeProp('browsdopage','','value','1','INPUT/TEXT')
+	}
+}
+function DEL()
+{	
+	if(form1.delwhere.value=='')
+	{
+		alert('请定义删除条件');
+		return;
+	}
+	var ts="您确认要删除符合该条件的数据吗?";
+  if(confirm(ts))
+  {
+    	form1.Fun.value='ltwebdelip';
+    	form1.submit();
+		
+			//location.href="/main/main.xp?Fun=ltwebdelip+delwhere=" +  form1.delwhere.value ;
+  }
+}
+
+function myEXPORT()
+{	
+	if(form1.where.value=='')
+	{
+		alert('请定义条件');
+		return;
+	}
+	var ts="您确认要导出符合该条件的数据吗?系统一次最多导出5万条数据。";
+  if(confirm(ts))
+  {
+ 
+			location.href="/main/main.xp?Fun=ltexportip+where=" +  form1.where.value ;
+  }
+}
+
+function allChecked(){
+    if(dfd1=="1"){
+        dfd1="0"
+    }
+    else {
+         dfd1="1"
+    }
+	for(var i=0;i<document.all.DataTable.rows.length;i++)
+	{
+		if(typeof(document.all.DataTable.rows[i].cells[0].childNodes[1])=="object"
+
+				&&document.all.DataTable.rows[i].cells[0].childNodes[1].tagName=="INPUT"
+
+				&&document.all.DataTable.rows[i].cells[0].childNodes[1].type=="checkbox") {
+			if(dfd1=="1"){
+  			    document.all.DataTable.rows[i].cells[0].childNodes[1].checked="true";
+            }
+			else{
+                document.all.DataTable.rows[i].cells[0].childNodes[1].checked="";
+            }
+        }
+ 	}
+}
+var ll=[$CurPg$]
+var yy=[$TotPg$]
+function killErrors() {
+return true;
+}
+window.onerror = killErrors;
+</script>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+</head>
+<body marginheight=0 leftmargin=0 oncontextmenu="return false"  marginwidth=0 topMargin="0" bgcolor="#F0F0F0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td height="27" background="/images/nn2.gif" width="180"> 
+              
+      <div align="center"><font color="#FFFFFF"> 管 理 员 操 作 查 询</font></div>
+            </td>
+            <td height="27" background="/images/nn1.gif">&nbsp; 
+              
+            </td>
+          </tr>
+</table>
+  <table border="0" width=100% height=100% cellspacing="0" cellpadding="0" align=center bgcolor='#ffffff'>
+    <tr><form name="form1" method="post" action="/msas/main.xp">
+
+      <td width="100%"  valign=middle align=center height="25" bgcolor="#F0F0F0" > 
+        <table width="96%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr> 
+            <td width="40%" height="23">&nbsp;&nbsp; 
+            
+              <input type="hidden" name="Fun" value="msasAdmlog">
+              <input type="hidden" name="CurPg"      value="[$CurPg$]">
+              <input type="hidden" name="TotPg"      value="[$TotPg$]">       
+               <td width="29%" height="23"> 
+              <div align="right">记录 共[$TotPg$]页 [$allcoount$]条</div>
+            
+            <td width="33%" height="23"> 
+              <table align=right border=0 cellpadding=0 cellspacing=0 class=main width=111>
+                <tbody> 
+                <td width="10%"><script>
+                      if (ll==1){
+                        document.write("<img src='/images/zbuyer-06.gif' border=0 height=17 width=35 class='gray1'>")}
+                      else{
+                        document.write("<a href='#'><img src='/images/zbuyer-06.gif' border=0 height=17 width=35 onClick='gotoPage(1);form1.submit()' class='hand'>")}
+                   </script></td>
+                <td width="10%"><script>
+                      if (ll==1){
+                        document.write("<img src='/images/zbuyer-03.gif' border=0 height=17 width=20 class='gray1'>")}
+                      else {
+                        document.write("<img src='/images/zbuyer-03.gif' border=0 height=17 width=20 onClick='gotoPage([$CurPg$]-1);form1.submit()' class='hand'>")}
+                   </script></td>
+                <td width="20%"><img src="/images/zbuyer-08.gif" border=0 height=17 width=32></td>
+                <td align=middle background="" width=92> 
+                  <input class=Main id=browsdopage  name=browsdopage 0 style="FONT-SIZE: 12px; HEIGHT: 18px; WIDTH: 20px" value=[$CurPg$] onKeyPress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" onBlur="checkme(this)" size="2">
+                </td>
+                <td width="10%"><img src="/images/zbuyer-09.gif" border=0 height=17 width=16></td>
+                <td width="10%"><img align=middle border=0 height=17 src="/images/zbuyer-10.gif" width=17 onClick="gotoPage(form1.browsdopage.value);form1.submit()" class="hand"><img align=middle height=17 src="/images/zbuyer-11.gif" width=3></td>
+                <td width="10%"><script>
+                        if (ll==yy){
+                            document.write("<img src='/images/zbuyer-04.gif' border=0 height=17 width=20 class='gray1'>")}
+                        else if (yy==0){
+                            document.write("<img src='/images/zbuyer-04.gif' border=0 height=17 width=20 class='gray1'>")}
+                        else{
+                            document.write("<img src='/images/zbuyer-04.gif' border=0 height=17 width=20 onClick='gotoPage([$CurPg$]+1);form1.submit()' class='hand'>")}
+                    </script></td>
+                <td width="10%"><script>
+                        if (ll==yy){
+                            document.write("<img src='/images/zbuyer-05.gif' border=0 height=17 width=36 class='gray1'>")}
+                        else if (yy==0){
+                            document.write("<img src='/images/zbuyer-05.gif' border=0 height=17 width=36 class='gray1'>")}
+                        else{
+                            document.write("<img src='/images/zbuyer-05.gif' border=0 height=17 width=36 onClick='gotoPage([$TotPg$]);form1.submit()' class='hand'>")}
+                    </script></td>
+                </tbody> 
+              </table>
+            </td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+      <td width="100%"  valign=top bgcolor="#F0F0F0"> 
+<div id="Layer1" style="position:absolute; width:100%; height:540; z-index:1; overflow: scroll;">
+        <table id="DataTable" class="listDataTable" width="100%" border="1" cellspacing="0" cellpadding="3" bgcolor="#FFFFFF" bordercolor="#999999" style="BORDER-COLLAPSE: collapse">
+          <tr> 
+            <td  background="/images/barbg.gif" height="21" width="20%"> 管理员姓名</td>
+            <td  height="21" background="/images/barbg.gif" width="15%"> 日期</td>
+            <td  height="21" background="/images/barbg.gif" width="10%"> 级别</td>
+            <td  height="21" background="/images/barbg.gif" width="55%">动作</td>
+            
+          </tr>
+         [$begintable loglist$]
+          <tr onMouseOver="mouseovertr2(this)" onMouseOut="mouseouttr2(this)"  > 
+            <td   nowrap width="20%">[$admuser$]</td>
+            <td   nowrap width="15%">[$sdate$] </td>
+            <td    nowrap width="10%">[$level$]</td>
+            <td   nowrap width="55%">[$action$]</td>
+          </tr>
+         [$endtable$] 
+        </table>
+</div>
+        <!--//鼠标显示//-->
+        <script language="JavaScript">
+<!--
+var MenuBarColor ='#cccccc';
+DrawMouseRightButtonUpMenu();
+
+</script></td>
+</form> </tr>
+</table>
+
+</body>
+
+</html>

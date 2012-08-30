@@ -1,0 +1,299 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    
+    var northPanel;
+    
+		
+
+
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+    
+
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+		
+		function gg(){
+		    var mygnmkey,mytype,mycode;
+			  mygnmkey=form1.gnmkey.value;
+		    myseldate=form1.seldate.value;
+		    myseltime=form1.seltime.value;
+			  xtzystore.baseParams={Fun:'msasAccessList',gnmkey:mygnmkey,cadate:myseldate,catime:myseltime};
+			  xtzystore.load({params:{Fun:'msasAccessList',gnmkey:mygnmkey,cadate:myseldate,catime:myseltime,start:0,limit:pagesize}});
+	      havesearch=1;
+	 }
+	 	 
+	 function gg1(){
+	 
+		    var mygnmkey,mytype,mycode,myurl;
+			  mygnmkey=form1.gnmkey.value;
+		    myseldate=form1.seldate.value;
+		    myseltime=form1.seltime.value;
+
+        myurl="/msas/main.xp?Fun=msasDataCenetrDownLoad&downLoadFile=/AccessList/[$dfile$]/"+ myseldate + "/srvlog-" + myseltime + ".csv";
+        //alert(myurl);
+        downloadFile(myurl);
+	  }
+    
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+						
+
+    
+     xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/msas/main.xp',
+        baseParams:{Fun:'msasAccessList'},
+        fields: [
+           {name: 'v1'},
+           {name: 'v2'},
+           {name: 'v3'},
+           {name: 'v4'},
+           {name: 'v5'},
+           {name: 'v6'},
+           {name: 'v7'},
+           {name: 'v8'},
+           {name: 'v9'},
+           {name: 'v10'},
+           {name: 'v11'},
+           {name: 'v12'},
+           {name: 'v13'},
+           {name: 'v14'},
+           {name: 'v15'},
+           {name: 'v16'}
+        ]
+     });
+
+    
+    HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    displayInfo: true, 
+    displayMsg: '显示第 {0} 条到 {1} 条记录，共 {2} 条', 
+    emptyMsg: "无记录", 
+    initComponent : function(){ 
+    	      var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+									    cls: 'x-tbar-page-number', 
+									    allowDecimals: false, 
+									    allowNegative: false, 
+									    enableKeyEvents: true, 
+									    maxValue: 500, 
+									    maxText: '每页不允许超过500条', 
+									    selectOnFocus: true, 
+									    value: this.pageSize, 
+									    submitValue: false, 
+									    listeners: { 
+									        scope: this, 
+									        keydown: this.onHlPagingKeyDown, 
+									        blur: this.onHlPagingBlur 
+									    } 
+                     }),'条','-',{
+						            //pressed: true,
+						            icon: '/msas/images/grid.png',
+						            enableToggle:true,
+						            text: '导出本页数据到Excel',
+						            cls: 'x-btn-text-icon details',
+						            toggleHandler: function(btn, pressed){
+						                downloadViewDataActive(xtzygrid);
+						            }
+						        },'-']; 
+		         var userItems = this.items || []; 
+		         this.items = userItems.concat(pageSizeItems); 
+		         HlPagingToolbar.superclass.initComponent.call(this); 
+		    }, 
+		    onHlPagingKeyDown: function(field, e){ 
+		        if(field.isValid()){ 
+		            var k = e.getKey(); 
+		             if (k == e.RETURN) { 
+		                    e.stopEvent(); 
+		                    this.pageSize = field.getValue(); 
+		                    pagesize=this.pageSize;
+		                    //alert(this.pageSize);
+		                    this.doRefresh(); 
+		             } 
+		        } 
+		    }, 
+		    onHlPagingBlur: function(field){ 
+		        if(field.isValid()){ 
+		            this.pageSize = field.getValue(); 
+		            //alert(this.pageSize);
+		            pagesize=this.pageSize;
+		            this.doRefresh(); 
+		        } 
+		    } 
+		});
+    
+    var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true});
+    
+   
+//gnmkey,Service_name,User_name,Certificate_type,Certificate_code,Net_ending_ip,6
+//Net_ending_name,Net_ending_mac,Time,Destination_ip,Port,Service_type, 12
+//KeyWord1,KeyWord2,KeyWord3,KeyWord3 16
+
+    var xtzygrid = new Ext.grid.GridPanel({
+        region:'center',
+        store: xtzystore,
+        columns: [
+            {header: "服务场所", width: 100, sortable: true, dataIndex: 'v2'},
+            {header: "服务类型", width: 60, sortable: true,  dataIndex: 'v12'},
+            {header: "关键字1",  width: 80, sortable: true,  dataIndex: 'v13'},
+            {id:'v14',header: "关键字2",  width: 100, sortable: true, dataIndex: 'v14'},
+            {header: "关键字3",  width: 50, sortable: true,  dataIndex: 'v15'},
+            {header: "关键字4",  width: 50, sortable: true,  dataIndex: 'v16'},
+            {header: "源ip", width: 80, sortable: true, dataIndex: 'v6'},
+            {header: "目的ip", width: 80, sortable: true,  dataIndex: 'v10'},
+            {header: "时间",  width: 80, sortable: true,  dataIndex: 'v9'},
+            {header: "端口",  width: 50, sortable: true, dataIndex: 'v11'},
+            {header: "用户",  width: 80, sortable: true,  dataIndex: 'v3'},
+            {header: "身份类型",  width: 50, sortable: true,  dataIndex: 'v4'},
+            {header: "身份号码",  width: 80, sortable: true,  dataIndex: 'v5'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'v14',
+        width:280,
+        height:screen.height-350,
+        frame:true,
+        title:'本时间[' + form1.seldate.value + ' ' +  form1.seltime.value + '时]段上网日志列表',
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    });
+       
+      
+						// Finally, build the main layout once all the pieces are ready.  This is also a good
+						// example of putting together a full-screen BorderLayout within a Viewport.
+					  new Ext.Viewport({
+									layout: 'border',
+									items: [
+									  {
+                    region:'north',
+                    contentEl: 'north',
+                    split:true,
+                    height: 80,
+                    minSize: 100,
+                    maxSize: 300,
+                    collapsible: true,
+                    title:'选择时间段',
+                    margins:'0 0 0 0'
+                   },xtzygrid
+									],
+					        renderTo: Ext.getBody()
+					    });			
+	         
+			     myMask.hide();
+  });
+  
+
+	
+		  
+	</SCRIPT>
+
+</HEAD>
+<BODY>
+
+
+
+<DIV id=north  >
+
+<form name="form1" method="POST">
+<INPUT type="hidden" name="gnmkey"  value="[$gnmkey$]" >
+<CENTER>
+<TABLE id=FT cellSpacing=0 cellPadding=0 width="100%"  border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+           
+        <table width="96%" border="0" align="center">
+  		
+       <tr>
+          <td colspan="2">日期与时间段：
+					  <select  class=inputsel  name="seldate">
+					  	[$begintable datelist$]
+					  	<option value="[$strdate$]">[$strdate$]</option>
+							[$endtable$]
+            </select> 
+            <select  class=inputsel  name="seltime">
+              <option value="0"  selected >00:00--00:59</option>
+              <option value="1" >01:00--01:59</option>
+              <option value="2" >02:00--03:59</option>
+              <option value="3" >03:00--03:59</option>
+              <option value="4" >04:00--04:59</option>
+              <option value="5" >05:00--05:59</option>
+              <option value="6" >06:00--06:59</option>
+              <option value="7" >07:00--07:59</option>
+              <option value="8" >08:00--08:59</option>
+              <option value="9" >09:00--09:59</option>
+              <option value="10" >10:00--10:59</option>
+              <option value="11" >11:00--11:59</option>
+              <option value="12" >12:00--12:59</option>
+              <option value="13" >13:00--13:59</option>
+              <option value="14" >14:00--14:59</option>
+              <option value="15" >15:00--15:59</option>
+              <option value="16" >16:00--16:59</option>
+              <option value="17" >17:00--17:59</option>
+              <option value="18" >18:00--18:59</option>
+              <option value="19" >19:00--19:59</option>
+              <option value="20" >20:00--20:59</option>
+              <option value="21" >21:00--21:59</option>
+              <option value="22" >22:00--22:59</option>
+              <option value="23" >23:00--23:59</option>
+            </select> 
+          </td>
+        </tr>
+
+       <tr>
+          <td colspan="2">          
+          <INPUT class=buttons style="cursor: hand" onClick="gg()"  type="button" value="列表显示" >
+          <INPUT class=buttons style="cursor: hand" onClick="gg1()" type="button" value="下载文本文件" >
+          </td>
+        </tr>
+
+      </table>	
+           </TD></TR></TBODY></TABLE><!-- 显示主体 --></TD></TR></TBODY></TABLE>
+<CENTER>
+</FORM>
+
+</DIV>
+</BODY>
+</HTML>
+

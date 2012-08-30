@@ -1,0 +1,114 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META 	content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/ext-all.css">
+<LINK 	rel="stylesheet" type="text/css" href="/ext/resources/css/xtheme-default.css"/>
+<link 	rel="stylesheet" type="text/css" href="/Content/IconCls.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/css.css"/>
+<link 	rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css"/>
+<link   rel="stylesheet" type="text/css" href="/msa/publiccss/grid-examples.css"/>
+<SCRIPT type=text/javascript  src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<script type=text/javascript  src="/msa/publicjs/select_time.js"></script>
+<script type=text/javascript  src="/msa/publicjs/exportexcel.js"></script>
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msa/extjs/resources/images/default/s.gif';
+		var xtzystore;
+		var pagesize;
+		var havesearch;
+		pagesize=100;
+		havesearch=0;
+    Ext.onReady(function()
+    {
+	  		Ext.QuickTips.init();
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				{
+				        	msg:"Please wait..."
+				});
+				myMask.show();
+				
+				var mainPanel= {
+									id: 'main-panel',
+									region:'center',
+	                collapsible: false,
+	                split:true,
+	                layout:'fit',
+	                height:screen.height-100,
+	                margins:'0 5 0 0',
+	                items:
+	                    new Ext.TabPanel({
+	                        border:false,
+	                        activeTab:0,
+	                        items:[{
+                                title:'服务访问记录',
+                                autoScroll:false,
+										            html: "<IFRAME id='srvsearch' name='srvsearch' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=msaShowAccessList+sdate=[$srvdate$]+showtype=1' border='0' frameborder='0' scrolling='yes'></iframe>"
+                            	},{
+														    title:'服务阻断记录',
+														    collapsible:false,
+														    html: "<IFRAME id='srvblocksearch' name='srvblocksearch' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=msaShowAccessList+sdate=[$srvdate$]+showtype=2'  border='0' frameborder='0' scrolling='yes'></iframe>"
+												      },{
+														    title:'即时通信',
+														    collapsible:false,
+														    html: "<IFRAME id='Telfrm' name='Telfrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltimshowwebquery+groupid=-1+uid=-1+flag=0+host=+sdate=[$sdate$]+osort=nosort+orderby=0'  border='0' frameborder='0' scrolling='yes'></iframe>"
+														  },{
+														    title:'虚拟身份',
+														    collapsible:false,
+														    html: "<IFRAME id='vcfrm' name='vcfrm' target='main' width=100% height=100% SRC = '/msa/main.xp?Fun=ltmsavcloglink+groupid=-1+uid=-1+vctype=0+vccon=+date=[$sdate$]+osort=nosort+orderby=0'  border='0' frameborder='0' scrolling='yes'></iframe>"
+														  },{
+														    title:'文件传输',
+														    collapsible:false,
+														    html: "<IFRAME id='Filefrm' name='Filefrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltmsafiletranquery+groupid=-1+uid=-1+trantype=0+host=+sdate=[$sdate$]+osort=nosort+orderby=0'  border='0' frameborder='0' scrolling='yes'></iframe>"
+														  },{
+														    title:'搜索关键字',
+														    collapsible:false,
+														    html: "<IFRAME id='keyWordfrm' name='keyWordfrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltmsasearchkeyquery+groupid=-1+uid=-1+searchkey=+host=+sdate=[$sdate$]+osort=nosort+orderby=0'  border='0' frameborder='0' scrolling='yes'></iframe>"
+													    },{
+														    title:'POP3/STMP邮件检索',
+														    collapsible:false,
+														    html: "<IFRAME id='POP3frm' name='POP3frm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltmsamail+gid=-1+uid=-1+flags=-1+rid=-1+subject=+dip=+from=+to=+date=[$sdate$]+btype=unit1+bbyte=+fbtype=unit1++fbbyte=+osort=nosort+orderby=0+mailtype=5'  border='0' frameborder='0' scrolling='yes'></iframe>"
+													    },{
+														    title:'Web邮件检索',
+														    collapsible:false,
+														    html: "<IFRAME id='Webfrm' name='Webfrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltmsamail+gid=-1+uid=-1+flags=-1+rid=-1+subject=+dip=+from=+to=+date=[$sdate$]+btype=unit1+bbyte=+fbtype=unit1++fbbyte=+osort=nosort+orderby=0+mailtype=4'  border='0' frameborder='0' scrolling='yes'></iframe>"
+														  },{
+														    title:'表单内容检索',
+														    collapsible:false,
+														    html: "<IFRAME id='Formfrm' name='Formfrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltmsaform+gid=-1+uid=-1+url=+dip=+date=[$sdate$]+btype=unit1+bbyte=+fbtype=unit1++fbbyte=+osort=nosort+orderby=0+matype=-1'  border='0' frameborder='0' scrolling='yes'></iframe>"
+													    },{
+														    title:'微博与贴吧',
+														    collapsible:false,
+														    html: "<IFRAME id='wblogfrm' name='wblogfrm' target='main' width=100% height=100% SRC ='/msa/main.xp?Fun=ltwblogshowwebquery+groupid=-1+uid=-1+flag=0+host=+sdate=[$sdate$]+osort=nosort+orderby=0'  border='0' frameborder='0' scrolling='yes'></iframe>"
+													    }]
+	                    })
+	      }
+			  new Ext.Viewport({
+							layout: 'border',
+							items: [mainPanel],
+			        renderTo: Ext.getBody()
+			  });		
+	      myMask.hide();
+  });  
+</SCRIPT>
+
+</HEAD>
+<BODY oncontextmenu="return false">
+		<DIV id=north>
+				<CENTER>
+				   <TABLE id=FT cellSpacing=0 cellPadding=0 width="100%"  border=0>	
+				   </TABLE>
+				</CENTER>
+		</DIV>
+</BODY>
+</HTML>

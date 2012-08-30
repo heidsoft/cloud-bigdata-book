@@ -1,0 +1,193 @@
+int nasTimeFormat(char *pFormat,long lTime)
+{
+    struct tm * sTim;
+    long lTemp;
+    sTim = localtime(&lTime);
+
+    lTemp = sTim->tm_year;
+    if(lTemp > 100) lTemp = lTemp - 100;
+    if(lTemp<10){
+    sprintf(pFormat,"0%ld",lTemp);
+    }else{
+            sprintf(pFormat,"%ld",lTemp);
+    }
+
+    lTemp = sTim->tm_mon + 1;
+    if(lTemp<10){
+    sprintf(pFormat,"%s-0%ld",pFormat,lTemp);
+    }else{
+           sprintf(pFormat,"%s-%ld",pFormat,lTemp);
+    }
+
+    lTemp = sTim->tm_mday;
+    if(lTemp<10){
+               sprintf(pFormat,"%s-0%ld",pFormat,lTemp);
+    }else{
+           sprintf(pFormat,"%s-%ld",pFormat,lTemp);
+    }
+
+    lTemp = sTim->tm_hour;
+    if(lTemp<10){
+                       sprintf(pFormat,"%s 0%ld",pFormat,lTemp);  
+    }else{
+           sprintf(pFormat,"%s %ld",pFormat,lTemp);  
+    }
+
+    lTemp = sTim->tm_min;
+    if(lTemp<10){
+                         sprintf(pFormat,"%s:0%ld",pFormat,lTemp);  
+    }else{
+             sprintf(pFormat,"%s:%ld",pFormat,lTemp);  
+    }
+
+
+    lTemp = sTim->tm_sec;
+    if(lTemp<10){
+                       sprintf(pFormat,"%s:0%ld",pFormat,lTemp);  
+    }else{
+           sprintf(pFormat,"%s:%ld",pFormat,lTemp);  
+    }      
+
+    return 0;
+}
+
+int nasTimeGetDate(char *cDate,long lTime){
+    struct tm * sTim;
+    long lTemp;
+    sTim = localtime(&lTime);
+
+    lTemp = sTim->tm_year;
+    if(lTemp > 100) lTemp = lTemp - 100;
+    if(lTemp<10){
+       sprintf(cDate,"0%ld",lTemp);
+    }else{
+           sprintf(cDate,"%ld",lTemp);
+    }
+
+    lTemp = sTim->tm_mon + 1;
+    if(lTemp<10){
+    sprintf(cDate,"%s-0%ld",cDate,lTemp);
+    }else{
+           sprintf(cDate,"%s-%ld",cDate,lTemp);
+    }
+
+
+    lTemp = sTim->tm_mday;
+    if(lTemp<10){
+    sprintf(cDate,"%s-0%ld",cDate,lTemp);
+    }else{
+           sprintf(cDate,"%s-%ld",cDate,lTemp);
+    }
+
+    return 0;
+}
+
+unsigned long nasCvtLongTime(char *caSdate,char *caTime)
+
+{
+    struct tm *tm;
+    char caTemp[16],*p;
+    unsigned long lTime;
+    
+    lTime = time(0);
+    tm =localtime(&lTime);
+    p = ltStrGetWord(caSdate,caTemp,6,"/");
+    if(*p == '/' && !ltStrIsSpaces(caTemp)) {
+        tm->tm_year = atol(caTemp) - 1900;
+        p = ltStrGetWord(p+1,caTemp,6,"/");
+        if(*p == '/' && !ltStrIsSpaces(caTemp)) {
+            tm->tm_mon = atol(caTemp) - 1;
+            p++;
+            if(!ltStrIsSpaces(p)) {
+                tm->tm_mday = atol(p);
+            }
+        }
+    }else{
+        p = ltStrGetWord(caSdate,caTemp,4,"-");
+                       if(*p == '-' && !ltStrIsSpaces(caTemp)) {
+                           tm->tm_year = 2000+atol(caTemp) - 1900;
+                           p = ltStrGetWord(p+1,caTemp,6,"-");
+                           if(*p == '-' && !ltStrIsSpaces(caTemp)) {
+                               tm->tm_mon = atol(caTemp) - 1;
+                               p++;
+                               if(!ltStrIsSpaces(p)) {
+                                   tm->tm_mday = atol(p);
+                               }
+                           }
+                       }
+    }
+
+ 
+    if(!ltStrIsSpaces(caTime)) {
+        p = ltStrGetWord(caTime,caTemp,6,":");
+        if(*p == ':' && !ltStrIsSpaces(caTemp)) {
+            tm->tm_hour = atol(caTemp);
+            p = ltStrGetWord(p+1,caTemp,16,":");
+            if(*p == ':' && !ltStrIsSpaces(caTemp)) {
+                tm->tm_min = atol(caTemp);
+                p++;
+                if(!ltStrIsSpaces(p)) {
+                    tm->tm_sec = atol(p);
+                }
+            }
+        }
+    }
+
+    lTime = mktime(tm);
+    return lTime;
+}
+
+unsigned long nasCvtLongTime16(char *caSdate)
+{
+    struct tm *tm;
+    char caTemp[16],*p;
+    unsigned long lTime;
+    lTime = time(0);
+    tm =localtime(&lTime);
+
+    p = caSdate;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,4);
+    tm->tm_year = atol(caTemp) - 1900;
+
+    p = caSdate+4;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,2);
+    tm->tm_mon = atol(caTemp) - 1;
+
+    p = caSdate+6;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,2);
+    tm->tm_mday = atol(p);
+
+    p = caSdate+8;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,2);
+    tm->tm_hour = atol(caTemp);
+    
+    p = caSdate+10;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,2);
+    tm->tm_min = atol(caTemp);
+
+    p = caSdate+12;
+    memset(caTemp,0,sizeof(caTemp));
+    memcpy(caTemp,p,2);
+    tm->tm_sec = atol(p);
+
+    lTime = mktime(tm);
+    return lTime;
+}
+
+int nasCvtStime(unsigned long lTime,char *caDate,char *caTime)
+{
+    struct tm *tm1;
+    tm1 = localtime(&lTime);
+    sprintf(caDate,"%04d/%02d/%02d",tm1->tm_year + 1900,tm1->tm_mon+1,tm1->tm_mday);
+    sprintf(caTime,"%02d:%02d:%02d",tm1->tm_hour,tm1->tm_min,tm1->tm_sec);
+    return 0;
+}
+
+ 
+
+ 

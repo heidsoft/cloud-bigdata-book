@@ -1,0 +1,31 @@
+db_connect(const char *dbname)
+ 
+{
+ 
+  MYSQL *db = mysql_init(NULL);
+ 
+  if (!db)
+ 
+    die(db, "mysql_init failed: no memory");
+ 
+  /*
+ 
+   * Notice that the client and server use separate group names.
+ 
+   * This is critical, because the server does not accept the
+ 
+   * client's options, and vice versa.
+ 
+   */
+ 
+  mysql_options(db, MYSQL_READ_DEFAULT_GROUP, "test2_libmysqld_CLIENT");
+ 
+  if (!mysql_real_connect(db, NULL, NULL, NULL, dbname, 0, NULL, 0))
+ 
+    die(db, "mysql_real_connect failed: %s", mysql_error(db));
+ 
+ 
+ 
+  return db;
+ 
+}

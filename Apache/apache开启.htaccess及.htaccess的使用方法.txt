@@ -1,0 +1,178 @@
+apache开启.htaccess及.htaccess的使用方法
+
+
+今天本地调试PHP程序，用到了.htaccess，而默认配置里面开启.htaccess，在网上找到了开启.htaccess的可行方法，供朋友们借鉴。（开启的我他的方法不行，查找了一下AllowOverride None全部的都给换成AllowOverride All就了，原因不明，O(∩_∩)O~ 记得修改完httpd.conf以后一定要重启下apache才的哦~ ） 
+1 . 如何让的本地APACHE器.htaccess 
+如何让的本地APACHE器&quot;.htaccess&quot;呢?其实只要简朴修改一下apache的httpd.conf设置就让APACHE.htaccess了,来看看操作 
+
+打开httpd.conf(在那里? APACHE目录的CONF目录里面),用文本编纂器打开后,查找 
+(1) 
+Options FollowSymLinks 
+AllowOverride None 
+
+改为 
+Options FollowSymLinks 
+AllowOverride All 
+
+(2)去掉下面的注释 
+LoadModule rewrite_module modules/mod_rewrite.so 
+
+就了 
+
+2. htaccess 写法 
+　　Apache中的.htaccess(或者”分布式配置”了针对目录改变配置的方法，即，在特定的文档目录中放置包含或多个指令的，以作用于此目录及其子目录。作为，所能的命令受到限制。***Apache的AllowOverride指令来设置。 
+
+　　子目录中的指令会笼盖更高级目录或者主器配置中的指令。 
+
+　　.htaccess必需以ASCII模式上传，最好将其权限设置为644。 
+
+　　错误文档的定位 
+
+　　常用的客户端哀求错误返回代码： 
+　　401 Authorization Required 
+　　403 Forbidden 
+　　404 Not Found 
+　　405 Method Not Allowed 
+　　408 Request Timed Out 
+　　411 Content Length Required 
+　　412 Precondition Failed 
+　　413 Request Entity Too Long 
+　　414 Request URI Too Long 
+　　415 Unsupported Media Type 
+
+　　常见的器错误返回代码： 
+　　500 Internal Server Error 
+
+　　利用.htaccess指定事先制作好的错误提醒页面。一般下，人们专门设立目录，例如errors放置页面。然后再.htaccess中，加入如下的指令： 
+
+　　ErrorDocument 404 /errors/notfound.html 
+　　ErrorDocument 500 /errors/internalerror.html 
+
+　　一条指令一行。上述第一条指令的意思是对于404，也找到所的文档的得显示页面为/errors目录下的notfound.html页面。不难看出语法格局为： 
+
+　　ErrorDocument 错误代码 /目录名/名.扩展名 
+
+　　所提示的很少的话，不必专门制作页面，直接在指令中HTML号了，例如下面例子： 
+
+　　ErrorDocument 401 “你权限访问该页面，请抛却！” 
+
+　　文档访问的密码保护 
+
+　　要利用.htaccess对某个目录下的文档设定访问和对应的密码，首先要做的是生成.htpasswd的文本文档，例如： 
+
+　　zheng:y4E7Ep8e7EYV 
+
+　　这里密码经由加密，找些工具将密码加密成.htaccess的编码。该文档最好不要放在www目录下，建议放在www根目录文档之外，这样更为安全些。 
+
+　　有了授权文档，在.htaccess中加入如下指令了： 
+
+　　AuthUserFile .htpasswd的器目录 
+　　AuthGroupFile /dev/null （授权访问的目录） 
+　　AuthName EnterPassword 
+　　AuthType Basic （授权类型） 
+
+　　是的主人，应该处处为着想。 —— 雷锋 
+　　require user wsabstract （允许访问的，但愿表中都允许， require valid-user） 
+
+　　注，括号部门为学习添加的注释 
+
+　　拒绝来自某个IP的访问 
+
+　　我不想某个政府部门访问到站点的，那.htaccess中加入该部门的IP而将它们拒绝在外。 
+
+　　例如： 
+
+　　order allow,deny 
+　　deny from 210.10.56.32 
+　　deny from 219.5.45. 
+　　allow from all 
+
+　　第二行拒绝某个IP，第三行拒绝某个IP段，也219.5.45.0~219.2.45.255 
+
+　　想要拒绝人？用deny from all好了。不止用IP，也用域名来设定。 
+
+　　保护.htaccess文档 
+
+　　在.htaccess来设置目录的密码保护时，它包含了密码的路径。从安全考虑，有必要把.htaccess也保护起来，不让别人看到其中的。虽然用其他做到这点，好比文档的权限。不外，.htaccess本身也能做到，只需加入如下的指令： 
+
+　　order allow,deny 
+　　deny from all 
+
+　　URL转向 
+
+　　可能对重新规划，将文档了迁移，或者更改了目录。这，来自搜索引擎或者其他链接过来的访问就可能犯错。这种下，如下指令来完成旧的URL自动转向到新的： 
+
+　　Redirect /旧目录/旧文档名 新文档的 
+
+　　或者整个目录的转向： 
+
+　　Redirect 旧目录 新目录 
+
+　　改变缺省的首页 
+
+　　一般下缺省的首页名有default、index等。不外，有些目录中没出缺省，而是某个特定的名，好比在pmwiki中是 pmwiki.php。这种下，要记住名来访问很麻烦。在.htaccess中等闲的设置新的缺省名： 
+
+　　DirectoryIndex 新的缺省名 
+
+　　也列出多个，顺序表明它们之间的优先级别，例如： 
+
+　　DirectoryIndex filename.html index.cgi index.pl default.htm 
+
+　　防止盗链 
+
+　　不喜欢别人在的网页上连接的、文档的话，也htaccess的指令来做到。 
+
+　　所的指令如下： 
+
+　　RewriteEngine on 
+　　RewriteCond %{ HTTP_REFERER } !^$ 
+　　RewriteCond %{ HTTP_REFERER } !^http://(www.)?mydomain.com/.*$ [NC] 
+　　RewriteRule .(gif&line;jpg)$ - [F] 
+
+　　觉得让别人的页面开个天窗不好看，那用一张来代替： 
+
+　　RewriteEngine on 
+　　RewriteCond %{ HTTP_REFERER } !^$ 
+　　RewriteCond %{ HTTP_REFERER } !^http://(www.)?mydomain.com/.*$ [NC] 
+　　RewriteRule .(gif&line;jpg)$ http://www.mydomain.com/替代名 [R,L] 
+
+其它补充： 
+在给出如何配置Apache支持.htaccess文件之前，首先申明一下：使用.htaccess文件，会降低httpd服务器的一点性能。 
+
+配置方法 
+找到Apache的httpd.conf配置文件，编辑器打开。 
+
+//找到 
+<Directory /> 
+　　Options FollowSymLinks 
+　　AllowOverride None 
+</Directory> 
+
+//修改为 
+
+<Directory /> 
+　　Options FollowSymLinks 
+　　AllowOverride All 
+</Directory> 
+
+//就可以了 
+
+/* 
+如果需要使用.htaccess以外的其他文件名，可以用AccessFileName指令来改变。 
+例如，需要使用.config ，则可以在服务器配置文件中按以下方法配置： 
+*/ 
+AccessFileName .config　　通常，.htaccess文件使用的配置语法和主配置文件一样。AllowOverride指令按类别决定了.htaccess文件中哪些指令才是有效的。 
+
+(不)使用.htaccess文件的场合 
+　　一般情况下，不应该使用.htaccess文件，除非你对主配置文件没有访问权限。有一种很常见的误解，认为用户认证只能通过.htaccess文件实现，其实并不是这样，把用户认证写在主配置文件中是完全可行的，而且是一种很好的方法。 
+　　.htaccess文件应该被用在内容提供者需要针对特定目录改变服务器的配置而又没有root权限的情况下。如果服务器管理员不愿意频繁修改配置，则可以允许用户通过.htaccess文件自己修改配置，尤其是ISP在同一个机器上运行了多个用户站点，而又希望用户可以自己改变配置的情况下。 
+　　虽然如此，一般都应该尽可能地避免使用.htaccess文件。任何希望放在.htaccess文件中的配置，都可以放在主配置文件的段中，而且更高效。 
+避免使用.htaccess文件有两个主要原因。 
+　　首先是性能。如果AllowOverride启用了.htaccess文件，则Apache需要在每个目录中查找.htaccess文件，因此，无论是否真正用到，启用.htaccess都会导致性能的下降。另外，对每一个请求，都需要读取一次.htaccess文件。 
+　　还有，Apache必须在所有上级的目录中查找.htaccess文件，以使所有有效的指令都起作用，所以，如果请求/ctusky/ctu/sky中的页面，Apache必须查找以下文件： 
+
+/.htaccess 
+/ctusky/.htaccess 
+/ctusky/ctu/.htaccess 
+/ctusky/ctu/sky/.htaccess　　一共就要访问4个额外的文件，就算这些文件都不存在，这也是本文开始说会影响服务器的一点性能的原因。 
+　　其次是安全。这样会允许用户自己修改服务器的配置，这可能会导致某些意想不到的修改，所以请认真考虑是否应当给予用户这样的特权。 

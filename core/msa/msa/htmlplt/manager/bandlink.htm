@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>LINK</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+
+<style type="text/css">
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+-->
+</style>
+
+<script language = "Javascript" src = "/msa/publicjs/selecttime.js"></script>
+<script language="JavaScript">
+<!--
+
+function fff() { 
+if(document.all.a1.value==1){
+document.all.b1.style.display=""
+}else if(document.all.a1.value==0){
+document.all.b1.style.display="none"
+}else{
+document.all.b1.style.display=""
+}
+}
+
+//-->
+</script>
+</head>
+
+<body>
+<form name="form1" method="post" action="/msa/main.xp" >
+<input type="hidden" name="Fun" value="ltbandlinkok">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td height="27" background="/msa/images/nn2.gif" width="180"> 
+        <div align="center"><font color="#FFFFFF"> </font><font color="#000000">
+        <font color="#FFFFFF">出口连接设置</font></font></div>
+      </td>
+      <td height="27" background="/msa/images/nn1.gif">&nbsp; </td>
+    </tr>
+  </table>
+  <table width="90%" border="0" cellspacing="0" align="center" height="26%">
+    <tr> 
+      <td colspan="7" height="27">
+        <div align="center"><font size="+1" color="#000000"></font></div>
+      </td>
+    </tr>
+    
+      <tr> 
+      <td colspan="7" height="27">
+        <div align="left"><font  color="#000000">系统出口连接带宽修改。</font></div>
+      </td>
+    </tr>
+    
+      <tr> 
+      <td colspan="7" height="27">
+        <div align="center"><font size="+1" color="#000000"></font></div>
+      </td>
+    </tr>
+    
+    
+    <tr> 
+      <td width="164" height="27">出口上传带宽峰值：</td>
+      <td colspan="3" height="27"> 
+        <input type="text" class=input  name="BANDUPLINK"  size="6" value="[$BANDUPLINK$]" maxlength="6" >KBPS
+      </td>
+    </tr>
+    <tr> 
+      <td width="164" height="27"> 出口下载带宽峰值：</td>
+      <td colspan="3" height="27"> 
+        <input type="text"  class=input name="BANDDOWNLINK"  size="6" value="[$BANDDOWNLINK$]" maxlength="6" >KBPS
+      </td>
+    </tr>
+   
+    <tr> 
+      <td width="164" height="27">默认通道上传带宽基准：</td>
+      <td colspan="3" height="27"> 
+        <input type="text" class=input  name="BANDUPDEF"  size="6" value="[$BANDUPDEF$]" maxlength="6" >KBPS
+      </td>
+    </tr>
+    <tr> 
+      <td width="164" height="27"> 默认通道下载带宽基准：</td>
+      <td colspan="3" height="27"> 
+        <input type="text"  class=input name="BANDDOWNDEF"  size="6" value="[$BANDDOWNDEF$]" maxlength="6" >KBPS
+      </td>
+    </tr>
+
+    <tr> 
+      <td colspan="4" height="31"> 
+        <div align="left"> 
+          <input type="submit" class=input  name="add" value="更新" >
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
+

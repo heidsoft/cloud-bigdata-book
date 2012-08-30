@@ -1,0 +1,138 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css">
+<SCRIPT type=text/javascript src="/ext/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="/msa/publiccss/pubcss.css">
+<link rel="stylesheet" href="/msa/publiccss/css.css" type="text/css">
+<SCRIPT LANGUAGE="JavaScript">
+function tabfun(){
+		if(document.getElementById("watchdogchk").checked==true){
+	  	 document.getElementById("watchdogType").disabled=false;
+	  	 document.getElementById("timer").disabled=false;
+		}else{    
+	  	 document.getElementById("watchdogType").disabled=true;
+	  	 document.getElementById("timer").disabled=true;
+	  }
+		if(document.getElementById("watchdogsyschk").checked==true){
+	  	 document.getElementById("reset1").disabled=false;
+	  	 document.getElementById("reset2").disabled=false;
+	  	 document.getElementById("reset3").disabled=false;
+	  }else{
+	  	 document.getElementById("reset1").disabled=true;
+	  	 document.getElementById("reset2").disabled=true;
+	  	 document.getElementById("reset3").disabled=true;
+	  }
+}
+function update() {
+	  var mywatchdogchk=0;
+	  if(listform.watchdogchk.checked==true){
+	  	mywatchdogchk=1;
+	  }
+	  var mywatchdogType=listform.watchdogType.value;
+	  var mytimer=listform.timer.value;
+	  var mywatchdogsyschk=0;
+	  if(listform.watchdogsyschk.checked==true){
+	  	mywatchdogsyschk=1;
+	  }
+	  var myreset1=0;
+	  if(listform.reset1.checked==true){
+	  	myreset1=1;
+	  }
+	  var myreset2=0;
+	  if(listform.reset2.checked==true){
+	  	myreset2=1;
+	  }
+	  var myreset3=0;
+	  if(listform.reset3.checked==true){
+	  	myreset3=1;
+	  }
+
+    Ext.Ajax.request({
+		    method : 'POST', 
+		    url:'/msa/main.xp', 
+		    success: function() { 
+						Ext.MessageBox.alert('提示','看门狗设置成功！'); 
+		    },
+		    failure: function() {     
+		     	Ext.MessageBox.alert('提示','看门狗设置失败！'); 
+		    },
+		    params:{
+		      Fun:'ltwatchdogok',
+		      watchdogchk:mywatchdogchk,
+		      watchdogType:mywatchdogType,
+		      timer:mytimer,
+		      watchdogsyschk:mywatchdogsyschk,
+		      reset1:myreset1,
+		      reset2:myreset2,
+		      reset3:myreset3
+		    } 
+		});
+}
+</SCRIPT>
+</head>
+<body oncontextmenu="return false"  bgcolor="#f0f0f0" text="#000000" topmargin="2"  style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" onLoad="tabfun()">
+<DIV id=north>
+<form name="listform" action="/msa/main.xp" method="POST">
+<table width="100%" border="0" height="100%">
+  <tr> 
+    <td valign="top"> 
+      <table width="100%" border="0" align="center">
+	     	<tr>
+		     	<td width="100%">
+		         <fieldset style="width:100%;height:30;border:2px groove" align=center>
+		          <legend>看门狗设置</legend> 
+				      <table width="100%" border="0" align="center" cellpadding="1">
+								<tr>
+									<td colspan="3"><input type="checkbox" id="watchdogchk" name="watchdogchk" value="0" class="inputchk" [$watchdogchk$] onClick="tabfun()">启动看门狗</td>
+								</tr>
+					        <tr> 
+					          <td>&nbsp;</td>
+					          <td>看门狗类型
+	                    <select id="watchdogType" name="watchdogType" class=inputsel>
+	                    	<option value="0" [$watchdogType0sel$]>定时连接数整理</option>
+	                      <option value="1" [$watchdogType1sel$]>定时内存整理</option>
+	                      <option value="2" [$watchdogType2sel$]>定时进程重置</option>
+	                    </select>	                  </td>                         
+					        </tr>
+									<tr>
+										<td width="9%" >&nbsp;</td>
+									    <td width="91%" >定时时长
+									      <input type="text" id="timer" name="timer" value="[$timer$]"  class="input" size="5" maxlength="5" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">秒</td>
+									</tr>
+								<tr>
+									<td colspan="3"><input type="checkbox" id="watchdogsyschk" name="watchdogsyschk" value="0" class="inputchk" [$watchdogsyschk$] onClick="tabfun()">启动看门狗系统监控</td>
+								</tr>
+									<tr>
+										<td >&nbsp;</td>
+									    <td ><input type="checkbox" id="reset1" name="reset1" value="0" class="inputchk" [$reset1$]>
+								        如果连接数过高，重置连接数缓存</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									    <td><input type="checkbox" id="reset2" name="reset2" value="0" class="inputchk" [$reset2$]>
+								        如果缓存过高，先bypass然后重置处理进程</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									    <td><input type="checkbox" id="reset3" name="reset3" value="0" class="inputchk" [$reset3$]>
+								        如果进程没有运行，自动启动进程</td>
+									</tr>
+									
+
+		          </table>
+			  	  </fieldset>		 	  	</td>
+		    </tr>
+				<tr>
+					<td align="right"><input type="button" name="qd" value="保存配置"  class="input"  onClick="update()">				  </td>
+				</tr>
+		  </table>
+    </td>
+  </tr>
+</table>
+</form>
+</DIV>
+</body>
+</html>

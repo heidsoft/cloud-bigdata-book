@@ -1,0 +1,163 @@
+初学cgi，实现一个简单的网页，能够完成上传、下载、删除、浏览目录的功能。
+
+工欲善其事必先利其器，首先要了解一下http协议，HTTP（HyperTextTransferProtocol）是超文本传输协议的缩写，它用于传送WWW方式的数据，关于HTTP协议的详细内容请参考RFC2616。
+
+写cgi程序往往需要分析网络包，为此介绍一利器：httpwatch，这个是ie的一个插件，只需要选择相应的网站，软件就可以对网站与IE之间的需求/回复的通讯情况进行分析并在同一界面显示其相应日志记录。每一个HTTP记录都可以详细的分析其Cookies、消息头、字符查询等信息。支持HTTPS及分析报告输出为XML、CSV等格式。对于firefox浏览器也有一个自带的插件Httpfox，功能类似。
+
+上传：
+
+上传需要用到http的post提交方式，其中关于post和get请求方法，具体的可以在网上寻求解答，这两者的区别在于使用post的form中数据在http协议的消息体中传输，而使用get，form中的数据将编码到url中。可以参考rfc1867协议。
+
+上传的主要思路是：解析出http消息体中的数据，将其写到服务器的指定目录下。
+
+首先遇到的就是如何获取要上传的文件的文件名，通过用Httpfox分析http消息，可以发现文件名就包含在消息体中。
+
+
+因此，只需要从消息体中解析出来文件名，再以这个名字写到服务器上就可以了。
+
+在处理时，先把消息接收到缓冲区中（eg. Buf，这个buf不仅包含文件的内容，头和尾还有一些http消息相关的内容，因此需要去除这些内容），然后把提取出来的内容写到文件中。
+
+通过
+
+int len = atoi(getenv("CONTENT_LENGTH"))
+
+可以获得整个消息的长度，便于分配缓冲区。
+
+然后
+
+char *type = getenv("CONTENT_TYPE");
+
+char *boundary = strstr(type, "boundary");
+
+可以获取到消息中的boundary，便于从整个消息体中分割出文件内容。
+
+char *buf = (char *)malloc(sizeof(char) * len);
+
+if (!buf)
+
+{
+
+printf("buf malloc error\n\n");
+
+return 0;
+
+}
+
+fread(buf, 1, len, stdin);
+
+读出数据到buf中
+
+char *name = strstr(buf, "filename="); 找到"filename="的地方，=后面的就是文件名，提取出文件名即可，之后就是通过一系列的字符串操作去掉buf中多余的内容，然后
+
+fwrite(buf, 1, len, fp);  写入到文件中。
+
+下载：
+
+下载使用http的get方式。
+
+下载的主要思路是：获取输入的文件名，以只读方式打开，不成功说明不存在；成功则打开文件读取内容到stdout。
+
+char *param = getenv("QUERY_STRING");
+
+char *name = strstr(params "name=");
+
+可以得到文件名。
+
+然后可以通过
+
+fseek(fp, 0L, SEEK_END);
+
+int file_len = ftell(fp);
+
+获取到文件长度。
+
+在读取内容输出到stdout之前需要打印一下内容
+
+printf("Status: 200 OK\r\n");
+
+printf("Content-Length: %d\r\n", file_len);
+
+printf("Accept-Ranges: bytes\r\n");
+
+printf("Content-Disposition: file; filename=\"%s\"\r\n", file_name);
+
+printf("Content-Type: %s\r\n", file_type);
+
+然后读取文件内容到stdout
+
+while ((len = fread(buf, 1, sizeof(buf), fp)) > 0)
+
+{
+
+fwrite(buf, 1, len, stdout);
+
+}
+
+删除：
+
+删除获取输入文件名的方法与下载一样。
+
+根据文件名判断输入的是一个文件名还是一个目录名
+
+struct stat stat_buf;
+
+lstat(path, &stat_buf);
+
+if (S_ISREG(stat_buf.st_mode))  //是文件
+
+remove(path);
+
+列出目录文件：
+
+默认的目录是/usr/local/apache/cgi-bin
+
+需要用到opendir和readdir函数。
+
+void list_dir(const char *path)
+
+{
+
+DIR *dir;
+
+struct dirent *entry;
+
+struct stat stat_buf;
+
+if ((dir = opendir(path)) == NULL)
+
+{
+
+printf("cannot open dir:%s\n", path);
+
+return;
+
+}
+
+while ((entry = readdir(dir)) != NULL)
+
+{
+
+lstat(entry->d_name, &stat_buf);
+
+if (S_ISDIR(stat_buf.st_mode))
+
+{
+
+if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+
+continue;
+
+printf("%s\t\t%d<br>", entry->d_name, (int)stat_buf.st_size);
+
+}
+
+else
+
+printf("%s\t\t%d<br>", entry->d_name, (int)stat_buf.st_size);
+
+}
+
+closedir(dir);
+
+}
+

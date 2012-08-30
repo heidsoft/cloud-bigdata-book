@@ -1,0 +1,621 @@
+<html class="x-viewport">
+    
+    <head>
+        <title>
+            网络7层管理和过滤的领导者
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/ext-all.css">
+        <link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css">
+        <link rel="stylesheet" type="text/css" href="/msas/publiccss/pubcss.css">
+        <link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/xtheme-default.css">
+        <script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js">
+        </script>
+        <script type="text/javascript" src="/msas/extjs/ext-all.js">
+        </script>
+        <link rel="stylesheet" href="/msas/publiccss/pubcss.css" type="text/css">
+        <link rel="stylesheet" href="/msas/publiccss/css.css" type="text/css">
+        <script language="Javascript" src="/msas/publicjs/select_time.js">
+        </script>
+        <SCRIPT type=text/javascript src="/msas/publicjs/exportexcel.js">
+        </SCRIPT>
+        <style type="text/css">
+            HTML { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN:
+            0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT:
+            100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+            0px } BODY { BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px;
+            MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana;
+            HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP:
+            0px } P { MARGIN: 5px } .settings { BACKGROUND-IMAGE: url(/msas/extjs/shared/icons/fam/folder_wrench.png)
+            } .nav { BACKGROUND-IMAGE: url(/msas/extjs/shared/icons/fam/folder_go.png)
+            }
+        </style>
+        <script type="text/javascript" charset="utf-8">
+            Ext.BLANK_IMAGE_URL = '/msas/htmlplt/extjs/resources/images/default/s.gif';
+            var xtzystore;
+            var pagesize;
+            pagesize = 100;
+            function mysearch() {
+                var stopflag;
+                var myseldate, myseltime, mysip, mydip, mydport, myselsrv, mysearchconX, mygroup, mysearchname;
+                mysearchname = searchname.value;
+                if (mysearchname == "") {
+                    Ext.MessageBox.alert('提示', '必须设置查询名称！');
+                    return;
+                }
+                myseldate = seldate.value;
+                myseltime = seltime.value;
+                mysip = sip.value;
+                mydip = dip.value;
+                mydport = dport.value;
+                myselsrv = selsrv.value;
+                mysearchconX = searchconX.value;
+                mygroup = group.value;
+                stopflag = 0;
+
+                Ext.MessageBox.show({
+                    msg: '系统查询中，这需要一段时间，您可以继续等待或者稍后察看结果',
+                    progressText: 'waitting...',
+                    width: 300,
+                    wait: true,
+                    waitConfig: {
+                        interval: 500
+                    },
+                    icon: 'ext-mb-download'
+                });
+
+                setTimeout(function() {
+                    if (stopflag == 0) {
+                        Ext.MessageBox.hide();
+                        xtzystore.load();
+                    }
+                    stopflag = 1;
+                },
+                15000);
+
+                Ext.Ajax.request({
+                    method: 'POST',
+                    url: '/msas/main1/main.xp',
+                    success: function(response, options) {
+                        if (stopflag == 0) {
+                            Ext.MessageBox.hide();
+                            xtzystore.load();
+                        }
+                        stopflag = 1;
+                    },
+                    failure: function() {
+                        Ext.MessageBox.hide();
+                        Ext.MessageBox.alert('提示', '失败！');
+                    },
+                    params: {
+                        Fun: 'msasMainAction',
+                        seldate: myseldate,
+                        seltime: myseltime,
+                        sip: mysip,
+                        dip: mydip,
+                        dport: mydport,
+                        selsrv: myselsrv,
+                        searchconX: mysearchconX,
+                        gid: mygroup,
+                        searchname: mysearchname,
+                        showtype: 1
+                    }
+                });
+            }
+            function myexport() {
+                var stopflag;
+                var myseldate, myseltime, mysip, mydip, mydport, myselsrv, mysearchconX, mygroup;
+                myseldate = seldate.value;
+                myseltime = seltime.value;
+                mysip = sip.value;
+                mydip = dip.value;
+                mydport = dport.value;
+                myselsrv = selsrv.value;
+                mysearchconX = searchconX.value;
+                mygroup = group.value;
+                var myurl = "/msas/main1/main.xp?Fun=msasMainAction&showtype=1&searchname=1&exportaction=1&seldate=" + myseldate + "&seltime=" + myseltime + "&sip=" + mysip + "&dip=" + mydip + "&dport=" + mydport + "&selsrv=" + myselsrv + "&searchconX=" + mysearchconX + "&gid=" + mygroup;
+                downloadFile(myurl);
+            }
+
+            Ext.onReady(function() {
+                Ext.QuickTips.init();
+                var detailEl;
+                var win;
+                var myMask = new Ext.LoadMask(Ext.getBody(), {
+                    msg: "Please	wait..."
+                });
+                myMask.show();
+                xtzystore = new Ext.data.JsonStore({
+			        root: 'Results',
+			        totalProperty: 'totalCount',
+			        url:'/msas/main1/main.xp',
+			        baseParams:{Fun:'msasMainAction'},
+							fields: [
+										{name: 'Matching_id'},
+										{name: 'gnmkey'},
+										{name: 'sname'},
+										{name: 'Rule_id'},
+										{name: 'Rule_name'},
+										{name: 'Matching_time'},
+										{name: 'Net_ending_ip'},
+										{name: 'Net_ending_code'},
+										{name: 'Net_ending_mac'},
+										{name: 'Destination_ip'},
+										{name: 'Service_type'},
+										{name: 'KeyWord1'},
+										{name: 'KeyWord2'},
+										{name: 'name'},
+										{name: 'Certificate_type'},
+										{name: 'ctypes'},
+										{name: 'Certificate_code'},
+										{name: 'Rule_type'},
+										{name: 'Rule_types'},
+										{name: 'contenturl'}
+							]
+			     });
+			
+			    xtzystore.load({params:{Fun:'msasMainAction',start:0,limit:pagesize}});
+
+                HlPagingToolbar = Ext.extend(Ext.PagingToolbar, {
+                    displayInfo: true,
+                    displayMsg: '显示第	{0}	条到 {1} 条记录，共	{2}	条',
+                    emptyMsg: "无记录",
+                    initComponent: function() {
+                        var pageSizeItems = ['-', '每页', this.inputItem = new Ext.form.NumberField({
+                            cls: 'x-tbar-page-number',
+                            allowDecimals: false,
+                            allowNegative: false,
+                            enableKeyEvents: true,
+                            maxValue: 500,
+                            maxText: '每页不允许超过500条',
+                            selectOnFocus: true,
+                            value: this.pageSize,
+                            submitValue: false,
+                            listeners: {
+                                scope: this,
+                                keydown: this.onHlPagingKeyDown,
+                                blur: this.onHlPagingBlur
+                            }
+                        }), '条', '-', {
+                            //pressed: true,
+                            icon: '/msas/images/grid.png',
+                            enableToggle: true,
+                            text: '导出本页数据到Excel',
+                            cls: 'x-btn-text-icon	details',
+                            toggleHandler: function(btn, pressed) {
+                                downloadViewDataActive(xtzygrid);
+                            }
+                        },
+                        '-'];
+                        var userItems = this.items || [];
+                        this.items = userItems.concat(pageSizeItems);
+                        HlPagingToolbar.superclass.initComponent.call(this);
+                    },
+
+                    onHlPagingKeyDown: function(field, e) {
+                        if (field.isValid()) {
+                            var k = e.getKey();
+                            if (k == e.RETURN) {
+                                e.stopEvent();
+                                this.pageSize = field.getValue();
+                                pagesize = this.pageSize;
+                                //alert(this.pageSize);
+                                this.doRefresh();
+                            }
+                        }
+                    },
+
+                    onHlPagingBlur: function(field) {
+                        if (field.isValid()) {
+                            this.pageSize = field.getValue();
+                            //alert(this.pageSize);
+                            pagesize = this.pageSize;
+                            this.doRefresh();
+                        }
+                    }
+                });
+
+                var pagingBar = new HlPagingToolbar({
+                    store: xtzystore,
+                    pageSize: pagesize,
+                    displayInfo: true
+                });
+
+                //网格显示区域
+                var xtzygrid = new Ext.grid.GridPanel({
+                    store: xtzystore,
+                    bbar: new Ext.StatusBar({
+                        id: 'centerstatus',
+                        defaultText: 'Ready',
+                        defaultIconCls: 'default-icon',
+                        iconCls: 'ready-icon'
+                    }),
+                    columns: [{header: "报警类型", width: 80, sortable: true, dataIndex: 'Rule_type'},
+									{header: "触发规则",  width: 80, sortable: true,  dataIndex: 'Rule_name'},
+									{header: "触发时间",  width: 100, sortable: true,  dataIndex: 'Matching_time'},
+									{id:"sname",header: "上网场所",  width: 120, sortable: true,  dataIndex: 'sname'},
+									{header: "IP地址",    width: 80, sortable: true,  dataIndex: 'Net_ending_ip'},
+									{header: "MAC地址",   width: 80, sortable: true,  dataIndex: 'Net_ending_mac'},
+									{header: "关键字1",   width: 80, sortable: true,  dataIndex: 'KeyWord1'},
+									{header: "关键字2",   width: 80, sortable: true,  dataIndex: 'KeyWord2'},
+									{header: "证件类型",  width: 80, sortable: true,  dataIndex: 'Certificate_type'},
+									{header: "证件号码",  width: 100, sortable: true,  dataIndex: 'Certificate_code'}],
+                    tbar: pagingBar,
+                    stripeRows: true,
+                    autoExpandColumn: 'sname',
+                    height: screen.height - 210,
+                    title: '报表列表结果',
+                    frame: true,
+                    collapsible: true,
+                    loadMask: {
+                        msg: '正在加载数据，请稍侯……'
+                    },
+                    draggable: true
+                });
+
+                function showsysdelrule(btn) {
+                    if (btn == 'yes') {
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var myurl = record.get("myurl");
+                        xtzystore.load({
+                            params: {
+                                Fun: 'msasMainAction',
+                                showtype: '1',
+                                delfile: myurl
+                            }
+                        });
+                    }
+                };
+
+                var rightClick = new Ext.menu.Menu({
+                    id: 'feeds-ctx',
+                    items: [{
+                        id: 'shanchubaogao',
+                        iconCls: 'load-icon',
+                        text: '删除该报表',
+                        scope: this,
+                        handler: function() {
+                            Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+                        }
+                    },
+                    {
+                        id: 'chakan',
+                        iconCls: 'load-icon',
+                        text: '察看该报表',
+                        scope: this,
+                        handler: function() {
+                            var record = xtzygrid.getStore().getAt(detailEl);
+                            var myurl = record.get("myurl");
+                            var myurlmore = "ipsearch/" + myurl + "/search";
+                            xtzystore1 = new Ext.data.JsonStore({
+                                root: 'Results',
+                                totalProperty: 'totalCount',
+                                url: '/msas/main1/main.xp',
+                                baseParams: {
+                                    Fun: 'msasMainAction',
+                                    url: myurlmore
+                                },
+                                fields: [{name: 'Matching_id'},
+										{name: 'gnmkey'},
+										{name: 'sname'},
+										{name: 'Rule_id'},
+										{name: 'Rule_name'},
+										{name: 'Matching_time'},
+										{name: 'Net_ending_ip'},
+										{name: 'Net_ending_code'},
+										{name: 'Net_ending_mac'},
+										{name: 'Destination_ip'},
+										{name: 'Service_type'},
+										{name: 'KeyWord1'},
+										{name: 'KeyWord2'},
+										{name: 'name'},
+										{name: 'Certificate_type'},
+										{name: 'ctypes'},
+										{name: 'Certificate_code'},
+										{name: 'Rule_type'},
+										{name: 'Rule_types'},
+										{name: 'contenturl'}]
+                            });
+                            xtzystore1.load({
+                                params: {
+                                    Fun: 'msasMainAction',
+                                    url: myurlmore,
+                                    start: 0,
+                                    limit: pagesize
+                                }
+                            });
+                            var pagingBar1 = new HlPagingToolbar({
+                                store: xtzystore1,
+                                pageSize: pagesize,
+                                displayInfo: true
+                            });
+                            var mywin = new Ext.Window({
+                                id: 'viewpanel',
+                                title: '查看报表结果',
+                                height: 450,
+                                width: 400,
+                                closeAction: 'close',
+                                modal: 'true',
+                                maximizable: 'true',
+                                margins: '0  5	0	0',
+                                layout: 'border',
+                                items: [xtzygrid1]
+                            });
+                            mywin.show();
+                            mywin.maximize();
+                        }
+                    },
+                    {
+                        id: 'xiazai',
+                        iconCls: 'load-icon',
+                        text: '下载报表结果',
+                        scope: this,
+                        handler: function() {
+                            var record = xtzygrid.getStore().getAt(detailEl);
+                            var myfile = record.get("myurl");
+                            myurl = "/msas/main1/main.xp?Fun=nasBackListDownLoad+downLoadFile=ipsearch/" + myfile + "/search.csv";
+                            //alert(myurl);
+                            downloadFile(myurl);
+                        }
+                    }]
+                });
+
+                var rightClickS = new Ext.menu.Menu({
+                    id: 'feeds-ctxs',
+                    items: [{
+                        id: 'shanchubaogaos',
+                        iconCls: 'load-icon',
+                        text: '删除此报表',
+                        scope: this,
+                        handler: function() {
+                            Ext.MessageBox.confirm('Confirm', '您确认要删除吗?', showsysdelrule);
+                        }
+                    },
+                    {
+                        id: 'chakans',
+                        iconCls: 'load-icon',
+                        text: '查看此报表',
+                        scope: this,
+                        handler: function() {
+                            var record = xtzygrid.getStore().getAt(detailEl);
+                            var myid = record.get("mytime");
+                            var myfile = record.get("myurl");
+                            var type = record.get("type");
+                            if (type == 'form' || type == 'mail') {
+                                var usrl = "/backlist/Search/" + myid + "/" + myfile;
+                            } else {
+                                var usrl = "/msas/main1/main.xp?Fun=toshowsearch+myid=" + myid + "+type=" + type;
+                            }
+                            var mywin = new Ext.Window({
+                                id: 'east-panels',
+                                title: '查看报表',
+                                height: 450,
+                                width: 400,
+                                closeAction: 'close',
+                                modal: 'true',
+                                maximizable: 'true',
+                                margins: '0	5	0	0',
+                                html: "<IFRAME	name='menufrm' width=100%	height='440' SRC='" + usrl + "'	 border='0'	frameborder='0'	scrolling='yes'	></iframe>"
+                            });
+                            mywin.show();
+                            mywin.maximize();
+                        }
+                    }]
+                });
+
+                xtzygrid.addListener('rowclick', rightClickFn);
+                function rightClickFn(client, rowIndex, e) {
+                    detailEl = rowIndex;
+                    var record = xtzygrid.getStore().getAt(detailEl);
+                    var type = record.get("type");
+                    if (type == 'form' || type == 'mail') {
+                        rightClickS.showAt(e.getXY());
+                    } else {
+                        rightClick.showAt(e.getXY());
+                    }
+                }
+
+                var northPanelTop = new Ext.Panel({
+                    frame: true,
+                    region: 'north',
+                    title: '选择查询的条件',
+                    collapsible: true,
+                    contentEl: 'north'
+                });
+
+                var mainPanel = {
+                    id: 'main-panel',
+                    region: 'center',
+                    collapsible: true,
+                    split: true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout: 'fit',
+                    margins: '0 5 0 0',
+                    items: [xtzygrid]
+                }
+
+                new Ext.Viewport({
+                    layout: 'border',
+                    items: [northPanelTop, mainPanel],
+                    renderTo: Ext.getBody()
+                });
+                myMask.hide();
+            });
+        </script>
+    </head>
+    
+    <body>
+        <DIV style="DISPLAY: none">
+            <DIV id=north>
+                <input type="hidden" class=inputf0 id="stime" name="stime" maxlength="24"
+                value="">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="50">
+                            <div align="center">
+                                &nbsp;
+                            </div>
+                        </td>
+                        <td>
+                            <div align="left">
+                                选择时段&nbsp;&nbsp;:
+                                <SELECT class=inputsel name=seldate>
+                                    [$begintable datelist$]
+                                    <OPTION selected value=[$strdate$]>
+                                        [$strdate$]
+                                    </OPTION>
+                                    [$endtable$]
+                                </SELECT>
+                                <SELECT class=inputsel name=seltime>
+                                    <OPTION selected value=0>
+                                        00:00--00:59
+                                    </OPTION>
+                                    <OPTION value=1>
+                                        01:00--01:59
+                                    </OPTION>
+                                    <OPTION value=2>
+                                        02:00--03:59
+                                    </OPTION>
+                                    <OPTION value=3>
+                                        03:00--03:59
+                                    </OPTION>
+                                    <OPTION value=4>
+                                        04:00--04:59
+                                    </OPTION>
+                                    <OPTION value=5>
+                                        05:00--05:59
+                                    </OPTION>
+                                    <OPTION value=6>
+                                        06:00--06:59
+                                    </OPTION>
+                                    <OPTION value=7>
+                                        07:00--07:59
+                                    </OPTION>
+                                    <OPTION value=8>
+                                        08:00--08:59
+                                    </OPTION>
+                                    <OPTION value=9>
+                                        09:00--09:59
+                                    </OPTION>
+                                    <OPTION value=10>
+                                        10:00--10:59
+                                    </OPTION>
+                                    <OPTION value=11>
+                                        11:00--11:59
+                                    </OPTION>
+                                    <OPTION value=12>
+                                        12:00--12:59
+                                    </OPTION>
+                                    <OPTION value=13>
+                                        13:00--13:59
+                                    </OPTION>
+                                    <OPTION value=14>
+                                        14:00--14:59
+                                    </OPTION>
+                                    <OPTION value=15>
+                                        15:00--15:59
+                                    </OPTION>
+                                    <OPTION value=16>
+                                        16:00--16:59
+                                    </OPTION>
+                                    <OPTION value=17>
+                                        17:00--17:59
+                                    </OPTION>
+                                    <OPTION value=18>
+                                        18:00--18:59
+                                    </OPTION>
+                                    <OPTION value=19>
+                                        19:00--19:59
+                                    </OPTION>
+                                    <OPTION value=20>
+                                        20:00--20:59
+                                    </OPTION>
+                                    <OPTION value=21>
+                                        21:00--21:59
+                                    </OPTION>
+                                    <OPTION value=22>
+                                        22:00--22:59
+                                    </OPTION>
+                                    <OPTION value=23>
+                                        23:00--23:59
+                                    </OPTION>
+                                </SELECT>
+                                <SELECT class=inputsel name=group>
+                                <OPTION	selected value='999' >所有部门</OPTION>
+                                [$begintable glist$]
+                                <OPTION	value='[$gid$]'>[$gname$]</OPTION>
+                                [$endtable$]
+                                </SELECT>
+                            </div>
+                        </td>
+                    </tr>
+                   <!-- <tr>
+                    <td	width="50" height="20">
+                    <div align="center">&nbsp;</div>
+                    </td>
+                    <td	 height="20">
+                    <div align="left">
+                    源IP地址&nbsp;&nbsp;:
+                    <input	type="text"	class=inputf0	 id="sip"	 name="sip"	size="16"	maxlength="15" value=""	 >
+                    目的IP地址:
+                    <input	type="text"	class=inputf0	 id="dip"	 name="dip"	size="16"	maxlength="15" value=""	 >
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td	width="50" height="20">
+                    <div align="center">&nbsp;</div>
+                    </td>
+                    <td	 height="20">
+                    <div align="left">
+                    目的端口&nbsp;&nbsp;:
+                    <input	type="text"	class=inputf0	 id="dport"	 name="dport"	size="10"	maxlength="5"	value=""	>
+                    服务类型:
+                    <SELECT	class=inputsel name=selsrv>
+                    <OPTION	selected value='999' >所有服务</OPTION>
+                    [$begintable srvlist$]
+                    <OPTION	value='[$srvid$]'>[$srvname$]</OPTION>
+                    [$endtable$]
+                    </SELECT>
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td	width="50" height="20">
+                    <div align="center">&nbsp;</div>
+                    </td>
+                    <td	 height="20">
+                    <div align="left">
+                    任意关键字:
+                    <input	type="text"	class=inputf0	 id="searchconX"	 name="searchconX" size="30" maxlength="48"	value=""	>
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td	width="50" height="20">
+                    <div align="center">&nbsp;</div>
+                    </td>
+                    <td	 height="20">
+                    <div align="left">
+                    搜索结果保存名称标记：
+                    <input	type="text"	class=inputf0	 id="searchname"	 name="searchname" size="30" maxlength="48"	value=""	>
+                    </div>
+                    </td>
+                    </tr>-->
+					<tr><td height="15">&nbsp;</td></tr><br/>
+					<tr><td height="15">&nbsp;</td></tr><br/>
+                    <tr>
+                        <td height="15">&nbsp;</td><br/>
+                        <td height="15">
+                            <input type="button" class=inputf0 border="0" value="按条件查询并保存数据" onClick="mysearch();">
+                            <input type="button" class=inputf0 border="0" value="直接导出本时段搜索数据" onClick="myexport();">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+
+</html>

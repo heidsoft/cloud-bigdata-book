@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户登录</title>
+<meta http-equiv="pragma" content="no-cache">  
+<meta http-equiv="cache-control" content="no-cache, must-revalidate">  
+<meta http-equiv="expires" content="0">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/ext/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/ext/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<LINK rel=stylesheet type=text/css href="/msa/publiccss/pubcss.css">
+<SCRIPT type=text/javascript  src="/msa/publicjs/pubstyle.js"></SCRIPT>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 00px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #319fe2;
+	font-size:9px;
+	line-height:14px;
+	font-family:"宋体", Arial;
+}
+table {  font-size: 9pt}
+.STYLE1 {color: #022539}
+-->
+</style>
+<SCRIPT type=text/javascript>
+		function login() {
+				var txt=MyActiveX1.readMsaKey();
+				if(authlogin.username.value!='admin'&&txt==""){
+						Ext.MessageBox.alert('提示',"请确定已安装电子密匙,如有疑问请联系管理员");
+						return;
+				}
+				if (authlogin.username.value==''||authlogin.password.value=='') {
+						return;
+				}
+		      var strusername=authlogin.username.value;
+		      var strpassword=authlogin.password.value;
+		      Ext.Ajax.request({
+		          method : 'POST',
+		          waitMsg : '正在验证您的身份,请稍候.....',
+		          url:'/msa/main.xp',
+		          success: function(response, options){
+		          	  var objs = eval(response.responseText);
+		          	  if(objs[0].errtype=="0"){
+										setCookie("msa.login.account",strusername);
+										setCookie("msalogonid",objs[0].sessionid);
+										setCookie("msaindex",objs[0].sessionindex);
+										setCookie("aftertime","");
+										window.location.href = '/msa/main.xp?Fun=msaShowTopview+msaindex='+objs[0].sessionindex+'+msalogonid='+objs[0].sessionid+'';
+		          	  }else if(objs[0].errtype=="1"){
+		          	  	setCookie("aftertime",objs[0].aftertime);
+		          	  	Ext.MessageBox.alert('提示',"尝试次数过多，稍后再试！");
+		          	  }else if(objs[0].errtype=="2"){
+		          	  	Ext.MessageBox.alert('提示',"电子密匙验证错误,请联系管理员");
+		          	  }else{
+		          	  	setCookie("aftertime","");
+		          	  	Ext.MessageBox.alert('提示',"登陆失败，用户或密码错误！");
+		          	  }
+		          },
+		          failure : function(response, options) {
+		           			 Ext.MessageBox.alert('提示',"登陆失败！等会重新登陆");
+		          },
+		          params:{
+			          Fun:'msaAdminLogon',
+				        username:strusername,
+				        password:strpassword,
+				        msakey:txt
+		          }
+				  });
+		}
+</SCRIPT>
+</head>
+<body oncontextmenu="return false">	
+<OBJECT ID="MyActiveX1" WIDTH=10 HEIGHT=10 CODEBASE="/msa/ipv6msakey.cab" CLASSID="CLSID:0857D9BB-9D6F-4EC2-A1AF-483DF209B14A"> </OBJECT>
+<div id="logo" style="width:897px; height:91px; margin:auto"><!--<img src="/msa/images/logo.jpg" />--></div>
+<div style="width:897px; height:406px; margin-top:11px; margin-left:auto; margin-right:auto;"><table width="897" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="288" align="left" valign="top">
+    <img src="/msa/images/bodybg.jpg" width="288" height="406" />
+    </td>
+    <td width="436" align="left" valign="top"><table width="436" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="436"><img src="/msa/images/bodybg01.jpg" width="436" height="178" /></td>
+      </tr>
+      <tr>
+       <form name="authlogin" id="authlogin">
+        <td height="125" align="left" valign="top" background="/msa/images/bodybg02.jpg"><table style="margin-top:10px;" width="292" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="65" align="right">用户</td>
+            <td width="122" height="28">
+            <input type="text" name="username" tabindex="1" id="username" style="background-color:#292929; border:1px; color:#FFFFFF; font-size:12px; line-height:17px; width:107px; height:16px; margin-left:5px;"/></td>
+            <td width="105">
+              <input type="hidden" name="langsel" value="0">
+            </td>
+          </tr>
+          <tr>
+            <td align="right">密码</td>
+            <td height="28"><input type="password"  tabindex="2"  name="password" id="textfield2" style=" background-color:#292929; border:1px; color:#FFFFFF; font-size:12px; line-height:17px; width:107px; height:16px; margin-left:5px;"/>
+            </td>
+          </form>
+            <td><input type="image"  align="right" tabindex="4"  name="imageField" id="imageField" src="/msa/images/inc.jpg" onclick="login();"/>
+            </td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="103" valign="bottom" background="/msa/images/bodybg03.jpg"><span class="STYLE1">版权所有2012(C)统一管理和综合审计系统</span><a href="/msa/help.htm" title="help">&nbsp;&nbsp;&nbsp;&nbsp;帮助</a></td>
+      </tr>
+    </table></td>
+    <td width="173" align="right" valign="top"><img src="/msa/images/bodybg04.jpg" width="173" height="406" /></td>
+  </tr>
+</table>
+</div>
+</body>
+
+</html>

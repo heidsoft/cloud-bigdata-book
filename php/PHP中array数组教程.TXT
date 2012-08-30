@@ -1,0 +1,306 @@
+PHP中array数组教程
+
+定义数组
+
+　　数组array是一组有序的变量,其中每个变量被叫做一个元素。
+
+一、定义数组
+　　可以用 array() 语言结构来新建一个数组。它接受一定数量用逗号分隔的 key => value 参数对。
+array( [key =>] value , ... ) // key 可以是 数字 或者 字符串 // value 可以是任何值
+例子1：
+
+ 
+按 Ctrl+C 复制代码
+按 Ctrl+C 复制代码
+
+ 
+输出结果如下 ：
+Array ( [0] => word [3] => excel [4] => outlook [5] => access ) 
+
+ 
+
+　　例子1定义了一个数组，名字叫phpjc，第一个元素的值是：word，（说明：数组是从0开始计数的），第二个元素为空，第三个元素是：excel，后面自动生成第四和第五个元素
+　　可以通过给变量赋予一个没有参数的array()来创建空数组，然后可以通过使用方括号[]语法来添加值。(注：另外也可用array_push()函数向数组中添加值！！！)  
+例子2：
+
+ 
+复制代码
+<?php
+$phpjc = array(); 
+$phpjc[] = "one"; 
+$phpjc[] = "two"; 
+echo $phpjc[0]."<br>"; 
+echo $phpjc[1]; 
+?>
+复制代码
+
+ 
+
+输出结果如下 ：
+one 
+two 
+
+ 
+
+
+二、读取数组元素
+　　使用字符串索引(或键)来访问储在数组中的值
+　　例子3：
+<?php
+$phpjc = array("first"=>1,"second"=>2,"third"=>3); 
+echo $phpjc["second"]; 
+$phpjc["third"]=5; //把第三个元素的值由“3”修改为“5” 
+echo $phpjc["third"]; 
+?>
+
+ 
+
+ 
+
+
+　　PHP中有很多数组相关的函数，一一用实例说明了is_array()、n_array()、count()、array_push()、array_unshift()、array_merge()、array_pop()、array_shift()、sort()
+
+1.is_array()函数
+
+　　是否为数组
+-----------------------------------------------------------
+2.in_array()函数
+　　如果你有很大的一个数组，而所要完成的仅是找出一个存在的给定值，你可以使用in_array()以返回true 或 false。如下代码将输出“Not found in this array”——因为你将在$namesArray中寻找一个并不存在的“Alber ”。
+复制代码
+代码
+<?php
+　　$namesArray = array("Joe", "Jane", "Bob", "Mary", "Paul", "Eddie", "John");
+　　$lookingFor = "Albert"; 
+　　if (in_array($lookingFor, $namesArray)) {
+　　　　echo "You've found it!";
+　　} else {
+　　　　echo "Not found in this array!";
+　　}
+?>
+复制代码
+
+ 
+
+ 
+
+-----------------------------------------------------------
+
+3.count()函数
+　　如果你改变了$lookingFor的值，将其变为“Mary”，你将得到消息“You've found it!”——因为“Mary”是$namesArray的一部分。
+如果希望对数组元素计数，你可以使用count()函数：
+<?php
+ 　$namesArray = array("Joe", "Jane", "Bob", "Mary", "Paul", "Eddie", "John");
+　 $count = count($namesArray); 
+?>
+
+$count值将为7。
+-----------------------------------------------------------
+
+4.array_push()函数
+　　你可以对任何数组添加元素，无论是在已存在数组的开始或末尾。你也可以使用函数以创建一个包含两个或多个数组元素的新数组。合并时每个数组将按需要的顺序排列。如果你的数组已经有内部的排序，你需要对新的合并数组重排序。让我们从对已存在数组的末尾增添元素开始，使用函数array_push()：
+复制代码
+代码
+<?php
+　　 /* 创建原始数组 */
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 加入到原始数组中 */
+　　array_push($fruitArray, "grape", "pineapple", "tomato");
+　　/* 通过其键值列出每个元素*/
+　　while (list($key,$value) = each($fruitArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+复制代码
+0 : apple
+1 : orange
+2 : banana
+3 : kiwi
+4 : pear
+5 : grape
+6 : pineapple
+7 : tomato
+复制代码
+
+ 
+
+ 
+
+-----------------------------------------------------------
+5.array_unshift()函数
+当你需要对数组开头添加元素时，代码非常类似。不同处只是函数名：array_unshift() 而不是array_push()。
+复制代码
+代码
+<?php
+ 　　/* 创建原始数组 */
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 加入到原始数组中 */
+　　array_unshift($fruitArray, "grape", "pineapple", "tomato");
+　　/* 通过其键值列出每个元素*/
+　　while (list($key,$value) = each($fruitArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+复制代码
+0 : grape
+1 : pineapple
+2 : tomato
+3 : apple
+4 : orange
+5 : banana
+6 : kiwi
+7 : pear
+复制代码
+
+ 
+
+ 
+
+-----------------------------------------------------------
+6.array_merge()函数
+函数array_merge()合并两个或更多的数组。
+复制代码
+代码
+<?php
+ 　　/* 创建原始数组 */
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 创建第二个数组 */
+　　$vegArray = array("carrot", "green beans", "asparagus", "artichoke", "corn");
+　　/* 合并为一个数组 */
+　　$goodfoodArray = array_merge($fruitArray, $vegArray);
+　　/* 通过其键值列出每个元素*/
+　　while (list($key,$value) = each($goodfoodArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+复制代码
+0 : apple
+1 : orange
+2 : banana
+3 : kiwi
+4 : pear
+5 : carrot
+6 : green beans
+7 : asparagus
+8 : artichoke
+9 : corn 
+复制代码
+
+ 
+
+
+现在已经对数组进行了增加元素和合并，现在来练习删除元素函数。你可以使用函数array_pop()从一数组末尾删除一个元素。如果使用函数 array_shift()，则从一数组开头删除一个元素。而实际上当你从数组删除元素时，此元素对你而言仍然可用——当你从已存在的数组中对元素进行 pop 或 shift时。
+
+-----------------------------------------------------------
+
+7.array_pop()函数
+使用array_pop()函数从数组末尾删除一个值：
+复制代码
+代码
+<?php
+　　/* 创建一数组*/
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 在末尾弹出某值 */
+　　$popped = array_pop($fruitArray);
+　　/* 列出新数组内容，以及弹出的值*/
+　　while (list($key,$value) = each($fruitArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+　　echo "<br>and finally, in $popped: $popped";
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+0 : apple
+1 : orange
+2 : banana
+3 : kiwi 
+and finally, in $popped: pear 
+
+ 
+
+
+-----------------------------------------------------------
+8.array_shift()函数
+下面，从数组末尾删除某值：
+复制代码
+代码
+<?php
+　　/* 创建一数组*/
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 从数组头部移出某值 */
+　　$shifted = array_shift($fruitArray);
+　　/* 列出新数组的内容以及移出的值*/
+　　while (list($key,$value) = each($fruitArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+　　echo "<br>and finally, in $shifted: $shifted";
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+0 : orange
+1 : banana
+2 : kiwi
+3 : pear and finally, in $shifted: apple
+
+ 
+
+ 
+
+-----------------------------------------------------------
+9.sort()函数
+有很多函数可以帮助你对数组元素排序。但我将会演示基本的排序以帮助你了解其过程：
+复制代码
+代码
+<?php
+　　/* 创建原始数组 */
+　　$fruitArray = array("apple", "orange", "banana", "kiwi", "pear");
+　　/* 排序 */
+　　sort($fruitArray);
+　　/* 对其重设以正确从头到尾显示数组 */
+　　/* 通过其键值列出每个元素*/
+　　while (list($key,$value) = each($fruitArray)) {
+　　　　echo "$key : $value<br>";
+　　}
+?>
+复制代码
+
+ 
+
+ 
+
+这将显示：
+0 : apple
+1 : banana
+2 : kiwi
+3 : orange
+4 : pear

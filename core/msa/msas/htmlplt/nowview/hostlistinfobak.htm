@@ -1,0 +1,778 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+
+
+<STYLE type=text/css>HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+.settings {
+	BACKGROUND-IMAGE: url(/msas/extjs/shared/icons/fam/folder_wrench.png)
+}
+.nav {
+	BACKGROUND-IMAGE: url(/msas/extjs/shared/icons/fam/folder_go.png)
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    Ext.BLANK_IMAGE_URL = '/msas/extjs/resources/images/default/s.gif';
+    var xtzystore;
+    var mypagenum;
+    var ll=[$CurPg$]
+    var yy=[$TotPg$]
+    mypagenum=[$CurPg$];
+function gotoPage(pagenum)
+{
+    if(pagenum<1){
+      pagenum=1;
+    }
+    if(pagenum>yy){
+      pagenum=yy;
+    }
+    form1.CurPg.value = pagenum;
+    form1.browsdopage.value= pagenum;
+    mypagenum=pagenum;
+    xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:pagenum,cond:'[$cond$]',sortby:[$sortby$],orderby:[$orderby$],srvid:[$srvid$],group:[$groupid$]}});
+}
+
+function checkme(p)
+{
+	var tt=p.value
+	if (tt>yy)
+	{
+		MM_changeProp('browsdopage','','value',yy,'INPUT/TEXT')
+	}
+	if (tt==0)
+	{
+		MM_changeProp('browsdopage','','value','1','INPUT/TEXT')
+	}
+}
+
+function sub(){
+   var conds,curpg,sort,order,srvids,groups;
+	conds=form1.cond.value;
+    sort=form1.sortby.value;
+    order=form1.orderby.value;
+	srvids=form1.srvid.value;
+	curpg=form1.CurPg.value;
+	//form1.TotPg.value;
+	groups=form1.group.value;
+
+	xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:curpg,cond:conds,sortby:sort,orderby:order,srvid:srvids,group:groups}});
+}
+
+
+    Ext.onReady(function(){
+	
+	  		Ext.QuickTips.init();
+
+				var detailEl;
+				var win;
+
+				
+				var myMask = new Ext.LoadMask(Ext.getBody(), 
+				    {
+				        	msg:"Please wait..."
+				    });  
+				myMask.show();
+
+ var northPanelTop =new Ext.BoxComponent({
+			                    region:'north',
+			                    height:24,
+			                    el: 'north'      
+			      });
+
+//var xtzystore = new Ext.data.JsonStore({
+//    root: 'topics',
+//    totalProperty: 'totalCount',
+//    idProperty: 'threadid',
+//    remoteSort: true,
+//    fields: [
+//             'forumtitle','title','author','lastposter','lastpost','excerpt','replycount'
+//    ],
+//    proxy: new Ext.data.ScriptTagProxy({
+//        //url: '/main/main.xp?Fun=nasoutflownow1' 
+//        url: 'http://extjs.com/forum/topics-browse-remote.php'
+//   })
+//   //   proxy: new Ext.data.MemoryProxy(mydata)
+//});
+     
+    
+xtzystore = new Ext.data.SimpleStore({
+    url:'/main/main.xp?Fun=ltwebonlineuser+CurPg=[$CurPg$]+cond=[$cond$]+sortby=[$sortby$]+orderby=[$orderby$]+srvid=[$srvid$]+group=[$groupid$]',
+    fields: [
+       {name: 'uid'},
+       {name: 'uname'},
+		   {name: 'dep'},
+	     {name: 'ipadd'},
+	     {name: 'macadd'},
+		   {name: 'tcpnum', type: 'int'},
+       {name: 'udpnum', type: 'int'},
+       {name: 'ub', type: 'int'},
+       {name: 'db', type: 'int'},
+		   {name: 'ontime'},
+       {name: 'status'},
+       {name: 'ps', type: 'int'},
+       {name: 'bs', type: 'int'},
+       {name: 'netfx'},
+       {name: 'sTime'}
+    ]
+});
+    xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:[$CurPg$],cond:'[$cond$]',sortby:[$sortby$],orderby:[$orderby$],srvid:[$srvid$],group:[$groupid$]}});
+
+
+   function macChange(val){
+        
+          return '<font szie=1 >' + val + '</font>';
+        
+    }
+    
+   
+    
+    function netfxChange(val){
+ 
+        if(val == 0){
+            return '<font color=green >&nbsp;&nbsp</font>';
+        }else if(val ==1){
+            return '<font color=#cc0000;>&#164;</font>';
+        }else if(val ==2){
+            return '<font color=#cc0000;>&#164;&#164;</font>';
+        }else if(val ==3){
+            return '<font color=#cc0000;>&#164;&#164;&#164;</font>';
+        }else if(val ==4){
+            return '<font color=#cc0000;>&#164;&#164;&#164;&#164;</font>';
+        }else if(val ==5){
+            return '<font color=#cc0000;>&#164;&#164;&#164;&#164;&#164;</font>';
+        }
+        
+        return val;
+    }
+    
+    var xtzygrid = new Ext.grid.GridPanel({
+        store: xtzystore,
+        columns: [
+            {id:'uname',header: "用户", width: 90, sortable: true,  dataIndex: 'uname'},
+            {header: "部门", width: 80, sortable: true,  dataIndex: 'dep'},
+            {header: "IP",   width: 80, sortable: true,  dataIndex: 'ipadd'},
+            {header: "MAC",   width: 60, sortable: true, renderer: macChange, dataIndex: 'macadd'},
+            {header: "TCP连接",  width: 60, sortable: true,  dataIndex: 'tcpnum'},
+            {header: "UDP连接", width: 60, sortable: true, dataIndex: 'udpnum'},
+            {header: "上流量KB", width: 60, sortable: true,  dataIndex: 'ub'},
+            {header: "下流量KB",   width: 60, sortable: true,  dataIndex: 'db'},
+            {header: "上线时间",   width: 80, sortable: true,  dataIndex: 'sTime'},
+            {header: "记时",   width: 60, sortable: true,  dataIndex: 'ontime'},
+            {header: "封包率",  width: 60, sortable: true,  dataIndex: 'ps'},
+            {header: "速率KB", width: 60, sortable: true, dataIndex: 'bs'},
+            {header: "风险指数", width: 60, sortable: true, renderer: netfxChange, dataIndex: 'netfx'}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'uname',
+        height:screen.height-210,
+        title:'在线用户列表',
+        frame:true,
+		    collapsible:true,
+		    loadMask:{msg:'正在加载数据，请稍侯……'},
+		    draggable:true
+    }); 
+   
+    var rightClick  = new Ext.menu.Menu({
+                id:'feeds-ctx',
+                items: [{
+                    id:'tichuyonghu',
+                    iconCls:'load-icon',
+                    text:'踢出用户',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var userid=record.get("uid");
+                         var cip=record.get("ipadd");
+                        
+                        
+                        
+                        Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/main/main.xp', 
+					                        success: function(response, options) { 
+   																			 xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:mypagenum,cond:'[$cond$]',sortby:[$sortby$],orderby:[$orderby$],srvid:[$srvid$]}});
+					                        },
+					                        failure : function() {      
+					                         	Ext.MessageBox.alert('提示','剔除用户失败'); 
+                                  },
+ 					                        params:{Fun:'nasusercheckout',userid:userid,clientip:cip} 
+					               }); 
+                        
+                        
+                        
+                    }
+                },
+                {
+                    id:'bianjiyonghu',
+                    iconCls:'load-icon',
+                    text:'编辑用户',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var userid=record.get("uid");
+                        // var l = Ext.getCmp('card-wizard-panel').getLayout();
+
+												//l.setActiveItem(1);
+												
+												//Ext.getCmp('card-prev').setDisabled(0);
+												//Ext.getCmp('card-next').setDisabled(1);
+                      
+                        //open("/adduser/user.xp?Fun=ltuserinfo+userid="+ userid ,'userinfofrm') ;
+                        
+                         var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '编辑用户',
+							                    height: 550,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	       open("/adduser/user.xp?Fun=ltuserinfo+userid=" + userid ,"menufrm");
+																	    }
+																	}],
+							                    html: "<IFRAME  name='menufrm' width=100% height='520' SRC = '/adduser/user.xp?Fun=ltuserinfo+userid="+ userid  + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                        
+                        
+                    }
+                },{
+                    id:'qushifenxi',
+                    iconCls:'load-icon',
+                    text:'趋势分析',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var userid=record.get("uid");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '趋势分析',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	       open("/main/main.xp?Fun=ltshownowflowpage+pagetype=1+user=" + userid ,"menufrm");
+																	    }
+																	}],
+							                    html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltshownowflowpage+pagetype=1+user="+ userid  + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                      
+                   
+                        
+                    }
+                },
+                {
+                    id:'fuwufenxi',
+                    iconCls:'load-icon',
+                    text:'服务分析',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var userid=record.get("uid");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '服务分析',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	       open("/main/main.xp?Fun=ltshownowflowpage+pagetype=2+user=" + userid ,"menufrm");
+																	    }
+																	}],
+							                    html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltshownowflowpage+pagetype=2+user="+ userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                      
+                      
+                        
+                    }
+                },
+                 {
+                    id:'useripcon',
+                    iconCls:'load-icon',
+                    text:'察看ip连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看ip连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){alert("/main/main.xp?Fun=ltconquery+showtype=1+srvid=-1+groupid=-1+user=" + userid);
+																	     //  open("/main/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=-1++group=-1+user=" + userid ,"menufrm");
+																	     open("/main/main.xp?Fun=ltconquery+showtype=1+srvid=-1+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                  //  html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=-1++group=-1+user="+ userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                  html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=1+srvid=-1+groupid=-1+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+
+                    }
+                },
+                 {
+                    id:'userhttpcon',
+                    iconCls:'load-icon',
+                    text:'察看HTTP连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看HTTP连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	      // open("/main/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=5++group=-1+user=" + userid ,"menufrm");
+																	      open("/main/main.xp?Fun=ltconquery+showtype=4+srvid=5+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                   // html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=1+srvid=5++group=-1+user="+ userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                   html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=4+srvid=5+groupid=-1+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+
+                    }
+                },
+                 {
+                    id:'userqoscon',
+                    iconCls:'load-icon',
+                    text:'察看流控连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看流控连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	      // open("/main/main.xp?Fun=ltwebonlinenewip+showtype=3+srvid=-1++group=-1+user=" + userid ,"menufrm");
+																	      open("/main/main.xp?Fun=ltconquery+showtype=2+srvid=-1+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                   // html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=3+srvid=-1++group=-1+user=" + userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                   html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=2+srvid=-1+groupid+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							         			
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+
+                    }
+                },{
+                    id:'userhttpqoscon',
+                    iconCls:'load-icon',
+                    text:'察看流控http连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看流控http连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	      // open("/main/main.xp?Fun=ltwebonlinenewip+showtype=3+srvid=5++group=-1+user=" + userid ,"menufrm");
+																	       open("/main/main.xp?Fun=ltconquery+showtype=5+srvid=5+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                  //  html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=3+srvid=5++group=-1+user=" + userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                    
+							                    html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=5+srvid=5+groupid=-1+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                        
+                    }
+                }, {
+                    id:'userblockcon',
+                    iconCls:'load-icon',
+                    text:'察看阻断连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                         var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看阻断连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	       //open("/main/main.xp?Fun=ltwebonlinenewip+showtype=2+srvid=-1++group=-1+user=" + userid ,"menufrm");
+																	       open("/main/main.xp?Fun=ltconquery+showtype=3+srvid=-1+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                   // html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=2+srvid=-1+group=-1+user=" + userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                    html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=3+srvid=-1+groupid=-1+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                      
+                        
+                    }
+                },{
+                    id:'userhttpblockcon',
+                    iconCls:'load-icon',
+                    text:'察看阻断http连接',
+                    scope: this,
+                    handler:function(){
+                        
+                        var record = xtzygrid.getStore().getAt(detailEl);
+                        var cip=record.get("ipadd");
+                        var mywin =new  Ext.Window(
+							                {
+							                    id: 'east-panel',
+							                    title: '察看阻断http连接',
+							                    height: 450,
+							                    width: 400,
+							                    closeAction: 'close',
+							                    modal: 'true',
+							                    maximizable:'true',
+							                    margins:'0 5 0 0',
+							                    tools:[{
+																	    id:'refresh',
+																	    qtip: 'Refresh form Data',
+																	    handler: function(event, toolEl, panel){
+																	      // open("/main/main.xp?Fun=ltwebonlinenewip+showtype=2+srvid=5++group=-1+user=" + userid ,"menufrm");
+																	       open("/main/main.xp?Fun=ltconquery+showtype=6+srvid=5+groupid=-1+user=-1+ipadd=" + cip ,"menufrm");
+																	    }
+																	}],
+							                  //  html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltwebonlinenewip+showtype=2+srvid=5+group=-1+user=" + userid + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>" 
+							                     html: "<IFRAME  name='menufrm' width=100% height='540' SRC = '/main/main.xp?Fun=ltconquery+showtype=6+srvid=5+groupid=-1+user=-1+ipadd=" + cip + "'  border='0' frameborder='0' scrolling='yes'   ></iframe>"
+							          }); 
+							          mywin.show(); 
+							          mywin.maximize(); 
+                      
+                        
+                    }
+                }]});
+                
+   
+    xtzygrid.addListener('rowclick', rightClickFn);
+    function rightClickFn(client, rowIndex, e) {
+                rightClick.showAt(e.getXY()); 
+                detailEl=  rowIndex;
+    }   
+
+       
+    var mainPanel= {
+					          id: 'main-panel',
+										region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+    }
+
+
+
+
+
+
+var cardWizard = {
+  region:'center',
+	id:'card-wizard-panel',
+  layout:'card',
+	activeItem: 0,
+	bodyStyle: 'padding:0px',
+	defaults: {border:false},
+	tbar:[
+            '->', {
+											id: 'card-prev',
+											disabled: true
+								}],
+	items: [{
+				id: 'card-0',
+				layout: 'border',
+				items: [
+											  mainPanel
+				]
+    }]
+};
+
+  
+//				   var eastPanel= {
+//				          id: 'east-panel',
+//                  region:'east',
+//                  title: '常用',
+//                  collapsible: true,
+//                  split:true,
+//                  width: 135,
+//                  minSize: 125,
+//                  maxSize: 400,
+//                  layout:'fit',
+//                  margins:'0 5 0 0',
+//                  items:
+//                      new Ext.TabPanel({
+//                          border:false,
+//                          activeTab:1,
+//                          tabPosition:'left',
+//                          items:[{
+//                              el:'east-panel-item2',
+//                              title: '工具',
+//                              autoScroll:true
+//                          },
+//                          {
+//                              el:'east-panel-item1',
+//                              title: '帮助',
+//                              autoScroll:true
+//                          }]
+//                      })
+//            }
+//               
+           new Ext.Viewport({
+									layout: 'border',
+									items: [
+									 northPanelTop, cardWizard
+									],
+					        renderTo: Ext.getBody()
+					    });
+
+						myMask.hide();
+						
+					
+					  
+				
+            var task = {
+								run: function(){
+    								xtzystore.load({params:{Fun:'ltwebonlineuser', CurPg:mypagenum,cond:'[$cond$]',sortby:[$sortby$],orderby:[$orderby$],srvid:[$srvid$],group:[$groupid$]}});
+								},
+								interval: 60000 // 每30秒一周期
+						};
+						var runner = new Ext.util.TaskRunner();
+						runner.start(task);
+  
+            
+  });
+  
+
+
+		  
+	</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY oncontextmenu="return false"><LINK rel=stylesheet type=text/css href="pubcss/lib.css">
+<DIV style="DISPLAY: none">
+<DIV id=xtzyPanel2div></DIV>
+<DIV id=xtzyPanel1div></DIV>
+<DIV id=north>
+
+<form id="form1"  name="form1" method="post" action="/main/main.xp">
+
+<table border="0" width=100% height=100% cellspacing="0" cellpadding="0" align=center bgcolor='#ffffff'>
+
+  <tr> 
+
+      <td width="100%"  valign=middle align=center height="25" bgcolor="f0f0f9" > 
+
+        <table width="100%" border="0" cellspacing="0">
+
+        <tr>
+
+          <td>关键字:
+
+              <input type="text" name="cond"  class=input size="10" maxlength="31" value="[$cond$]">
+              <select name="sortby"  class=inputsel  >
+	              <option value="0" [$sort0$] >全部人员
+	              <option value=1 [$sort1$] >可能NAT主机
+	              <option value=2 [$sort2$] >可能的HTTP代理
+	              <option value=3 [$sort3$] >P2P访问人员
+	              <option value=4 [$sort4$] >网络电视人员
+	              <option value=5 [$sort5$] >游戏人员
+	              <option value=6 [$sort6$] >股票软件人员
+	              <option value=7 [$sort7$] >邮件收发人员
+	              <option value=8 [$sort8$] >即时通信人员
+	              <option value=9 [$sort9$] >网站访问人员	              
+	              <option value=10 [$sort10$] >有未知服务人员
+	              
+              </select>
+              <select name="orderby"  class=inputsel  >
+	              <option value="0"  >原始顺序
+	              <option value=1 [$sel1$] >开始访问升序
+	              <option value=2 [$sel2$] >开始访问降序
+	              <option value=3 [$sel3$] >最后访问升序
+	              <option value=4 [$sel4$] >最后访问降序
+	              <option value=5 [$sel5$] >上流量排序
+	              <option value=6 [$sel6$] >下流量排序
+	              <option value=7 [$sel7$] >在线时间排序
+	              <option value=8 [$sel8$] >人员封包排序
+	              <option value=9 [$sel9$] >人员速率排序
+	              <option value=10 [$sel10$] >IP地址排序
+	              <option value=11 [$sel11$] >用户名称排序
+              </select>
+             
+
+              
+             <input type="button" border="0" name="imageField" value="确定" class=input onclick="sub();">
+              <font color="#FFFFFF"> 
+
+              <input type="hidden" name="Fun" value="ltshowwebonlineuser">
+              
+              <input type="hidden" name="srvid"      value="[$srvid$]">
+              <input type="hidden" name="CurPg"      value="[$CurPg$]">
+
+              <input type="hidden" name="TotPg"      value="[$TotPg$]">
+               <input type="hidden" name="group"      value="[$groupid$]">
+
+              <b><font color="#000000">共[$TotPg$]页  [$allline$]人</td>
+
+            <td> 
+
+              <table align=right border=0 cellpadding=0 cellspacing=0 class=main width=111>
+
+                <tbody> 
+
+                <td width="10%"><script>
+
+                    
+                        document.write("<img src='/images/zbuyer-06.gif' border=0 height=17 width=35 onClick='gotoPage(1);' class='hand'>");
+
+                   </script></td>
+
+                <td width="10%"><script>
+
+                   
+                        document.write("<img src='/images/zbuyer-03.gif' border=0 height=17 width=20 onClick='gotoPage(mypagenum-1);' class='hand'>");
+
+                   </script></td>
+
+                <td width="20%"><img src="/images/zbuyer-08.gif" border=0 height=17 width=32></td>
+
+                <td align=middle background="" width=92> 
+
+                  <input class=input id=browsdopage    name=browsdopage 0 style="FONT-SIZE: 12px; HEIGHT: 18px; WIDTH: 20px" value=[$CurPg$] onKeyPress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" onBlur="checkme(this)" size="2">
+
+                </td>
+
+                <td width="10%"><img src="/images/zbuyer-09.gif" border=0 height=17 width=16></td>
+
+                <td width="10%"><img align=middle border=0 height=17 src="/images/zbuyer-10.gif" width=17 onClick="gotoPage(form1.browsdopage.value);" class="hand"><img align=middle height=17 src="/images/zbuyer-11.gif" width=3></td>
+
+                <td width="10%"><script>
+
+                       
+                            document.write("<img src='/images/zbuyer-04.gif' border=0 height=17 width=20 onClick='gotoPage(mypagenum+1);' class='hand'>");
+
+                    </script></td>
+
+                <td width="10%"><script>
+
+                        
+                            document.write("<img src='/images/zbuyer-05.gif' border=0 height=17 width=36 onClick='gotoPage([$TotPg$]);' class='hand'>");
+
+                    </script></td>
+
+                </tbody> 
+
+              </table>
+
+            </td>
+
+        </tr>
+
+      </table>
+
+    </td>
+
+  </tr>
+  </table>
+  </form>
+
+</DIV>
+
+
+</DIV>
+</BODY>
+</HTML>
+

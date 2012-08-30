@@ -1,0 +1,376 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/msas/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/msas/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/msas/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/msas/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/msas/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/msas/publicjs/select_time_st_1.js"></script>
+<script type=text/javascript  src="/msas/publicjs/exportexcel.js"></script>
+
+<style type="text/css">HTML {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT: 12px verdana; HEIGHT: 100%; OVERFLOW: hidden; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0px
+}
+P {
+	MARGIN: 5px
+}
+.settings {  
+	BACKGROUND-IMAGE: url(/extjs/shared/icons/fam/folder_wrench.png)
+}
+.nav {
+	BACKGROUND-IMAGE: url(/extjs/shared/icons/fam/folder_go.png)
+}
+</style>
+<script type="text/javascript">
+		var xtzystore;
+		xtzystore = new Ext.data.JsonStore({
+                 root: 'Results',
+                 totalProperty: 'totalCount',
+                 url:'/msas/main2/main.xp',
+				 baseParams:{Fun:'msasReportList',reporttype:'21'},
+                 fields: [{name: 'sname'},
+                          {name: 'date'},
+						  {name: 'tdate'},
+                          {name: 'fproc'},
+                          {name: 'myurl'}]
+              });
+		xtzystore.load();
+	Ext.onReady(function(){
+	 Ext.QuickTips.init();
+     var detailEl;
+     var win;
+     var pagesize;
+		 pagesize=100;
+	 	 var myMask = new Ext.LoadMask(Ext.getBody(), 
+     {msg:"Please wait..."});
+		 myMask.show();
+		HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    		displayInfo: true, 
+    		displayMsg: '显示第 {0} 条到 {1} 条报告，共 {2} 条', 
+    		emptyMsg: "无记录", 
+    		initComponent : function(){ 
+    						var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+                     cls: 'x-tbar-page-number', 
+                     allowDecimals: false, 
+                     allowNegative: false, 
+                     enableKeyEvents: true,
+                     maxValue: 500, 
+                     maxText: '每页不允许超过500条', 
+                     selectOnFocus: true, 
+                     value: this.pageSize, 
+                     submitValue: false, 
+                     listeners: { 
+                                 scope: this, 
+                                 keydown: this.onHlPagingKeyDown, 
+                                 blur: this.onHlPagingBlur 
+                                 } 
+                     }),'条','-',{//pressed: true,
+                                  icon: '/msas/images/grid.png',
+                                  enableToggle:true,
+                                  text: '导出报表到Excel',
+                                  cls: 'x-btn-text-icon details',
+                                  toggleHandler: function(btn, pressed){
+                                  downloadViewDataActive(xtzygrid);
+                                  }
+                                  },'-']; 
+         			 var userItems = this.items || []; 
+        			 this.items = userItems.concat(pageSizeItems); 
+         			 HlPagingToolbar.superclass.initComponent.call(this);}, 
+    		 onHlPagingKeyDown: function(field, e){ 
+         if(field.isValid()){ 
+            var k = e.getKey(); 
+             if (k == e.RETURN) { 
+                    e.stopEvent(); 
+                    this.pageSize = field.getValue(); 
+                    pagesize=this.pageSize;
+                    //alert(this.pageSize);
+                    this.doRefresh(); 
+             } 
+        } 
+    }, 
+    onHlPagingBlur: function(field){ 
+        if(field.isValid()){ 
+            this.pageSize = field.getValue(); 
+            //alert(this.pageSize);
+            pagesize=this.pageSize;
+            this.doRefresh(); 
+        } 
+    } 
+		});
+		 var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true}); 
+		 var xtzygrid = new Ext.grid.GridPanel({
+        store:xtzystore, 
+        bbar: new Ext.StatusBar({
+                      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+		viewConfig:{forceFit: true, scrollOffset: 0},
+        columns: [
+            {id:'name',header: "报告名称", width:80, sortable: true, dataIndex: 'sname'},
+            {header: "生成条件",  width: 100, sortable: true,  dataIndex: 'date'},
+			{header: "生成时间",  width: 100, sortable: true,  dataIndex: 'tdate'},
+            {header: "状态",    width:100, sortable: true,  dataIndex: 'fproc'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'name',
+        height:screen.height-210,
+        title:'已生成的系统状态报表列表',
+        frame:true,
+        collapsible:true,
+        loadMask:{msg:'正在加载数据，请稍侯……'},
+        draggable:true
+
+     });  
+		 
+		 var rightClick= new Ext.menu.Menu({
+
+							id:'feeds-ctx',
+							items: [{
+								id:'realidclientlist',
+								iconCls:'load-icon',
+								text:'删除报表',
+								scope: this,
+								handler:function(){
+									Ext.MessageBox.confirm('提示','你确定要删除此报表吗？',function(button,text){
+											if(button=="yes"){												
+												var record = xtzygrid.getStore().getAt(detailEl);
+                        var myurl=record.get("myurl");
+                        xtzystore.load({params:{Fun: 'msasReportList',showtype: '21',delfile: myurl}});    
+					        											}
+											
+									});
+								}
+							},
+							{
+                  id: 'chakan',
+                        iconCls: 'load-icon',
+                        text: '查看此报表',
+                        scope: this,
+                        handler: function(){
+                            var record = xtzygrid.getStore().getAt(detailEl);
+                            var myid = record.get("mytime");
+                            var myfile = record.get("myurl");
+                            var type = record.get("type");                            
+                            var usrl="/msadatacenter/report/21/"+myfile+"/"+"index.htm";
+                            var mywin = new Ext.Window({
+                                id: 'east-panels',
+                                title: '报表详情',
+                                height: 450,
+                                width: 400,
+                                collapsible:true,
+                                closeAction: 'close',
+                                modal: 'true',
+                                maximizable: 'true',
+                                margins: '0	5	0	0',
+                                html: "<IFRAME	name='menufrm' width=100%	height='100%' SRC='" + usrl + "' border='0'	frameborder='0'	scrolling='yes'	></iframe>"
+                            });
+                            mywin.show();
+                            mywin.maximize();
+                            }  
+                    },{
+                    id: 'xiazai',
+                        iconCls: 'load-icon',
+                        text: '下载此报表',
+                        scope: this,
+                        handler: function() {
+                            var record = xtzygrid.getStore().getAt(detailEl);
+                            var myfile = record.get("myurl");
+                            myurl = "/msas/main2/main.xp?Fun=nasBackListDownLoad+downLoadFile=ipsearch/" + myfile + "/inedx.htm";
+                            alert(myurl);
+                            downloadFile(myurl);
+                        } }                   
+						]});
+						
+	function rightClickFn(client, rowIndex, e) { 
+									rightClick.showAt(e.getXY()); 
+								 	detailEl= rowIndex;
+
+                     }
+	 
+	xtzygrid.addListener('rowclick',rightClickFn);
+	var northPanelTop = new Ext.Panel({
+    frame:true,
+    region:'north',
+    title: '系统状态报表生成条件',
+    collapsible:true,
+    contentEl:'north'
+    });
+    
+    var mainPanel= {
+                    id: 'main-panel',
+                    region:'center',
+                    collapsible: true,
+                    split:true,
+                    width: 135,
+                    minSize: 125,
+                    maxSize: 400,
+                    layout:'fit',
+                    margins:'0 5 0 0',
+                    items:[xtzygrid]
+
+            };
+	new Ext.Viewport({
+	layout: 'border',
+	items: [northPanelTop,mainPanel],
+	renderTo: Ext.getBody()
+});
+	myMask.hide();
+});
+
+function create(){	
+			if(sdate.value==""||edate.value==""){
+				Ext.MessageBox.alert("系统提示","日期不能为空!");
+				return;
+							}
+			Ext.MessageBox.show({
+				msg:'报告生成中，这需要一段时间，您可以继续等待或者稍后察看结果',
+				progressText: 'apply...',
+				width:300,
+				wait:true,
+				waitConfig: {interval:500},
+				icon:'ext-mb-download'
+								});
+			
+		Ext.Ajax.request({
+						                      method : 'POST', 
+						                      url:'/msas/main2/main.xp', 
+					                        success: function(response, options) {
+												var retxt=response.responseText;
+												if(retxt!==""){
+												Ext.MessageBox.hide();
+												xtzystore.load();
+												}else{
+												setTimeout(function(){
+												Ext.MessageBox.hide();
+												xtzystore.load();
+												}, 10000); 
+													}
+					                        },
+					                        failure : function() {
+					                         	Ext.MessageBox.hide();
+												Ext.MessageBox.alert('提示', '生成报告失败！');
+												},
+ 					                        params:{Fun:'msasreportproc',
+															reportname:reportname.value,
+ 																	 edate:edate.value,
+ 																	 sdate:sdate.value,
+																	 email:email.value 
+ 					                        } 
+	}); 	    	   															     				       					 
+	}	
+
+</script>
+</head>
+<meta name="GENERATOR" content="MSHTML 8.00.6001.18702"></head>
+<body id="ext-gen9" class="ext-gecko ext-gecko3 x-border-layout-ct" >
+<DIV style="DISPLAY: none">
+<DIV id=north>
+        <input type="hidden" class=inputf0  id="stime" name="stime" maxlength="24" value="">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr> 
+    <td> 
+     <!-- <form name="form1" id="form1" method="post" target="xreport" action="/main/main.xp">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td height="27" background="/images/nn2.gif" width="260">  
+              <div align="center"><b><font color="#FFFFFF">服 务 协 议 使 用 分 析</font></b></div>
+            </td>
+            <td height="27" background="/images/nn1.gif">&nbsp; </td>
+          </tr>
+        </table>-->
+         <table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+				    <td width="50">  &nbsp;</td>
+				     <td>  &nbsp;</td>
+				  </tr>
+				<tr>
+				     <td width="50">  &nbsp;</td>
+				    <td> 一段时间内系统状态情况统计报表 </td>
+				  </tr>
+        <table border="0" cellspacing="0" cellpadding="0"  align="left" valign="top" >
+          <div id="plabel"  align="left"> 
+            <tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" >
+              	<input type="hidden" name="Fun" value="nassrvreportproc">
+                <input type="hidden" id="ptype" name="ptype" values="0">
+                开始日期:
+                <input type="text" id="edate" class=inputf0 name="edate" size="20" maxlength="32" values="" onfocus=setday(edate) >
+             </td>
+             </tr> 
+             
+             <tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" > 
+                <input type="hidden" name="Fun" value="nassrvreportproc">
+                <input type="hidden" id="ptype" name="ptype" values="0">
+                结束日期:
+                <input type="text" id="sdate" class=inputf0 name="sdate" size="20" maxlength="32" values="" onfocus=setday(sdate) >
+             </td>
+             </tr>         		
+					                                              
+             <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 报告名称:
+                 <input type="text"  class=inputf0 id="reportname" name="reportname" size="20" maxlength="32" value=""  >
+                </div>
+              </td>
+              </tr> 
+			   <tr> 
+              <td width="50" height="20"> 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"> 
+                
+                <div align="left"> 
+                 邮件地址:
+                <input type="text"  class=inputf0 name="email" size="20" maxlength="32" value=""  >  
+				(填写邮件地址后生成的报告可自动发送到您的邮箱中！)
+                </div>
+              </td>
+              </tr> 
+
+             <tr> 
+              <td height="50">&nbsp; </td>
+              <td height="20">
+                <input type="button"   class=inputf0 border="0" value="开始生成报告" onClick="create();" >  
+              </td>
+            </tr>
+          </div>
+        </table>
+      
+    </td>
+  </tr>
+
+</table>
+
+ </div>
+
+</div>
+</body>
+
+</html>
+
+ 
+

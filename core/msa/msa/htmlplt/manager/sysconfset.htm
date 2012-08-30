@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>LINK</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META content=no-cache http-equiv=Pragma>
+<link rel="stylesheet" href="/msa/publiccss/pubcss.css" type="text/css">
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/ext/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/ext/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/ext/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/ext/ext-all.js"></SCRIPT>
+<style type="text/css"> 
+<!--
+.cccv {  border-style: inset; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px}
+.xan3 {  width: 100px; font-size: 12px; font-weight: normal; font-family: "宋体"}
+-->
+</style>
+<SCRIPT type=text/javascript>
+		function update(){
+				Ext.Ajax.request({
+          method : 'POST',
+          url:'/msa/main.xp',
+          success: function(response, options){
+						Ext.MessageBox.alert("提示","保存成功!");
+          },
+          failure : function(){
+          	Ext.MessageBox.alert("提示","保存失败!");
+          },
+          params:{Fun:'sysconfset',
+          		Encode64:form1.Encode64.value,
+          		idletime:form1.idletime.value,
+          		locktime:form1.locktime.value}
+				});
+		}
+	</SCRIPT>
+</head>
+<body oncontextmenu="return true" topmargin=0 leftmargin=0 style="SCROLLBAR-FACE-COLOR: #f0f0f0;  overflow-x:hidden;  OVERFLOW: scroll; SCROLLBAR-SHADOW-COLOR: #f0f0f0; SCROLLBAR-3DLIGHT-COLOR: #f0f0f0; SCROLLBAR-ARROW-COLOR: #f0f0f0; SCROLLBAR-DARKSHADOW-COLOR: #cccccc;" >
+<form name="form1">
+	 <input type="hidden" name="Encode64" class=inputsel value="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td height="27" background="./images/nn2.gif" width="180"> 
+        <div align="center"><font color="#FFFFFF">系统参数配置</font></div>
+      </td>
+      <td height="27" background="./images/nn1.gif">&nbsp; </td>
+    </tr>
+  </table>
+  <table width="90%" border="0" cellspacing="0" align="center" height="26%">
+    
+      <tr> 
+      <td colspan="7" height="27">
+        <div align="center"><font size="+1" color="#000000"></font></div>
+      </td>
+    </tr>
+    
+     <tr> 
+      <td width="124" height="27">锁定登陆时间(分)</td>
+      <td colspan="3" height="27"> 
+        <input name='locktime' type='text' value="[$locktime$]" size=20 maxlength=22 />
+      </td>
+    </tr>
+    <tr> 
+      <td width="124" height="27">管理员空闲超时时间(分)</td>
+      <td colspan="3" height="27"> 
+        <input name='idletime' type='text' value="[$idletime$]" size=20 maxlength=22 />
+      </td>
+    </tr>
+</form>
+      <tr> 
+      <td width="124" height="27">
+      	<input type="submit"  name="add" value="保存" class="input" onclick="update();">
+      </td>
+      <td colspan="2" height="27">&nbsp;</td>
+      <td align="left" height="27">&nbsp;</td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿[{
+    text: '上海市', 
+    cls: 'folder',
+    children: [{
+        text: '大型企业',
+        leaf: true,
+        checked: false
+    },{
+        text: '浦东教育设备列表',
+        leaf: true,
+        checked: false
+    },{
+        text: '政府',
+        leaf: true,
+        checked: false
+    }]
+},{
+    text: '江苏省',
+    cls: 'folder',
+    children: [{
+        text: '省级项目1',
+        leaf: true,
+        checked: false
+    },{
+        text: '省级项目2',
+        leaf: true,
+        checked: false
+    },{
+        text: 'Cereal',
+        leaf: true,
+        checked: false
+    },{
+        text: '苏州市',
+        cls: 'folder',
+        children: [{
+            text: '教育项目',
+            leaf: true,
+            checked: false
+        },{
+            text: '企业项目',
+            leaf: true,
+            checked: false
+        }]
+    }]
+},{
+    text: '北京市', 
+    cls: 'folder',
+    children: [{
+        text: '教育项目',
+        leaf: true,
+        checked: false
+    },{
+        text: '企业项目',
+        leaf: true,
+        checked: false
+    },{
+        text: '行业项目',
+        leaf: true,
+        checked: false
+    }]
+}]

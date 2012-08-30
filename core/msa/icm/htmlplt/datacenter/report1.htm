@@ -1,0 +1,261 @@
+﻿<HTML><HEAD><TITLE>网络7层管理和过滤的领导者</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK rel=stylesheet type=text/css href="/icm/publiccss/pubcss.css">
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="/icm/extjs/resources/css/feed-viewer.css" />
+<LINK rel=stylesheet type=text/css href="/icm/extjs/resources/css/xtheme-default.css" id="xthemecss" >
+<script type="text/javascript" src="/icm/extjs/adapter/ext/ext-base.js"></script>
+<SCRIPT type=text/javascript  src="/icm/extjs/ext-all.js"></SCRIPT>
+<script type=text/javascript  src="/icm/publicjs/select_time_st_1.js"></script>
+<script type=text/javascript  src="/icm/publicjs/exportexcel.js"></script>
+
+<style type="text/css">
+.settings {  
+	BACKGROUND-IMAGE: url(/icm/extjs/shared/icons/fam/folder_wrench.png)
+}
+.nav {
+	BACKGROUND-IMAGE: url(/icm/extjs/shared/icons/fam/folder_go.png)
+}
+</style>
+<script type="text/javascript">
+  Ext.BLANK_IMAGE_URL = '/icm/extjs/resources/images/default/s.gif';
+  var xtzystore;
+  var pagesize;
+	pagesize=100;
+	function find(){		    
+		    if(timeA.value=='' && timeB.value=='' && user.value==''){
+		    	//alert("请选择上线时间范围");
+		    	Ext.Msg.alert("提示","请输入查询条件!");
+		    }else if(timeA.value>timeB.value){
+		    	Ext.Msg.alert("提示","开始时间不能大于结束时间！");   	
+		    }else if(timeA.value!='' && timeB.value!='' && user.value==''){
+		      xtzystore.baseParams={Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value};
+			    xtzystore.load({params:{Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value,start:0,limit:pagesize}});
+		    }else if(timeA.value=='' && timeB.value=='' && user.value!=''){
+		      xtzystore.baseParams={Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value};
+			    xtzystore.load({params:{Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value,start:0,limit:pagesize}});
+	      }else if(timeA.value!='' && timeB.value!='' && user.value!=''){
+	      	xtzystore.baseParams={Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value};
+			    xtzystore.load({params:{Fun:'icmSystemListSearch',time1:timeA.value,time2:timeB.value,user:user.value,start:0,limit:pagesize}});
+	      }
+	     }
+	  
+  xtzystore = new Ext.data.JsonStore({
+        root: 'Results',
+        totalProperty: 'totalCount',
+        url:'/icm/main.xp',
+				baseParams:{Fun:'icmSystemListSearch'},//该函数列出相应记录
+        fields: [
+        {name: 'logid'},
+        {name: 'username'},
+				{name: 'online_time'},
+        {name: 'offline_time'},
+        {name: 'net_ip'},
+        {name: 'net_mac'},
+        {name: 'net_face'}]
+    });
+    
+	//xtzystore.load();
+	
+	Ext.onReady(function(){
+	   Ext.QuickTips.init();
+     var detailEl;
+     var win;
+	 	 var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+		 myMask.show();
+		 HlPagingToolbar = Ext.extend(Ext.PagingToolbar, { 
+    		displayInfo: true, 
+    		displayMsg: '显示第 {0} 条到 {1} 条报告，共 {2} 条', 
+    		emptyMsg: "无记录", 
+    		initComponent : function(){ 
+    		var pageSizeItems = [ 
+                     '-','每页', 
+                     this.inputItem = new Ext.form.NumberField({ 
+                     cls: 'x-tbar-page-number', 
+                     allowDecimals: false, 
+                     allowNegative: false, 
+                     enableKeyEvents: true,
+                     maxValue: 500, 
+                     maxText: '每页不允许超过500条', 
+                     selectOnFocus: true, 
+                     value: this.pageSize, 
+                     submitValue: false, 
+                     listeners: { 
+                        scope: this, 
+                        keydown: this.onHlPagingKeyDown, 
+                        blur: this.onHlPagingBlur 
+                        } 
+                     }),'条','-',{
+                        icon: '/icm/images/grid.png',
+                        enableToggle:true,
+                        text: '导出报表到Excel',
+                        cls: 'x-btn-text-icon details',
+                        toggleHandler: function(btn, pressed){
+                        downloadViewDataActive(xtzygrid);
+                        }
+                     },'-']; 
+        var userItems = this.items || []; 
+        this.items = userItems.concat(pageSizeItems); 
+        HlPagingToolbar.superclass.initComponent.call(this);
+        }, 
+			  onHlPagingKeyDown: function(field, e){ 
+					         if(field.isValid()){ 
+					            var k = e.getKey(); 
+					             if(k == e.RETURN) { 
+					                e.stopEvent(); 
+					                this.pageSize = field.getValue(); 
+					                pagesize=this.pageSize;
+					                this.doRefresh(); 
+					             } 
+					        } 
+				 }, 
+				onHlPagingBlur: function(field){ 
+					        if(field.isValid()){ 
+					            this.pageSize = field.getValue(); 
+					            pagesize=this.pageSize;
+					            this.doRefresh(); 
+					        } 
+					    } 
+		 });
+		 var pagingBar= new HlPagingToolbar({
+        store: xtzystore,
+        pageSize: pagesize,
+        displayInfo: true}); 
+		 var xtzygrid = new Ext.grid.GridPanel({
+        store:xtzystore, 
+        bbar: new Ext.StatusBar({
+                      id: 'centerstatus',
+                      defaultText: 'Ready',
+                      defaultIconCls: 'default-icon',
+                      iconCls: 'ready-icon'
+        }),
+		    viewConfig:{forceFit: true, scrollOffset: 0},
+        columns: [
+            {id:'name',header: "登录名", width:80, sortable: true, dataIndex: 'logid'},
+            {header: "用户名",  width: 100, sortable: true,  dataIndex: 'username'},
+			      {header: "上线时间",  width: 100, sortable: true,  dataIndex: 'online_time'},
+			      {header: "离线时间",  width: 100, sortable: true,  dataIndex: 'offline_time'},
+			      {header: "上线时IP",  width: 100, sortable: true,  dataIndex: 'net_ip'},
+			      {header: "上线时MAC",  width: 100, sortable: true,  dataIndex: 'net_mac'},
+            {header: "上线时网络接入端口",    width:100, sortable: true,  dataIndex: 'net_face'}
+        ],
+        tbar: pagingBar,
+        stripeRows: true,
+        autoExpandColumn: 'name',
+        height:screen.height-150,
+        title:'终端上下线查询记录列表',
+        frame:true,
+        collapsible:true,
+        loadMask:{msg:'正在加载数据，请稍侯……'},
+        draggable:true
+
+     });  
+		 
+	var northPanelTop = new Ext.Panel({
+    frame:true,
+    region:'north',
+    title: '终端上下线列表',
+    collapsible:true,
+    contentEl:'north'
+  });
+    
+  var mainPanel={
+      id: 'main-panel',
+      region:'center',
+      collapsible: true,
+      split:true,
+      width: 135,
+      minSize: 125,
+      maxSize: 400,
+      layout:'fit',
+      margins:'0 5 0 0',
+      items:[xtzygrid]
+  };
+	new Ext.Viewport({
+		layout: 'border',
+		items: [northPanelTop,mainPanel],
+		renderTo: Ext.getBody()
+	});
+	myMask.hide();
+  
+  });
+
+</script>
+</head>
+</head>
+<body>
+<DIV style="DISPLAY: none">
+<DIV id=north>
+        <input type="hidden" class=inputf0  id="stime" name="stime" maxlength="24" value="">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr> 
+    <td> 
+         <table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+				    <td width="50">  &nbsp;</td>
+				     <td>  &nbsp;</td>
+				  </tr>
+				<tr>
+				     <td width="50">  &nbsp;</td>
+				    <td>提示：根据您所选择的条件进行查询，查询后系统将列出此范围的记录</td>
+				  </tr>
+        <table border="0" cellspacing="0" cellpadding="0"  align="left" valign="top" >
+          <div id="plabel"  align="left">      	 
+          	  <!--tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" >
+                选择上线时间段：
+             </td>
+             </tr--> 
+          	 
+             <tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" >
+                上线时间段：
+                <input type="text" id="timeA" name="timeA" class=inputf0 size="20" maxlength="32" readonly="true" values="" onfocus=setday(timeA) >
+                至 
+                <input type="text" id="timeB" name="timeB" class=inputf0 size="20" maxlength="32" readonly="true" values="" onfocus=setday(timeB) >
+             </td>
+             </tr>            
+             <!--tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" > 
+              	&nbsp;&nbsp;时间2：
+                <input type="text" id="time2" class=inputf0 size="20" maxlength="32" values="" onfocus=setday(time2) >
+             </td>
+             </tr-->
+             
+             <tr valign="top" > 
+              <td width="50" > 
+                <div align="center">&nbsp;</div>
+              </td>
+              <td  height="20"  align="left" valign="top" > 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户名：
+                <input type="text" id="user" class=inputf0 size="20" maxlength="32" values="" >
+             </td>
+             </tr>     
+                   		
+             <tr> 
+              <td height="50">&nbsp; </td>
+              <td height="20">
+                <input type="button"   class=inputf0 border="0" value="开始查询" onClick="find();" >  
+              </td>
+            </tr>
+          </div>
+        </table>    
+    </td>
+  </tr>
+</table>
+ </div>
+</div>
+</body>
+</html>
+
+ 
+

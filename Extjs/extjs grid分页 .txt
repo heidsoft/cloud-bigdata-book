@@ -1,0 +1,433 @@
+在extjs中，类Ext.PagingToolbar封装了关于分页的操作，该类从Toolbar继承而来，单从名字上看，我们也猜得出这是一个能够处理分页的工具栏。好吧，那我们就来看看如何构造这样一个工具栏吧。PagingToolbar类的构造函数需要一个json对象来进行配置，在js中，使用json对象来提供所需参数非常方便，这样使得我们可以只填写感兴趣的参数，并且不必关心参数的顺序。我们的分页工具栏常用的配置参数包括：
+
+　　pageSize：每页显示的记录数，默认是20。
+
+　　store：这个和grid里边的store参数是一样的，因为分页也需要和数据打交道，所以需要这个参数。
+
+　　displayMsg：显示的分页状态信息，例如“第{0}-第{1}条，一共{2}条"，注意一定要有大括号括起来的0，1，2，分别代表当前页的开始，结束，还有全部的记录数，其它的字自己随便写吧，只要读起来通顺就可以了，该信息会显示在分页工具栏的右侧。
+
+　　displayInfo：是否显示displayMsg，默认是不显示。
+
+　　emptyMsg：没有记录时显示的文本。
+
+　　items：要在工具栏上显示的项，我们在构造之后再来看一下都可以有哪些项。
+
+　　好了，现在可以构造我们的分页工具栏了，不过因为我们的参数里边需要一个Store类的对象，所以我们先来构造它：
+
+　1var　store　=　new　Ext.data.JsonStore({
+
+　2　　　　　　　　root:　'topics',
+
+　3　　　　　　　　totalProperty:　'totalCount',
+
+　4　　　　　　　　idProperty:　'threadid',
+
+　5　　　　　　　　remoteSort:　true,
+
+　6
+
+　7　　　　　　　　fields:　[
+
+　8　　　　　　　　　　　　'title',　'forumtitle',　'forumid',　'author',
+
+　9　　　　　　　　　　　　{　name:　'replycount',　type:　'int'　},
+
+10　　　　　　　　　　　　{　name:　'lastpost',　mapping:　'lastpost',　type:　'date',　dateFormat:　'timestamp'　},
+
+11　　　　　　　　　　　　'lastposter',　'excerpt'
+
+12　　　　　　　　],
+
+13
+
+14　　　　　　　　//　因为跨域，所以使用ScriptTagProxy，在同一个域里边用HttpProxy
+
+15　　　　　　　　proxy:　new　Ext.data.ScriptTagProxy({
+
+16　　　　　　　　　　　　url:　'http://extjs.com/forum/topics-browse-remote.php'
+
+17　　　　　　　　})
+
+18　　　　});
+
+
+　这一次，我们使用了JsonStore类来构造所需要的Store对象，顾名思义，这是用来转化son格式的数据的。另外我们是从外部服务器来获取数据，所以代码相对于原来从数组里边获得数据要复杂一些，我们来看看用到的那些参数的意义：
+
+　　root：包含数据行集合的属性名字。
+
+　　totalProperty：表示数据集中全部记录数的属性名字，只有在分页的时候才需要。
+
+　　idProperty：数据行中用来作为标识的属性的名字。
+
+　　remoteSort：排序的时候是否通过proxy获得新的数据，默认是false。
+
+　　fields：上一个系列里边提到过。这里多了一个mapping，它是将数据里边的名字映射成封装后的Record字段的名字，名字相同的时候，可以忽略。
+
+　　proxy：数据的来源。在这里，我们只需要知道我们的数据是从url指明的地址获得的，因为这个地址是跨域的，所以使用ScriptTagProxy。
+
+　　需要注意的是，从服务器返回的数据必须具有如下的格式：
+
+{
+
+　　　　"totalCount":10000,　//对应totalProperty属性的值
+
+　　　　"topics":[　　　　　　　　　　　　　　　　　//对应root户型的值
+
+　　　　　　　　　　　　//这里是json对象的集合，每一个对象的属性
+
+　　　　　　　　　　　　//需要和fields里边name属性的值对应
+
+　　　　　　　　　　　　//观察url返回给我们的数据可以更清楚的看明白这一点
+
+　　　　　　]
+
+}
+
+　　接下来就是构造我们的分页工具栏了：
+
+　1var　pagingToolbar　=　new　Ext.PagingToolbar({
+
+　2　　　　　　　　pageSize:　25,
+
+　3　　　　　　　　store:　store,
+
+　4　　　　　　　　displayInfo:　true,
+
+　5　　　　　　　　displayMsg:　'Displaying　topics　{0}　-　{1}　of　{2}',
+
+　6　　　　　　　　emptyMsg:　"一篇文章也没有",
+
+　7　　　　　　　　items:　[
+
+　8　　　　　　　　　　　　　　　　'-',　{
+
+　9　　　　　　　　　　　　　　　　　　　　pressed:　true,
+
+10　　　　　　　　　　　　　　　　　　　　enableToggle:　true,
+
+11　　　　　　　　　　　　　　　　　　　　text:　'Show　Preview',
+
+12　　　　　　　　　　　　　　　　　　　　cls:　'x-btn-text-icon　details',
+
+13　　　　　　　　　　　　　　　　　　　　toggleHandler:　function(btn,　pressed)　{
+
+14　　　　　　　　　　　　　　　　　　　　　　　　var　view　=　grid.getView();
+
+15　　　　　　　　　　　　　　　　　　　　　　　　view.showPreview　=　pressed;
+
+16　　　　　　　　　　　　　　　　　　　　　　　　view.refresh();
+
+17　　　　　　　　　　　　　　　　　　　　}
+
+18}]
+
+19　　　　});
+
+
+(不知道vs2008的格式化功能为什么把第18行的括号给放在最靠左边的位置，望哪位朋友知道解决的方法告知一下。)
+
+　　items是工具栏上项的集合，默认的类型是按钮。我们这里只用到了两项，“-”代表分隔符，第二项就是一个button，我们来看看其中每个属性都表示什么：
+
+　　pressed：表示按钮在开始的时候是否被按下，只有enableToggle为真的时候才有用。
+
+　　enableToggle：指示button是否能处于被按下的状态。
+
+　　text：按钮上显示的文本。
+
+　　cls：按钮的css类。
+
+　　toggleHander：设置enableToggle为true时点击按钮时的事件处理函数。
+
+　　是时候把分页工具栏和grid组合在一起了，这次我们的grid没有使用ColumnModel而是使用columns属性，同时我们使用了viewConfig来对用户界面进行配置，看下完整的代码吧：
+
+　　1///<reference　path="vswd-ext_2.0.2.js"　/>
+
+　　2/**//*
+
+　　3*作者：大笨
+
+　　4*日期：2009-10-13
+
+　　5*版本：1.0
+
+　　6*博客地址：http://yage.cnblogs.com
+
+　　7*/
+
+　　8Ext.BLANK_IMAGE_URL　=　'../extjs/resources/images/default/s.gif';
+
+　　9Ext.onReady(function()　{
+
+　10　　　　//构造store
+
+　11　　　　var　store　=　new　Ext.data.JsonStore({
+
+　12　　　　　　　　root:　'topics',
+
+　13　　　　　　　　totalProperty:　'totalCount',
+
+　14　　　　　　　　idProperty:　'threadid',
+
+　15　　　　　　　　remoteSort:　true,
+
+　16
+
+　17　　　　　　　　fields:　[
+
+　18　　　　　　　　　　　　'title',　'forumtitle',　'forumid',　'author',
+
+　19　　　　　　　　　　　　{　name:　'replycount',　type:　'int'　},
+
+　20　　　　　　　　　　　　{　name:　'lastpost',　mapping:　'lastpost',　type:　'date',　dateFormat:　'timestamp'　},
+
+　21　　　　　　　　　　　　'lastposter',　'excerpt'
+
+　22　　　　　　　　],
+
+　23
+
+　24　　　　　　　　//　因为跨域，所以使用ScriptTagProxy，在同一个域里边用HttpProxy
+
+　25　　　　　　　　proxy:　new　Ext.data.ScriptTagProxy({
+
+　26　　　　　　　　　　　　url:　'http://extjs.com/forum/topics-browse-remote.php'
+
+　27　　　　　　　　})
+
+　28　　　　});
+
+　29
+
+　30　　　　store.setDefaultSort("lastpost",　"DESC");　　//设置默认的排序列和方向
+
+　31
+
+　32　　　　//构造带分页功能的工具栏
+
+　33　　　　var　pagingToolbar　=　new　Ext.PagingToolbar({
+
+　34　　　　　　　　pageSize:　25,
+
+　35　　　　　　　　store:　store,
+
+　36　　　　　　　　displayInfo:　true,
+
+　37　　　　　　　　displayMsg:　'第{0}-第{1}条，一共{2}条',
+
+　38　　　　　　　　emptyMsg:　"No　topics　to　display",
+
+　39　　　　　　　　items:　[
+
+　40　　　　　　　　　　　　　　　　'-',　{
+
+　41　　　　　　　　　　　　　　　　　　　　pressed:　true,
+
+　42　　　　　　　　　　　　　　　　　　　　enableToggle:　true,
+
+　43　　　　　　　　　　　　　　　　　　　　text:　'预览',
+
+　44　　　　　　　　　　　　　　　　　　　　cls:　'x-btn-text-icon　details',
+
+　45　　　　　　　　　　　　　　　　　　　　toggleHandler:　function(btn,　pressed)　{
+
+　46　　　　　　　　　　　　　　　　　　　　　　　　var　view　=　grid.getView();
+
+　47　　　　　　　　　　　　　　　　　　　　　　　　view.showPreview　=　pressed;
+
+　48　　　　　　　　　　　　　　　　　　　　　　　　view.refresh();
+
+　49　　　　　　　　　　　　　　　　　　　　}
+
+　50}]
+
+　51　　　　});
+
+　52
+
+　53　　　　//构造带有分页工具栏的grid
+
+　54　　　　var　grid　=　new　Ext.grid.GridPanel({
+
+　55　　　　　　　　renderTo:"grid",
+
+　56　　　　　　　　width:　700,
+
+　57　　　　　　　　height:　500,
+
+　58　　　　　　　　title:　'带分页功能的grid',
+
+　59　　　　　　　　store:　store,
+
+　60　　　　　　　　trackMouseOver:　false,
+
+　61　　　　　　　　disableSelection:　true,
+
+　62　　　　　　　　loadMask:　true,
+
+　63
+
+　64　　　　　　　　//　grid的列
+
+　65　　　　　　　　columns:　[{
+
+　66　　　　　　　　　　　　id:　'topic',
+
+　67　　　　　　　　　　　　header:　"主题",
+
+　68　　　　　　　　　　　　dataIndex:　'title',
+
+　69　　　　　　　　　　　　width:　420,
+
+　70　　　　　　　　　　　　renderer:　renderTopic,
+
+　71　　　　　　　　　　　　sortable:　true
+
+　72　　　　　　　　},　{
+
+　73　　　　　　　　　　　　header:　"作者",
+
+　74　　　　　　　　　　　　dataIndex:　'author',
+
+　75　　　　　　　　　　　　width:　100,
+
+　76　　　　　　　　　　　　hidden:　true,
+
+　77　　　　　　　　　　　　sortable:　true
+
+　78　　　　　　　　},　{
+
+　79　　　　　　　　　　　　header:　"回复数",
+
+　80　　　　　　　　　　　　dataIndex:　'replycount',
+
+　81　　　　　　　　　　　　width:　70,
+
+　82　　　　　　　　　　　　align:　'right',
+
+　83　　　　　　　　　　　　sortable:　true
+
+　84　　　　　　　　},　{
+
+　85　　　　　　　　　　　　id:　'last',
+
+　86　　　　　　　　　　　　header:　"最后回复",
+
+　87　　　　　　　　　　　　dataIndex:　'lastpost',
+
+　88　　　　　　　　　　　　width:　150,
+
+　89　　　　　　　　　　　　renderer:　renderLast,
+
+　90　　　　　　　　　　　　sortable:　true
+
+　91}],
+
+　92
+
+　93　　　　　　　　　　　　//　定制用户界面
+
+　94　　　　　　　　　　　　viewConfig:　{
+
+　95　　　　　　　　　　　　　　　　forceFit:　true,
+
+　96　　　　　　　　　　　　　　　　enableRowBody:　true,
+
+　97　　　　　　　　　　　　　　　　showPreview:　true,
+
+　98　　　　　　　　　　　　　　　　getRowClass:　function(record,　rowIndex,　p,　store)　{
+
+　99　　　　　　　　　　　　　　　　　　　　if　(this.showPreview)　{
+
+100　　　　　　　　　　　　　　　　　　　　　　　　p.body　=　'<p>'　+　record.data.excerpt　+　'</p>';
+
+101　　　　　　　　　　　　　　　　　　　　　　　　return　'x-grid3-row-expanded';
+
+102　　　　　　　　　　　　　　　　　　　　}
+
+103　　　　　　　　　　　　　　　　　　　　return　'x-grid3-row-collapsed';
+
+104　　　　　　　　　　　　　　　　}
+
+105　　　　　　　　　　　　},
+
+106　　　　　　　　　　　　
+
+107　　　　　　　　　　　　//在顶部的分页工具栏
+
+108　　　　　　　　　　　　//tbar:　pagingToolbar,
+
+109　　　　　　　　　　　　
+
+110　　　　　　　　　　　　//　在底部的分页工具栏
+
+111　　　　　　　　　　　　bbar:　pagingToolbar
+
+112　　　　　　　　});
+
+113
+
+114　　　　　　　　//　加载数据
+
+115　　　　　　　　store.load({　params:　{　start:　0,　limit:　25}　});
+
+116
+
+117　　　　　　　　//　主题列的renderer函数
+
+118　　　　　　　　function　renderTopic(value,　p,　record)　{
+
+119　　　　　　　　　　　　return　String.format(
+
+120　　　　　　　　　　　　　　　　'<b><a　href="http://extjs.com/forum/showthread.php?t={2}"　target="_blank">{0}</a></b><a　href="http://extjs.com/forum/forumdisplay.php?f={3}"　target="_blank">{1}　Forum</a>',
+
+121　　　　　　　　　　　　　　　　value,　record.data.forumtitle,　record.id,　record.data.forumid);
+
+122　　　　　　　　}
+
+123　　　　　　　　//最后回复列的renderer函数
+
+124　　　　　　　　function　renderLast(value,　p,　r)　{
+
+125　　　　　　　　　　　　return　String.format('{0}<br/>by　{1}',　value.dateFormat('M　j,　Y,　g:i　a'),　r.data['lastposter']);
+
+126　　　　　　　　}
+
+127　　　　})
+
+
+第8行使用了图片占位符，它指向的图片是一张空图片。在extjs的库文件中，根据需要会把这个图片占位符替换成另一张图片，在我们的例子中，如果去掉这一行，影响不会太大，只是标题栏中“最后回复”旁边向下的小箭头会不见了。我们还是养成把这一行写上的习惯吧。
+
+　　11-28行构造了一个Store类的对象，这个没什么好说的了。
+
+　　第30行设置lastpost列为默认排序的列，并且是按降序排列，注意“DESC"必须是大写，升序是“ASC”。
+
+33-51行构造带分页的工具栏，前边都已经说过了。
+
+　　54-112行构造带有分页功能的grid。
+
+　　其中第60行指示鼠标在行上悬浮时行不会高亮显示。
+
+　　61行指示用户不能对grid进行选择。
+
+　　62行指示在加载数据的时候遮盖住页面，我们可以在截图上看到效果，不过还是推荐自己运行看下效果，毕竟这里显示的是动画。当数据加载完毕之后遮盖效果消失。
+
+　　94-105行设置用户界面，我们看看每个参数的意义：
+
+　　forceFit：是否强制列调整宽度使得不出现水平滚动条，默认是false。
+
+　　enableRowBody：为true的时候允许每行增加一个tr元素用来扩展数据行。
+
+　　showPreview：自定义的bool类型的属性，用来在代码中控制是否显示预览。
+
+　　getRowClass：这是一个方法，用来改写行的css样式，它有四个参数，第一个是代表该行数据的Record对象，第二个是行的索引，第三个就是enableRowBody设置true时传递进来的
+
+　　　 　 　 　 　 　 　 　 　 　 　 　 　 　 　 　 　 　 参数，可以通过该参数的body属性扩展行数据。该方法应当返回一个css类名。我们的例子中，根据showPreview的值来动态显示文章的摘要信息。
+
+　　111行将分页工具栏显示在grid底部，如果想显示在顶部可以用tbar来代替bbar。
+
+　　115行向服务器发出请求获取数据，extjs会以post方式将params中的参数发送给服务器，其中start指明从地几条数据开始，limit则表示每页显示多少数据。
+
+　　118到126是两个renderer函数，在上一个系列中已经解释过用法了。
+
+　　最后要指出的是，分页的功能其实还是在服务器端完成的。当在客户端进行翻页的时候，会和115行一样提交参数，我们需要在服务器端根据传递过来的star 和limit的值来计算出应当返回的数据并且按照正确的格式来发送给客户端。
+

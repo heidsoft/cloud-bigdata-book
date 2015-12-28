@@ -1,8 +1,8 @@
-°²×°msmtp
+å®‰è£…msmtp
 wget http://ncu.dl.sourceforge.net/project/msmtp/msmtp/1.4.18/msmtp-1.4.18.tar.bz2
 
 
-ÏÂÔØµÄÊÇmsmtp1.4.18°æ±¾£¬¶ø²»ÊÇ×îĞÂµÄ£¬×îĞÂµÄ°æ±¾ÔÚ±àÒëÊ±±¨´í£¬Ò»Ê±²»ÄÜ½â¾ö£¬µ«ÊÇ1.4.18°æ±¾µ¹ÊÇÕı³£¡£
+ä¸‹è½½çš„æ˜¯msmtp1.4.18ç‰ˆæœ¬ï¼Œè€Œä¸æ˜¯æœ€æ–°çš„ï¼Œæœ€æ–°çš„ç‰ˆæœ¬åœ¨ç¼–è¯‘æ—¶æŠ¥é”™ï¼Œä¸€æ—¶ä¸èƒ½è§£å†³ï¼Œä½†æ˜¯1.4.18ç‰ˆæœ¬å€’æ˜¯æ­£å¸¸ã€‚
 
 tar xjvf msmtp-1.4.18.tar.bz2
 cd msmtp-1.4.18
@@ -20,18 +20,18 @@ vi /usr/local/msmtp/etc/msmtprc
 [root@db2 msmtp]# cat ./etc/msmtprc
 account default
 host smtp.163.com
-from shhdtsoft@163.com
+from test@163.com
 auth login
 port 25
-user shhdtsoft@163.com
-password daizheng
+user test@163.com
+password test
 tls off
 syslog on
 
  
-Ò»°ãÏµÍ³°²×°ºÃÖ®ºó»á×Ô´ømutt
-muttµÄÉèÖÃ
-¼Ç×¡ÔÚÓÃ»§Ä¿Â¼ÏÂ´´½¨ÎÄ¼ş .muttrc
+ä¸€èˆ¬ç³»ç»Ÿå®‰è£…å¥½ä¹‹åä¼šè‡ªå¸¦mutt
+muttçš„è®¾ç½®
+è®°ä½åœ¨ç”¨æˆ·ç›®å½•ä¸‹åˆ›å»ºæ–‡ä»¶ .muttrc
  
 #cd ~
 #vi .muttrc
@@ -41,8 +41,8 @@ set from=shhdtsoft@163.com
 set envelope_from=yes
 
  
-ÅäÖÃmutt:
-(±àĞ´ÔÚÒ»ĞĞ)
+é…ç½®mutt:
+(ç¼–å†™åœ¨ä¸€è¡Œ)
 vim /etc/Muttrc.local
 
 msmtp --host=smtp.163.com --domain=163.com --auth=plain --user=shhdtsoft -f=shhdtsoft@163.com -t shhdtsoft@163.com -d 
@@ -50,15 +50,15 @@ msmtp --host=smtp.163.com --domain=163.com --auth=plain --user=shhdtsoft -f=shhd
  
 
  
-²âÊÔÒ»ÏÂ£º
+æµ‹è¯•ä¸€ä¸‹ï¼š
 #mutt -s "hello" heidsoft@yeah.net
-·¢ËÍ´ÅÅÌĞÅÏ¢µ½email
+å‘é€ç£ç›˜ä¿¡æ¯åˆ°email
 #df -h | mutt -s "Disk Info" 123@gmail.com -c 12312@163.com
 
  
-È¥ÓÊÏä¿´¿´ÊÇ·ñÒÑ¾­ÊÕµ½ÓÊ¼ş£¬Ò²ÓĞ¿ÉÄÜÈ¥ÁËÀ¬»øÏä¡£
+å»é‚®ç®±çœ‹çœ‹æ˜¯å¦å·²ç»æ”¶åˆ°é‚®ä»¶ï¼Œä¹Ÿæœ‰å¯èƒ½å»äº†åƒåœ¾ç®±ã€‚
 
  
-²âÊÔ³É¹¦£¬¿ÉÒÔ½«½Å²½×Ô¶¯ÔËĞĞ
+æµ‹è¯•æˆåŠŸï¼Œå¯ä»¥å°†è„šæ­¥è‡ªåŠ¨è¿è¡Œ
 crontab -e
 00 09 * * * * df -h | mutt -s "Disk Info" 123@gmail.com -c 12312@163.com 

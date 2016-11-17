@@ -1,1 +1,0 @@
-gcc -o test test1.c -I/usr/local/mysql/include/mysql -I../ ../mysql/ltmysql.a /usr/local/mysql/lib/mysql/libmysqlclient.a -lz

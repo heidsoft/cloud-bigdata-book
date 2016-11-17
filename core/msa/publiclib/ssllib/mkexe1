@@ -1,1 +1,0 @@
-gcc -o testHttpCom testHttpCom.c  ssllib.a  -L/usr/lib  -lssl -lcrypto -I/app/ns/v2008/publiclib/include /app/ns/v2008/publiclib/lib/publib.a

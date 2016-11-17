@@ -1,9 +1,0 @@
-#ifndef __LTPUBFUN__
-#define __LTPUBFUN__
-
-#include "ltsecurity.h"
-#include "ltcomm.h"
-
-
-#endif
-

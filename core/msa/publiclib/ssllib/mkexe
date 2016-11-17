@@ -1,1 +1,0 @@
-gcc -o uinfolist uinfolist.c  ssllib.a  -L/usr/lib  -lssl -lcrypto

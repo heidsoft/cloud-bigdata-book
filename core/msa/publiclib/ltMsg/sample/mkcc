@@ -1,1 +1,0 @@
-cc  -c -g -DLINUX_DEF  -I../include  -o $1.o  $1.c 

@@ -1,1 +1,0 @@
-gcc -o testmsg testmsg.c -I../../include ../../lib/lt.a 

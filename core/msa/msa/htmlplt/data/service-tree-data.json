@@ -1,9 +1,0 @@
-﻿[
-  {
-      text:'设备部署',
-      iconCls: 'feed-icon',
-      cls:'feed',
-      id:'disposition',
-      leaf:true
-	}
-]

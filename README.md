@@ -37,6 +37,12 @@
 ##第八章 工作流
 * [纵观jBPM：从jBPM3到jBPM5以及Activiti5](http://www.infoq.com/cn/articles/rh-jbpm5-activiti5)
 
+##DevOps日志
+* [2016-11-07](./2016-11-07.md)
+* [2016-11-10](./2016-11-10.md)
+* [2016-11-11](./2016-11-11.md)
+
+
 ##参考资料
 - http://www.csdn.net/article/2014-03-26/2818977-Cloud-BigData-Teradata
 - http://www.mkyong.com/maven/how-to-create-a-web-application-project-with-maven/

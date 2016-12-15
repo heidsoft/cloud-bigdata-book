@@ -1,0 +1,45 @@
+Linux操作系统下Telnet的设置方法介绍
+
+Telnet服务的配置步骤如下: 
+一、安装telnet软件包(通常要两个） 
+1、 telnet-client (或 telnet)，这个软件包提供的是 telnet 客户端程序； 
+2、 telnet-server ，这个软件包提供的是 telnet 端程序； 
+安装之前先检测是否这些软件包已安装，方法如下： 
+[root@echo root]#rpm –q telnet或[root@wljs root]#rpm –q telnet-client 
+[root@echo root]#rpm –q telnet-server 
+如果没有检测到软件包，需要进行安装，red hat 9默认已安装了telnet软件包，一般只要安装telnet-server软件包。 
+1、在red hat linux 9的安装盘3中获取telnet-server-0.17-25.i386.rpm软件包。 
+2、安装软件包 
+[root@echo root]#rpm –i telnet-server-0.17-25.i386.rpm 
+二、启动telnet服务 
+1、开启服务 
+方法一：使用ntsysv,在出现的窗口之中，将 telnet前面*加上，然后按下 OK 。 
+方法二：编辑 /etc/xinetd.d/telnet 
+[root@echo root]# vi /etc/xinetd.d/telnet 
+找到 disable = yes 将 yes 改成 no 。 
+2、激活服务 
+[root@echo root]# service xinetd restart 
+三、服务 
+[root@echo root]#telnet ip(或者hostname） 
+如果配置正确，系统提示输入远程机器的用户名和密码 
+Login: 
+Password: 
+注：默认只允许普通用户 
+四、设置telnet端口 
+#vi /etc/services 
+进入编辑模式后查找telnet(vi编辑方式下输入/telnet) 
+会找到如下内容： 
+telnet 23/tcp 
+telnet 23/udp 
+将23修改成未使用的端口号(如：2000)，退出vi，重启telnet服务，telnet默认端口号就被修改了。 
+五、Telnet服务限制 
+telnet是明文传送口令和数据的，如果你对其默认的设置不满意，有必要对其服务范围进行限制。
+六、Telnet root用户的登入 
+Telnet 不是很，默认的情况之下不允许 root 以 telnet 进入 Linux 主机 。若要允许root用户登入，可用下列方法： 
+[root @echo /root]# vi /etc/pam.d/login 
+#auth required pam_securetty.so #将这一行加上注释！ 
+或 
+[root@echo root]# mv /etc/securetty /etc/securetty.bak 
+这样， root 就可以直接进入 Linux 主机了。不过，建议不要这样做。也可以在普通用户进入后，切换到root用户,拥有root的权限。 
+注：在我的FC4里不用安装Telnet,因为已经有了krb5-telnet.直接进入第二步 
+vi /etc/xinetd.d/krb5-telnet 就可以了。 

@@ -1,0 +1,73 @@
+<ul>
+  <li>name: Start application
+shell: “start-stop-daemon –start –quiet –pidfile /var/run/test –exec /tmp/test.sh”
+args:
+  executable: “/bin/bash”</li>
+</ul>
+
+<p>http://www.361way.com/ansible-playbook-example/4441.html
+# cat user.yml
+- name: create user
+  hosts: all
+  user: root
+  gather_facts: false
+  vars:
+  - user: “test”
+  tasks:
+  - name: create  user
+    user: name=””</p>
+
+<h1 id="cat-updatebashyml">cat update_bash.yml</h1>
+<ul>
+  <li>hosts: all
+remote_user: root
+gather_facts: True
+tasks:
+    <ul>
+      <li>name: update bash in redhat 6 version
+yum: name=http://mirrors.aliyun.com/centos/6.6/os/x86_64/Packages/bash-4.1.2-29.el6.x86_64.rpm.rpm state=present
+when: ansible_os_family == “RedHat” and ansible_distribution_version|int &gt;=6</li>
+      <li>name: update bash in redhat 5 version
+yum: name=http://mirrors.hustunique.com/centos/5/updates/x86_64/RPMS/bash-3.2-33.el5.1.x86_64.rpm state=present
+when: ansible_os_family == “RedHat” and ansible_distribution_version|int &lt;=5</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="cat-etcansibleplaybookinstallwebyml">cat /etc/ansible/playbook/install_web.yml</h1>
+<ul>
+  <li>hosts: webservers
+remote_user: root
+gather_fasks: False
+vars:
+  packages: httpd
+tasks:
+    <ul>
+      <li>name: Install httpd
+yum: name= state=present</li>
+      <li>name: Cofiguration httpd
+copy: src=/root/httpd.conf dest=/etc/httpd/conf/httpd.conf
+tags: httpd_conf
+  notify:
+        <ul>
+          <li>restart httpd</li>
+        </ul>
+      </li>
+      <li>name: Start httpd
+service: name=httpd state=started enabled=no
+tags: start</li>
+      <li>name:Add centos user
+user: name= state=absent
+tags: adduser
+with_items:
+        <ul>
+          <li>centos</li>
+          <li>admin
+handlers:</li>
+        </ul>
+      </li>
+      <li>name: restart httpd
+service: name=httpd state=restart</li>
+    </ul>
+  </li>
+</ul>

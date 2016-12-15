@@ -1,0 +1,34 @@
+<h1 id="sshd">sshd</h1>
+<p>#
+# VERSION               0.0.2</p>
+
+<p>FROM ubuntu:14.04
+MAINTAINER Sven Dowideit <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#083;&#118;&#101;&#110;&#068;&#111;&#119;&#105;&#100;&#101;&#105;&#116;&#064;&#100;&#111;&#099;&#107;&#101;&#114;&#046;&#099;&#111;&#109;">&#083;&#118;&#101;&#110;&#068;&#111;&#119;&#105;&#100;&#101;&#105;&#116;&#064;&#100;&#111;&#099;&#107;&#101;&#114;&#046;&#099;&#111;&#109;</a></p>
+
+<p>RUN apt-get update &amp;&amp; apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo ‘root:screencast’ | chpasswd
+RUN sed -i ‘s/PermitRootLogin without-password/PermitRootLogin yes/’ /etc/ssh/sshd_config</p>
+
+<h1 id="ssh-login-fix-otherwise-user-is-kicked-off-after-login">SSH login fix. Otherwise user is kicked off after login</h1>
+<p>RUN sed ‘s@session\s<em>required\s</em>pam_loginuid.so@session optional pam_loginuid.so@g’ -i /etc/pam.d/sshd</p>
+
+<p>ENV NOTVISIBLE “in users profile”
+RUN echo “export VISIBLE=now” » /etc/profile</p>
+
+<p>EXPOSE 22
+CMD [“/usr/sbin/sshd”, “-D”]</p>
+
+<p>docker build -t eg_sshd .</p>
+
+<p>$ docker run -d -P –name test_sshd eg_sshd
+$ docker port test_sshd 22
+0.0.0.0:49154</p>
+
+<p>$ ssh root@192.168.1.2 -p 49154
+# The password is <code class="highlighter-rouge">screencast</code>.
+$$</p>
+
+<p>$ docker stop test_sshd
+$ docker rm test_sshd
+$ docker rmi eg_sshd</p>

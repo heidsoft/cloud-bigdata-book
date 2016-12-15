@@ -1,0 +1,228 @@
+RSA算法基础实践
+
+
+<一>基础
+
+RSA算法非常简单，概述如下：
+找两素数p和q
+取n=p*q
+取t=(p-1)*(q-1)
+取任何一个数e,要求满足e<t并且e与t互素（就是最大公因数为1）
+取d*e%t==1
+
+这样最终得到三个数： n  d  e
+
+设消息为数M (M <n)
+设c=(M**d)%n就得到了加密后的消息c 
+设m=(c**e)%n则 m == M，从而完成对c的解密。
+注：**表示次方,上面两式中的d和e可以互换。
+
+在对称加密中：
+n d两个数构成公钥，可以告诉别人；
+n e两个数构成私钥，e自己保留，不让任何人知道。
+给别人发送的信息使用e加密，只要别人能用d解开就证明信息是由你发送的，构成了签名机制。
+别人给你发送信息时使用d加密，这样只有拥有e的你能够对其解密。
+
+rsa的安全性在于对于一个大数n，没有有效的方法能够将其分解
+从而在已知n d的情况下无法获得e；同样在已知n e的情况下无法
+求得d。
+
+
+
+<二>实践
+
+接下来我们来一个实践，看看实际的操作：
+找两个素数：
+p=47
+q=59
+这样
+n=p*q=2773
+t=(p-1)*(q-1)=2668
+取e=63，满足e<t并且e和t互素
+用perl简单穷举可以获得满主 e*d%t ==1的数d：
+C:\Temp>perl -e "foreach $i (1..9999){ print($i),last if $i*63%2668==1 }"
+847
+即d＝847
+
+最终我们获得关键的
+n=2773
+d=847
+e=63
+
+取消息M=244我们看看
+
+加密：
+
+c=M**d%n = 244**847%2773
+用perl的大数计算来算一下：
+C:\Temp>perl -Mbigint -e "print 244**847%2773"
+465
+即用d对M加密后获得加密信息c＝465
+
+解密：
+
+我们可以用e来对加密后的c进行解密，还原M：
+m=c**e%n=465**63%2773 ：
+C:\Temp>perl -Mbigint -e "print 465**63%2773"
+244
+即用e对c解密后获得m=244 , 该值和原始信息M相等。
+
+
+<三>字符串加密
+
+把上面的过程集成一下我们就能实现一个对字符串加密解密的示例了。
+每次取字符串中的一个字符的ascii值作为M进行计算，其输出为加密后16进制
+的数的字符串形式，按3字节表示，如01F
+
+代码如下：
+
+#!/usr/bin/perl -w
+#RSA 计算过程学习程序编写的测试程序
+#watercloud 2003-8-12
+#
+use strict;
+use Math::BigInt;
+
+my %RSA_CORE = (n=>2773,e=>63,d=>847); #p=47,q=59
+
+my $N=new Math::BigInt($RSA_CORE{n});
+my $E=new Math::BigInt($RSA_CORE{e});
+my $D=new Math::BigInt($RSA_CORE{d});
+
+print "N=$N  D=$D  E=$E\n";
+
+sub RSA_ENCRYPT 
+{
+    my $r_mess = shift @_;
+    my ($c,$i,$M,$C,$cmess);
+
+    for($i=0;$i < length($$r_mess);$i++)
+    {
+        $c=ord(substr($$r_mess,$i,1));
+        $M=Math::BigInt->new($c);
+        $C=$M->copy(); $C->bmodpow($D,$N);
+        $c=sprintf "%03X",$C;
+        $cmess.=$c;
+    }
+    return \$cmess;
+}
+
+sub RSA_DECRYPT 
+{
+    my $r_mess = shift @_;
+    my ($c,$i,$M,$C,$dmess);
+
+    for($i=0;$i < length($$r_mess);$i+=3)
+    {
+        $c=substr($$r_mess,$i,3);
+        $c=hex($c);
+        $M=Math::BigInt->new($c);
+        $C=$M->copy(); $C->bmodpow($E,$N);
+        $c=chr($C);
+        $dmess.=$c;
+    }
+    return \$dmess;
+}
+
+my $mess="RSA 娃哈哈哈～～～";
+$mess=$ARGV[0] if @ARGV >= 1;
+print "原始串：",$mess,"\n";
+
+my $r_cmess = RSA_ENCRYPT(\$mess);
+print "加密串：",$$r_cmess,"\n";
+
+my $r_dmess = RSA_DECRYPT($r_cmess);
+print "解密串：",$$r_dmess,"\n";
+
+#EOF
+
+测试一下：
+C:\Temp>perl rsa-test.pl
+N=2773  D=847  E=63
+原始串：RSA 娃哈哈哈～～～
+加密串：5CB6CD6BC58A7709470AA74A0AA74A0AA74A6C70A46C70A46C70A4
+解密串：RSA 娃哈哈哈～～～
+
+
+C:\Temp>perl rsa-test.pl 安全焦点（xfocus）
+N=2773  D=847  E=63
+原始串：安全焦点（xfocus）
+加密串：3393EC12F0A466E0AA9510D025D7BA0712DC3379F47D51C325D67B
+解密串：安全焦点（xfocus）
+
+
+
+<四>提高
+
+前面已经提到，rsa的安全来源于n足够大，我们测试中使用的n是非常小的，根本不能保障安全性，
+我们可以通过RSAKit、RSATool之类的工具获得足够大的N 及D E。
+通过工具，我们获得1024位的N及D E来测试一下：
+
+n=0x328C74784DF31119C526D18098EBEBB943B0032B599CEE13CC2BCE7B5FCD15F90B66EC3A85F5005D
+BDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F017F9CCF1538D4C2013433B383B
+47D80EC74B51276CA05B5D6346B9EE5AD2D7BE7ABFB36E37108DD60438941D2ED173CCA50E114705D7E2
+BC511951
+
+d=0x10001
+
+e=0xE760A3804ACDE1E8E3D7DC0197F9CEF6282EF552E8CEBBB7434B01CB19A9D87A3106DD28C523C2995
+4C5D86B36E943080E4919CA8CE08718C3B0930867A98F635EB9EA9200B25906D91B80A47B77324E66AFF2
+C4D70D8B1C69C50A9D8B4B7A3C9EE05FFF3A16AFC023731D80634763DA1DCABE9861A4789BD782A592D2B
+1965
+
+
+设原始信息
+M=0x11111111111122222222222233333333333
+
+完成这么大数字的计算依赖于大数运算库，用perl来运算非常简单：
+
+A) 用d对M进行加密如下：
+c=M**d%n :
+C:\Temp>perl -Mbigint -e " $x=Math::BigInt->bmodpow(0x11111111111122222222222233
+333333333, 0x10001, 0x328C74784DF31119C526D18098EBEBB943B0032B599CEE13CC2BCE7B5F
+CD15F90B66EC3A85F5005DBDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F0
+17F9CCF1538D4C2013433B383B47D80EC74B51276CA05B5D6346B9EE5AD2D7BE7ABFB36E37108DD6
+0438941D2ED173CCA50E114705D7E2BC511951);print $x->as_hex"
+0x17b287be418c69ecd7c39227ab681ac422fcc84bb35d8a632543b304de288a8d4434b73d2576bd
+45692b007f3a2f7c5f5aa1d99ef3866af26a8e876712ed1d4cc4b293e26bc0a1dc67e247715caa6b
+3028f9461a3b1533ec0cb476441465f10d8ad47452a12db0601c5e8beda686dd96d2acd59ea89b91
+f1834580c3f6d90898
+
+即用d对M加密后信息为：
+c=0x17b287be418c69ecd7c39227ab681ac422fcc84bb35d8a632543b304de288a8d4434b73d2576bd
+45692b007f3a2f7c5f5aa1d99ef3866af26a8e876712ed1d4cc4b293e26bc0a1dc67e247715caa6b
+3028f9461a3b1533ec0cb476441465f10d8ad47452a12db0601c5e8beda686dd96d2acd59ea89b91
+f1834580c3f6d90898
+
+
+
+B) 用e对c进行解密如下：
+
+m=c**e%n ：
+C:\Temp>perl -Mbigint -e " $x=Math::BigInt->bmodpow(0x17b287be418c69ecd7c39227ab
+681ac422fcc84bb35d8a632543b304de288a8d4434b73d2576bd45692b007f3a2f7c5f5aa1d99ef3
+866af26a8e876712ed1d4cc4b293e26bc0a1dc67e247715caa6b3028f9461a3b1533ec0cb4764414
+65f10d8ad47452a12db0601c5e8beda686dd96d2acd59ea89b91f1834580c3f6d90898,  0xE760A
+3804ACDE1E8E3D7DC0197F9CEF6282EF552E8CEBBB7434B01CB19A9D87A3106DD28C523C29954C5D
+86B36E943080E4919CA8CE08718C3B0930867A98F635EB9EA9200B25906D91B80A47B77324E66AFF
+2C4D70D8B1C69C50A9D8B4B7A3C9EE05FFF3A16AFC023731D80634763DA1DCABE9861A4789BD782A
+592D2B1965,  0x328C74784DF31119C526D18098EBEBB943B0032B599CEE13CC2BCE7B5FCD15F90
+B66EC3A85F5005DBDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F017F9CCF
+1538D4C2013433B383B47D80EC74B51276CA05B5D6346B9EE5AD2D7BE7ABFB36E37108DD60438941
+D2ED173CCA50E114705D7E2BC511951);print $x->as_hex"
+0x11111111111122222222222233333333333
+(我的P4 1.6G的机器上计算了约5秒钟）
+
+得到用e解密后的m=0x11111111111122222222222233333333333  == M
+
+
+C) RSA通常的实现
+RSA简洁幽雅，但计算速度比较慢，通常加密中并不是直接使用RSA 来对所有的信息进行加密，
+最常见的情况是随机产生一个对称加密的密钥，然后使用对称加密算法对信息加密，之后用
+RSA对刚才的加密密钥进行加密。
+
+
+最后需要说明的是，当前小于1024位的N已经被证明是不安全的
+自己使用中不要使用小于1024位的RSA，最好使用2048位的。
+
+

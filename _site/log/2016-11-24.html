@@ -1,0 +1,247 @@
+<h5 id="generate-private-key-key">Generate private key (.key)</h5>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="c"># Key considerations for algorithm "RSA" ≥ 2048-bit</span>
+openssl genrsa -out server.key 2048
+    
+<span class="c"># Key considerations for algorithm "ECDSA" ≥ secp384r1</span>
+<span class="c"># List ECDSA the supported curves (openssl ecparam -list_curves)</span>
+openssl ecparam -genkey -name secp384r1 -out server.key
+</code></pre>
+</div>
+
+<h5 id="generation-of-self-signedx509-public-key-pem-encodings-pemcrt-based-on-the-private-key">Generation of self-signed(x509) public key (PEM-encodings <code class="highlighter-rouge">.pem</code>|<code class="highlighter-rouge">.crt</code>) based on the private (<code class="highlighter-rouge">.key</code>)</h5>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>openssl req -new -x509 -sha256 -key server.key -out server.pem -days 3650
+</code></pre>
+</div>
+
+<hr />
+
+<h4 id="simple-golang-httpstls-server">Simple Golang HTTPS/TLS Server</h4>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="c">// "fmt"</span><span class="x">
+    </span><span class="c">// "io"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">HelloServer</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">req</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">w</span><span class="o">.</span><span class="n">Header</span><span class="p">()</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">,</span><span class="x"> </span><span class="s">"text/plain"</span><span class="p">)</span><span class="x">
+    </span><span class="n">w</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="s">"This is an example server.</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span><span class="x">
+    </span><span class="c">// fmt.Fprintf(w, "This is an example server.\n")</span><span class="x">
+    </span><span class="c">// io.WriteString(w, "This is an example server.\n")</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">http</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s">"/hello"</span><span class="p">,</span><span class="x"> </span><span class="n">HelloServer</span><span class="p">)</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ListenAndServeTLS</span><span class="p">(</span><span class="s">":443"</span><span class="p">,</span><span class="x"> </span><span class="s">"server.crt"</span><span class="p">,</span><span class="x"> </span><span class="s">"server.key"</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="s">"ListenAndServe: "</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>Hint: visit, please do not forget to use https begins,otherwise chrome will download a file as follows:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sL https://localhost:443 | xxd
+0000000: 1503 0100 0202 0a                        .......
+</code></pre>
+</div>
+
+<h4 id="tls-transport-layer-security--server">TLS (transport layer security) — <code class="highlighter-rouge">Server</code></h4>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+    </span><span class="s">"crypto/tls"</span><span class="x">
+    </span><span class="s">"net"</span><span class="x">
+    </span><span class="s">"bufio"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">log</span><span class="o">.</span><span class="n">SetFlags</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">Lshortfile</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">cer</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">tls</span><span class="o">.</span><span class="n">LoadX509KeyPair</span><span class="p">(</span><span class="s">"server.crt"</span><span class="p">,</span><span class="x"> </span><span class="s">"server.key"</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">config</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">tls</span><span class="o">.</span><span class="n">Config</span><span class="p">{</span><span class="n">Certificates</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="n">tls</span><span class="o">.</span><span class="n">Certificate</span><span class="p">{</span><span class="n">cer</span><span class="p">}}</span><span class="x">
+    </span><span class="n">ln</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">tls</span><span class="o">.</span><span class="n">Listen</span><span class="p">(</span><span class="s">"tcp"</span><span class="p">,</span><span class="x"> </span><span class="s">":443"</span><span class="p">,</span><span class="x"> </span><span class="n">config</span><span class="p">)</span><span class="x"> 
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">ln</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+    </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">conn</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ln</span><span class="o">.</span><span class="n">Accept</span><span class="p">()</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+            </span><span class="k">continue</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="k">go</span><span class="x"> </span><span class="n">handleConnection</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">handleConnection</span><span class="p">(</span><span class="n">conn</span><span class="x"> </span><span class="n">net</span><span class="o">.</span><span class="n">Conn</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">conn</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">r</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bufio</span><span class="o">.</span><span class="n">NewReader</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">msg</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">r</span><span class="o">.</span><span class="n">ReadString</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">)</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+
+        </span><span class="nb">println</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="x">
+
+        </span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">conn</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="s">"world</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h4 id="tls-transport-layer-security--client">TLS (transport layer security) — <code class="highlighter-rouge">Client</code></h4>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+    </span><span class="s">"crypto/tls"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">log</span><span class="o">.</span><span class="n">SetFlags</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">Lshortfile</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">conf</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">tls</span><span class="o">.</span><span class="n">Config</span><span class="p">{</span><span class="x">
+        </span><span class="n">InsecureSkipVerify</span><span class="o">:</span><span class="x"> </span><span class="no">true</span><span class="p">,</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">conn</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">tls</span><span class="o">.</span><span class="n">Dial</span><span class="p">(</span><span class="s">"tcp"</span><span class="p">,</span><span class="x"> </span><span class="s">"127.0.0.1:443"</span><span class="p">,</span><span class="x"> </span><span class="n">conf</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">conn</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+    </span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">conn</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="s">"hello</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">buf</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="x"> </span><span class="m">100</span><span class="p">)</span><span class="x">
+    </span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">conn</span><span class="o">.</span><span class="n">Read</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="nb">println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="o">:</span><span class="n">n</span><span class="p">]))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h5 id="perfect-ssl-labs-score-with-gohttpsblogbracelabcomachieving-perfect-ssl-labs-score-with-go"><a href="https://blog.bracelab.com/achieving-perfect-ssl-labs-score-with-go">Perfect SSL Labs Score with Go</a></h5>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="s">"crypto/tls"</span><span class="x">
+	</span><span class="s">"log"</span><span class="x">
+	</span><span class="s">"net/http"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">mux</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewServeMux</span><span class="p">()</span><span class="x">
+	</span><span class="n">mux</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s">"/"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">req</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">w</span><span class="o">.</span><span class="n">Header</span><span class="p">()</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Strict-Transport-Security"</span><span class="p">,</span><span class="x"> </span><span class="s">"max-age=63072000; includeSubDomains"</span><span class="p">)</span><span class="x">
+		</span><span class="n">w</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="s">"This is an example server.</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+	</span><span class="n">cfg</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">tls</span><span class="o">.</span><span class="n">Config</span><span class="p">{</span><span class="x">
+		</span><span class="n">MinVersion</span><span class="o">:</span><span class="x">               </span><span class="n">tls</span><span class="o">.</span><span class="n">VersionTLS12</span><span class="p">,</span><span class="x">
+		</span><span class="n">CurvePreferences</span><span class="o">:</span><span class="x">         </span><span class="p">[]</span><span class="n">tls</span><span class="o">.</span><span class="n">CurveID</span><span class="p">{</span><span class="n">tls</span><span class="o">.</span><span class="n">CurveP521</span><span class="p">,</span><span class="x"> </span><span class="n">tls</span><span class="o">.</span><span class="n">CurveP384</span><span class="p">,</span><span class="x"> </span><span class="n">tls</span><span class="o">.</span><span class="n">CurveP256</span><span class="p">},</span><span class="x">
+		</span><span class="n">PreferServerCipherSuites</span><span class="o">:</span><span class="x"> </span><span class="no">true</span><span class="p">,</span><span class="x">
+		</span><span class="n">CipherSuites</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="kt">uint16</span><span class="p">{</span><span class="x">
+			</span><span class="n">tls</span><span class="o">.</span><span class="n">TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</span><span class="p">,</span><span class="x">
+			</span><span class="n">tls</span><span class="o">.</span><span class="n">TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</span><span class="p">,</span><span class="x">
+			</span><span class="n">tls</span><span class="o">.</span><span class="n">TLS_RSA_WITH_AES_256_GCM_SHA384</span><span class="p">,</span><span class="x">
+			</span><span class="n">tls</span><span class="o">.</span><span class="n">TLS_RSA_WITH_AES_256_CBC_SHA</span><span class="p">,</span><span class="x">
+		</span><span class="p">},</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="n">srv</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">{</span><span class="x">
+		</span><span class="n">Addr</span><span class="o">:</span><span class="x">         </span><span class="s">":443"</span><span class="p">,</span><span class="x">
+		</span><span class="n">Handler</span><span class="o">:</span><span class="x">      </span><span class="n">mux</span><span class="p">,</span><span class="x">
+		</span><span class="n">TLSConfig</span><span class="o">:</span><span class="x">    </span><span class="n">cfg</span><span class="p">,</span><span class="x">
+		</span><span class="n">TLSNextProto</span><span class="o">:</span><span class="x"> </span><span class="nb">make</span><span class="p">(</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">func</span><span class="p">(</span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">,</span><span class="x"> </span><span class="o">*</span><span class="n">tls</span><span class="o">.</span><span class="n">Conn</span><span class="p">,</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">Handler</span><span class="p">),</span><span class="x"> </span><span class="m">0</span><span class="p">),</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">srv</span><span class="o">.</span><span class="n">ListenAndServeTLS</span><span class="p">(</span><span class="s">"tls.crt"</span><span class="p">,</span><span class="x"> </span><span class="s">"tls.key"</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h4 id="generation-of-self-sign-a-certificate-with-a-private-key-and-public-key-pem-encodings-pemcrt-in-one-command">Generation of self-sign a certificate with a private (<code class="highlighter-rouge">.key</code>) and public key (PEM-encodings <code class="highlighter-rouge">.pem</code>|<code class="highlighter-rouge">.crt</code>) in one command:</h4>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="c"># RSA recommendation key ≥ 2048-bit</span>
+openssl req -x509 -nodes -newkey ec:secp384r1 -keyout server.ecdsa.key -out server.ecdsa.crt -days 3650
+<span class="c"># openssl req -x509 -nodes -newkey ec:&lt;(openssl ecparam -name secp384r1) -keyout server.ecdsa.key -out server.ecdsa.crt -days 3650</span>
+<span class="c"># -pkeyopt ec_paramgen_curve:… / ec:&lt;(openssl ecparam -name …) / -newkey ec:…</span>
+ln -sf server.ecdsa.key server.key
+ln -sf server.ecdsa.crt server.crt
+	
+<span class="c"># ECDSA recommendation key ≥ secp384r1</span>
+<span class="c"># List ECDSA the supported curves (openssl ecparam -list_curves)</span>
+openssl req -x509 -nodes -newkey rsa:2048 -keyout server.rsa.key -out server.rsa.crt -days 3650
+ln -sf server.rsa.key server.key
+ln -sf server.rsa.crt server.crt
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">.crt</code> (synonymous most common among *nix systems)<br />
+<code class="highlighter-rouge">.der</code> — The DER extension is used for binary DER encoded certificates.<br />
+<code class="highlighter-rouge">.pem</code> = The PEM extension is used for different types of X.509v3 files which contain ASCII (Base64) armored data prefixed with a «—– BEGIN …» line.</p>
+
+<h4 id="generating-the-certficate-signing-request">Generating the Certficate Signing Request</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl req -new -sha256 -key server.key -out server.csr
+openssl x509 -req -sha256 -in server.csr -signkey server.key -out server.crt -days 3650
+</code></pre>
+</div>
+
+<h2 id="ecdsa--rsa--faq">ECDSA &amp; RSA — FAQ</h2>
+<ul>
+  <li>Validate the elliptic curve parameters <code class="highlighter-rouge">-check</code></li>
+  <li>List “ECDSA” the supported curves <code class="highlighter-rouge">openssl ecparam -list_curves</code></li>
+  <li>Encoding to explicit “ECDSA” <code class="highlighter-rouge">-param_enc explicit</code></li>
+  <li>Conversion form to compressed “ECDSA” <code class="highlighter-rouge">-conv_form compressed</code></li>
+  <li>“EC” parameters and a private key <code class="highlighter-rouge">-genkey</code></li>
+</ul>
+
+<h2 id="reference-link">Reference Link</h2>
+<ul>
+  <li><a href="https://blog.bracelab.com/achieving-perfect-ssl-labs-score-with-go">Achieving a Perfect SSL Labs Score with Go – <code class="highlighter-rouge">blog.bracelab.com</code></a></li>
+  <li><a href="http://superuser.com/a/226229/205366">OpenSSL without prompt – <code class="highlighter-rouge">superuser.com</code> (Stack Exchange)</a></li>
+  <li><a href="https://gist.github.com/spikebike/2232102">TLS server and client — <code class="highlighter-rouge">gist.github.com/spikebike</code></a></li>
+  <li><a href="https://web.archive.org/web/20150925030955/http://echo.labstack.com/guide">Echo, a fast and unfancy micro web framework for Go — <code class="highlighter-rouge">echo.labstack.com/guide</code></a></li>
+  <li>https://kjur.github.io/jsrsasign/sample-ecdsa.html</li>
+  <li><a href="https://www.guyrutenberg.com/2013/12/28/creating-self-signed-ecdsa-ssl-certificate-using-openssl/">Creating Self-Signed ECDSA SSL Certificate using OpenSSL – <code class="highlighter-rouge">guyrutenberg.com</code></a></li>
+  <li>https://www.openssl.org/docs/manmaster/apps/ecparam.html</li>
+  <li>https://www.openssl.org/docs/manmaster/apps/ec.html</li>
+  <li>https://www.openssl.org/docs/manmaster/apps/req.html</li>
+  <li>https://digitalelf.net/2016/02/creating-ssl-certificates-in-3-easy-steps/</li>
+  <li><a href="http://www.kaihag.com/https-and-go/">HTTPS and Go – <code class="highlighter-rouge">kaihag.com</code></a></li>
+  <li><a href="https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts/">The complete guide to Go net/http timeouts – <code class="highlighter-rouge">blog.cloudflare.com</code></a></li>
+  <li><a href="https://gist.github.com/jtwaleson/1fdd77260bcb48377b6b">Certificate fetcher in Go – <code class="highlighter-rouge">gist.github.com</code></a></li>
+  <li><a href="https://gist.github.com/d-schmidt/587ceec34ce1334a5e60">How to redirect HTTP to HTTPS with a golang webserver – <code class="highlighter-rouge">gist.github.com</code></a></li>
+</ul>

@@ -1,0 +1,29 @@
+Example：CSS鼠标手型效果 <a href="#" style="cursor:hand">CSS鼠标手型效果</a>
+
+Example：CSS鼠标手型效果 <a href="#" style="cursor:pointer">CSS鼠标手型效果</a>
+注：pointer也是小手鼠标，建议大家用pointer，因为它可以兼容多种浏览器。
+
+Example：CSS鼠标由系统自动给出效果 <a href="#" style="cursor:auto">CSS鼠标由系统自动给出效果</a>
+
+Example：CSS鼠标十字型 效果 <a href="#" style="cursor:crosshair">CSS鼠标十字型 效果</a>
+
+Example：CSS鼠标I字型效果 <a href="#" style="cursor:text">CSS鼠标I字形效果</a>
+
+Example：CSS鼠标等待效果 <a href="#" style="cursor:wait">CSS鼠标等待效果</a>
+
+Example：CSS鼠标默认效果 <a href="#" style="cursor:default">CSS鼠标默认效果</a>
+
+Example：CSS鼠标向右的箭头效果 <a href="#" style="cursor:e-resize">CSS鼠标向右的箭头效果</a>
+
+Example：CSS鼠标向右上箭头效果 <a href="#" style="cursor:ne-resize">CSS鼠标向右上箭头效果</a>
+
+Example：CSS鼠标向上箭头效果 <a href="#" style="cursor:n-resize">CSS鼠标向上箭头效果</a>
+
+Example：CSS鼠标向左上箭头效果 <a href="#" style="cursor:nw-resize">CSS鼠标向左上箭头效果</a>
+
+Example：CSS鼠标向左箭头效果 <a href="#" style="cursor:w-resize">CSS鼠标向左箭头效果</a>
+
+Example：CSS鼠标向坐下箭头效果 <a href="#" style="cursor:sw-resize">CSS鼠标向坐下箭头效果</a>
+
+Example：CSS鼠标向右下箭头效果 <a href="#" style="cursor:s-resize">CSS鼠标向右下箭头效果</a>
+

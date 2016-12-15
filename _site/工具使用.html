@@ -1,0 +1,210 @@
+<p>#Maven
+maven 转为 gradle
+gradle init –type pom
+maven 转为 eclipse
+##Maven仓库
+<code class="highlighter-rouge">
+http://repo.spring.io
+http://search.maven.org/
+http://docs.spring.io/spring-boot/docs/1.1.x/maven-plugin
+</code></p>
+
+<p>#git
+```
+创建原始代码库的别名，方便跟踪代码 
+git remote add upstream git://github.com/octocat/Spoon-Knife.git 
+git remote add upstream https://github.com/docker/docker.git
+git remote add upstream https://github.com/GoogleCloudPlatform/kubernetes.git
+git remote add upstream https://github.com/docker/docker-registry.git
+跟踪原始代码 
+git fetch upstream 
+提交代码更新到自己的代码库 
+git push origin master</p>
+
+<p>获取原始代码库的更新 
+git fetch upstream 
+git merge upstream/master 
+如果你希望将自己的代码贡献到原始代码库中，可参见http://help.github.com/send-pull-requests/ 来完成</p>
+
+<p>docker 提交签字
+Signed-off-by: heidsoft <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#104;&#101;&#105;&#100;&#115;&#111;&#102;&#116;&#064;&#113;&#113;&#046;&#099;&#111;&#109;">&#104;&#101;&#105;&#100;&#115;&#111;&#102;&#116;&#064;&#113;&#113;&#046;&#099;&#111;&#109;</a></p>
+
+<p>Please sign your commits following these rules:
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#sign-your-work
+The easiest way to do this is to amend the last commit:</p>
+
+<p>$ git clone -b “master” git@github.com:OnePaaS/docker.git somewhere
+$ cd somewhere
+$ git rebase -i HEAD~2
+editor opens
+change each ‘pick’ to ‘edit’
+save the file and quit
+$ git commit –amend -s –no-edit
+$ git rebase –continue # and repeat the amend for each commit
+$ git push -f</p>
+
+<p>git rebase ：顾名思义，就是重新定义（re）起点（base）的作用，即重新定义分支的版本库状态。</p>
+
+<p>提交一下
+git commit -m “commit log”</p>
+
+<p>主干上创建开发分支
+git checkout -b develop master</p>
+
+<p>切换到master
+git checkout master</p>
+
+<p>合并开发分支到master
+git merge –no-ff develop</p>
+
+<p>在开发分支上创建一个特性分支
+git checkout -b feature-x develop</p>
+
+<p>将提交回退到某个点
+git reflog 
+git reset –hard 62c3f60</p>
+
+<p>git删除远程分支
+git push origin :develop</p>
+
+<p>查看远程分支
+git branch -a
+git branch -av
+删除远程分支和tag
+git push origin –delete <branchName>
+git push origin :<branchName></branchName></branchName></p>
+
+<p>#git的tag操作
+方法一:
+git push origin –delete tag <tagname>
+方法二:
+git tag -d <tagname>
+git push origin :refs/tags/<tagname></tagname></tagname></tagname></p>
+
+<p>git push origin –delete tag alarm-v1.0.0.20151217</p>
+
+<p>查看远程状态
+git remote show origin
+git remote prune origin
+git fetch -p  它在fetch之后删除掉没有与远程分支对应的本地分支</p>
+
+<p>重命名本地分支：
+git branch -m devel develop</p>
+
+<p>把本地tag推送到远程
+git tag -a easycloud-v20160219 -m ‘easycloud-v20160219’
+git push –tags
+git fetch origin tag <tagname></tagname></p>
+
+<p>如果你的 tag 名是 1.0，可以按照如下方式导出。
+1. 导出并压缩为 zip 格式:
+$ git archive –format=zip –output=easycloud-20160302.zip easycloud-20160302
+2. 导出并压缩为 tar.bz2 格式:
+$ git archive 1.0 | bzip2 &gt; v1.0.tar.bz2
+3. 导出并压缩为 tar.gz 格式:
+$ git archive –format=tar 1.0 | gzip &gt; v1.0.tar.gz</p>
+
+<p>使用 git tag 命令来添加新标签 
+git tag -a v1.4 -m ‘version 1.4’ 
+使用 git push 命令来将标签推送到远程仓库 
+git push origin v1.4:v1.4</p>
+
+<p>git shortlog -s //显示提交作者
+-s 参数省略每次commit 的注释，仅仅返回一个简单的统计。
+-n 参数按照commit 数量从多到少的顺利对用户进行排序</p>
+
+<p>git rev-list –all –count //提交总数</p>
+
+<p>git push 单个tag
+push单个tag，命令格式为：git push origin [tagname]
+push所有tag，命令格式为：git push [origin] –tags</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>##git merge --no-ff
+</code></pre>
+</div>
+<p>Fast-Forward</p>
+
+<p>当前分支合并到另一分支时，如果没有分歧解决，就会直接移动文件指针。这个过程叫做fastforward。</p>
+
+<p>举例来说，开发一直在master分支进行，但忽然有一个新的想法，于是新建了一个develop的分支，并在其上进行一系列提交，完成时，回到 master分支，此时，master分支在创建develop分支之后并未产生任何新的commit。此时的合并就叫fast forward。</p>
+
+<p>示例：</p>
+
+<ol>
+  <li>新建一个work tree，在master中做几次commit</li>
+  <li>新建develop的branch，然后再做多次commits</li>
+</ol>
+
+<p>此时的分支流图如下(gitx)：
+正常合并</p>
+
+<p>(master)$ git merge develop 
+Updating 5999848..7355122
+Fast-forward
+c.txt |    1 +
+d.txt |    1 +
+2 files changed, 2 insertions(+), 0 deletions(-)
+create mode 100644 c.txt
+create mode 100644 d.txt</p>
+
+<p>可以看出这是一次fast-forward式的合并，且合并完之后的视图为扁平状，看不出develop分支开发的任何信息。</p>
+
+<p>使用–no-ff进行合并</p>
+
+<p>—no-ff (no fast foward)，使得每一次的合并都创建一个新的commit记录。即使这个commit只是fast-foward，用来避免丢失信息。</p>
+
+<p>(master)$ git merge –no-ff develop
+Merge made by recursive.
+c.txt | 2 +-
+d.txt | 2 +-
+2 files changed, 2 insertions(+), 2 deletions(-)</p>
+
+<p>可以看出，使用no-ff后，会多生成一个commit 记录，并强制保留develop分支的开发记录（而fast-forward的话则是直接合并，看不出之前Branch的任何记录）。这对于以后代码进行分析特别有用，故有以下最佳实践。</p>
+
+<p>好的实践</p>
+
+<p>–no-ff，其作用是：要求git merge即使在fast forward条件下也要产生一个新的merge commit。此处，要求采用–no-ff的方式进行分支合并，其目的在于，希望保持原有“develop branches”整个提交链的完整性。
+```</p>
+
+<p>#monggo操作
+```
+mongod –bind_ip 127.0.0.1 –logpath “D:\Program Files\MongoDB\Server\3.0\mongodb.log” –logappend –dbpath “D:\Program Files\MongoDB\Server\3.0\db” –port 9999 –serviceName “mymongo” –serviceDisplayName “mymongo” –install</p>
+
+<p>–bind_ip	绑定服务IP，若绑定127.0.0.1，则只能本机访问，不指定默认本地所有IP
+–logpath	定MongoDB日志文件，注意是指定文件不是目录
+–logappend	使用追加的方式写日志
+–dbpath	指定数据库路径
+–port	指定服务端口号，默认端口27017
+–serviceName	指定服务名称
+–serviceDisplayNam	指定服务名称，有多个mongodb服务时执行。
+–install	指定作为一个Windows服务安装。</p>
+
+<p>连接客户端：
+mongo –port=9999</p>
+
+<p>插入数据
+&gt; db.w3r.insert({x:10})
+WriteResult({ “nInserted” : 1 })
+查找数据
+&gt; db.w3r.find()
+{ “_id” : ObjectId(“55b39f07aa2bd0dd5f72cf7b”), “x” : 10 }
+&gt;</p>
+
+<p>RDBMS						MongoDB
+Table（表）					Collection（集合）
+Column（栏）				Key（键）
+Value（值）					Value（值）
+Records / Rows（记录/列）	Document / Object（文档/对象）</p>
+
+<p>数据类型	描述
+string（字符串）	可以是一个空字符串或者字符组合。
+integer（整型）	整数。
+boolean（布尔型）	逻辑值 True 或者 False。
+double	双精度浮点型
+null	不是0，也不是空。
+array	数组：一系列值
+object	对象型，程序中被使用的实体。可以是一个值，变量，函数，或者数据结构。
+timestamp	timestamp存储为64为的值，只运行一个mongod时可以确保是唯一的。前32位保存的是UTC时间，单位是秒，后32为是在这一秒内的计数值，从0开始，每新建一个MongoTimestamp对象就加一。
+Internationalized Strings	UTF-8 字符串。
+Object IDs	在mongodb中的文档需要使用唯一的关键字_id来标识他们。几乎每一个mongodb文档都使用_id字段作为第一个属性（在系统集合和定容量集合（capped collection）中有一些例外）。_id值可以是任何类型，最常见的做法是使用ObjectId类型。
+```</p>

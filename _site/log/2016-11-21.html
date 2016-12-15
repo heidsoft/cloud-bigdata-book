@@ -1,0 +1,131 @@
+
+<p>git push 单个tag</p>
+
+<p>push单个tag，命令格式为：git push origin [tagname]
+push所有tag，命令格式为：git push [origin] –tags</p>
+
+<p>#Gulp
+```
+安装 Gulp.js
+Gulp 是基于 Node.js 的，故要首先安装 Node.js，完成之后执行下面的命令安装Gulp：</p>
+
+<p>npm install -g gulp</p>
+
+<p>//- 执行全局安装 gulp，这样在任何地方都可以进行 gulp 操作
+安装完之后，要在我们的项目中使用，需要命令行切换到项目根目录(可以 右键 点击项目根目录选择 在此处打开命令窗口(W))，然后执行下面的命令：</p>
+
+<p>npm init
+//- 生成一个 package.json，里面是一些常规的配置信息</p>
+
+<p>npm install gulp –save-dev
+//- 将 gulp 安装到项目目录内，并生成包依赖信息于 package.json 内的 devDependencies</p>
+
+<p>安装Gulp插件
+Gulp的任务都是以插件的形式存在的，所以在使用前，需要先安装我们用到的插件到项目目录内，插件的安装命令：</p>
+
+<p>npm install 插件名 –save-dev
+//- 多个插件可以用空格分隔</p>
+
+<p>npm install gulp-util gulp-uglify gulp-concat –save-dev
+//- 安装gulp-util、gulp-uglify 和 gulp-concat插件
+//- gulp-uglify：用于压缩js 
+//- gulp-concat：用于合并文件</p>
+
+<p>创建配置文件 gulpfile.js
+要使用 Gulp 还需要进行相关的配置，把我们的插件载入进来；</p>
+
+<p>在项目根目录内创建一个 gulpfile.js 文件(必须是这个文件名哟~)，内容如下：</p>
+
+<p>var gulp    = require(‘gulp’);
+var gutil   = require(‘gulp-util’);
+var uglify  = require(‘gulp-uglify’);
+var concat  = require(‘gulp-concat’);</p>
+
+<p>//- 通过 require() 载入我们需要用到的插件~</p>
+
+<p>gulp.task(‘concat’, function () {
+    gulp.src(‘./scripts/*.js’)
+        .pipe(uglify())
+        .pipe(concat(‘jkd.min.js’))
+        .pipe(gulp.dest(‘./build/js’));
+});</p>
+
+<p>gulp.task(‘default’, [‘concat’]);
+运行 Gulp
+通过以上的配置之后，就可以开始运行Gulp对我们的项目进行相关的操作啦；</p>
+
+<p>使用 gulp 命令，运行Gulp.js构建程序</p>
+
+<p>gulp
+//- 运行默认的 default task</p>
+
+<p>gulp concat
+//- 仅运行 concat 这一个 task</p>
+
+<p>Gulp APIs
+gulp.task(name[, deps], fn)
+//- 定义一个 task,声明它的名称, 任务依赖, 和任务内容.</p>
+
+<p>gulp.src(globs[, options])
+//- 读取文件,参数为文件路径字符串或数组, 支持通配符.</p>
+
+<p>gulp.dest(path[, options])
+//- 写入文件, 作为pipe的一个流程.文件夹不存在时会被自动创建.</p>
+
+<p>gulp.watch(glob [, opts], tasks) or gulp.watch(glob [, opts, cb])
+//- 监控文件,执行任务.
+gulp.task(name[, deps], fn)
+定义一个 task</p>
+
+<p>name： 自定义的 task 名称，不能有空格哟，字符串类型的</p>
+
+<p>deps： 一个数组，可选的哟；数组的内容是当前这个 task 依赖的其他 tasks，只有当其他 tasks 都执行完之后才会执行当前这一个 task；</p>
+
+<p>fn： 当前这一个 task 需要执行的内容，一般这个 task 来自于 gulp.src().pipe(someplugin())</p>
+
+<p>举个栗子</p>
+
+<p>var gulp    = require(‘gulp’);
+var gutil   = require(‘gulp-util’);
+var uglify  = require(‘gulp-uglify’);
+var concat  = require(‘gulp-concat’);</p>
+
+<p>//- 新建一个名称为 concat 的 task
+gulp.task(‘concat’, function () {
+    gulp.src(‘./scripts/*.js’)
+        .pipe(uglify())
+        .pipe(concat(‘jkd.min.js’))
+        .pipe(gulp.dest(‘./build/js’));
+});</p>
+
+<p>//- 设置 default 的 task，其依赖于 concat 这个 task；
+//- 当执行 gulp 时会先执行 concat 这个 task，执行完之后，才会执行 default 这个 task
+gulp.task(‘default’, [‘concat’]);
+当然我们在执行的时候，如果定义了很多个 task，我们也可以指定只执行某一个 task：</p>
+
+<p>gulp taskName
+gulp.src(globs[, options])
+读取文件，要操作文件，首先得拿到这个文件，返回一个 stream ，可以通过 pipe() 给其他插件使用；</p>
+
+<p>globs: 需要读取文件的url，可以是一个字符串或字符串数组，还可以使用通配符 (*)：</p>
+
+<p>foo.js指明特定某个文件
+<em>.js匹配当前目录下的所有js文件,不指名扩展名则匹配所有类型
+*/</em>.js匹配所有第一层子文件夹的js文件,第二层请用<em>/</em>/.js
+<em>*/</em>.js匹配所有文件夹层次下的js文件, 包括当前目录
+gulp.src(‘./scripts/*.js’).pipe(other options);
+//- 读取跟 gulpfile.js 文件在同一个目录内的 scripts 目录内的所有以 .js 结尾的文件</p>
+
+<p>gulp.src([’./scripts/foo.js’, ‘./scripts/bar.js’]).pipe(other options);
+//- 只读取 foo.js 和 bar.js 这两个文件</p>
+
+<p>gulp.src(‘./scripts/*’).pipe(other options);
+//- scripts 目录内的所有文件
+gulp.dest(path[, options])
+用于指定文件输出的位置，第一个参数为目录路径；目标路径是以相对路径来进行计算的，而相对路径又是以文件为计算基础的；</p>
+
+<p>gulp.watch(glob [, opts], tasks)
+gulp.watch(glob [, opts, cb])
+监控指定的文件, 随之触发执行指定的任务, 或者, 执行一个回调. 注意, 是或者, 不能两者兼具.</p>
+
+<p>```</p>

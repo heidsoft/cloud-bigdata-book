@@ -1,5 +1,5 @@
 #扫码关注
-![云计算与大数据](img/cloud-and-bigdata.jpg)
+![云计算与大数据](images/cloud-and-bigdata.jpg)
 
 #HeidBook
 

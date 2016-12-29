@@ -1,0 +1,16 @@
+今天对新买的VPS进行调试，测试性能时：
+wget时竟出现了“Resolving http：//soft.XXXX.net/test/unixbench/unixbench-4.1.0.tgz failed: Temporary failure in name resolution”错误。
+这个错误的原因99%是/etc/resolv.conf中的DNS配置错误，或者没有这个配置。
+
+解决的方法也很简单：如果有这个文件直接修改为：
+
+nameserver 208.67.222.222
+nameserver 208.67.220.220
+
+注：我这里用的OpenDNS的DNS解析。
+
+再执行service network restart重启网络服务即可
+
+再 wget 就正常了，问题解决。 
+
+ 

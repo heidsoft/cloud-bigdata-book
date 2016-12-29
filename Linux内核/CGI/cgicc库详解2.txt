@@ -1,0 +1,219 @@
+cgicc结构分析
+http://happyiww.popo.blog.163.com/blog/static/92244832007536859887/
+    由于工作需要，一直在写python的代码，已经很久没有写c++的程序了，正好有个项目间接使用了cgicc模块，现在先看看它的实现，一方面可以对整个系统使用的技术有更好的把握，另一方面可以复习一下c++^_^。
+
+1、cgicc的架构
+
+   cgicc是开发cgi程序的c++库，它是基于stl的，从使用上来说，可以把它分成两个部分：第一部分是输入输出的处理和封装，它包括 Cgicc、CgiEnvironment、CgiInput、FormEntry和FormFile类，第二部分是数据输出模块，它们是以 MStreamable为基类的封装了HTTPHeader和HTML元素的一系列子类。HTTPCookie是继承MStreamable的，但是，对于输入Cookie来说，也是通过HTTPCookie来表示的，也许这是因为Cookie通常需要在不同请求中保留而设计的。
+ 
+  Cgicc：封装了Web Server和CGI程序之间的数据过渡功能，对于Web Server来说它是参数的输出对象，对于CGI程序来说它是提取Web Server传递过来的数据(包括浏览器信息、Web Server自身的数据和用户提交的数据)的代理。
+  
+  CgiEnvironment：表示CGI运行的环境变量，这些环境变量是Web Server初始化的，也就CGI需要处理的数据，它是作为Cgicc对象的数据成员而保存的，当然开发者也可以通过getEnvironment()来直接获得CgiEnvironment的const引用。
+  
+  CgiInput：这是对于Web Server数据输入方式的抽象，对于传统CGI程序来说它就是标准输入，对于FastCGI来说，它是一个独立的sockket，而且对于 FastCGI或者是用户自定义的参数输入方式来说，可以通过继承CgiInput来生成定制的类，只要在子类中覆盖read、getenv成员函数就能够很好地工作。
+            
+  FormEntry和FormFile是对于用户提交的数据的抽象，FormEntry是描述普通name-value对的抽象，而FormFile则是对用户上传的文件的抽象。事实上FormEntry和FormFile的本质差别就是FomFile多了一个文件名和文件类型。 
+  
+  输出数据的封装类比较多，这里只是说说它设计的基本思想，如果需要详细的接口说明，可以参看cgicc的帮助文档。
+  cgicc中重载了流输出函数：CGICC_API std::ostream& operator<<(std::ostream& out, const MStreamable& obj);在具有输出功能的基类MStreamable里声明为友元函数，这样只要以 
+    "outstream << MStreamable" 
+的形式调用的话，就会调用这个自定义的输出流函数，在这个自定义的流输出函数中，会调用MStreamable.render(outstream), 也就是说只要在MStreamable的子类中覆盖render成员函数就能够定制之类的输出。在应用中，通常之类会把自己的内部数据转换为字符串，然后调用outstream << data_str ,只要在outstream的成员函数中覆盖<<操作符，就能够实现各种输出协议(当然也包括FastCGI协议)，在传统的CGI中，这个 outstream就是std::cout对象。
+  
+
+2、cgicc的数据处理流程
+   
+   2.1、HTTP请求的参数解析
+   
+       创建Cgicc对象
+       Cgicc cgi --> 构造函数可以带一个表示输入流的指针（CgiInput的子类）
+       Cgicc(CgiInput *input = 0) 
+         |
+     Cgicc的成员变量只有3个：CgiEnvironment fEnvironment, FormEntry的vector、FormFile的vector
+     构着成员变量CgiEnvironment fEnvironment(input)
+         |                     |
+         |            CgiEnvironment(CgiInput *input)
+         |                     |
+         |              创建默认的local CgiInput变量 CgiInput local_input
+         |                     |                          |
+         |                     |     CgiInput()-->什么都不做，事实上CgiInput是包含数据成员的，
+         |                     |   它只是stdin的一个非常简单的封装。它提供的成员函数read是直接
+         |                     |   从std::cin中读取数据，而getenv函数则是直接调用std::getenv
+         |                     |   但是开发者可以继承CgiInput来处理更加复杂的数据传递方式
+         |                     |                     （例如:FastCGI）。
+         |                     |                          |
+         |                     |CgiInput做的事情很少，环境变量和标准输入都是Web Server设置好的
+         |                     |                     
+         |       从环境中提取参数readEnvironmentVariables(input == 0 ? &local_input: input)
+         |                     |           |
+         |                     |调用input->getenv()提取cgi变量,如:PATH_INFO、SCRIPT_NAME等等。
+         |                     |这里得到的变量都是字符串，如果需要转换，就需要调用转换函数
+         |                     |          |
+         |                     | 在环境变量中CONTENT_LENGTH、REQUEST_METHOD环境变量和后面对于
+         |                     | stdin的处理相关的。
+         |                     |
+         |           将标准输入设置成二进制读取(对于windows平台)
+         |                     |
+         |           根据请求的方法（get/post）处理标准输入stdin
+         |           我们这里假设为post方式
+         |                     |
+         |           创建缓冲区std::vector<char> data(getContentLength());
+         |                     |
+         |           读取数据input->read(&data[0], getContentLength()) != getContentLength()
+         |           将数据转换为strin：fPostData = std::string(&data[0], getContentLength());
+         |                     |
+         |           处理cookie，parseCookies();
+         |      cookie的处理比较简单，是基于字符串操作：
+         |      1、通过";"找到cookie的分割，然后把cookie分片，也就是普通的名值对name=value传递
+         |         给parseCookie
+         |      2、parseCookie根据"="划分name、value，其中前导的空白字符已经过滤了，根据name、
+         |         value创建HTTPCookie             
+         |           
+         |
+  解析并保存客户端提交的数据，当HTTP请求方式是post时，从stdin中提取，实际上参数的保存已经在CgiEnvironment成员变量初始化的时候已经完成：
+  parseFormInput(getEnvironment().getPostData())
+  当HTTP请求的方式是get、head等的时候直接在QUERY_STRING中提取参数
+       parseFormInput(getEnvironment().getQueryString())
+         |    |
+         | 检查CONTENT_TYPE环境变量, 当浏览器提交的数据是multipart/form-data时，提取划分边界的
+         | 参数boundary，然后就通过边界参数循环查找各个form-data,并通过parseMIME(data)进行解析
+         | ，这个查找算法非常简单，只是基于string::find调用，也就是普通的字符串操作（在代码中
+         | 我们可以看到在HTTP提交的数据流中分行都是通过"\r\n"来实现的^_^，这些信息一般的报文查
+         | 看软件都只是简单地显示换行）
+         |    |
+         | 如果浏览器提交只是普通的name-value字符串，那么就根据“&”字符划分出name-value对，并
+         | 调用parsePair函数进行处理。需要说明的是parseFormInput的输入参数是string，它并不依赖
+         | 于HTTP请求的方式，也就是说根据请求方式的不同，传给parseFormInput的参数的不同是在外
+         | 不考虑的。
+         | 
+         | parseMIME(const string& )
+         |    |-->首先划分form-data的header和value，在源代码中我们可以看到一些细节：
+         |          | 1、传入的参数是包含最后的"\r\n"的，而且header和value通过"\r\n\r\n"类分割
+         |          | 2、划分算法只是基于简单的字符查找功能
+         |          | 
+         |        使用header的值创建MultipartHeader
+         |MultipartHeader head = parseHeader(data.substr(0, valueStart));
+         |          |              |
+         |          |根据字符串的查找截取Content-Disposition、name、filename、Content-Type的值
+         |          |对filename进行url解码form_urldecode(filename),这是因为浏览器在提交信息的
+         |          |时候会对文件的文件名进行url编码。
+         |          |                       |
+         |          |    创建并返回MultipartHeader(disposition, name, filename, cType);
+         |          |
+         |        根据是否存在filename，创建FormEntry或者是FormFile
+         |        fFormData.push_back(FormEntry(head.getName(), value))
+         |        fFormFiles.push_back(FormFile(head.getName(),head.getFilename(),head.getContentType(),value));
+         |          |
+         |   实际上FormEntry和FormFile基本相同，只是FormFile多了ctype和filename两个成员变量。
+         | 
+         | parsePair(data)
+         |    |-->通过"="划分name和value，并对name、value进行form_urldecode解码
+         |          |
+         |  创建FormEntry,并把它加入到fFormData中fFormData.push_back(FormEntry(name, value));
+         |
+      Cgicc 实例初始化完成
+      
+      从Cgicc变量的创建过程可以看到，一个CGI程序应该只应创建一个Cgicc实例，它的成员变量fEnvironment已经包含了所有的环境变量的信息，fFormEntry、fFormFile成员变量分别保存了用户提交的name-value对和上传的文件。
+      
+      Cgicc提供了很多的成员函数来访问用互提交的数据和上传的文件内容，getElement*函数系列都是非常简单的，都是stl的 std::find_if算法，而比较算法包括两种；FF_compare和FE_valueCompare，它们都是忽略大小写的。
+      
+    2.2、HTTP响应数据的处理
+    
+            重载输出操作符"<<"
+            CGICC_API std::ostream& operator<<(std::ostream& out, const MStreamable& obj);
+                                           |
+                              调用obj.render(out)
+        所有需要输出对象都是通过继承MStreamable基类实现的，它们覆盖render函数来定制自己的输出.
+        由于这里类比较多，我们看看最常用的几个类看看它们的实现^_^。
+        
+        HTTPResponseHeader：它是HTTP响应header的比较完整的封装，它的成员变量包括：
+            sting fHTTPVersion --->表示HTTP协议的版本 "HTTP/1.1"
+            int   fStatusCode ---> 表示响应的结果：1XX--> 表示信息请求已经接收到，等待处理
+                                                   2XX--> 请求处理完成
+                                                   3XX--> HTTP重定向
+                                                   4XX--> 客户端提交的请求错误（参数错误）
+                                                   5XX--> 服务器内部错误
+            string fReasonPhrase -->表示响应的说明"200 OK"
+            vector<string> fHeaders --> 表示HTTP响应的头信息，这里的header是一个完整的
+                           string-->"Location: XXXXXXX"
+            vector<HTTPCoolie> fCoolkies --> 表示响应的cookies
+                     
+            现在我们看看HTTPResponseHeader的render函数：
+             输出HTTP版本、状态字、状态字符串
+             out << fHTTPVersion << ' ' << fStatusCode << ' ' << fReasonPhrase << endl;
+                      |
+             输出headers信息
+             out << *iter==>( fHeaders.begin()) << std::endl;
+                      |
+             输出cookies信息
+             out << *cookie_iter==>(fCookies.begin()) << std::endl;
+                      |--->事实上这里调用的是HTTPCookie的render函数
+                                                        |
+                     输出"Set-Cookie："+name+"="+value+";Comment="+comment+";Domain="+domain+
+                         ";Max-Age="+maxage+";Path="+path+";Secure"+";Version=1"
+                         (如果有些部分的内容为空，就忽略相应的name-value)
+                                     
+        HTMLElement: 它表示HTML元素，它的成员变量包括：
+           HTMLAttributeList * fAttribute --> 表示html元素的属性
+           HTMLElementList *   fEmbeddedElement --> 表示内嵌的html元素
+           string              fData --> 表示html中的文本信息
+           EElementType fType-->表示html元素的类型，这里的类型是指元素是否为对称型还是独立型的
+           bool                fDataSpecified --> 表示该html元素是否包含内部文本信息
+                
+      HTMLElement包含很多成员函数，基本上都是围绕成员变量的读写操作，现在我们看看render函数的处理流程：
+       对于对称型的html元素：
+       1、如果该元素没有data（文本信息）并且没有子元素，那么HTMLElement通过内部状态记录元素的输出状，如果它包含子元素，那么在输出的时候会一次性输出完整的html元素（包括元素属性和所有的子元素），如果通过这种形式输出，必须保证该元素的所有子元素都必须是完整的。
+       2、如果该元素带有data（文本信息），并且没有子元素，那么输出该html元素，并且输出data信息。如果存在子元素，那么输出子元素，并且忽略data数据。
+            
+       对于独立型的html元素：直接输出元素的属性，而且这种类型的元素不能带有子元素。
+           
+       现在我们对于HTMLElement的实现已经比较清楚了。还有一点需要说明的是，HTMLElement只是基类的设置，它是不能被实例化的，因为它有一个纯虚函数getName，而且它的swapState函数和getState函数都不是"有效"的。下面我们看看cgicc是怎么处理这些细节的：
+       对于对称型的html标签cgicc定义了一个模板：
+       template<class Tag>
+          class HTMLBooleanElement : public HTMLElement 
+          {
+              ...
+             //覆盖getName函数
+             virtual inline const char*
+             getName()                     const
+             { return Tag::getName(); }
+             //定义静态成员变量
+             static bool sState;-->这个是表示当前html元素的状态"打开/闭合"
+           }
+           //初始化静态成员变量
+           template<class Tag>
+           bool cgicc::HTMLBooleanElement<Tag>::sState = false;
+            
+        而且定义了辅助的宏：
+        #define TAG(name, tag) \
+               class name##Tag   \
+               { public: inline static const char* getName() { return tag; } }
+                    
+        #define BOOLEAN_ELEMENT(name, tag) \
+               TAG(name, tag); typedef HTMLBooleanElement<name##Tag> name
+                    
+        当我们定义"html"标签的时候
+        BOOLEAN_ELEMENT (html,       "html");
+        经过宏展开就会得到：
+        class htmlTag
+        {
+            public:inline static const char* getName(){return "html";}
+        }
+        typedef HTMLBooleanElement<htmlTag> html;
+                        |
+           模板实例化以后就会得到：
+           class HTMLBooleanElement<htmlTag>  
+           {
+                ...
+                virtual inline const char*
+                getName()                     const
+                { return htmlTag::getName(); }
+                 static bool sState;
+            }
+          bool cgicc::HTMLBooleanElement<htmlTag>::sState = false;
+                  
+     好了，现在我们已经清楚了cgicc的整个工作流程（还有其他的一些类这里没有介绍，不过最常用，最复杂的部分已经分析完了，其他类比较简单，这里就不多说了^_^），
+
+3、整体感觉
+   1、cgicc使用了stl来维护cgi的环境变量和用户提交的数据，从而减少了很多保存和查找这些参数的代码，使得整个库在结构上显得比较清晰。   
+   2、cgicc只是比较简单的cgi开发包，它没有session、数据库支持和模板功能，这些需要开发者自己去扩展。
+

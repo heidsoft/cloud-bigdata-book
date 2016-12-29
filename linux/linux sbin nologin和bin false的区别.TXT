@@ -1,9 +1,0 @@
-/bin/false是最严格的禁止login选项，一切服务都不能用，而/sbin/nologin只是不允许系统login，可以使用其他ftp等服务
-
-如果想要用false在禁止login的同时允许ftp，则必须在/etc/shells里增加一行/bin/false。
-
-
-useradd –g ftp –s /sbin/nologin ftpuser
-新建用户加入ftp组，
-/sbin/nologin意思是用户不允许登录（通过ftp可以连接）
-用户名为ftpuser

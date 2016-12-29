@@ -1,0 +1,81 @@
+linux上使用netstat察看mysql端口和连接 
+netstat命令是一个监控TCP/IP网络的非常有用的工具，它可以显示路由表、实际的网络连接以及每一个网络接口设备的状态信息，这里我只用到其中的部分功能.
+
+直接输入netstat,显示
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 localhost:41144         localhost:41147         ESTABLISHED 
+tcp        0      0 localhost:21576         localhost:21579         ESTABLISHED 
+tcp        0      0 linux.local:telnet      10.3.18.129:nbx-au      ESTABLISHED 
+tcp        1      0 localhost:39706         localhost:58099         CLOSE_WAIT  
+......
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node Path
+unix  2      [ ]         DGRAM                    910    /var/named/dev/log
+unix  2      [ ]         DGRAM                    908    /var/lib/dhcp/dev/log
+unix  8      [ ]         DGRAM                    906    /dev/log
+.....
+
+输出结果可以分为两个部分，一个是Active Internet connections，另一个是Active UNIX domain sockets. 
+
+netstat 的常用参数: - t、- u、- w和- x分别表示TCP、UDP、RAW和UNIX套接字连接。-a标记，还会显示出等待连接（也就是说处于监听模式）的套接字。-l 显示正在被监听(listen)的端口, -n表示直接显示端口数字而不是通过察看/etc/service来转换为端口名,-p选项表示列出监听的程序
+
+1) netstat -tl
+查看当前tcp监听端口
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 *:rrac                  *:*                     LISTEN      
+tcp        0      0 *:34006                 *:*                     LISTEN      
+......
+
+2) netstat -tlp
+查看当前tcp监听端口, 需要显示监听的程序名,当不清楚mysql的监听端口时比较好用
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name   
+tcp        0      0 *:rrac                  *:*                     LISTEN      -                          
+tcp        0      0 *:34006                 *:*                     LISTEN      23425/mysqld   
+......
+
+
+3) netstat -tl | grep 34006
+    只查看mysql的监听端口,当前启动的mysql端口为34006,明确知道mysql监听端口时使用
+4) netstat -ta | grep 34006
+tcp        0      0 *:34006                 *:*                     LISTEN      
+tcp        0      0 linux.local:34006       linux.local:41485       ESTABLISHED 
+tcp        0      0 linux.local:34006       linux.local:41486       ESTABLISHED 
+...
+tcp        0      0 10.3.2.35:41488         10.3.2.35:34006         ESTABLISHED 
+tcp        0      0 10.3.2.35:41489         10.3.2.35:34006         ESTABLISHED 
+tcp        0      0 10.3.2.35:41490         10.3.2.35:34006         ESTABLISHED 
+
+由于数据库和运用程序都放在同一台机器了,因此这里连接被显示了两次. 可以使用-p参数来显示PID,然后grep PID.
+
+
+5) netstat -tap | grep 34006 | grep 23425
+    23425是当前mysql的PID
+tcp        0      0 *:34006                 *:*                     LISTEN      23425/mysqld        
+tcp        0      0 linux.local:34006       linux.local:41510       ESTABLISHED 23425/mysqld        
+tcp        0      0 linux.local:34006       linux.local:41511       ESTABLISHED 23425/mysqld        
+tcp        0      0 linux.local:34006       linux.local:41516       ESTABLISHED 23425/mysqld   
+
+12512
+netstat -tap | grep 34006 | grep 12512
+
+mysql 默认的端口是 3306，
+但是如果你在安装的时候，修改了mysql的默认端口的话，
+那你一时就不记得话 ，那这个方法你就可以使用上了
+第一种方法：
+直接查看数据库的配置文件
+在你的my.cfg(Linux) 或者my.ini(Windows)中就有啊。
+第二种方法：使用mysql命令进行查看
+首先进入到mysql命令行的状态
+mysql进入方法：
+# mysql -u 用户名 -p
+输入密码就可以了
+mysql> show variables like 'port';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| port          | 3306  |
++---------------+-------+
+1 row in set (0.00 sec)

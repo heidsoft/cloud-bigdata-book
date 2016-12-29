@@ -1,2 +1,0 @@
-
-show variables like 'character%';

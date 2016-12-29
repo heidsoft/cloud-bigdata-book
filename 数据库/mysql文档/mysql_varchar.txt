@@ -1,0 +1,37 @@
+int最大长度是11.如果在建表时不指定字段int类型的长度时，系统则默认生成长度为11的字段。
+
+11也是int类型的最大长度，其中第一位表示符号+或者-，后面十位表示数字。 
+
+如果指定了长度，该字段其实也是长度为11的字段，因为只要是int类型，系统都分配了长度11位。 
+
+所以，当我们在用mysql数据库建表时如果有字段为int类型则不用指定长度了。
+
+mysql varchar(50) 不管中文 还是英文 都是存50个的 MySQL5的文档，其中对varchar字段类型这样描述：varchar(m) 变长字符串。M 表示最大列长度。M的范围是0到65,535。(VARCHAR的最大实际长度由最长的行的大小和使用的字符集确定，最大有效长度是65,532字节）。为何会这般变换？真是感觉MySQL的手册做的太不友好了，因为你要仔细的继续往下读才会发现这段描述：MySQL 5.1遵从标准SQL规范，并且不删除VARCHAR值的尾部空格。VARCHAR保存时用一个字节或两个字节长的前缀+数据。如果VARCHAR列声明的长度大于255，长度前缀是两个字节。好了，貌似懂了一点。但具体他说的长度大于255时使用2个字节长度前缀，小学减法题：65535 - 2 = 65533啊。不知道这些大牛如何计算的，暂且保留疑问吧？注：我测试了一下使用UTF8编码，varchar的最大长度为21854字节。在mysql 5.0.45版本，数据库编码utf8下进行测试：varchar最长定义为21785。也就是说不论字母、数字、汉字，只能放21785个。推想：varchar字节最大65535，utf8编码一个字符3个字节65535/3=21785。
+
+mysql> create table wyc_test(id varchar(5));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into wyc_test values('abcdef');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from wyc_test;
++-------+
+| id    |
++-------+
+| abcde |
++-------+
+1 row in set (0.00 sec)
+
+mysql> insert into wyc_test values('一二三四五六');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from wyc_test;
++-----------------+
+| id              |
++-----------------+
+| abcde           |
+| 一二三四五      |
++-----------------+
+3 rows in set (0.00 sec)
+ 
+

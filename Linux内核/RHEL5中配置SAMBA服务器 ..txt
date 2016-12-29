@@ -1,0 +1,407 @@
+搭建samba服务器实现文件共享
+SAMBA：Send Message Block，整合了SMB协议及Netbios协议，使其运做在TCP/IP上。能够让Unix based的机器与windows互动。
+SAMBA服务有两个进程：
+smbd：SMB服务器 。    smbd为SMB客户机，诸如Windows 9x/NT等提供Windows NT和Lan Manager风格的文件和打印服务。
+nmbd：netbios名字服务器。nmbd提供浏览支持，使采用Linux操作系统的计算机用户可以融入使用netbios协议的windows网络。
+使用端口：137，138，139
+默认情况下，Red Hat Enterprise Linux 5安装程序没有安装Samba服务
+RPM安装包名：samba-3.0.23c-2.i386.rpm(默认未装) （第二张光盘）； ---提供samba服务
+samba-common-3.0.23c-2.i386.rpm(默认已装) ；     ----提供服务器和客户机都必须使用的公共文件
+samba-client-3.0.23c-2.i386.rpm(默认已装)；            ----提供客户端工具支持
+              system-config-samba-1.2.21-1.i386.rpm(默认未装)；（第二张光盘）---提供图形界面管理
+              samba-swat-3.0.23c-2.i386.rpm (默认未装)；  （第三张光盘）    ----提供web界面管理
+下载地址：http://www.samba.org 
+源代码最新版本：
+安装rpm程序包：#rpm –ivh samba-3.0.23c-2.i386.rpm；# rpm –ivh system-config-samba-1.2.21-1.i386.rpm 
+#service smb start     =/etc/init.d/smb start   启动vsftpd服务 
+#service smb stop     =/etc/init.d/smb stop    停止vsftpd服务
+#service smb restart   =/etc/init.d/smb restart  重启vsftpd服务
+#service smb status   =/etc/init.d/smb status   检查vsftpd服务状态
+# ntsysv 或 #chkconfig –level 35 smb on      更改服务自动加载
+samba的配置文件：
+(samba的用户认证主要通过/e/tc/samba/smbpasswd和/etc/samba/smbusers两个文件实现，其中smbpasswd文件用于存放用smbpasswd -a命令将linux本地帐户生成samba帐户和密码的地方，而smhbusers文件用于存放和设置windows用户和linux本地帐户的映射，便于windows帐户直接访问samba服务器)
+/etc/samba/smb.conf
+ samba的主配置文件，由全局设置和共享定义两部分组成
+ 
+/etc/samba/lmhosts
+ 提供了局域网内主机的NetBIOS(Network Basic Input Output System,网络基本输入输出系统)名与IP地址的对应。
+此文件中每一行对应一个主机记录，前面是主机的IP地址，后面用空格隔开记录了这个IP地址对应主机的NetBIOS名，而NetBIOS则是则windows系统用来在局域网中进行通信连接的一种协议，主机间通过NetBIOS名来进行识别，为了能识别这种主机名，需要用户将局域网中的windows主机名（NetBIOS名称）与IP地址的对应关系列入此文件中，并一定要包括作为samba服务器的linux主机本身，如:127.0.0.1  localhost （请勿删除此条记录）
+192.168.0.1  sambaserver
+                                                       192.168.0.6  xpserver
+通常一启动samba时就能自动捕捉到网络中相关IP对应的NetBIO名，所以此档案通常可以不用设定了
+ 
+/etc/samba/smbpasswd
+ 又称密码文件。此文件在samba服务安装后是不存在的，需要使用smbpasswd命令创建该文件（由于samba服务和linux操作系统使用不同的密码文件，因此linux操作系统中的用户账号不能直接登录samba服务器，需要为linux用户创建新的samba用户帐号密码）。用户第一次使用smbpasswd命令创建samba服务的账号时，自动创建smbpasswd文件。命令格式#smbpasswd  -a  Linux用户名。例：#smbpasswd –a teacher(teacher用户已在linux系统中建立)，-a后是linux用户名，需要输入密码。命令执行后，一个名为teacher用户的samba账号密码创建成功，与此同时，在/etc/samba/目录下，将会创建smbpasswd文件，内容类似于：teacher:500:23B3EAA559DD0DBAAD3B:[U  ]:LCT-46ED7EEAF:可以看出samba服务器目前的用户是teacher，而该用户对应的密码是经过加密的密文密码。（smbpasswd –d/smbpasswd –e命令可停用/启用samba帐户，更多用法：#smbpasswd -? 查询）
+ 
+/etc/samba/smbusers
+ 又称用户文件。此文件提供了外部登录名与本地用户名的映射关系,所谓用户映射是指用户在windows和linux系统中的不同账号,映射为一个用户账号.做了映射后的windows账号,在连接samba服务器时，就可以直接使用windows账号进行访问了.设置用户映射需要在samba主配置文件smb.conf中进行修改,全局参数“username map”控制用户映射。通过该参数指定一个映射文件，默认情况下，这个映射文件就是/etc/samba/smbusers.因此，需要在smb.conf文件中做如下设置：username map = /etc/samb/smbusers,即将该语句前的注释符号#去掉，之后编辑/etc/samba/smbusers文件，将需要进行映射的用户添加到文件中，参数格式为：独立linux账号 = 需映射的windows账号列表(账号列表中的用户名需用空格分隔，该参数格式表明，多个windows用户账户可以映射为同一个samba账号.例如：#Unix_name = SMB_name1  SMB_name2  …)
+                     root = administrator  admin
+                     nobody = guest  pcguest  smbguest
+                     teacher = teacher
+在该文件中，可修改如下语句，例如，为windows用户kelly和teacher与linux用户teacher建立映射：             teacher = teacher  kelly
+ 
+/etc/samba/secrets.tdb
+  
+ 
+
+Samba的主配置文件/etc/samba/smb.conf说明（修改前先备份）：
+注意：在配置Samba服务器之前，需要查看/etc/services文件中（第123行）以“netbios-”开头的记录，正确的记录文件应如下所示，如果这些记录前有#号或者没有这些记录，则用户无法访问linux服务器上的共享资源。
+#cat /etc/services | grep netbios
+netbios-ns     137/tcp          #NETBIOS Name Service
+netbios-ns     137/udp
+netbios-dgm   138/tcp          #NETBIOS Datagram Service
+netbios-dgm   138/udp
+netbios-ssn    139/tcp          #NETBIOS session Service
+netbios-ssn    139/udp
+smb.conf主配置文件由两个部分组成，分别是全局设置（Global Settings）和共享定义（Share Definitions）:全局设置设置关于samba服务整体运行环境的选项，针对所有共享资源；共享定义设置共享目录。设置完基本参数后使用“#testparm”命令检查语法错误，若看到“Loaded services file OK”则表明配置文件加载正常，否则系统会提示出错的地方，配置内容如下：
+# This is the main Samba configuration file. You should read the
+# smb.conf(5) manual page in order to understand the options listed
+# here. Samba has a huge number of configurable options (perhaps too
+# many!) most of which are not shown in this example
+# For a step to step guide on installing, configuring and using samba, 
+# read the Samba-HOWTO-Collection. This may be obtained from:
+#  http://www.samba.org/samba/docs/Samba-HOWTO-Collection.pdf
+# Many working examples of smb.conf files can be found in the 
+# Samba-Guide which is generated daily and can be downloaded from: 
+#  http://www.samba.org/samba/docs/Samba-Guide.pdf
+# Any line which starts with a ; (semi-colon) or a # (hash) 
+# is a comment and is ignored. In this example we will use a #
+# for commentry and a ; for parts of the config file that you
+# may wish to enable
+# NOTE: Whenever you modify this file you should run the command "testparm"
+# to check that you have not made any basic syntactic errors. 
+#======================= Global Settings(全局变量设置) ===============================
+[global]
+client code page = 950  (這一行請自行輸入，可以看見中文！)
+# workgroup = NT-Domain-Name or Workgroup-Name, eg: MIDEARTH
+   workgroup = MYGROUP （workgroup:此参数设置域名或工作组名称,用来指定samba所要加入的工作组，如果要在windows主机的网上邻居看到samba服务器就须将此workgroup参数值和windows主机所加入的工作组名称保持一致，另外，如果设置了security=domain,则workgroup可以指定域名。该名称会出现在windows的网上邻居和linux的网络服务器中）
+# server string is the equivalent of the NT Description field
+   server string = Samba Server(server string:此参数用于设置对samba服务器的简要说明，方便访问用户的识别)
+# Security mode. Defines in which mode Samba will operate. Possible 
+# values are share, user, server, domain and ads. Most people will want 
+# user level security. See the Samba-HOWTO-Collection for details.
+#  username map = /etc/samb/smbusers （此文件中提供了外部登录名与本地samba用户名的映射关系，若要在windows主机中直接用windows帐户访问共享目录就须将其在/etc/samb/smbusers文件中映射为一个samba帐户，然后就能直接使用该windows帐户访问samba服务器了）
+security = user （定义samba服务器的安全级）
+(security:这是个重要的安全配置参数，有5个值,分别是：share,user,server,domain,ads.定义了samba的基本安全级。通常是user,这是samba的缺省配置，这种情况下，要求用户在访问共享资源之前，必须先提供用户名和密码进行验证，所以需要用smbpasswd命令先对linux系统用户创建samba账号密码，并重启samba服务。设置user安全级时需要对smb.conf文件做如下修改：
+security = user                          (设置安全级别为user)
+guest account = teacher                  (添加语句，设置guest帐号)
+encrypt passwords = yes                  (添加语句，设置口令为加密发送)
+smb passwd file = /etc/samba/smbpasswd   (添加语句，设置密码文件名和路径)
+share:这是几乎没有安全性的级别，任何用户都可以不需用户名和密码访问服务器上的资源,设置share安全级只需修改smb.conf:
+          security = share
+server:与user安全级类似，但用户名和密码是递交到另外一个SMB服务器去验证，也就是需要启用密码验证服务器，比如递交给一台windows服务器。如果递交失败，就退到user安全级，从用户端来看，server和user这两个级别是没什么分别的.设置server安全级需对smb.conf文件做如下修改(其中参数值“pwdserver”是密码验证服务器名。如果验证失败，服务器使用user安全级访问，但此时如果采用了加密口令，则samba 服务器无法反向检查原有密码文件，因此必须使用另一个smbpasswd密码文件，此例中为/etc/samba/smbpasswd-1)：  
+security = server                        (设置安全级别为user)
+guest account = teacher                  (添加语句，设置guest帐号)
+password server = pwdserver              (添加语句，指定口令服务器)
+ encrypt passwords = yes                   (添加语句，设置口令为加密发送)
+smb passwd file = /etc/samba/smbpasswd-1 (添加语句，设置密码文件名和路径)
+domain:使用domain安全级的samba服务器能够加入到windowsNT域中，这种安全级别要求网络上存在一台windowns PDC (primary domain controller主域控制器),samba把用户名和密码递交给windowns PDC去验证，因此设置domain安全级时，也必须指定口令服务器。从用户端看来，user级以上的安全级其实是没什么分别的，只是服务器验证的方式不同，但这3种安全级都要求用户在本地linux机器上也是系统账户，否则是不能访问的。)
+ads:若samba服务器需要加入到windows活动目录中，则应使用ads安全级，ads安全级设置也必须指定口令服务器。
+关于加密口令：设置主配置文件中的encrypt password参数实现加密口令，也就是用户密码以加密的方式发送到samba服务器。默认情况下启用该参数：encrypt passwords = yes  。windows操作系统也采用加密方式发送密码，而如果该参数设置为”no”,则需要修改windows注册表，为简化用户操作，samba在/usr/share/doc/samba-3.0.23c/registry/目录下提供了多种windows操 作系统的注册表文件，用户可以选择客户端操作系统相应的注册表文件。#cd /usr/share/doc/samba-3.0.23c/registry/ ，#ls
+# This option is important for security. It allows you to restrict
+# connections to machines which are on your local network. The
+# following example restricts access to two C class networks and
+# the "loopback" interface. For more examples of the syntax see
+# the smb.conf man page
+; hosts allow = 192.168.1. 192.168.2. 127.(hosts allow:此参数设置可访问samba服务器的IP范围或域名，是一个与服务器安全相关的重要参数。默认情况下，此参数被禁用，即表明所有主机都可以访问samba服务器。若进行设置，应将语句前的分号去掉，当参数值超过一个时，应使用空格或逗号进行分隔。例，若要允许主机名为new的主机，域名为master.website.com的域以及192.168.10.*中除192.168.10.149外的所有主机访问，可以将些参数设置为：hosts allow = new , master.website.com , 192.168.10. EXCEPT 192.168.10.149)
+# If you want to automatically load your printer list rather
+# than setting them up individually then you'll need this
+   load printers = yes （此参数指定在samba启动时是否自动加载/etc/printcap文件里的所有打印机，从而可以在浏览清单里看到所有的打印机，缺省为yes）
+# you may wish to override the location of the printcap file
+;   printcap name = /etc/printcap （设置加载的打印机配置文件和路径）
+# on SystemV system setting printcap name to lpstat should allow
+# you to automatically obtain a printer list from the SystemV spool
+# system
+;   printcap name = lpstat （设置打印机名）
+# It should not be necessary to specify the print system type unless
+# it is non-standard. Currently supported print systems include:
+# bsd, cups, sysv, plp, lprng, aix, hpux, qnx
+;   printing = cups (此参数设置打印机类型，若使用的打印机是linux的标准型，则无需更改打印机类型。标准打印机类型包括：bsd , cups ,sysv ,plp ,lprng ,aix ,hpux ,qnx等)
+# This option tells cups that the data has already been rasterized
+cups options = raw
+# Uncomment this if you want a guest account, you must add this to /etc/passwd
+# otherwise the user "nobody" is used
+;  guest account = pcguest （此参数设置guest级别的来宾用户名（可以是nobody,ftp帐号），guest级别的用户可以不要密码就访问给定的gues服务。在此设置的帐号名都必须在/etc/passwd文件中。如果没有指定，服务器会当成“nobody”帐号进行处理。默认情况下不启用guest帐号）
+例：有一个自定义的共享资源为：
+   [public]       (自定义了一个共享目录，共享名为public)
+   path = /home/testpublic  (设置共享目录对应的linux系统目录为/home/testpublic目录，须设置属主和属组为nobody)
+   public = yes    （设置此共享目录为对所有samba用户是可见的）
+   only guest = yes（表示所有用户在使用该共享目录时的用户身份都是guest，即linux的系统用户nobody）
+   writable = yes   (表示该共享目录对于用户可写)
+说明[public]共享目录对所有访问的用户都可见，对于samba服务器中的所有用户都以同样的权限进行共享目录中的文件读写
+# this tells Samba to use a separate log file for each machine
+# that connects
+   log file = /var/log/samba/ log.%m （此参数指定日志文件名和存放路径，文件名加个宏%m,表示samba服务器为每个登录的用户建立不同的日志文件，存放在/var/log/samba文件夹下）
+# Put a capping on the size of the log files (in Kb).
+   max log size = 50 （指定最大日志文件大小，单位为kb）
+# Use password server option only with security = server
+# The argument list may include:
+#   password server = My_PDC_Name [My_BDC_Name] [My_Next_BDC_Name]（说明设置口令服务器的格式）
+# or to auto-locate the domain controller/s
+#   password server = * （此参数设置口令服务器，参数值可以是域控制器名，“*”表示自动查找域控制器。）
+关于口令服务器：当用户在windows环境下通过samba服务器访问 linux的共享资源时，会自动传送登录windows的用户名和密码给samba，若指定了口令服务器，则samba向口令服务器验证用户名和密码信息是否正确，口令服务器可以是域控制器或是另一个samba服务器
+;   password server = <NT-Server-Name>
+# Use the realm option only with security = ads
+# Specifies the Active Directory realm the host is part of
+;   realm = MY_REALM
+# Backend to store user information in. New installations should 
+# use either tdbsam or ldapsam. smbpasswd is available for backwards 
+# compatibility. tdbsam requires no further configuration.
+;   passdb backend = tdbsam
+# Using the following line enables you to customise your configuration
+# on a per machine basis. The %m gets replaced with the netbios name
+# of the machine that is connecting.
+# Note: Consider carefully the location in the configuration file of
+#       this line.  The included file is read at that point.
+;   include = /usr/local/samba/lib/smb.conf.%m
+# Configure Samba to use multiple interfaces
+# If you have multiple network interfaces then you must list them
+# here. See the man page for details.
+;   interfaces = 192.168.12.2/24 192.168.13.2/24 （此参数为多网卡的samba服务器使用，用以设置samba服务器需要监听的网卡。可以通过IP地址或网络接口进行设置，如：interfaces = eth0）
+# Browser Control Options:
+# set local master to no if you don't want Samba to become a master
+# browser on your network. Otherwise the normal election rules apply
+;   local master = no （此参数指定nmdb是否试图成为本地主浏览器，缺省值是yes，如果设为no，则samba服务器永远都不会成为本地主浏览器。但即使设置为yes，也不等于samba服务器就会成为本地主浏览器，只是参与本地主浏览器选择）
+# OS Level determines the precedence of this server in master browser
+# elections. The default value should be reasonable
+;   os level = 33 （os level的值是整数,表示竞争主浏览器时对自身的评价，这决定了nmbd是否有机会成为本地广播区域工作组里的本地主浏览器，缺省值是零。这意味着nmbd失去浏览选择，如果要nmbd更有机会成为本地主浏览器的话，可以设为65）
+# Domain Master specifies Samba to be the Domain Master Browser. This
+# allows Samba to collate browse lists between subnets. Don't use this
+# if you already have a Windows NT domain controller doing this job
+;   domain master = yes （此参数让nmdb成为一个域浏览器，取得各本地浏览器的浏览列表，并将整个域的浏览列表递交给各本地主浏览器。缺省值是no .如果网络上已经有一台windows PDC 主域控制器，就不要把这个参数设为yes）
+# Preferred Master causes Samba to force a local browser election on startup
+# and gives it a slightly higher chance of winning the election
+;   preferred master = yes (此参数指定nmbd是否是工作组里的首要主浏览器，如果指定为yes，nmbd在启动时就强制一个浏览选择。指定该参数为yes时，最好把domain master也指定为yes.用这个参数时要注意，在samba服务器所在的子网上，如果有其他机器（不管是windows服务器，还是另一个samba服务器）也指定为首要的主浏览器时，这些机器都会因为争夺主浏览器而在网络上广播，引起不必要的网络性能下降)
+# Enable this if you want Samba to be a domain logon server for 
+# Windows95 workstations. 
+;   domain logons = yes （表示这部samba主机可以提供 windows登入的服务-PDC）
+# if you enable domain logons then you may want a per-machine or
+# per user logon script
+# run a specific logon batch file per workstation (machine)
+;   logon script = %m.bat
+# run a specific logon batch file per username
+;   logon script = %U.bat
+# Where to store roving profiles (only for Win95 and WinNT)
+#        %L substitutes for this servers netbios name, %U is username
+#        You must uncomment the [Profiles] share below
+;   logon path = //%L/Profiles/%U
+# Windows Internet Name Serving Support Section:
+# WINS Support - Tells the NMBD component of Samba to enable it's WINS Server
+;   wins support = yes (此参数设置samba服务器是否作为WINS服务器，会要求Samba的nmbd进程激活WINS服务, WINS服务器的主要作用是将NetBIOS名称转换为对应的IP地址。默认情况下不启用WINS支持)
+# WINS Server - Tells the NMBD components of Samba to be a WINS Client
+#   Note: Samba can be either a WINS Server, or a WINS Client, but NOT both
+;   wins server = w.x.y.z （此参数设置WINS服务地址。一台samba服务器不能同时作为WINS服务器和客户端，就是说在上面的参数中如果设置成WINS服务器，在此处就不能再指定其它WINS服务器了。但当一台samba服务器不是WINS服务器，仅需要WINS服务时，可设置此参数指定WINS服务器，要求Samba的nmbd进程成为一个WINS客户。该WINS服务器需要在DNS服务器中进行登记。）
+# WINS Proxy - Tells Samba to answer name resolution queries on
+# behalf of a non WINS capable client, for this to work there must be
+# at least one  WINS Server on the network. The default is NO.
+;   wins proxy = yes （此参数设置是否启用WINS代理）
+# DNS Proxy - tells Samba whether or not to try to resolve NetBIOS names
+# via DNS nslookups. The default is NO.
+   dns proxy = no  （此参数设置是否启用DNS代理）
+# These scripts are used on a domain controller or stand-alone 
+# machine to add or delete corresponding unix accounts
+;  add user script = /usr/sbin/useradd %u
+;  add group script = /usr/sbin/groupadd %g
+;  add machine script = /usr/sbin/adduser -n -g machines -c Machine -d /dev/null -s /bin/false %u
+;  delete user script = /usr/sbin/userdel %u
+;  delete user from group script = /usr/sbin/deluser %u %g
+;  delete group script = /usr/sbin/groupdel %g
+#============================ Share Definitions（共享资源定义）============================
+[homes] （此为特殊字段，[homes]共享目录并不特指某个目录，而是表示samba用户的宿主目录，即samba用户登录后可以访问同名系统用户的宿主目录中的内容）
+   comment = Home Directories (comment参数设置共享的说明信息)
+   browseable = no (设置为no,表示所有samba用户的宿主目录都不能被看到，只有登录用户才能看到自己的宿主目录，这样设置可加强samba服务器的安全性)
+   writable = yes （设置用户对自己的宿主目录具有写权限可写入）
+关于[homes]段：当用户请求一个共享时，服务器将在存在的共享资源段中去寻找。如果找到匹配的共享资源段，就使用这个共享资源段，如果找不到，就将请求的共享名看成是用户的用户名，并在本地的password文件里查找这个用户，如果用户存在，且用户提供的密码是正确的，则以这个[homes]段克隆出一个共享提供给用户。这个新的共享名称是用户的用户名，而不是homes，如果[homes]段里没有指定共享路径，就把该用户的主目录（home directory）作为共享路径。
+用户主目录设置方法：用户主目录是samba为每个samba用户提供的共享目录，这个共享目录只有用户本身可以使用。默认情况下，用户主目录位于/home目录下，每个linux用户有一个以用户名命名的子目录,/home目录的权限由[homes]字段设置为不允许浏览，允许写入用户自己的主目录。对于用户“teacher”,用户主目录为”/home/teacher”,可以增加如下设置：
+ [teacher]
+path = /home/teacher
+writeable = yes
+；browseable = yes
+guest ok = yes   
+# Un-comment the following and create the netlogon directory for Domain Logons
+; [netlogon]
+;   comment = Network Logon Service
+;   path = /usr/local/samba/lib/netlogon
+;   guest ok = yes
+;   writable = no
+;   share modes = no
+# Un-comment the following to provide a specific roving profile share
+# the default is to use the user's home directory
+;[Profiles]
+;    path = /usr/local/samba/profiles
+;    browseable = no
+;    guest ok = yes
+# NOTE: If you have a BSD-style print system there is no need to 
+# specifically define each individual printer
+[printers] （此特殊字段设置共享打印机）
+     comment = All Printers   （描述信息）
+     path = /usr/spool/samba  （path指定的目录必须事先创建，否则不能使用）
+     browseable = no          （设置浏览权限为否）
+# Set public = yes to allow user 'guest account' to print 
+     guest ok = no （设置guest账号不允许使用共享打印，如果允许“guest”来宾账号用户使用共享打印机，需增加一个设置“public = yes”）
+   writable = no            （设置目录不许写入）
+   printable = yes          （设置为允许打印）
+关于[printers]段：该段用于提供打印服务，如果定义了[printers]这个段，用户就可以连接在printcap文件里指定的打印机。当一个连接请求到来时。smbd去查看配置文件里已有的段，如果和请求匹配就用那个段，如果找不到匹配的段，但[homes]段存在，就用[homes]段。否则，请求的共享名就当作是打印机共享名，然后去寻找适合的printcap文件，看看请求的共享名是否为有效的打印共享名。如匹配，那么就克隆出一个新的打印机共享提供给客户。注意，[printers]服务必须设置printable为yes，如果指定为其他，服务器将拒绝加载配置文件。通常指定的路径应该任何人都有写入权限。
+# This one is useful for people to share files
+;[tmp] （此字段用来设置网络用户共享文件的临时区域，每个人可以在这里存放文件供别人使用）
+;   comment = Temporary file space
+;   path = /tmp
+;   read only = no 　　　　　(表示可以存取)
+;   public = yes　　　　　　（表示可以查询）
+# A publicly accessible directory, but read only, except for people in
+# the "staff" group
+;[public] （一个共享的目录，普通的访问者只读，属于staff组的用户可以读写）
+;   comment = Public Stuff
+;   path = /home/samba
+;   public = yes
+;   writable = yes
+;   printable = no
+;   write list = @staff
+# Other examples. 
+# A private printer, usable only by fred. Spool data will be placed in fred's
+# home directory. Note that fred must have write access to the spool directory,
+# wherever it is.
+;[fredsprn] （一个私有的打印机，只供fred使用，打印缓存存放在fred的主目录里# home directory. # 注意fred必须对打印缓存的目录有写权限）
+;   comment = Fred's Printer
+;   valid users = fred
+;   path = /homes/fred
+;   printer = freds_printer
+;   public = no
+;   writable = no
+;   printable = yes
+# A private directory, usable only by fred. Note that fred requires write
+# access to the directory.
+;[fredsdir] （私有的目录，只供用户fred使用，fred需要对该目录有写权限）
+;   comment = Fred's Service
+;   path = /usr/somewhere/private
+;   valid users = fred
+;   public = no
+;   writable = yes
+;   printable = no
+# a service which has a different directory for each machine that connects
+# this allows you to tailor configurations to incoming machines. You could
+# also use the %U option to tailor it by user name.
+# The %m gets replaced with the machine name that is connecting.
+# 下面的配置，使得每个不同的计算机都有不同的连接 
+# 在path参数值后面加上%m，代表机器名，也就是说，主机lidf会连接到 
+# SMB服务器的/usr/pc/lidf目录上 
+;[pchome]
+;  comment = PC Directories
+;  path = /usr/pc/%m
+;  public = no
+;  writable = yes
+# A publicly accessible directory, read/write to all users. Note that all files
+# created in the directory by users will be owned by the default user, so
+# any user with access can delete any other user's files. Obviously this
+# directory must be writable by the default user. Another user could of course
+# be specified, in which case all files would be owned by that user instead.
+# 一个共享目录，对于所有用户都可读可写。注意目录中创建的文件属于缺省的用户， 
+# 所以所有用户都可以在该目录中修改、删除其他用户的文件 
+;[public]
+;   path = /usr/somewhere/else/public
+;   public = yes
+;   only guest = yes
+;   writable = yes
+;   printable = no
+# The following two entries demonstrate how to share a directory so that two
+# users can place files there that will be owned by the specific users. In this
+# setup, the directory should be writable by both users and should have the
+# sticky bit set on it to prevent abuse. Obviously this could be extended to
+# as many users as required.
+# 下面的例子解释了如何共享一个目录，从而两个用户可以在里面放置文件。 
+# 在下面的配置中，目录应该是对两个用户可写的，并且有setuid， 
+# 当然，也可以设置更多的用户共享这一个目录
+;[myshare]
+;   comment = Mary's and Fred's stuff
+;   path = /usr/somewhere/shared
+;   valid users = mary fred
+;   public = no
+;   writable = yes
+;   printable = no
+;   create mask = 0765
+关于变量值：在samba中，为了便于使用者的设定，所以会有许多的变量值提供给系统管理员使用，主要有以下几个：
+%S ---取代目前的设定项目值，所谓[设定项目值]就是在[]里面的内容，举例来说：
+     [homes]
+       valid users = %S
+       ……
+因为valid users是允许的登入者，设定为%S表示任何可登入的使用者都能够登入的意思，今天如果test这个使用者登入之后，那个[homes]就会自动的变成了[test]，%S的用意就是在替换掉目前[]里面的内容。
+%m------代表client端的NetBIOS主机名称
+%M------代表client端的Internet主机名称，就是HOSTNAME
+%L------代表SAMBA主机的NetBIOS主机名称
+%H-------代表使用者的家目录
+%U------代表目前登入的使用者的使用者名称
+%g------代表登入的使用者的群组名称
+%h------代表目前这部samba主机的hostname,注意是hostname，而不是NetBIOS name.
+%I------代表client的IP
+%T-------代表目前的日期与时间
+一．Samba客户端工具：
+samba还提供了一系列的工具程序，可以进行服务器端测试，验证服务器的配置，还可以用来在客户端访问samba提供的文件服务及远程配置，管理samba服务器。
+1．smbclient 
+利用此工具可以连接其他linux机器上的sambaserver或连接windows机器，以获得文件共享服务，语法：
+#smbclient  //server/service  <password>  [option]
+参数说明：
+server    是远程服务器的IP地址或NetBIOS名字，对于windows服务器而言就是出现在网上邻居中的名字；
+service   是各服务器所提供的资源的名字，具体就是某个被共享的目录；   
+password是存取该资源所需的密码；
+option   是各种命令选项，包括： -L ：用于列出远程服务器提供的所有资源。
+                               -U ：指定访问的用户名
+                               -I  destIP：指定远程服务器的IP地址。此时，server中的NetBIOS名部分将被忽略。
+                               -p  port  ：连接到指定端口。
+                               -P  ：连接到打印机。
+                               -W  workgroup：指定工作组的名字。
+例如：
+查看samba服务器共享资源列表：#smbclient  –L  //IP地址或主机名  –U用户名
+使用samba服务器上的共享资源：#smbclient  //IP地址或主机名或共享目录名  –U用户名
+执行smbclient命令成功后，进入到smbclient环境，出现提示符：smb:/> ,与FTP客户端相似，可以使用如cd ,lcd,get,mget,put,mput等命令，访问远程主机的资源。
+2．smbmount
+smbmount类似于系统的mount命令，用于装载远程主机提供的共享资源，语法：
+#smbmount  //server/service  mount-point  [-o options,…]
+即：#smbmount 共享资源地址 加载点  -o 参数
+参数说明：
+server    是远程服务器的IP地址或NetBIOS名字，对于windows服务器而言就是出现在网上邻居中的名字；
+service   是各服务器所提供的资源的名字，具体就是某个被共享的目录；
+mount-point 是远程资源在本地的装载点
+option   选项包括： username=< arg> :samba用户名
+                    password=<arg> :samba用户密码
+                    guest :不提示密码
+                    ro : 只读装载
+                    rw : 读写装载
+例：把名字为server的计算机上的共享资源tmp的内容装载到本地的/mnt目录下，使用命令
+    ＄smbmount  //”//server/ /tmp”  /mnt
+3.smbumount
+用于卸载一个已经装载的SMB文件系统，使用smbumount命令时，需同时指定要卸载的装载点，如：
+    #smbumount  /mnt
+4.其他工具：
+testparm :测试smb.conf配置文件的定义是否正确。
+testprns : 测试在smb.conf文件中定义的打印机是否有效。
+smbstatus : 显示目前客户端连接到samba server的联机状况。
+nmblookup : 通过NetBIOS主机名来查找windows网络中主机对应的IP地址。
+smbpasswd : 可用来建立，变更登录到samba server的密码。
+swat :(Samba Web Admin Tool)提供web界面对samba server进行配置管理（1.需安装第三张光盘中的samba-swat-3.0.23c-2.i386.rpm 和第二张光盘中的xinetd-2.3.14-10.e15.i386.rpm.因为swat受xinetd超级服务器管理的服务程序，用chkconfig –list | grep xinetd查看时，RHEL 5中默认已没有xinetd服务程序了，所以需安装并重启swat服务和xinetd服务：#chkconfig swat on ;#service xinetd restart 2.swat服务的配置文件位于“/etc/xinetd.d/”目录中，文件名是swat,在该配置文件中默认设置了only_from的值为127.0.0.1,即只有在samba服务器主机中可以访问该配置界面，用户如果需在其他主机中访问swat服务，需要将only_from设置为允许访问主机的IP地址，例如：only_from = 192.168.1.122,修改后需要重新启动xinetd服务，使设置生效：#service xinetd restart.3.swat服务运行在901端口，只有管理终端机可以访问swat服务，即swat服务配置中设置的IP为192.168.1.122的管理终端机，服务协议为http，端口号为901，利用IE浏览器输入：http://samba服务器的IP:901/连接成功后输入管理员root用户名和密码）
+二．添加samba用户（2种方法）：
+在访问samba服务器时，必须以samba的用户身份登录，由于samba用户需要访问系统文件，因而,samba用户又必须是系统用户。添加samba用户有两种方法，一种是单独添加，另一种是批量加入。
+1. 单独添加：samba可以使用smbpasswd命令单独添加一个用户到samba的用户数据库中，用法：
+    #smbpasswd  -a  Linux用户名 
+(-a选项不可少，否则添加失败，其它选顶用法，可查询：#smbpasswd -?)
+2. 批量添加：使用/usr/bin/mksmbpasswd.sh脚本程序，可以从/etc/passwd文件里生成samba账户文件，用法：
+#cat /etc/passwd | mksmbpasswd.sh>/etc/samba/smbpaswd
+(可把系统账户都加入到samba账户中，为安全起见，smbpasswd这个文件的存取权限请设为600，即#chmod 600 /etc/samba/smbpasswd)
+ 
+
+测试samba服务
+用户可以利用testparm指令来检查smb.conf文件的语法。
+只能检查关键字段的拼写错误。对于配置值错误需要结合日志文件来判断。
+用户可以用service smb status判断samba服务的开启状况
+用户可以用nmblookup来检查本机上的samba服务是否正确开启
+Testparm
+    [root @stationxx root] # testparm /etc/samba/smb.conf   192.168.0.254
+nmblookup也可以用来向wins服务器查询记录
+管理smb用户
+samba服务支持用户级别的共享限制
+使用smbadduser添加可以使用smb服务的用户。
+语法：smbadduser  linux帐号:windows帐号
+使用smbpasswd改变用户的密码。
+用户密码存放在/etc/samba/smbpasswd文件中
+用户映射存放在/etc/samba/smbuser文件中
+Smbpasswd
+   [root @stationxx root]# smbadduser  kevinzlin:kevinzwin

@@ -1,0 +1,65 @@
+
+Mysql命令行导入sql数据的实现方法是我们经常会用到的，下面就为你详细介绍Mysql命令行导入sql数据的方法步骤，希望对您学习Mysql命令行方面能有所帮助。
+ 
+我的个人实践是：phpmyadmin 导出 utf-8 的 insert 模式的 abc.sql
+ 
+ftp abc.sql 到服务器
+ 
+ssh 到服务器
+ 
+mysql -u abc -p
+use KKK(数据库名，如果没有就 create database KKK)
+set names 'utf8'
+source abc.sql
+注意：我看到 set character set utf8; 的说法，那样不行，中文乱码。
+ 
+--------------------------------------------------------------------------------
+ 
+1.首先在命令行控制台中打开mysql
+ 
+或许命令的如下:
+ 
+mysql -u root -p database_name
+ 
+然后或许会提示输入对应的密码
+ 
+2.下面这条命令或许对你有用,当你想更换一个数据库的时候
+ 
+mysql>use database_name
+ 
+然后使用下面这个命令
+ 
+mysql>source d:\datafilename.sql
+ 
+当然你需要将文件所在的路径搞清楚,并且正确地使用了他
+ 
+进入mysql 安装所在的目录的子目录bin. 输入执行导入sql的命令.
+ 
+例如: 你的mysql 安装在 d:\mysql
+ 
+步骤如下:
+ 
+开始 -> 运行 -> 输入CMD
+ 
+D:
+ 
+cd mysql\bin
+ 
+mysql -u root -p123456 test <d:\a.sql
+ 
+其中 root 为你的mysql管理员用户名, 123456 为密码 test为数据库名称 d:\a.sql 为备份下来的数据文件所在位置.
+ 
+如果是Windows的话,从命令提示符下到MYSQL文件目录中的Bin文件夹下,执行命令
+ 
+mysql -u root -p databasename < db.sql
+ 
+其中root是你MYSQL的用户名,databasename是你数据库的名称,而db.sql你是的文件.注意你必须把db.sql放到bin文件夹下才可以.当然文件的位置可以换.
+ 
+如果是LINUX的话,直接输入
+ 
+mysql databasename < db.sql
+ 
+就可以了,系统默认mysql命令为系统命令
+ 
+<!-- NewPP limit report Preprocessor node count: 4/1000000 Post-expand include size: 0/2097152 bytes Template argument size: 0/2097152 bytes Expensive parser function count: 0/100 --><!-- Saved in parser cache with key wikiguo_wiki-wiki_:pcache:idhash:2032-0!1!0!!zh-cn!2!edit=0 and timestamp 20090724051413 --> 
+ g++ -I/usr/local/mysql/include post.cpp -lmysqlclient -o post

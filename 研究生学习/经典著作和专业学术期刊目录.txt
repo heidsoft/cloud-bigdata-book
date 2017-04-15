@@ -1,7 +1,0 @@
-1 Collected Papers of David Parnas David Parnas 
-2 IEEE Transactions on Software Engineering IEEE 
-3 ACM Transactions on Software Engineering and Methodology ACM 
-4 Proceedings of International Conference on Software Engineering ACM/IEEE 
-5 Proceedings of ACM Symposium on Foundations of Software Engineering ACM 
-6 Proceedings of International Conference on Automated Software Engineering ACM/IEEE 
-7 Distributed System Andrew Tanenbaum, Maarten Van Steen£¬Prentice-Hall, 2007. 

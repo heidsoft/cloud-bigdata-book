@@ -1,0 +1,23 @@
+
+apache ÐÂÔömod_rewriteÄ£¿é
+
+[root@localhost modules]# cd mappers/
+
+[root@localhost mappers]# /usr/local/apache2/bin/apxs -c mod_rewrite.c 
+/usr/local/apache2/build/libtool --silent --mode=compile gcc -prefer-pic  -DAP_HAVE_DESIGNATED_INITIALIZER -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -g -O2 -pthread -I/usr/local/apache2/include  -I/usr/local/apache2/include   -I/usr/local/apache2/include   -c -o mod_rewrite.lo mod_rewrite.c && touch mod_rewrite.slo
+/usr/local/apache2/build/libtool --silent --mode=link gcc -o mod_rewrite.la  -rpath /usr/local/apache2/modules -module -avoid-version    mod_rewrite.lo
+
+
+[root@localhost mappers]# gcc -shared -o mod_rewrite.so mod_rewrite.o -lgdbm
+
+[root@localhost mappers]# /usr/local/apache2/bin/apxs -i -A -n mod_rewrite mod_rewrite.so
+/usr/local/apache2/build/instdso.sh SH_LIBTOOL='/usr/local/apache2/build/libtool' mod_rewrite.so /usr/local/apache2/modules
+/usr/local/apache2/build/libtool --mode=install cp mod_rewrite.so /usr/local/apache2/modules/
+cp mod_rewrite.so /usr/local/apache2/modules/mod_rewrite.so
+Warning!  dlname not found in /usr/local/apache2/modules/mod_rewrite.so.
+Assuming installing a .so rather than a libtool archive.
+chmod 755 /usr/local/apache2/modules/mod_rewrite.so
+[preparing module `mod_rewrite' in /usr/local/apache2/conf/httpd.conf]
+[root@localhost mappers]# 
+/usr/local/apache/bin/apxs -i -A -n mod_rewrite mod_rewrite.so 
+

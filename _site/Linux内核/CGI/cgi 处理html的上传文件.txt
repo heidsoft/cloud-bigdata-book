@@ -1,0 +1,21 @@
+用抓包工具抓到的浏览器发送给服务器的数据，在content-length后，
+抓到的第二个html包内容如下：
+Hypertext Transfer Protocol
+    Content-Type: multipart/form-data; bounderay=------------------------------------1321xxx\r\n
+    Content-Length: 8791\r\n
+MiME Multipart Media Encapsulation,Type:multipart/form-data,Boundary:"------------------------1321xxx"
+    Type:multipart/form-data
+    First boundary:-------------------------------------1321xxx\r\n
+    Encapsulated multipart part
+       Content-Disposition:form-data: name="picf";filename="200710041505.jpg"\r\n
+       Content-Type:image/jpeg\r\n
+       \r\n
+注意数据包中紧跟在上面这个\r\n之后就是上面filename中指定文件的内容了，紧接着的后面几个html的包就是
+    Hypertext Transfer Protocol
+       Data (1448 bytes)
+这些就是刚才剩下的数据分为好几个包来传递的，具体分为几个数据包，由传递的文件大小决定；
+
+    现在的问题是，我在cgi程序里面，解析出了Content-Length的大小，动态生成一个Content-Length大小的一个buffer，用fread读入Content-Length大小的数据到buffer里面，进而将读入的数据存为文件，然后我去检查这个文件内容，感觉里面内容错位了，并且文件尾部还有一些其他不知道的内容；
+    现在没有搞明白的就是fread读入的内容是从http协议哪里开始读的，这个问题搞清楚了就好办了。
+明天开始看看这个问题。 
+

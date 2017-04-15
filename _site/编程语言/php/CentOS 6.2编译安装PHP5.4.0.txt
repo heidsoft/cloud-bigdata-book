@@ -1,0 +1,45 @@
+CentOS 6.2编译安装PHP5.4.4
+
+tar -jxvf php-5.3.8.tar.bz2 
+cd php-5.3.8
+./configure --prefix=/usr/local/webserver/php --with-config-file-path=/usr/local/webserver/php/etc --with-iconv-dir=/usr/local --with-freetype-dir --with-mysql=/usr/local/webserver/mysql --with-mysqli=/usr/local/webserver/mysql/bin/mysql_config --with-jpeg-dir --with-png-dir --with-zlib --with-mhash --enable-sockets --enable-ftp --with-libxml-dir --enable-xml --disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-mbstring --with-mcrypt --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-ldap --with-ldap-sasl --enable-fpm --with-xmlrpc --enable-zip --enable-soap --without-pear 
+编译完后，没问题再继续执行以下脚本
+make ZEND_EXTRA_LIBS='-liconv'
+
+#执行完后后出现 make: *** [ext/phar/phar.php] 错误 127
+解决办法:
+ln -s /usr/local/webserver/mysql/lib/libmysqlclient.so.18 /usr/lib/(32位系统)
+ln -s /usr/local/webserver/mysql/lib/libmysqlclient.so.18 /usr/lib64/(64位系统)
+
+执行以上软连接后，再重复上面的　　./configure ........
+　　make ZEND_EXTRA_LIBS='-liconv'
+没问题后再执行　　make install
+#选择PHP.ini配置文件
+cp php.ini-production /usr/local/webserver/php/etc/php.ini
+
+#添加WWW用户
+/usr/sbin/groupadd www && /usr/sbin/useradd -g www www
+mkdir -p /var/log/nginx && chmod +w /var/log/nginx &&chown -R www:www /var/log/nginx
+mkdir -p /data/www && chmod +w /data/www && chown -R www:www /data/www
+
+cp /usr/local/webserver/php/etc/php-fpm.conf.default /usr/local/webserver/php/etc/php-fpm.conf
+vi /usr/local/webserver/php/etc/php-fpm.conf
+  
+#去掉/更改 配置文件中的;
+pm.max_children = 64 
+pm.start_servers = 20
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+pm.max_requests = 1024
+user = www
+group = www 
+
+#检查语法是否正确
+/usr/local/webserver/php/sbin/php-fpm -t
+#出现NOTICE: configuration file /usr/local/webserver/php/etc/php-fpm.conf test is successful 测试成功
+/usr/local/webserver/php/sbin/php-fpm &
+#设置开机启动
+vi /etc/rc.d/rc.local
+#在行末加入
+/usr/local/webserver/php/sbin/php-fpm &
+

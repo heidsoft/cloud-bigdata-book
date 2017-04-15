@@ -1,0 +1,202 @@
+ACL编程之父子进程机制，父进程守护子进程以防止子进程异常退出 .
+
+
+在WIN32平台进行编程时，经常会遇到工作进程因为程序内部BUG而异常退出的现象，当然为了解决此类问题最好还是找到问题所在并解决它，但如果这类导致程序崩溃的BUG并不是经常出现，只有当某种条件发生时才会有，在我们解决BUG的时间里，为了尽最大可能地为用户提供服务可以采用一种父进程守护机制：当子进程异常退出时，守护父进程可以截获这一消息，并立即重启子进程，这样用户就可以继续使用我们的程序了，当然如果子进程的问题比较严重频繁地DOWN掉，而父进程却不停地重启子进程的话，势必造成用户机系统资源的大量耗费，那我们的程序就如病毒一样，很快耗尽了用户机资源，所以需要父进程能够智能地控制重启子进程的时间间隔。
+　　本文将给出一个具体的例子（利用ACL库），介绍父、子进程的编程方法。
+一、接口介绍
+1.1 以守护进程方式运行的接口
+创建守护进程的方式非常简单，只需要调用 acl_proctl_deamon_init, acl_proctl_daemon_loop 两个函数即可
+接口说明如下：
+1./**
+2. * 初始化进程控制框架（仅 acl_proctl_start 需要）
+3. * @param progname {const char*} 控制进程进程名
+4. */5.ACL_API void acl_proctl_deamon_init(const char *progname);
+6.7./**
+8. * 控制进程作为后台服务进程运行，监视所有子进程的运行状态，
+9. * 如果子进程异常退出则会重启该子进程
+10. */11.ACL_API void acl_proctl_daemon_loop(void);
+1.2 以命令方式来控制守护进程（守护进程即控制进程的意思）
+守护进程启动后，可以以命令方式控制守护进程来启动、停止子进程，或查询显示当前正在运行的子进程。
+启动子进程：acl_proctl_start_one
+停止子进程：acl_proctl_stop_one
+停止所有子进程：acl_proctl_stop_all
+查询子进程是否在运行：acl_proctl_probe
+查询当前所有在运行的子进程：acl_proctl_list
+通过守护进程停止所有子进程且守护进程自身退出：acl_proctl_quit
+
+接口说明如下：
+
+1./**
+2. * 以命令方式启动某个子进程
+3. * @param progname {const char*} 控制进程进程名
+4. * @param progchild {const char*} 子进程进程名
+5. * @param argc {int} argv 数组的长度
+6. * @param argv {char* []} 传递给子进程的参数
+7. */8.ACL_API void acl_proctl_start_one(const char *progname,
+9.    const char *progchild, int argc, char *argv[]);
+10.11./**
+12. * 以命令方式停止某个子进程
+13. * @param progname {const char*} 控制进程进程名
+14. * @param progchild {const char*} 子进程进程名
+15. * @param argc {int} argv 数组的长度
+16. * @param argv {char* []} 传递给子进程的参数
+17. */18.ACL_API void acl_proctl_stop_one(const char *progname,
+19.    const char *progchild, int argc, char *argv[]);
+20.21./**
+22. * 以命令方式停止所有的子进程
+23. * @param progname {const char*} 控制进程进程名
+24. */25.ACL_API void acl_proctl_stop_all(const char *progname);
+26.27./**
+28. * 探测某个服务进程是否在运行
+29. * @param progname {const char*} 控制进程进程名
+30. * @param progchild {const char*} 子进程进程名
+31. */32.ACL_API void acl_proctl_probe(const char *progname, const char *progchild);
+33.34./**
+35. * 列出当前所有正在运行的服务进程
+36. * @param progname {const char*} 控制进程进程名
+37. */38.ACL_API void acl_proctl_list(const char *progname);
+39.40./**
+41. * 以命令方式通知控制进程停止所有的子进程，并在子进程退出后控制进程也自动退出
+42. * @param progname {const char*} 控制进程进程名
+43. */44.ACL_API void acl_proctl_quit(const char *progname);
+1.3、子进程编写
+子进程编程也比较容易，只需在程序初始化时调用　acl_proctl_child　即可，这样子进程就会在硬盘创建自己的信息并与父进程（即守护进程）建立联系。
+接口说明：
+
+1./**
+2. * 子进程调用接口，通过此接口与父进程之间建立控制/被控制关系
+3. * @param progname {const char*} 子进程进程名
+4. * @param onexit_fn {void (*)(void*)} 如果非空则当子进程退出时调用的回调函数
+5. * @param arg {void*} onexit_fn 参数之一
+6. */7.ACL_API void acl_proctl_child(const char *progname, void (*onexit_fn)(void *), void *arg);
+二、例子
+2.1、父进程
+程序名：acl_project/samples/proctl/proctld.cpp
+
+1.// proctld.cpp : 定义控制台应用程序的入口点。
+//
+2.#pragma comment(lib,"ws2_32")3.#include "lib_acl.h"4.#include <assert.h>5.6.static void init(void)
+7.{
+8.    acl_init();  // 初始化ACL库   9.}
+10.11.static void usage(const char *progname)
+12.{
+13.    printf("usage: %s -h [help] -d [START|STOP|QUIT|LIST|PROBE] -f filepath -a args/r/n",
+14.        progname);
+15.    getchar();
+16.}
+17.18.int main(int argc, char *argv[])
+19.{
+20.    char  ch, filepath[256], cmd[256];
+21.    char **child_argv = NULL;
+22.    int   child_argc = 0, i;
+23.    ACL_ARGV *argv_tmp;
+24.25.    filepath[0] = 0;
+26.    cmd[0] = 0;
+27.28.    init();
+29.30.    while ((ch = getopt(argc, argv, "d:f:a:h")) > 0) {
+31.        switch(ch) {
+32.        case 'd':
+33.            ACL_SAFE_STRNCPY(cmd, optarg, sizeof(cmd));
+34.            break;
+35.        case 'f':
+36.            ACL_SAFE_STRNCPY(filepath, optarg, sizeof(filepath));
+37.            break;
+38.        case 'a':
+39.            argv_tmp = acl_argv_split(optarg, "|");
+40.            assert(argv_tmp);
+41.            child_argc = argv_tmp->argc;
+42.            child_argv = (char**) acl_mycalloc(child_argc + 1, sizeof(char*));
+43.            for (i = 0; i < child_argc; i++) {
+44.                child_argv[i] = acl_mystrdup(argv_tmp->argv[i]);
+45.            }
+46.            child_argv[i] = NULL;
+47.           
+48.            acl_argv_free(argv_tmp);
+49.            break;
+50.        case 'h':
+51.            usage(argv[0]);
+52.            return (0);
+53.        default:
+54.            usage(argv[0]);
+55.            return (0);
+56.        }
+57.    }
+58.59.    if (strcasecmp(cmd, "STOP") == 0) {
+60.        // 向守护进程发送消息命令，停止某个子进程或所有的子进程61.        if (filepath[0])
+62.            acl_proctl_stop_one(argv[0], filepath, child_argc, child_argv);
+63.        else64.            acl_proctl_stop_all(argv[0]);
+65.    } else if (strcasecmp(cmd, "START") == 0) {
+66.        if (filepath[0] == 0) {
+67.            usage(argv[0]);
+68.            return (0);
+69.        }
+70.        // 向守护进程发送消息命令，启动某个子进程71.        acl_proctl_start_one(argv[0], filepath, child_argc, child_argv);
+72.    } else if (strcasecmp(cmd, "QUIT") == 0) {
+73.        // 向守护进程发送消息命令，停止所有的子进程同时守护父进程也退出74.        acl_proctl_quit(argv[0]);
+75.    } else if (strcasecmp(cmd, "LIST") == 0) {
+76.        // 向守护进程发送消息命令，列出由守护进程管理的正在运行的所有子进程77.        acl_proctl_list(argv[0]);
+78.    } else if (strcasecmp(cmd, "PROBE") == 0) {
+79.        if (filepath[0] == 0) {
+80.            usage(argv[0]);
+81.            return (0);
+82.        }
+83.        // 向守护进程发送消息命令，探测某个子进程是否在运行84.        acl_proctl_probe(argv[0], filepath);
+85.    } else {
+86.        // 父进程以守护进程方式启动87.        char  buf[MAX_PATH], logfile[MAX_PATH], *ptr;
+88.89.        // 获得父进程执行程序所在的磁盘路径90.        acl_proctl_daemon_path(buf, sizeof(buf));
+91.        ptr = strrchr(argv[0], '//');
+92.        if (ptr == NULL)
+93.            ptr = strrchr(argv[0], '/');
+94.95.        if (ptr == NULL)
+96.            ptr = argv[0];
+97.        else98.            ptr++;
+99.100.        snprintf(logfile, sizeof(logfile), "%s/%s.log", buf, ptr);
+101.        // 打开日志文件102.        acl_msg_open(logfile, "daemon");
+103.        // 打开调试信息104.        acl_debug_init("all:2");
+105.106.        // 以服务器模式启动监控进程107.        acl_proctl_deamon_init(argv[0]);
+108.        // 父进程作为守护进程启动109.        acl_proctl_daemon_loop();
+110.    }
+111.112.    if (child_argv) {
+113.        for (i = 0; child_argv[i] != NULL; i++) {
+114.            acl_myfree(child_argv[i]);
+115.        }
+116.        acl_myfree(child_argv);
+117.    }
+118.    return (0);
+119.}
+2.2、子进程
+acl_project/samples/proctl/proctlc.cpp
+
+1.// proctlc.cpp : 定义控制台应用程序的入口点。2.//3.#pragma comment(lib,"ws2_32")4.#include "lib_acl.h"5.6.static void onexit_fn(void *arg acl_unused)
+7.{
+8.    printf("child exit now/r/n");
+9.}
+10.11.int main(int argc, char *argv[])
+12.{
+13.    int   i;
+14.15.    acl_socket_init();
+16.    acl_msg_open("debug.txt", "proctlc");
+17.    acl_msg_info(">>> in child progname(%s), argc=%d/r/n", argv[0], argc);
+18.    if (argc > 1)
+19.        acl_msg_info(">>> in child progname, argv[1]=(%s)/r/n", argv[1]);
+20. 
+21.    // 子进程启动，同时注册自身信息22.    acl_proctl_child(argv[0], onexit_fn, NULL);
+23.24.    for (i = 0; i < argc; i++) {
+25.        acl_msg_info(">>>argv[%d]:%s/r/n", i, argv[i]);
+26.    }
+27.28.    i = 0;
+29.    while (1) {
+30.        acl_msg_info("i = %d/r/n", i++);
+31.        if (i == 5)
+32.            break;
+33.        else34.            sleep(1);
+35.    }
+36.    return (-1);  // 返回 -1 是为了让父进程继续启动37.}
+2.3、编译、运行
+　　可以打开 acl_project/win32_build/vc/samples/samples_vc2003.sln，编译其中的 proctlc, proctld 两个工程，便会生成两个可执行文件：proctlc.exe(子进程程序），proctld.exe(父进程程序）。
+　　先让父进程以守护进程模式启动 proctld.exe，然后运行 proctld.exe -d START {path}/proctlc.exe 通知父进程启动子进程；可以运行 proctld.exe -d LIST 列出当前正在运行的子进程，运行 proctld.exe -d PROBE {path}/proctld.exe 判断子进程是否在运行，运行 proctld.exe -d STOP {path}/proctld.exe 让守护父进程停止子进程，运行 proctld.exe -d QUID 使守护进程停止所有子进程并自动退出。
+　　另外，从子进程的程序可以看出，每隔5秒子进程就会异常退出，则守护进程便会立即重启该子进程，如果子进程死的过于频繁，则守护进程会延迟重启子进程，以防止太过耗费系统资源。
+
+三、小结
+　　因为有守护进程保护，就不必担心子进程（即你的工作进程）异常崩溃了，这种父子进程模型可以应用于大多数工作子进程偶尔异常崩溃的情形，如果你的程序BUG太多，每一会儿就崩溃好多次，建议你还是先把主要问题解决后再使用父子进程，毕竟如果你的程序太过脆弱，虽然父进程能不断地重启你的程序，但你还是不能为用户提供正常服务。这种模型适用于在WIN32平台下，你的程序可能写得比较复杂，程序基本上是比较健壮的，只是会因偶尔某些原因而异常退出的情况。
+    关于ACL库的在线帮助可以参照：http://acl.sourceforge.net/

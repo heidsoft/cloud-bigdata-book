@@ -1,0 +1,48 @@
+
+
+system("ps aux |grep \"PORC\" > ps.out")，
+linux下判断进程是否存在，不存在则启动，shell脚本
+#!/bin/sh
+
+/usr/sbin/httpd&
+
+while :
+
+do
+
+sleep 60
+
+RESULT='ps -e|grep '/usr/sbin/httpd'|sed -e "/grep/d"'
+
+if [ -z "$RESULT" ];then #判断RESULT是否为空，为空则说明进程未启动
+
+  /usr/sbin/httpd&
+
+fi
+
+done
+
+
+linux中shell编程: 使用pgrep指令判断进程是否存在 .
+
+if test $( pgrep -f processname | wc -l ) -eq 0
+then
+
+       echo "processname is not exist"
+else
+       echo "processname is exist"
+fi
+
+
+
+解释:
+
+
+pgrep -f processname 返回名字为processname的进程ID,如果有N个processname的进程则会分N行显示N个进程的ID
+
+wc -l 统计行数
+
+pgrep -f processname | wc -l将会获得一个数字,如果获取到的是0就说明processname进程不存在
+
+
+

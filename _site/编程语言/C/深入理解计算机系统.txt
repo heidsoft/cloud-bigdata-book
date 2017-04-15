@@ -1,0 +1,5 @@
+1.2程序被其他程序翻译成不同格式
+编译器驱动程序(complier driver):从源文件-->目标文件的转化
+例如：gcc -o hello hello.c
+hello.c-->hello.i-->hello.s-->hello.o-->hello
+			预处理-->编译器-->汇编器-->连接器

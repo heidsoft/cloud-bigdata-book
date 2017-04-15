@@ -1,0 +1,592 @@
+Apache的基本设置主要交由httpd.conf来设定管理，我们要修改Apache的相关设定，主要还是通过修改httpd.conf来实现。下面让我们来看看httpd.conf的内容，它主要分成3大部分：
+
+　　Section 1:Global Environment
+
+　　Section 2:'Main' server configuration
+
+　　Section 3:Virtual Hosts
+
+　　【第一部分】
+
+　　·ServerType standalone
+
+　　这表示Apache是以standalone启动，也可以是inetd。所谓standalone是指启动一次来接听所有的连线；而inetd是接到http的连线要求才启动，随着连线的结束而结束，这样负担是不是很但呢？所以一般都是以standalone启动。
+
+　　·ServerRoot "/usr/local/httpd"
+
+　　此为apache的目录
+
+　　·#LocdFile /use/local/httpd/logs/httpd.lock
+
+　　保留预设值，不更动
+
+　　·PidFile /usr/local/httpd/logs/httpd.pid
+
+　　此文件记录着apache的父处理程序id
+
+　　·ScoreBoardFile /usr/local/httpd/logs/httpd.scoreboard
+
+　　此文件存储处理程序的信息
+
+　　·#ResourceConfig conf/srm.conf
+
+　　·#AccessConfig conf/access.conf
+
+　　由于我们统筹由httpd.conf来管理，所以这两个文件预设是注解起来的，可以保留预设值不更动
+
+　　·Timeout 300
+
+　　设盯超时的时间。如果用户端超过300秒还没连上server，或server超过300秒还没传送信息给用户端，即断线。
+
+　　·KeepAlive On
+
+　　允许用户端的连线有多个请求，设为Off表示不允许
+
+　　·MaxKeepAliveRequests 100
+
+　　每次连线最大的请求树木，数字愈大，效能愈好。0表示不限制
+
+　　·MinSpareServer 5
+
+　　·MaxSpareServers 10
+
+　　MinSpareServer 5表示最少会有5个闲置的处理程序，如果实际的数目少于此数目，则会增加处理程序。MaxSpareServers 10表示最大的闲置处理程序数目，如果你的网站需求量很大，可以将此数目设大一些，大不要随便将此数目设得太大。
+
+　　·StartServers 5
+
+　　启动时Server的数目
+
+　　MaxClients 150
+
+　　限制同时间最大的连线数目，当然不能设得太小，一旦达到此数目，就无法再增加用户端
+
+　　·MaxRequestPerChild 0
+
+　　限制子处理程序结果前的要求数目，0表示不限制
+
+　　·#Listen 3000
+
+　　·#Listen 12.34.56.78:80
+
+　　使用其它的连接端口或IP
+
+　　·BindAddress *
+
+　　可以接听*（所有IP地址）、指定的IP地址或是完整的域名
+
+　　·#LoadModule foo_module libexec/mod_foo.so
+
+　　使用DSO模块
+
+　　·#ExtendedStatus On
+
+　　可检阅apache的状态信息，预设是Off（注解起来）
+
+　　【第二部分】
+
+　　如果之前的ServerType是inetd，请直接跳到ServerAdmin。
+
+　　·Port 80
+
+　　Standalone服务器接听的连接端口，当然也可以是其他小于1023的端口号
+
+　　·User nobody
+
+　　·Group nobody
+
+　　执行httpd的用户和群组
+
+　　·ServerAdmin
+
+　　管理员的电子邮件地址
+
+　　这是管理员的电子邮件地址，如果apache有问题的话，会寄信通知管理员，当然你也可以建立一个专门负责web的帐号来收信
+
+　　·ServerName
+
+　　你的主机名称
+
+　　此为主机名称，如果没有域名，也可以用IP
+
+　　·DocumentRoot "usr/local/httpd/htdocs"
+
+　　此目录为apache放置网页的地方，里面的index.html即为连到此主机的预设首页
+
+　　·
+
+　　Options FollowSymLinks
+
+　　AllowOverride none
+
+　　此目录设定用户放置网页的目录（public_html）的执行动作。详细的目录存取方法会在后面说明
+
+　　·
+
+　　Options Indexes FolloeSymLinks
+
+　　AllowOverride None
+
+　　Order allow,deny
+
+　　Allow from all
+
+　　此目录设定apache的网页目录（htdocs）的执行动作
+
+　　·UserDir public_html
+
+　　用户可在自己的目录下建立public_html目录来放置网页，输入http://主机地址/~用户名称即可连接到...劳撤胖玫牡胤?/a>
+
+　　·DirectoryIndex index.html
+
+　　这里设定预设主页的名称
+
+　　·AccessFileName .htaccess
+
+　　这个是控制存取的文件名称，一般采用预设的.htaccess名称，后面会说明htaccess的使用方法
+
+　　·
+
+　　Order allow,deny
+
+　　Deny from all
+
+　　这用来防止其他人看到.ht开头的文件内容，不仅是保护.htaccess的内容，还保护.htpasswd的内容。当然也可以直接写成。如果你有更改 AccessFilename，例如将.htaccess改成.accessht，请记得也要在此做相关的更改，如此才能防止其他人看到哦
+
+　　·#CacheNegotiatedDocs
+
+　　注解起来是告诉Proxy不要将互动产生的文件存入cache，如果拿掉#，则会存在cache中
+
+　　·UseCanonicalName On
+
+　　使用标准的名称，预设是On。假设有一个web server的全名是www.sample.com，一般称为www；如果us...羑ttp://www/abc
+
+　　·TypeConfig /usr/local/httpd/conf/mime.types
+
+　　指定存放MIME文件类型的文件。你可以自行编辑mime.types文件。
+
+　　·DefaultType text/plain
+
+　　当server不认得此文件类型时的预设格式，此设定是当成一般文字
+
+　　·
+
+　　MIMEMagicFile /usr/local/httpd/conf/magic
+
+　　mod_mime_magic模块可使server由文件内容决定其MIME类型。如果有载入mod_mime_magic模块，才会处理MIMEMagicFile这一段。如果是…，则表示如果没有载入该模块，才会处理这一段
+
+　　·HostLookups Off
+
+　　如果为On，则每次都会向name server解析该IP，记录此连线的名称（例如www.apache.org）自换岷牟簧偈奔洌...为Off，仅记录IP
+
+　　·ErrorLog /usr/local/httpd/logs/error_log
+
+　　指定发生错误的记录文件（error_log）位置。如果在没有指定发生错误的记录文件，则会沿用此文件
+
+　　·LogLevel warn
+
+
+
+ 
+
+　　记录分成很多等级，在此是warn。各等级如下： 等级 说明
+
+　　debug debug信息
+
+　　info 普通信息
+
+　　notice 重要信息
+
+　　warn 警告信息
+
+　　error 发生错误
+
+　　crit 紧急情况
+
+　　alert 马上要处理的情况
+
+　　amerg 系统快要死了
+
+　　·LogFormat "%h %l %u %t\"%r\"%>s %b\"{Referer}i\"\"${UserAgent}i\""combined
+
+　　LogFormat "%h %l %u %t"%r\"%>s %b"commom
+
+　　LogFormat "%{Referer}i->%U"referer
+
+　　LogFormat "%{User-agent}i"agent
+
+　　自定四种记录格式：combined、common、referer、agent
+
+　　·CustomLog /usr/local/httpd/logs/access_log common
+
+　　存取的记录文件（access_log）使用自定的common格式
+
+　　·#CustomLog /usr/local/httpd/logs/referer_log referer
+
+　　#CustomLog /usr/local/httpd/logs/agent_log agent
+
+　　#CustomLog /usr/local/httpd/logs/agent_log combined
+
+　　这三个记录文件也是使用自定义格式（分别是referer、agent、combined），不过注解起来表示未使用这三个文件
+
+　　·ServerSignature On
+
+　　设为On时，在server所产生的网页（像是错误发生时）上，会有apache的版本、主机、连接端口的一行信息；如果设为Email，则会有mailto:给管理员的超链接
+
+　　·Alias /icons/ "/usr/local/httpd/icons/"
+
+　　使用较短的别名，其格式为：Alias 别名 原名。
+
+　　·ScriptAlias /cgi-bin/ "/usr/local/httpd/cgi-bin/"
+
+　　和Alias一样，只是这是设定server script的目录
+
+　　·IndexOptions FancyIndexing
+
+　　显示好看的文件清单（配合下面各文件所对应的图形）
+
+　　·AddIconByEncoding(CMP,/icons/compressed.gif)x-conpress x-gzip
+
+　　·AddIcon /icons/blank.gif＾＾BLANKICON＾＾DefaultIcon/icons/unknow.gif
+
+　　这些是在显示文件清单（之前所说的FancyIndex）时，各种文件类型的对应图形。例如.ps .si .eps这三种文件的表示图形都是a.gif
+
+　　·#AddDescription "GZIP conpressed document" .gz
+
+　　#AddDescription "tar archive" .tar
+
+　　#AddDescription "GZIP compressed tar archive" .tgz
+
+　　这些是在显示文件清单时，在文件后面附上说明，其格式为：
+
+　　AddDescription "说明" 文件名
+
+　　例如：AddDescription "It is private txt" my.txt
+
+　　·ReadmeName README
+
+　　显示文件清单时，在最下面显示README的文件内容
+
+　　设置CGI脚本/将httpd.conf做为唯一的配置文件/用户授权和访问控制等
+
+　　关于Apache的配置及使用，在LinuxAid中已经有不少文章做了详细的阐述，本文讨论了在使用Apache时，有关配置文件的使用及对文件的访问控制等内容，算是对Apache的使用所做的一些补充吧！
+
+　　如果您对Apache有一定的了解，特别是对几个配置文件有一定的了解，这将会有助于您对本文内容的理解；如果恰巧您不是很了解这几个配置文件的使用，那么就借着这个机会来一起熟悉一下吧。
+
+　　一、关于CGI执行脚本的配置
+
+　　这里有两种设置CGI脚本的方法。第一、CGI的脚本文件以.cgi为扩展名；第二、设置脚本可执行目录。但是这两种方法都需要将要执行的文件设置为711，才可以被执行。
+
+　　第一种方法，我们需要在access.conf文件种将你要发行的目录设置为Option ExecCGI All，在srm.conf资源配置文件中，加上下列一句：
+
+　　AddHandle cgi-script .cgi
+
+　　这样在所有的目录种只要你的文件是.cgi为扩展名的，且文件访问权限为711的，无论给文件在你发行目录的任何一个地方都可以做为CGI被Apache服务器调用。这种方法一般没有第二种方法安全。
+
+　　第二种方法，是将一个目录作为一个可执行目录，将所有的cgi文件都放在其中，这里就不一定非得是以.cgi为扩展名得文件可以执行，而是只要有711属性的文件就可以被执行，而且其它的非可执行文件都被禁止访问。我们的默认配置文件种就有一个很好的例子：
+
+　　access.conf:
+
+　　<Directory /home/httpd/cgi-bin/>
+
+　　Allow Override None
+
+　　Options ExecCGI
+
+　　</Directory>
+
+　　srm.conf
+
+　　ScriptAlias /cgi-bin/ /home/httpd/cgi-bin/
+
+　　这样只要在/home/httpd/cgi-bin/目录中的可执行文件都可以被Web服务器调用，而其它的非可执行文件将被拒绝访问。
+
+　　二、配置用户的发行目录
+
+　　这里有两种设置方法：
+
+　　第一种是系统的默认方法，即用户目录下的public_html目录为用户的发行目录，且默认的主页文件为index.html，且该目录不支持CGI。
+
+　　第二种是在其它目录种专门为用户设置发布目录，如我想在/home/html目录做为用户的web目录，那管理员就应该在该目录下为每一个用户设置一个子目录，如：/home/html/user01、/home/html/user02等。那么，你的srm.conf文件中的UserDir后面就不能再是public_html了，应该改为:UserDir /home/html/*/，注意这里的“*”代表anyone，当你再浏览器中请求一个如http://www.domain/~user01时，Apache...ndex.html文件。
+
+　　这种设置不需要到access.conf中设置该目录的访问属性，还有，当我们设置虚拟主机时也不用设置目录的访问属性，但是如果你想让某个目录具有 CGI权限，都要到Access.conf文件中去配置目录的访问权限，如：你想让你的所有用户在他们的发布目录中具有CGI访问权，则需要在你的 access.conf中这样设置：
+
+　　<Directory /home/html/*/cgi-bin/>
+
+　　Allow Override None
+
+　　Options ExecCGI
+
+　　</Dirctory>
+
+　　注意这里设置用户目录中的cgi-bin子目录为cgi执行目录，这是一种安全的设置，而且也是一种UNIX的习惯。
+
+　　三、如何将Apache服务器设置为inetd的子服务
+
+　　当你安装了Apache后，默认设置为standalone方式运行，如果你想将它设置为inetd的子服务，首先在每次激活Linux时不激活 httpd，然后编辑/etc/inetd.conf，在其中加入下列语句：http stream tcp nowait root /usr/sbin/httpd httpd
+
+　　然后重新激活inetd服务器。这样你用ps -aux命令查看进程运行情况时，你不会发现httpd的进程的存在，但是一旦有客户请求一个页面时，inetd就激活一个httpd进程为该请求服务，之后就自动释放，这种运行方式有助于节省系统资源，但是如果你的web服务很重要，一般不建议设置为这种方式运行。
+
+　　四、将httpd.conf做为唯一的配置文件
+
+　　在Apache中给用户提供了三个配置文件： srm.conf、 access.conf 和 httpd.conf files。实际上这三个文件是平等的，所有的配置都可以放在一个单独的httpd.conf文件中，事实上在Apache 1.3.2中就已经这样做了，在httpd.conf中应包括以下两条指令来防止Apache对srm.conf和access.conf两个配置文件的访问：
+
+　　AccessConfig /dev/null
+
+　　ResourceConfig /dev/null
+
+　　在apache1.3.2中只要注释掉以下这两行即可：
+
+　　AccessConfig conf/access.conf
+
+　　ResourceConfig conf/srm.conf
+
+　　五、用户授权和访问控制
+
+　　你也许在访问某些网站时会遇到过这样的情况，当你点击某个连接时，你的浏览器会弹出一个身份验证的对话框，要求输入账号及密码，如果没有，就无法继续浏览了。有人会以为这是用CGI做出来的，其实不然，这是WWW服务器的用户授权和访问控制机制在发挥作用。
+
+　　你是否还记得在设置Apache服务环境的过程中，有<Directory>……..<./Directory>这个指令，可以对不同的目录提供不同的保护。但是这样的设定，需要重新启动服务器才会生效，灵活性较差，通过AccessFile指令指定访问控制文件的方式则比较灵活，在Apache服务器中设置用户的访问控制权限步骤如下：
+
+　　1、首先对httpd.conf文件进行设置如下：
+
+　　<Directory /home/httpd/html>
+
+　　# AllowOverride FileInfo AuthConfig Limit
+
+　　# Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+
+　　Options Includes FollowSymLinks Indexes
+
+　　AllowOverride All //*注意AllowOverride 一定要设置为All，这样后面的.htaccess文件才会起作用
+
+　　<Limit GET POST OPTIONS PROPFIND>
+
+　　Order allow,deny
+
+　　Allow from all
+
+　　</Limit>
+
+　　# <Limit PUT DELETE PATCH PROPPATCH MKCOL COPY MOVE LOCK UNLOCK>
+
+　　# Order deny,allow
+
+　　# Deny from all
+
+　　# </Limit>
+
+　　</Directory>
+
+　　#指定配置存取控制权限的文件名称
+
+　　AccessFileName .htaccess
+
+
+
+ 
+
+　　2、创建.htaccess文件内容
+
+　　要控制某目录的访问权限必须建立一访问控制文件，文件名前面指定的“.htaccess”，其内容格式如下：
+
+　　AuthUserFile 用户帐号密码文件名
+
+　　AuthGroupFile 群组帐号密码文件名
+
+　　AuthName 画面提示文字
+
+　　AuthType 验证方式
+
+　　<Limit GET>
+
+　　密码验证方式
+
+　　</Limit>
+
+　　用户验证方式AuthType目前提供了Basic和Digest两种。
+
+　　密码检验设定方法与httpd.conf中的相关设定相同。
+
+　　具体例子如下：
+
+　　AuthUserFile /etc/secure.user
+
+　　AuthName 安全认证中心
+
+　　AuthType Basic
+
+　　<Limit GET>
+
+　　require valid-user
+
+　　</Limit>
+
+　　3、建立用户密码文件
+
+　　如果你是第一次创建用户密码，命令格式如下：
+
+　　htpasswd -c 密码文件名 用户名称
+
+　　在上面的例子中，我们将用户密码文件放到了/etc/secure.user文件中，所以这里应按照如下进行操作：
+
+　　htpasswd -c /etc/secure.user sword
+
+　　程序会提示你输入两次用户的口令，然后用户密码文件就已经创建sword这个用户也添加完毕了。
+
+　　如果要向密码文件中添加新的用户，按照如下命令格式进行操作：
+
+　　htpasswd 密码文件 用户名称
+
+　　这样，重新启动httpd后，进行该WEB目录时就会有一个对话框弹出，要求输入用户名及用户口令了。
+
+　　4、如何减少访问控制对Apache性能的影响
+
+　　频繁的使用访问控制会对Apache的性能产生较大的影响，那么，如何才能减少这种影响呢？最简单也是最有效的方法之一就是减少.htaccess文件的数目，这样可以避免Apache对每一个请求都要按照.htaccess文件的内容进行授权检查。它不仅在当前的目录中查找.htaccess文件，它还会在当前目录的父目录中查找。
+
+　　/
+
+　　/usr
+
+　　/usr/local
+
+　　/usr/local/etc
+
+　　/usr/local/etc/httpd
+
+　　/usr/local/etc/httpd/htdocs
+
+　　/usr/local/etc/httpd/htdocs/docs
+
+　　通常在根目录下没有htaccess文件，但Apache仍然会进行例行检查以确定该文件确实不存在。这是影响很影响服务器工作效率的事情。下面的方法可以消除这个讨厌的过程：将AllowOverride选设置为None，这样Apache就会检查.htaccess文件了。将/根目录的 AllowOverride选项设为None，只将需要进行访问控制的目录下的AllowOverride选项设置为all，如下面的例子中将/根目录的 AllowOverride 选项关闭了，只打开了/usr/local/etc/httpd/htdocs目录下的AllowOerride选项，这样，系统就只在/usr /local/etc/httpd/htdocs中检查.htaccess文件，达到的提高服务效率的目的。
+
+　　<Directory />
+
+　　AllowOverride None
+
+　　</Directory>
+
+　　<Directory /usr/local/etc/httpd/htdocs>
+
+　　AllowOverride All
+
+　　</Directory>
+
+　　如果除了根目录以外，还有其它存放WWW文件的目录，你也可以采取同样的方法进行设置。比如：如果你使用UserDir来允许用户访问自己的目录，AllowOverride的设置如下：
+
+　　<Directory /home/*/public_html>
+
+　　AllowOverride FileInfo Indexes IncludesNOEXEC
+
+　　</Directory>
+
+　　5、防止用户访问指定的文件
+
+　　系统中有一些文件是不适宜提供给WWW用户的，如：.htaccess、htpasswd、*.pl等，可以用<Files>达到这个目的：
+
+　　<Files .htaccess>
+
+　　order allow,deny
+
+　　deny from all
+
+　　</Files>
+
+　　用户访问控制三个.htaccess文件、.htpasswd和.htgroup（用于用户授权），为了安全起见，应该防止用户浏览其中内容，可以在httpd.conf中加入以下内容阻止用户对其进行访问：
+
+　　<Files ~”/.ht”>
+
+　　Order deny, allow
+
+　　Deny from all
+
+　　</Files>
+
+　　这样这三个文件就不会被用户访问了。
+
+　　6、限制某些用户访问特定文件
+
+　　<Directory>可以对目录进行约束，要限制某些用户对某个特定文件的访问可以使用<Location>，比如：不允许非domain.com域内的用户对/prices/internal.html进行访问，可以用如下的设置：
+
+　　<Location /prices/internal.html>
+
+　　order deny,allow
+
+　　deny from all
+
+　　allow from .domain.com
+
+　　</Location>
+
+　　如果你要授于相应权限的机器没有公开的域名，请在你的/etc/hosts文件中，将其IP地址映射到某个指定的名称，然后在Location中对其进行设置，否则该选项是不起作用的。
+
+　　7、只接受来自特定链接的访问
+
+　　例如，只让所有来自 http://www.sina.com.cn/* 的链接的用户进入此目录，由其它链接来的访客都不得进入； " * "表示此网站底下所有的链接。其中的 http://www.sina.com.cn/* 也可以是：http://202.106.184.200/* 或是指定文件 http://www.sina.com.cn/news.html
+
+　　.htaccess文件的内容如下：
+
+　　AuthUserFile /dev/null
+
+　　AuthGroupFile /dev/null
+
+　　AuthName ExampleAllowFromSpecificURL
+
+　　AuthType Basic
+
+　　<Limit GET>
+
+　　order deny,allow
+
+　　deny from all
+
+　　referer allow from http://www.sina.com.cn/*
+
+　　</Limit>
+
+　　六、如何通过Apache访问挂接到mnt中的目录内容
+
+　　在Linux下，要浏览光盘的内容，必须要先将光盘挂接到/mnt/cdrom上，在Linux下访问dos或其它分区也一样，都要将其先挂接到/mnt下。下面提供的方法，可以通过Apache显示上挂的目录内容：
+
+　　1、 先将需要挂接的内容挂接到mnt下，如：
+
+　　mount –t iso9660 /dev/cdrom /mnt/cdrom
+
+　　2、修改/usr/local/etc/httpd/conf中的srm.conf文件（在Apache1.3.2中修改httpd.conf）
+
+　　加入别名支持：
+
+　　# Alias fakename realname
+
+　　# alias for netware server //
+
+　　Alias /netware/ /mnt/MYDOM_NW/vol1/home/htmldocs/
+
+　　Alias /winNT/ /mnt/MYDOM_NT/
+
+　　Alias /unix/ /mnt/MYDOM_UNIX
+
+　　其实这一步还有个最简单的方法就是直接在WWW文件目录下建立链接目录，比如：
+
+　　ln –s /mnt/MYDOM_NT/ winNT
+
+　　也能达到同样的效果。
+
+　　3、最后，用Directory 分别指定用户对上面这几个目录的访问权限：
+
+　　<Direcory “/mnt/MYDOM_NT”>
+
+　　Options Indexes MultiViews
+
+　　AllowOverride None
+
+　　Order allow,deny
+
+　　Allow from all
+
+　　</Directory>
+
+　　注意， Options中的Indexes一定要注明，否则被打开的目录中若没有Index.html文件，用户无法浏览整个目录的结构，服务器会返回错误指示。
+
+　　这些工作都完成后，别忘了重新启动Apache。在客户端通过 http://www.yourdomain/CDROM/访问光盘内容，其余系统以此类推
+
+
+原文链接: http://linux.chinaitlab.com/admi

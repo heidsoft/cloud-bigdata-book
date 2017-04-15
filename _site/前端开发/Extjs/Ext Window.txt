@@ -1,0 +1,105 @@
+Window 继承于 Panel，是Panel的子类，Window组件默认是可以浮动和拖拽的，并且支持最大最小化的能力。Panel 中的各种属性和方法在Window组件中是可以直接使用的。
+
+//几个前面没有介绍的window自己的配置参数
+1.closeAction:枚举值为：close(默认值)，当点击关闭后，关闭window窗口
+                       hide,关闭后，只是hidden窗口
+2.closable:true在右上角显示小叉叉的关闭按钮，默认为true
+3.constrain：true则强制此window控制在viewport，默认为false
+4.modal:true为模式窗口，后面的内容都不能操作，默认为false
+5.plain：//true则主体背景透明，false则主体有小差别的背景色，默认为false
+
+ 
+
+//需要显示下show（）方法,默认的窗口是可拖动的，可关闭的，可拖动大小的
+来看例子：
+<script type="text/javascript">  
+ 
+    Ext.onReady(function(){  
+        var _window = new Ext.Window({  
+                title: "登陆窗体",  
+                frame:true,  
+                height:150,  
+                width:300,  
+                layout:"form",  
+                labelWidth:45,  
+                 
+                plain:true,  
+                 
+                resizable:false,  
+                 
+                bodyStyle:"padding:15px",  
+                 
+                buttonAlign:"center",  
+                 
+                closable:false,  
+                listeners:{  
+                    "show":function(){alert("Hello World")},  
+                    "hide":function(){alert("Window is hide")},  
+                    "close":function(){alert("Window is closed")}  
+                },  
+                defaults:{xtype:"textfield", width:200},  
+                items:[  
+                        {fieldLabel:"用户名"},  
+                        {fieldLabel:"密 码"}  
+                    ],  
+                buttons:[  
+                        {text:"确定"},  
+                        {  
+                            text:"取消",  
+                            handler:function(){  
+                                    _window.hide();                           
+                                }  
+                        }  
+                    ]  
+            });  
+              
+         
+        _window.show();  
+    });  
+ 
+</script> 
+
+Window组件构造参数(Config Options)：
+
+title： 窗体名称，显示在窗体的头部，默认为空 
+minimizable：是否显示最小化按钮，true，显示最小化按钮，默认false 
+maximizable：是否显示最大化按钮，true，显示最大化按钮，默认false 
+属性：
+
+plain：Boolean，True，显示Window内容部分的背景和窗体背景一致，False，Window内容部分的背景较亮于Window的背景，默认为false。 
+
+bodyStyle：可以对Window组件内容部分自定义CSS样式 
+resizable：通过拖拽控制窗口大小 
+buttonAlign：调整添加到Panel中的Button的水平位置，可以取值“left”，“center”，“right”，默认“right” 
+closable：默认是“true”，显示关闭按钮 
+closeAction：关闭按钮点击时响应的动作，默认动作关闭会将窗体从DOM中移除并销毁。这里一点需要说明一下，浏览器对DOM操作是非常消耗资源的，关闭窗体可以使用‘hide’ 参数，它仅是简单的将窗体隐藏，需要的时候还可以显示出来，这样的操作速度会更快更省资源 
+items：被添加到Container的一个item或者item数组，这里的Container是Window窗体，Container和item都是Ext的element，其他的Ext Container也都有items属性，使用方法和这里是一样的。 
+ 
+
+方法：
+
+show：显示窗口 
+hide：隐藏窗口 
+ 
+
+事件：
+
+show：当窗口显示时触发 
+hide：当窗口隐藏时触发 
+ 
+
+ 
+
+ 上面仅列出来例子中用到的一些属性方法事件，更多的需要查看Window组件的API，里面定义了非常多的属性方法事件，用到什么再去查吧。
+
+ 
+
+ 
+
+ 
+
+Window 内部组件的取值
+Ext为Container和内部的items之间定义了一种索引机制，可以从items向上索引其所在的Container对象，也可以从Container向下索引其内部的items，通过这种机制，就可以取得我们想要的值了。
+
+
+

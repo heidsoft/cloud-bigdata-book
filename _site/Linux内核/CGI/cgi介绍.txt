@@ -1,0 +1,46 @@
+CGI是: “公共网关接口”(Common Gateway Interface)的简称，是HTTP服务器与其它程序进行“交谈”的一种工具，其程序须运行在网络服务器上。CGI是一段程序，它运行在Server上，提供同客户端 Html页面的接口。
+CGI的功能：通常情况下CGI程序被用来解释处理来自表单的输入信息，在服务器产生相应的处理，并将相应的信息反馈给浏览器。CGI程序使网页具有交互功能。 
+CGI处理步骤：　通过Internet把用户请求送到服务器服务器接收用户请求并交给CGI程序处理CGI程序把处理结果传送给服务器服务器把结果送回到用户
+CGI可以用任何一种语言编写，只要这种语言具有标准输入、输出和环境变量。
+CGI程序的输出： CGI程序中的标准输出是经过重定向了的。CGI程序并不会在服务器上产生任何的输出内容，而是被重定向到客户浏览器。这样，如果编写一个C的CGI程序的时候，把一个HTML文档输出到它的stdout上，这个HTML文档会被在客户端的浏览器中显示出来。这也是CGI程序的一个基本原理。
+CGI程序第一行输出的内容必须是： "Content-Type:text/html"这个输出作为HTML的文件头。因为CGI不仅可以像浏览器输出HTML文本，而且可以输出图像，声音之类的东西,http服务器向远程发送文件时要说明文件类型。
+两个重要的CGI环境变量QUERY-STRING：GET方法表单输入的数据，URL中间号后的内容。CONTENT-LENGTH：POST方法输入的数据的字节数。
+
+CGI环境变量列表：    
+
+SERVER-NAME：运行CGI序为机器名或IP地址。　　
+ 
+SERVER-INTERFACE：WWW服务器的类型，如：CERN型或NCSA型。　　
+ 
+SERVER-PROTOCOL：通信协议，应当是HTTP/1.0。　　
+ 
+SERVER-PORT：TCP端口，一般说来web端口是80。　　
+ 
+HTTP-ACCEPT：HTTP定义的浏览器能够接受的数据类型。　　
+ 
+HTTP-REFERER： 发送表单的文件URL。（并非所有的浏览器都传送这一变量）　　
+ 
+HTTP-USER-AGENT：发送表单的浏览器的有关信息。　　
+ 
+GETWAY-INTERFACE：CGI程序的版本，在UNIX下为 CGI/1.1。　
+ 
+PATH-TRANSLATED： PATH-INFO中包含的实际路径名。　　
+ 
+PATH-INFO：浏览器用GET方式发送数据时的附加路径。　　
+ 
+SCRIPT-NAME： CGI程序的路径名。　　
+ 
+QUERY-STRING：表单输入的数据，URL中间号后的内容。　　
+ 
+REMOTE-HOST：发送程序的主机名，不能确定该值。　　
+ 
+REMOTE-ADDR：发送程序的机器的IP地址。　　
+ 
+REMOTE-USER：发送程序的人名。　　
+ 
+CONTENT-TYPE：POST发送，一般为applioation/xwww-form-urlencoded。　　CONTENT-LENGTH：POST方法输入的数据的字节数。 
+CGI能够让浏览者与服务器进行交互，如果你曾经遇到过在网络上填表或者进行搜索，就很有可能就是用的CGI。 　　尽管CGI易于使用，但是当大批人同时使用一个CGI应用程序是会反应较慢，网络服务器 速度也会受到很大 影响。CGI应用程序的优点是可以独立运行。 　　CGI应用程序可以由大多数的编程语言编写，如Perl（Practical Extraction and Report Language)、C\C++、Java 和Visual Basic等。不过对于那些没有太多编程经验的网页制作人来说，实在是一个不小的难题。 　　CGI应用程序的工作原理是这样的： 　　1.浏览器通过HTML表单或超链接请求指上一个CGI应用程序的URL。 　　2.服务器收发到请求。 　　3.服务器执行指定所CGI应用程序。 　　4.CGI应用程序执行所需要的操作，通常是基于浏览者输人的内容。 　　5.CGI应用程序把结果格式化为网络服务器和浏览器能够理解的文档（通常是HTML网页）。 　　6.网络服务器把结果返回到浏览器中。 　　有关CGI应用程序要注意的是： 　　CGI应用程序运行在浏览器可以请求的服务器系统上，执行时需要使用服务器CPU时间和内存。如果有成千上万的这种程序会同时运行，那会对服务器系统提出极高的要求。你要慎重考虑这个问题，以防止服务器系统崩溃。 
+    CGI是server和Client的接口。组成CGI程序的是两部分，一部分是HTML页面，就是用户看到的东西。另外一部分就是运行在服务器上的程序。
+    HTML表单： <Form> </Form>CGI数据传送的方法：一般是两种方法：get和post.1.GET 使用这种方法时，CGI程序从环境变量QUERY_STRING获取数据。QUERY_STRING被称为环境变量，就是这种环境变量将客户端的数据传送给服务器。 当你想从服务器获得数据并且不改变服务器上的数据时，你就应该选用GET。但是如果你的字符串长度超过了一定长度，那么还是选用POST方法。2.POST 使用POST方法时，WEB服务器通过STDIN，向CGI程序传送数据。服务器在数据的最后面没有使用EOF字符标记，因此程序为了正确的读取STDIN，必须使用CONTENT_LENGTH。当你发送的数据将改变WEB服务器端的数据 你想给CGI程序发送数据超过1024字节，这是url的极限，你应该用POST方法。
+ 服务器和CGI程序的交换信息的协作方式是it哦那个过环境变量实现的。无论是什么请求，CGI程序总能在特定的位置找到某些信息。无论环境变量怎么定义，总用一些变量有着特定的含义，环境变量是保存用户信息的内存区。
+

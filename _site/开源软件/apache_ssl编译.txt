@@ -1,0 +1,41 @@
+./configure //配置源代码树
+--prefix=/usr/local/apache2 //体系无关文件的顶级安装目录PREFIX ，也就Apache的安装目录。
+--enable-module=so //打开 so 模块，so 模块是用来提 DSO 支持的 apache 核心模块
+--enable-mods-shared=all //编译全部的模板，对于不需要我们可以在httpd.conf去掉。
+--enable-cache //支持缓存
+--enable-file-cache //支持文件缓存
+--enable-mem-cache //支持记忆缓存
+--enable-disk-cache //支持磁盘缓存
+--enable-static-support //支持静态连接(默认为动态连接)
+--enable-static-htpasswd //使用静态连接编译 htpasswd - 管理用于基本认证的用户文件
+--enable-static-htdigest //使用静态连接编译 htdigest - 管理用于摘要认证的用户文件
+--enable-static-rotatelogs //使用静态连接编译 rotatelogs - 滚动 Apache 日志的管道日志程序
+--enable-static-logresolve //使用静态连接编译 logresolve - 解析 Apache 日志中的IP地址为主机名
+--enable-static-htdbm //使用静态连接编译 htdbm - 操作 DBM 密码数据库
+--enable-static-ab //使用静态连接编译 ab - Apache HTTP 服务器性能测试工具
+--enable-static-checkgid //使用静态连接编译 checkgid
+--disable-cgid //禁止用一个外部 CGI 守护进程执行CGI脚本
+--disable-cgi //禁止编译 CGI 版本的 PHP
+--enable-ssl // 编译 ssl模块。
+ 
+./configure --prefix=/usr/local/apache --enable-so --enable-ssl --with-ssl=/usr/local/ssl --enable-track-vars --enable-rewrite --with-zlib --enable-mods-shared=most  --enable-suexec --with-suexec-caller=daemon
+./configure --enable-ssl --with-ssl=/usr/local/ssl/install/openssl
+./usr/local/ssl/install/openssl/bin/openssl genrsa -des3 -rand file1:file2:file3\
+-out 192.168.1.142.key 1024
+
+[root@localhost bin]# ./openssl genrsa -des3 -rand file1:file2:file3-out 192.168.1.142.key 1024            
+0 semi-random bytes loaded
+Generating RSA private key, 192 bit long modulus
+..+++++++++++++++++++++++++++
+..+++++++++++++++++++++++++++
+e is 65537 (0x10001)
+Enter pass phrase:
+Verifying - Enter pass phrase:
+-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,AB0311C3444F4ABC
+
+URYZiwbMxRlGOIwNjT7lvEd5NLPGe3ZRPWTrsOzmc01oEBXJbcZH231pzfC0UkcS
+xV/6IjirObIEd0wmVOm+eTKcI8+GuMIE34mV1i0AaU1d8vxTQdiSceLLDu8wyqAY
+230pvvgO4yLWJSc1eu3Q7fo4tpczjhhCXYoUCKAqroaDNjYzfi8LSSYTn+MitLa3
+-----END RSA PRIVATE KEY-----

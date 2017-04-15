@@ -1,0 +1,89 @@
+
+1、Client端通过JavaScript获取页面元素值，并由xmlHttp将参数及其值发送到服务器：
+
+（以下代码中尖括号<>内的内容需要做具体替换）
+
+
+var xmlHttp;
+function doSend(){ 
+            xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+            var requestURL="cgi-bin/xxx.cgi";
+            xmlHttp.open("POST",requestURL,true);//异步方式
+
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlHttp.onreadystatechange=handlestate; //function pointer
+
+alert("Request parameter is: <element_id>="+document.getElementById("<element_id>").value+"&<element_id>="+document.getElementById("<element_id>").value); 
+xmlHttp.send("<element_id>="+document.getElementById("<element_id>").value+"&<element_id>="+document.getElementById("<element_id>").value);
+}
+ 
+
+
+
+Client端对xmlHtpp状态的处理函数：
+
+function handlestate (){
+    if(xmlHttp.readyState==4){
+     if(xmlHttp.status==200) doReturn();//处理返回数据
+
+        else{
+            alert("Network is unreliable. Please try again!");
+            return false;
+        }
+    }
+}
+ 
+
+
+2、服务器获取Client端上传来的参数及其值，并进行分析处理（标准I/O操作）；如对GET或POST上来的参数处理后，获得参数值，进行相关处理（注意此处是对环境变量和标准I/O的读操作）；
+
+3、服务器将处理结果返回（注意此处返回是对标准I/O的写操作）：
+
+include “json.h”
+
+char stringBuf[100]=”test string”;
+int a=12345;
+struct json_object *pstJsonObject;
+
+    pstJsonObject = json_object_new_object();
+    if(NULL == pstJsonObject)
+        return -1;
+
+    json_object_object_add(pstJsonObject, "<element1>", json_object_new_int(<element1_value>)); // element1_value1 -> a(加入整数值到json object)
+
+    json_object_object_add(pstJsonObject, "<element2>", json_object_new_string(<element2_value>)); // element1_value2 -> stringBuf(加入字符串到json object)
+
+printf("%s\n\n","Content-Type:text/html;charset=UTF-8"); //it’s important!!
+
+    printf("%s", json_object_to_json_string(pstJsonObject)); //send the data back to client
+
+
+    json_object_put(pstJsonObject); 
+ 
+
+ 
+
+4、Client端处理服务器返回结果：
+
+function doReturn(){
+    var jsonString=xmlHttp.responseText;
+    alert("Response is:"+jsonString);
+    try{
+     var jsonObject= jsonString.parseJSON();//注意：不同的json.js版本此处可能不同
+
+    }
+    catch(e){
+     alert("JSON error type:"+ e.name +",cause description:" + e.message);
+        return false;
+    }
+alert(jsonObject.<element1>.toString());//取得element1的int值并转换为string
+
+alert(jsonObject.<element2>);//取得element2的值(string就不再转换)
+
+    //do something for u
+
+    }
+ 
+
+ 
+

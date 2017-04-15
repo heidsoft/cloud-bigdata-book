@@ -1,0 +1,124 @@
+开始对EXT分页没搞透彻，所以做combobox的分页不知道如何下手。经过一段时间的使用终于弄明白了。刚学EXT分页的时候搞不清楚他的原理，其实很简单，就是把异步请求的json数据填充到grid中。至于分页实际上只是对一些参数的控制，start,limit还有个重要的参数baseParams.我们经常遇到分页的情况，同时还要对分类的数据进行分页。刚开始学，不分类的数据分页都搞不清楚，更不用说对分类数据进行分页了。我这里总结一下三种情况，供参考，或许对初学者有帮助。第一种：同类数据分页，第二种：分类数据分页。第三种：加combobox分页。 
+      grid分页一定要明白这三个参数的含义。start表示从哪条记录开始，limit表示显示多少条记录pageSize。正如mysql中数据库读取select * from tb_xx limit $start,$limit; 后台将这些查询数据用json格式打印出来就ok了。其余的动作，分页都自动完成了。用firfox+firbug调试一下，打印$start和$limit的值就明白其中的道理了。
+
+      简单分页：
+
+ 
+
+Ext代码 
+var client_cm = new Ext.grid.ColumnModel([      
+        new Ext.grid.RowNumberer(),    
+        client_check_select,        
+        {header:'ID',dataIndex:'id',width:40,sortable:true},    
+         .....................................    
+]);    
+   
+   
+var person_ds = new Ext.data.Store({    
+        id:         'client_datasource',    
+        proxy: new Ext.data.HttpProxy({url:'grid.php'}),    
+        reader: new Ext.data.JsonReader({    
+            totalProperty: 'totalProperty',    
+            root: 'root'   
+        }, [    
+            {name: 'id'},    
+            {name: 'user_name'},    
+            {name: 'ip_addr'}    
+        ])    
+    });    
+   
+   
+var grid = new Ext.grid.GridPanel({    
+        ds: person_ds,    
+        cm: client_cm,    
+        tbar: new Ext.PagingToolbar({    
+            pageSize: 10,    
+            store: ds,    
+            displayInfo: true,    
+            displayMsg: '显示第 {0} 条到 {1} 条记录，一共 {2} 条',    
+            emptyMsg: "没有记录"   
+        })    
+    });    
+   
+person_ds.load({params:{start:0,limit:10}});        
+   
+后台getParameter. start,limit，各种语言不一样就不用说了。    
+查询出结果打印json，分页自动完成。   
+var client_cm = new Ext.grid.ColumnModel([ new Ext.grid.RowNumberer(), client_check_select, {header:'ID',dataIndex:'id',width:40,sortable:true}, ..................................... ]); var person_ds = new Ext.data.Store({ id: 'client_datasource', proxy: new Ext.data.HttpProxy({url:'grid.php'}), reader: new Ext.data.JsonReader({ totalProperty: 'totalProperty', root: 'root' }, [ {name: 'id'}, {name: 'user_name'}, {name: 'ip_addr'} ]) }); var grid = new Ext.grid.GridPanel({ ds: person_ds, cm: client_cm, tbar: new Ext.PagingToolbar({ pageSize: 10, store: ds, displayInfo: true, displayMsg: '显示第 {0} 条到 {1} 条记录，一共 {2} 条', emptyMsg: "没有记录" }) }); person_ds.load({params:{start:0,limit:10}}); 后台getParameter. start,limit，各种语言不一样就不用说了。 查询出结果打印json，分页自动完成。
+ 
+
+分类数据分页 ：经常遇到数据分类管理的情况，同时又要对分类的结果进行分页。以前刚学的时候试着在start,limit上面动手脚，或者采用其它的方式，其实不用那么复杂，做过WEB开发的人都知道，分类分页多传个参数，让多传的这个参数值变化就得了。那这个参数就是通过baseParams传递,这里假定多传的参数为type,见如下代码：
+
+Ext代码 
+var person_ds = new Ext.data.Store({    
+        id:         'client_datasource',    
+        baseParams: {type:0},    
+        proxy: new Ext.data.HttpProxy({url:'grid.php'}),    
+        reader: new Ext.data.JsonReader({    
+            totalProperty: 'totalProperty',    
+            root: 'root'   
+        }, [    
+            {name: 'id'},    
+            {name: 'machine_name'},    
+            {name: 'user_name'}    
+        ])    
+    });   
+var person_ds = new Ext.data.Store({ id: 'client_datasource', baseParams: {type:0}, proxy: new Ext.data.HttpProxy({url:'grid.php'}), reader: new Ext.data.JsonReader({ totalProperty: 'totalProperty', root: 'root' }, [ {name: 'id'}, {name: 'machine_name'}, {name: 'user_name'} ]) });
+  这里跟上面的区别只是多加了baseParams:    {type:0},
+type默认值为0，如果要传递更多个参数，直接写在后面就行了。
+baseParams:    {type: 0 , other: 1}, 或者baseParams:    {type: 'all' , other:'not'},
+值是传过去了，如何改变baseParams，很简单：
+person_ds.baseParams = {type:2}; 加到你的事件中,再reload就可以了。
+这个时候后台要做相应的调整：
+获取参数start,limit,type......
+如查询语句: select * from tb_xx where type='$type'
+ limit $start,$limit;
+打印json搞定。
+
+ 
+
+combobox下拉选择分页 ：刚开始我也是不知道如何下手，不知道参数该如何传递，改变limit?还是改变baseParams? 网上找了一些相关的例子，看上去感觉有点复杂，所以自己想搞个简单点的。原理很简单，选中下拉列表某个值的时候去更limit参数值就行了。这个时候我开始想去改变limit的值：
+
+person_ds.reload({params:{start:0,limit:parseInt(comboBox.getValue()}});
+
+这样第一页是没问题，翻页的时候问题就出现了。limit又是10.....记得PagingToolbar有个pageSize参数,更改一下这个值之后就成功了,原来更改pageSize就等于更改了limit的值，代码如下：
+
+ 
+
+Ext代码 
+//分页的下拉框    
+var pagesize_combo = new Ext.form.ComboBox({    
+        store: page_size_store,    
+     width:50,    
+        readOnly:true,    
+     emptyText: '10',    
+        mode: 'remote',    
+        triggerAction: 'all',    
+        valueField: 'value',    
+        displayField: 'text'   
+    });    
+        
+    //下拉列表事件，更改pageSize.重新加载    
+    pagesize_combo.on("select",function(comboBox){           
+        page_toolbar.pageSize = parseInt(comboBox.getValue());    
+        person_ds.reload({params:{start:0,limit:page_toolbar.pageSize}});    
+    });    
+        
+        
+        
+    //分页工具栏    
+    var page_toolbar =  new Ext.PagingToolbar({    
+        region:'south',    
+        pageSize: 10,    
+        store: client_person_ds,    
+        displayInfo: true,    
+        displayMsg: '显示第 {0} 条到 {1} 条记录，一共 {2} 条',    
+        emptyMsg: "没有记录",    
+        items:[    
+            '&nbsp;&nbsp;每页显示记录数量：',    
+            pagesize_combo    
+        ]    
+    });    
+   
+   
+//终于写完了，希望此文对初学者有所帮助。 

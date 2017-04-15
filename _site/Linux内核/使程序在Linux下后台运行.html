@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=eaa2d1221efec2ce5b6f7bf3527fdd45a6292339">
+    <link rel="stylesheet" type="text/css" href="/assets/css/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Heidbook by heidsoft</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Heidbook</h1>
+          <h2>Heidbook</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          
+          <a href="http://github.com/heidsoft/HeidBook/zipball/gh-pages" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="http://github.com/heidsoft/HeidBook/tarball/gh-pages" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          
+          <a href="http://github.com/heidsoft/HeidBook" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <p>使程序在Linux下后台运行</p>
+
+<p>一、为什么要使程序在后台执行</p>
+
+<p>我们计算的程序都是周期很长的，通常要几个小时甚至一个星期。我们用的环境是用putty远程连接到日本Linux服务器。所以使程序在后台跑有以下三个好处：</p>
+
+<p>1：我们这边是否关机不影响日本那边的程序运行。（不会像以前那样，我们这网络一断开，或一关机，程序就断掉或找不到数据，跑了几天的程序只能重头再来，很是烦恼）</p>
+
+<p>2：不影响计算效率</p>
+
+<p>2：让程序在后台跑后，不会占据终端，我们可以用终端做别的事情。</p>
+
+<p>二、怎么样使程序在后台执行</p>
+
+<p>方法有很多，这里主要列举两种。假如我们有程序pso.cpp,通过编译后产生可执行文件pso，我们要使pso在linux服务器后台执行。当客户端关机后重新登入服务器后继续查看本来在终端输出的运行结果。（假设操作都在当前目录下）</p>
+
+<p>方法1在终端输入命令：</p>
+
+<p># ./pso &gt; pso.file 2&gt;&amp;1 &amp;</p>
+
+<p>解释：将pso直接放在后台运行，并把终端输出存放在当前目录下的pso.file文件中。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  当客户端关机后重新登陆服务器后，直接查看pso.file文件就可看执行结果（命
+</code></pre>
+</div>
+
+<p>令：#cat pso.file ）。</p>
+
+<p>方法2在终端输入命令：</p>
+
+<h1 id="nohup--pso--psofile-21-">nohup  ./pso &gt; pso.file 2&gt;&amp;1 &amp;</h1>
+
+<p>解释：nohup就是不挂起的意思，将pso直接放在后台运行，并把终端输出存放在当前</p>
+
+<p>目录下的pso.file文件中。当客户端关机后重新登陆服务器后，直接查看pso.file</p>
+
+<p>文件就可看执行结果（命令：#cat pso.file ）。</p>
+
+<p>三、常用任务管理命令</p>
+
+<h1 id="jobs------n">jobs      //查看任务，返回任务编号n和进程号</h1>
+
+<h1 id="bg--n---n">bg  %n   //将编号为n的任务转后台运行</h1>
+
+<h1 id="fg--n---n">fg  %n   //将编号为n的任务转前台运行</h1>
+
+<h1 id="ctrlz----">ctrl+z    //挂起当前任务</h1>
+
+<h1 id="ctrlc----">ctrl+c    //结束当前任务</h1>
+
+<p>注：如果要使在前天执行任务放到后台运行，则先要用ctrl+z挂起该任务，然后用bg使之后台执行。</p>
+
+<p>附：</p>
+
+<p>在Linux中，如果要让进程在后台运行，一般情况下，我们在命令后面加上&amp;即可，实际上，这样是将命令放入到一个作业队列中了：</p>
+
+<p>$ ./test.sh &amp;
+[1] 17208</p>
+
+<p>$ jobs -l
+[1]+ 17208 Running                 ./test.sh &amp;</p>
+
+<p>对于已经在前台执行的命令，也可以重新放到后台执行，首先按ctrl+z暂停已经运行的进程，然后使用bg命令将停止的作业放到后台运行：</p>
+
+<p>$ ./test.sh
+[1]+  Stopped                 ./test.sh</p>
+
+<p>$ bg %1
+[1]+ ./test.sh &amp;</p>
+
+<p>$ jobs -l
+[1]+ 22794 Running                 ./test.sh &amp;</p>
+
+<p>但是如上方到后台执行的进程，其父进程还是当前终端shell的进程，而一旦父进程退出，则会发送hangup信号给所有子进程，子进程收到hangup以后也会退出。如果我们要在退出shell的时候继续运行进程，则需要使用nohup忽略hangup信号，或者setsid将将父进程设为init进程(进程号为1)</p>
+
+<p>$ echo $$
+21734</p>
+
+<p>$ nohup ./test.sh &amp;
+[1] 29016</p>
+
+<p>$ ps -ef | grep test
+515      29710 21734  0 11:47 pts/12   00:00:00 /bin/sh ./test.sh
+515      29713 21734  0 11:47 pts/12   00:00:00 grep test</p>
+
+<p>$ setsid ./test.sh &amp;
+[1] 409</p>
+
+<p>$ ps -ef | grep test
+515        410     1  0 11:49 ?        00:00:00 /bin/sh ./test.sh
+515        413 21734  0 11:49 pts/12   00:00:00 grep test</p>
+
+<p>上面的试验演示了使用nohup/setsid加上&amp;使进程在后台运行，同时不受当前shell退出的影响。那么对于已经在后台运行的进程，该怎么办呢？可以使用disown命令：</p>
+
+<p>$ ./test.sh &amp;
+[1] 2539</p>
+
+<p>$ jobs -l
+[1]+  2539 Running                 ./test.sh &amp;</p>
+
+<p>$ disown -h %1</p>
+
+<p>$ ps -ef | grep test
+515        410     1  0 11:49 ?        00:00:00 /bin/sh ./test.sh
+515       2542 21734  0 11:52 pts/12   00:00:00 grep test</p>
+
+<p>另外还有一种方法，即使将进程在一个subshell中执行，其实这和setsid异曲同工。方法很简单，将命令用括号() 括起来即可：</p>
+
+<p>$ (./test.sh &amp;)</p>
+
+<p>$ ps -ef | grep test
+515        410     1  0 11:49 ?        00:00:00 /bin/sh ./test.sh
+515      12483 21734  0 11:59 pts/12   00:00:00 grep test</p>
+
+<p>注：本文试验环境为Red Hat Enterprise Linux AS release 4 (Nahant Update 5),shell为/bin/bash，不同的OS和shell可能命令有些不一样。例如AIX的ksh，没有disown，但是可以使用nohup -p PID来获得disown同样的效果。</p>
+
+<p>还有一种更加强大的方式是使用screen，首先创建一个断开模式的虚拟终端，然后用-r选项重新连接这个虚拟终端，在其中执行的任何命令，都能达到nohup的效果，这在有多个命令需要在后台连续执行的时候比较方便：</p>
+
+<p>$ screen -dmS screen_test</p>
+
+<p>$ screen -list
+There is a screen on:
+        27963.screen_test       (Detached)
+1 Socket in /tmp/uscreens/S-jiangfeng.</p>
+
+<p>$ screen -r screen_test</p>
+
+
+        </section>
+
+        <footer>
+        
+          Heidbook is maintained by <a href="http://github.com/heidsoft">heidsoft</a><br>
+        
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.
+        </footer>
+
+      </div>
+    </div>
+
+    
+  </body>
+</html>

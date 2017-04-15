@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href="https://fonts.googleapis.com/css?family=Chivo:900" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=eaa2d1221efec2ce5b6f7bf3527fdd45a6292339">
+    <link rel="stylesheet" type="text/css" href="/assets/css/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Heidbook by heidsoft</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Heidbook</h1>
+          <h2>Heidbook</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          
+          <a href="http://github.com/heidsoft/HeidBook/zipball/gh-pages" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="http://github.com/heidsoft/HeidBook/tarball/gh-pages" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          
+          <a href="http://github.com/heidsoft/HeidBook" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          
+<p>#ssh-copy-id使用
+``
+[root@localhost ~]# ssh-copy-id .ssh/id_rsa.pub root@10.0.2.22
+ssh: Could not resolve hostname .ssh/id_rsa.pub: Name or service not known
+[root@localhost ~]# ssh-copy-id -i .ssh/id_rsa.pub root@10.0.2.22
+Now try logging into the machine, with “ssh ‘root@10.0.2.22’”, and check in:</p>
+
+<p>.ssh/authorized_keys</p>
+
+<p>to make sure we haven’t added extra keys that you weren’t expecting.</p>
+
+<p>[root@localhost ~]# ssh 10.0.2.22
+Last login: Tue Nov 15 09:01:22 2016 from 10.0.2.156
+[root@localhost ~]# exit</p>
+
+<p>ansible all -m ping</p>
+
+<p>[root@localhost ~]# ansible -vvvv all -m ping
+Using /etc/ansible/ansible.cfg as config file
+Loaded callback minimal of type stdout, v2.0
+&lt;10.0.2.22&gt; ESTABLISH SSH CONNECTION FOR USER: root
+&lt;10.0.2.22&gt; SSH: EXEC sshpass -d13 ssh -C -vvv -o ControlMaster=auto -o ControlPersist=60s -o ‘IdentityFile=”/root/.ssh/id_rsa”’ -o User=root -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/ansible-ssh-%h-%p-%r 10.0.2.22 ‘/bin/sh -c ‘”’”’( umask 77 &amp;&amp; mkdir -p “<code class="highlighter-rouge"> echo $HOME/.ansible/tmp/ansible-tmp-1479172118.73-262707013768029 </code>” &amp;&amp; echo ansible-tmp-1479172118.73-262707013768029=”<code class="highlighter-rouge"> echo $HOME/.ansible/tmp/ansible-tmp-1479172118.73-262707013768029 </code>” ) &amp;&amp; sleep 0’”’”’’</p>
+
+<p>ansible -vvvv all -m ping –ssh-extra-args=”-o ControlMaster=no -o ControlPath=none -o ControlPersist=no”</p>
+
+<p>ansible all -m ping –ask-pass</p>
+
+<p>ansible all -m shell -a “mkdir -p /opt/oneoaas-cmdb-1-5-0”</p>
+
+<p>ansible all -m copy -a “src=/opt/oneoaas-frontend.1.4.20161115-0200.tar.gz dest=/opt/oneoaas-frontend.1.4.20161115-0200.tar.gz”</p>
+
+<p>#解压
+ansible all -m shell -a “tar -xvf /opt/oneoaas-cmdb-1-5-0/oneoaas-frontend.1.4.20161115-0200.tar.gz -C /opt/oneoaas-cmdb-1-5-0”
+#执行程序
+ansible all -m shell -a “nohup /opt/oneoaas-cmdb-1-5-0/main &amp;”</p>
+
+<p>ansible all -m ping -s –ssh-extra-args=”-o ControlMaster=no -o ControlPath=none -o ControlPersist=no”</p>
+
+<p>ansible all -m command -a “nohup /opt/oneoaas-cmdb-1-5-0/main &amp;”</p>
+
+<p>for i in {1..10}; do echo “hello”; done</p>
+
+<p>ansible all -m command -s -a “nohup ./oneoaas-cmdb &amp;  chdir=/opt/oneoaas-cmdb/server/”</p>
+
+<p>file: path=/some/dir/ state=absent</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>ansible all -m shell -a “ps aux</td>
+      <td>grep -F ‘oneoaas-frontend’</td>
+      <td>grep -v -F ‘grep’</td>
+      <td>awk "{ print $2 }"</td>
+      <td> </td>
+      <td>true”</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>ansible all -m shell -a “ps aux</td>
+      <td>grep -F ‘oneoaas-frontend’</td>
+      <td>grep -v -F ‘grep’</td>
+      <td>awk ‘{ print $2 }’</td>
+      <td> </td>
+      <td>true”</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>pgrep -f ‘sleep’ &amp;&amp; pkill -f ‘sleep’</td>
+      <td> </td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>ansible localhost -m shell -a ‘pgrep -f ‘oneoaas-frontend’ &amp;&amp; pkill -f ‘oneoaas-frontend’</td>
+      <td> </td>
+      <td>true’</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>pkill -IO -f <code class="highlighter-rouge">ps aux | grep -F 'oneoaas-frontend' | grep -v -F 'grep' | awk '{ print $2 }'</code>
+</td>
+      <td> </td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>``</p>
+
+<p>#tar 
+``
+Linux下tar命令exclude选项排除指定文件或目录
+tar -cvf test.tgz test/ –exclude *.jpg</p>
+
+<p>``</p>
+
+        </section>
+
+        <footer>
+        
+          Heidbook is maintained by <a href="http://github.com/heidsoft">heidsoft</a><br>
+        
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.
+        </footer>
+
+      </div>
+    </div>
+
+    
+  </body>
+</html>

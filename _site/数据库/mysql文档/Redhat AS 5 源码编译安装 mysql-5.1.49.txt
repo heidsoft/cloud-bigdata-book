@@ -1,0 +1,42 @@
+
+1.添加用户组
+[root@rhel5_A tmp]# groupadd mysql
+[root@rhel5_A tmp]# useradd -g mysql -s /sbin/nologin -M mysql
+2.编译安装
+[root@rhel5_A tmp]# tar -zxvf mysql-5.1.49.tar.gz
+[root@rhel5_A tmp]# cd mysql-5.1.49
+[root@rhel5_A mysql-5.1.49]# autoreconf --force --install
+[root@rhel5_A mysql-5.1.49]# libtoolize --automake --force
+[root@rhel5_A mysql-5.1.49]# automake --force --add-missing
+此三行是由于./configure 报错：“/bin/rm: cannot remove `libtoolT': No such file or directory”
+[root@rhel5_A mysql-5.1.49]# ./configure --prefix=/usr/local/mysql --with-unix-socket-path=/usr/local/mysql/tmp/mysql.sock --with-charset=utf8 --with-extra-charsets=all --enable-assembler --enable-thread-safe-client
+[root@rhel5_A mysql-5.1.49]# make
+[root@rhel5_A mysql-5.1.49]# make install
+[root@rhel5_A mysql-5.1.49]# cp /usr/local/mysql/share/mysql/my-medium.cnf /etc/my.cnf
+配置文件,有large,medium,small三个环境下的,根据机器性能选择,如果负荷比较大,可修改里面的一些变量的内存使用值
+[root@rhel5_A mysql-5.1.49]# chown -R mysql.mysql /usr/local/mysql/
+[root@rhel5_A mysql-5.1.49]# /usr/local/mysql/bin/mysql_install_db --user=mysql 
+3.添加服务  
+[root@rhel5_A mysql-5.1.49]# cp /usr/local/mysql/share/mysql/mysql.server /etc/rc.d/init.d/mysqld
+[root@rhel5_A mysql-5.1.49]# chmod 755 /etc/rc.d/init.d/mysqld
+[root@rhel5_A mysql-5.1.49]# chkconfig --add mysqld
+[root@rhel5_A mysql-5.1.49]# chkconfig  mysqld on
+[root@rhel5_A mysql-5.1.49]# service mysqld start
+4.安装后检测并修改root密码
+[root@rhel5_A mysql-5.1.49]# /usr/local/mysql/bin/mysqladmin version
+[root@rhel5_A mysql-5.1.49]# /usr/local/mysql/bin/mysqladmin ping
+[root@rhel5_A mysql-5.1.49]# ln -s /usr/local/mysql/bin/mysql /usr/bin/
+[root@rhel5_A mysql-5.1.49]# ln -s /usr/local/mysql/bin/mysqladmin /usr/bin/
+设置root密码
+[root@rhel5_A mysql-5.1.49]# mysqladmin -u root password "zhang"
+配置mysql库文件搜索路径
+[root@rhel5_A mysql-5.1.49]# echo "/usr/local/mysql/lib/mysql/" >>/etc/ld.so.conf 
+[root@rhel5_A mysql-5.1.49]# ldconfig -v
+5.清除空密码数据库用户，增加外部连接用户
+[root@rhel5_A mysql-5.1.49]# mysql -u root -p
+mysql> grant all privileges on *.* to zhang@'%' identified by '123456';
+mysql> use mysql;
+mysql> delete from user where password="";
+mysql> exit；
+
+ln -s /usr/local/libiconv/lib/libiconv.so.2.5.1 /usr/lib/libiconv.so

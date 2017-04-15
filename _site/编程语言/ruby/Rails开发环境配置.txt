@@ -1,0 +1,166 @@
+Windows 下 Aptana Studio 3 Ruby on Rails 开发环境配置  
+
+1、下载 Ruby  点击 Windows installer 下载并安装在  我用的是Ruby1.9.3 最新版的
+
+地址：http://rubyonrails.org/download 
+
+2、下载 RubyGems  选择ZIP格式，用它来更新一些支持文件
+
+地址：http://rubygems.org/pages/download 
+
+3、下载 Aptana Studio 3 并安装
+
+网址：http://www.aptana.com/products/studio3 
+
+4、Ruby 安装完成后 运行CMD ruby -v 后出现当前装的ruby的版本号 说明ruby安装好了
+
+c:\>ruby -v
+
+ruby 1.9.3p194 (2012-04-20) [i386-mingw32]
+
+5、下面我们来安装 RubyGems 
+
+解压刚才下载的rubygems-1.8.24.zip 在CMD下 cd 到 rubygems-1.8.24 里 执行 ruby setup.rb 
+
+c:\>ruby setup.rb #执行完后 我们看一下rubygems当前版本
+
+c:\>gem -v
+
+1.8.24
+
+
+这样我们的RubyGems 就安装完成了
+
+6、下面我们安装Rails
+
+c:\>gem install rails
+
+这个过程可能会慢一点。会下载N个包，直到Rails安装完毕，完毕后我们看一下版本号
+
+c:\>rails -v
+
+Rails 3.2.3
+
+
+7、基本的ruby on rails 安装完成了。但是当我们运行Aptana Studio 3 并建立工作。
+
+在 Aptana Studio 3 -> new -> Rails Project 我们先生成一个demo工程  
+
+Name 处我们输 demo 点击完成 会看到如下信息
+
+
+Administrator@QN1M0CLRBS5FHRU ~/My Documents/Aptana Studio 3 Workspace/demo
+$ rails new .
+       exist
+      create  README.rdoc
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/assets/images/rails.png
+      create  app/assets/javascripts/application.js
+      create  app/assets/stylesheets/application.css
+      create  app/controllers/application_controller.rb
+      create  app/helpers/application_helper.rb
+      create  app/mailers
+      create  app/models
+
+...............................
+
+Installing json (1.7.3)
+Gem::InstallError: The 'json' native gem requires installed build tools.
+
+Please update your PATH to include build tools or download the DevKit
+from 'http://rubyinstaller.org/downloads' and follow the instructions
+at 'http://github.com/oneclick/rubyinstaller/wiki/Development-Kit'
+An error occured while installing json (1.7.3), and Bundler cannot continue.
+Make sure that `gem install json -v '1.7.3'` succeeds before bundling.
+
+
+我们会看到缺少 json 并提示我们安装 但是呢。他给的这两个同址 我是打不开 我们到其它地方下载
+
+地址：https://github.com/oneclick/rubyinstaller/downloads/
+
+选择DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe — DevKit-4.5.2 self extracting archive 
+
+这个文件约有20M  下载完成后解压至c:\dk\位置 我们在CMD下安装
+
+c:\dk>ruby dk.rb init
+
+c:\dk>ruby dk.rb review
+
+c:\dk>ruby dk.rb install
+
+ 
+
+8、我来启动一下刚才生成的demo 工程
+
+Administrator@QN1M0CLRBS5FHRU ~/My Documents/Aptana Studio 3 Workspace/demo 
+$ rails s
+Could not find gem 'jquery-rails (>= 0) x86-mingw32' in the gems available on this mach
+[0m
+Run `bundle install` to install missing gems.
+
+出现错误。提示我们要运行demo工作sever 服务，还需要安装一些插件来支持rails 服务运行。
+
+C:\>gem install jquery-rails
+Fetching: jquery-rails-2.0.2.gem (100%)
+Successfully installed jquery-rails-2.0.2
+1 gem installed
+Installing ri documentation for jquery-rails-2.0.2...
+Installing RDoc documentation for jquery-rails-2.0.2...
+
+C:\>gem install coffee-rails
+Fetching: coffee-rails-3.2.2.gem (100%)
+Successfully installed coffee-rails-3.2.2
+1 gem installed
+Installing ri documentation for coffee-rails-3.2.2...
+Installing RDoc documentation for coffee-rails-3.2.2...
+
+C:\>gem install sqlite3
+Fetching: sqlite3-1.3.6-x86-mingw32.gem (100%)
+Successfully installed sqlite3-1.3.6-x86-mingw32
+1 gem installed
+Installing ri documentation for sqlite3-1.3.6-x86-mingw32...
+Installing RDoc documentation for sqlite3-1.3.6-x86-mingw32...
+
+C:\>gem install sass-rails
+Fetching: sass-3.1.18.gem (100%)
+Fetching: sass-rails-3.2.5.gem (100%)
+Successfully installed sass-3.1.18
+Successfully installed sass-rails-3.2.5
+2 gems installed
+Installing ri documentation for sass-3.1.18...
+Installing ri documentation for sass-rails-3.2.5...
+Installing RDoc documentation for sass-3.1.18...
+Installing RDoc documentation for sass-rails-3.2.5...
+
+C:\>gem install uglifier
+Fetching: uglifier-1.2.4.gem (100%)
+Successfully installed uglifier-1.2.4
+1 gem installed
+Installing ri documentation for uglifier-1.2.4...
+Installing RDoc documentation for uglifier-1.2.4...
+
+ 
+
+以上蓝色的 安装完后。在Aptana Studio 3 运行 rails s会提示
+
+$ rails s
+=> Booting WEBrick
+=> Rails 3.2.3 application starting in development on http://0.0.0.0:3000
+=> Call with -d to detach
+=> Ctrl-C to shutdown server
+[2012-05-14 13:04:23] INFO  WEBrick 1.3.1
+[2012-05-14 13:04:23] INFO  ruby 1.9.3 (2012-04-20) [i386-mingw32]
+[2012-05-14 13:04:23] INFO  WEBrick::HTTPServer#start: pid=964 port=3000
+
+
+自此我们的ruby on rails 已经配置完成了
+
+但是我们为了更完美一些还要安装一个rdoc
+
+c:\>gem install rdoc-data
+
+c:\>gem install ruby-debug-ide

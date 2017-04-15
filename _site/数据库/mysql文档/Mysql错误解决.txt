@@ -1,0 +1,85 @@
+错误提示：
+root@localhost ~]# mysql --socket=/tmp/mysql.sock
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+解决方法：
+由于mysql 默认的mysql.sock 是在/var/lib/mysql/mysql.sock，但linux系统总是去/tmp/mysql.sock查找，所以会报错
+[root@localhost ~]# find / -name mysql.sock
+/var/lib/mysql/mysql.sock
+1.直接指定mysql通道
+[root@localhost ~]# mysql --socket=/var/lib/mysql/mysql.sock
+Welcome to the MySQL monitor.  Commands end with ; or /g.
+Your MySQL connection id is 2 to server version: 5.0.22
+Type 'help;' or '/h' for help. Type '/c' to clear the buffer.
+mysql>
+2. 创建符号连接：
+为mysql.sock增加软连接（相当于windows中的快捷方式）。
+ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+ 
+
+eg：
+root@localhost ~]# mysql
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+[root@localhost ~]# ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+[root@localhost ~]# mysql
+Welcome to the MySQL monitor.  Commands end with ; or /g.
+Your MySQL connection id is 3 to server version: 5.0.22
+ 
+Type 'help;' or '/h' for help. Type '/c' to clear the buffer.
+ 
+mysql> 
+
+
+我觉得这两个方法挺好用的
+ 
+ 
+ 
+----end----
+
+
+查看mysql服务状态：
+service mysqld status
+启动服务：
+service mysqld start
+连接数据库：
+mysql
+3：进入mysql
+create table t1 (id int,name varchar(30));
+test.cpp
+#include <iostream>
+#include <mysql/mysql.h>
+#include <string>
+using namespace std;
+main() 
+{
+     MYSQL mysql;
+     mysql_init(&mysql);
+     mysql_real_connect(&mysql, "localhost", "root", "root", "test", 3306, NULL, 0);
+     string sql = "insert into t1 (id, name) values (1, 'java1');";
+     mysql_query(&mysql, sql.c_str());
+     mysql_close(&mysql);
+}
+g++ -o test.out test.cpp -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+g++ -o /usr/local/apache2/cgi-bin/post post.cpp -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+gcc -o /usr/local/apache2/cgi-bin/select select.c -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+
+g++ -o /var/www/cgi-bin/test.cgi get.c -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+g++ -o /var/www/cgi-bin/test.cgi post.c -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+
+gcc -o /var/www/cgi-bin/get get.c -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+gcc -o /var/www/cgi-bin/post post.c -lmysqlclient -I/usr/local/include/mysql/ -L/usr/local/lib/mysql
+mysql_options(conn, MYSQL_SET_CHARSET_NAME, "gb2312"); //设字符编码
+mysql_query(myData,"set names 'gbk'"); 设字符编码
+
+查询mysql系统变量
+show variables;
+SHOW VARIABLES  LIKE  ‘auto_inc%’;
+查询mysql引擎
+ show engines;
+ 
+ gcc -I/usr/local/mysql/include post.c -lmysqlclient -o post
+
+
+
+
+
+

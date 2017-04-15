@@ -4,7 +4,7 @@ safe: true
 description: Heidbook
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-dinky
+theme: jekyll-theme-tactile
 encoding: utf-8
 timezone: Asia/Shanghai
 

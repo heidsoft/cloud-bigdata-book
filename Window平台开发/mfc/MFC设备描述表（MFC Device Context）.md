@@ -1,13 +1,13 @@
-MFCÉè±¸ÃèÊö±í£¨MFC Device Context£©
+MFCè®¾å¤‡æè¿°è¡¨ï¼ˆMFC Device Contextï¼‰
 
-Windows±à³ÌÖĞ»ñÈ¡Éè±¸ÃèÊö±íµÄÁ½ÖÖ·½·¨£º
+Windowsç¼–ç¨‹ä¸­è·å–è®¾å¤‡æè¿°è¡¨çš„ä¸¤ç§æ–¹æ³•ï¼š
 
-£¨1£©ÓÃCWnd::GetDCºÍCWnd::ReleaseDC
+ï¼ˆ1ï¼‰ç”¨CWnd::GetDCå’ŒCWnd::ReleaseDC
     CDC *pDC = GetDC(); // Get DC
     // do some drawing
     ReleaseDC(pDC); // Release DC, needed
 
-£¨2£©CWnd::BeginPaint ºÍ CWnd::EndPaint
+ï¼ˆ2ï¼‰CWnd::BeginPaint å’Œ CWnd::EndPaint
     PAINTSTRUCT ps;
     CDC *pDC = BeginPaint(&ps);  // Get DC
     // do some drawing
@@ -22,10 +22,10 @@ CWindowDC 	For drawing anywhere in a window, including the nonclient area
 CMetaFileDC 	For drawing to a GDI metafile
 
 
-¾ßÓĞÌØÊâÓÃÍ¾µÄMFCÉè±¸ÃèÊö±íÀà
+å…·æœ‰ç‰¹æ®Šç”¨é€”çš„MFCè®¾å¤‡æè¿°è¡¨ç±»
 
-ÀàÃû ÃèÊö
-CPaintDC 	ÓÃÓÚÔÚ´°¿Ú¿Í»§Çø»æÍ¼£¨½öÏŞÓÚOnPaint´¦Àí³ÌĞò£©
-CClientDC 	ÓÃÓÚÔÚ´°¿Ú¿Í»§Çø»æÍ¼£¨³ıOnPaintÍâµÄÈÎºÎ´¦Àí³ÌĞò£©
-CWindowDC 	ÓÃÓÚÔÚ´°¿ÚÄÚÈÎÒâµØ·½»æÍ¼£¬°üÀ¨·Ç¿Í»§Çø
-CMetaFileDC 	ÓÃÓÚÏòGDIÔªÎÄ¼ş»æÍ¼
+ç±»å æè¿°
+CPaintDC 	ç”¨äºåœ¨çª—å£å®¢æˆ·åŒºç»˜å›¾ï¼ˆä»…é™äºOnPaintå¤„ç†ç¨‹åºï¼‰
+CClientDC 	ç”¨äºåœ¨çª—å£å®¢æˆ·åŒºç»˜å›¾ï¼ˆé™¤OnPaintå¤–çš„ä»»ä½•å¤„ç†ç¨‹åºï¼‰
+CWindowDC 	ç”¨äºåœ¨çª—å£å†…ä»»æ„åœ°æ–¹ç»˜å›¾ï¼ŒåŒ…æ‹¬éå®¢æˆ·åŒº
+CMetaFileDC 	ç”¨äºå‘GDIå…ƒæ–‡ä»¶ç»˜å›¾

@@ -1,42 +1,42 @@
-°²×°JsonCppĞèÒªÏÂÔØJsonCppºÍScon»¹ĞèÒª»úÆ÷ÉÏÓĞpython
+å®‰è£…JsonCppéœ€è¦ä¸‹è½½JsonCppå’ŒSconè¿˜éœ€è¦æœºå™¨ä¸Šæœ‰python
 
-wget http://sourceforge.net/projects/jsoncpp/files/latest/download?_test=goal          ÏÂÔØJsonCpp
+wget http://sourceforge.net/projects/jsoncpp/files/latest/download?_test=goal          ä¸‹è½½JsonCpp
 
-wget http://sourceforge.net/projects/scons/files/scons/2.1.0/scons-2.1.0.tar.gz/download     ÏÂÔØscons-2.1.0
+wget http://sourceforge.net/projects/scons/files/scons/2.1.0/scons-2.1.0.tar.gz/download     ä¸‹è½½scons-2.1.0
 
-sconsÓÖÊÇÒ»¸öÅ£²æµÄ¹¤¾ß£¬¹¦ÄÜºÍGNU makeÒ»Ñù£¬ÓÖ±Èmake¼òµ¥¶àÁË¡£sconsÊÇpython¹¤¾ß£¬ĞèÒªÏÈ°²×°ºÃpython¡£
+sconsåˆæ˜¯ä¸€ä¸ªç‰›å‰çš„å·¥å…·ï¼ŒåŠŸèƒ½å’ŒGNU makeä¸€æ ·ï¼Œåˆæ¯”makeç®€å•å¤šäº†ã€‚sconsæ˜¯pythonå·¥å…·ï¼Œéœ€è¦å…ˆå®‰è£…å¥½pythonã€‚
 
  
 
-ÏÂÔØscons ÔÚÕâÀïhttp://www.scons.org/
-½âÑ¹  tar -zxvf scons-2.0.1.tar.gz
-Éè¶¨»·¾³±äÁ¿ 
-# export MYSCONS=½âÑ¹µÄÂ·¾¶
+ä¸‹è½½scons åœ¨è¿™é‡Œhttp://www.scons.org/
+è§£å‹  tar -zxvf scons-2.0.1.tar.gz
+è®¾å®šç¯å¢ƒå˜é‡ 
+# export MYSCONS=è§£å‹çš„è·¯å¾„
 
 # export SCONS_LIB_DIR=$MYSCONS/engine
 
   
 
-¿ªÊ¼±àÒëjsoncpp
+å¼€å§‹ç¼–è¯‘jsoncpp
 # cd jsoncpp-src-0.5.0 
 # python $MYSCONS/script/scons platform=linux-gcc
 
-×¢ÊÍ£ºÍøÉÏÓĞÒ»Ğ©´íÎóµÄ Ò²¿ÉÄÜÊÇÔçÆÚµÄ°æ±¾   # python $MYSCONS/script/scons.py platform=linux-gcc
-¾­¹ı²âÊÔ ·¢ÏÖ±¨´í ²é¿´Â·¾¶ÏÂ Ã»ÓĞscons.pyÎÄ¼ş ¹Ê¸ÄÎªscons
+æ³¨é‡Šï¼šç½‘ä¸Šæœ‰ä¸€äº›é”™è¯¯çš„ ä¹Ÿå¯èƒ½æ˜¯æ—©æœŸçš„ç‰ˆæœ¬   # python $MYSCONS/script/scons.py platform=linux-gcc
+ç»è¿‡æµ‹è¯• å‘ç°æŠ¥é”™ æŸ¥çœ‹è·¯å¾„ä¸‹ æ²¡æœ‰scons.pyæ–‡ä»¶ æ•…æ”¹ä¸ºscons
 
-Ö®ºó±àÒë
+ä¹‹åç¼–è¯‘
 
-Éú³É¾²Ì¬ºÍ¶¯Ì¬¿âÎÄ¼ş
+ç”Ÿæˆé™æ€å’ŒåŠ¨æ€åº“æ–‡ä»¶
 
-ÔÚjsoncpp-src-0.5.0/libs/linux-gcc-4.1.2Ä¿Â¼ÏÂ
+åœ¨jsoncpp-src-0.5.0/libs/linux-gcc-4.1.2ç›®å½•ä¸‹
 
 libjson_linux-gcc-4.4.4_libmt.a
 libjson_linux-gcc-4.4.4_libmt.so
-Ê¹ÓÃÊ± ĞèÒª°ÑÍ·ÎÄ¼ş ¼´ includeÏÂµÄÎÄ¼ş¸´ÖÆµ½¹¤³ÌÏÂ
+ä½¿ç”¨æ—¶ éœ€è¦æŠŠå¤´æ–‡ä»¶ å³ includeä¸‹çš„æ–‡ä»¶å¤åˆ¶åˆ°å·¥ç¨‹ä¸‹
 
 -------------------------------------------------
 
-Ê¹ÓÃÊ¾Àı
+ä½¿ç”¨ç¤ºä¾‹
 
 #include "json/json.h"
 #include <string>
@@ -58,30 +58,30 @@ int main()
  return 0;
 }
 
-±àÒë ÎªÁË·½±ã±àÒë ÎÒ½«¾²Ì¬¿âÎÄ¼şÃüÃûÎªlibjson-0.5.0.a
+ç¼–è¯‘ ä¸ºäº†æ–¹ä¾¿ç¼–è¯‘ æˆ‘å°†é™æ€åº“æ–‡ä»¶å‘½åä¸ºlibjson-0.5.0.a
 
-½¨Á¢Ò»¸öĞÂµÄÎÄ¼ş¼Ğjson-test  °Ñlibjson-0.5.0.a ¸´ÖÆ¹ıÈ¥
+å»ºç«‹ä¸€ä¸ªæ–°çš„æ–‡ä»¶å¤¹json-test  æŠŠlibjson-0.5.0.a å¤åˆ¶è¿‡å»
 
 mv  /jsoncpp-src-0.5.0/include/json/    json-test/
 
 
 g++ -o main main.cpp -L. -ljson-0.5.0 
 
-¾Í¿ÉÒÔÁË~~
+å°±å¯ä»¥äº†~~
 
 -------------------------------------------------------------------------------
 
-Ê¾Àıdemo£º
+ç¤ºä¾‹demoï¼š
 
-Json::Value ±íÊ¾Ò»¸öjsonÖµ¶ÔÏó£¬ºóÃæ»áÆµ·±ÓÃµ½
+Json::Value è¡¨ç¤ºä¸€ä¸ªjsonå€¼å¯¹è±¡ï¼Œåé¢ä¼šé¢‘ç¹ç”¨åˆ°
 
-Json::Reader read¶ÔÏó£¬ÓÃÀ´½âÎöjosn×Ö·û´®£¬ÓĞreader¾ÍÓĞwriter --Json::Writer
+Json::Reader readå¯¹è±¡ï¼Œç”¨æ¥è§£æjosnå­—ç¬¦ä¸²ï¼Œæœ‰readerå°±æœ‰writer --Json::Writer
 
-¼ÙÉèÓĞÕâÃ´¸öjson×Ö·û´®£¬ÕâÀïÖ÷Òª½²Ò»ÏÂ´øÊı×éÕâÖÖµÄ´®£¬Ïó×î¼òµ¥µÄ{"key":"value"}¾Í²»½²ÁË - -
+å‡è®¾æœ‰è¿™ä¹ˆä¸ªjsonå­—ç¬¦ä¸²ï¼Œè¿™é‡Œä¸»è¦è®²ä¸€ä¸‹å¸¦æ•°ç»„è¿™ç§çš„ä¸²ï¼Œè±¡æœ€ç®€å•çš„{"key":"value"}å°±ä¸è®²äº† - -
 
 string strJson ="{\"key1\":\"value1\",\"array\":[{\"key2\":\"value2\",\"key3\":\"aa\"},{\"key2\":\"value3\",\"key3\":\"bb\"},{\"key2\":\"value4\",\"key3\":\"cc\"}]}";
 
-Ò»ÖÖ·½·¨:
+ä¸€ç§æ–¹æ³•:
 
 Json::Reader reader;
 
@@ -100,11 +100,11 @@ for (int i = 0; i< obj_array.size();i++)
   str =obj_array[i]["key3"].asString();
 }
 
-Ò»´ÎforÑ­»·¾ÍÈ«²¿½âÎö³öÀ´ÁË
+ä¸€æ¬¡forå¾ªç¯å°±å…¨éƒ¨è§£æå‡ºæ¥äº†
 
-ÁíÒ»ÖÖ£¬ÓÃËûÄÚ½¨µÄµü´úÆ÷£¬ÆäÊµÒ²¾ÍÊÇËû×Ô¼ºµÄÒ»¸övector<string>³ÉÔ±£¬¿ÉÒÔ×Ô¼ºÈ¥¿´json:valueµÄ¶¨Òå
+å¦ä¸€ç§ï¼Œç”¨ä»–å†…å»ºçš„è¿­ä»£å™¨ï¼Œå…¶å®ä¹Ÿå°±æ˜¯ä»–è‡ªå·±çš„ä¸€ä¸ªvector<string>æˆå‘˜ï¼Œå¯ä»¥è‡ªå·±å»çœ‹json:valueçš„å®šä¹‰
 
-Json::Value::Membersmember;//Members  ÕâÍæÒâ¾ÍÊÇvector<string>£¬typedefÁË¶øÒÑ
+Json::Value::Membersmember;//Members  è¿™ç©æ„å°±æ˜¯vector<string>ï¼Œtypedefäº†è€Œå·²
  for (Json::Value::iterator itr =obj_array.begin(); itr != obj_array.end(); itr++)
  {
   member =(*itr).getMemberNames();
@@ -116,9 +116,9 @@ Json::Value::Membersmember;//Members  ÕâÍæÒâ¾ÍÊÇvector<string>£¬typedefÁË¶øÒÑ
 
 -------------------------------------------------------------
 
-Ê¾Àıdemo£º
+ç¤ºä¾‹demoï¼š
 
-JSONCPPµÄÓ¦ÓÃÀı×Ó¡£
+JSONCPPçš„åº”ç”¨ä¾‹å­ã€‚
 
 #include "json.h"
 #include <string>
@@ -184,41 +184,41 @@ void main()
 
  
 
-ÒıÓÃ´úÂëÀïÃæµÄ¡°json.h¡±
+å¼•ç”¨ä»£ç é‡Œé¢çš„â€œjson.hâ€
 
 
-(1)½âÎöjsonµÄ·½·¨
+(1)è§£æjsonçš„æ–¹æ³•
 
 
-Json::Value json;     // ±íÊ¾Ò»¸öjson¸ñÊ½µÄ¶ÔÏó
-Json::Reader reader;     //json½âÎö
+Json::Value json;     // è¡¨ç¤ºä¸€ä¸ªjsonæ ¼å¼çš„å¯¹è±¡
+Json::Reader reader;     //jsonè§£æ
 
 
-reader.parse(json_buf/*json¸ñÊ½µÄ×Ö·û´®*/,json,false);     //½âÎö³öjson·Åµ½jsonÖĞ
+reader.parse(json_buf/*jsonæ ¼å¼çš„å­—ç¬¦ä¸²*/,json,false);     //è§£æå‡ºjsonæ”¾åˆ°jsonä¸­
 
 
 
 
-(2) Êı×é·ÃÎÊ
-Json::Value input ÊÇÀàËÆÕâÖÖ¸ñÊ½
+(2) æ•°ç»„è®¿é—®
+Json::Value input æ˜¯ç±»ä¼¼è¿™ç§æ ¼å¼
 [["key1":value1],["key2":value2] ]
 
 
-Json::Value::const_iterator iter;          //µü´úÆ÷
+Json::Value::const_iterator iter;          //è¿­ä»£å™¨
 
 
 for(iter = input.begin();iter != input.end();iter++ )
       Json::Value::Members member=(*iter).getMemberNames();
-      *(member.begin());          // Êä³ö key1,key2
-     (*iter)[*(member.begin())];     //Êä³ö value1,value2
+      *(member.begin());          // è¾“å‡º key1,key2
+     (*iter)[*(member.begin())];     //è¾“å‡º value1,value2
 
 
-(3) ¶ÔÏó·ÃÎÊ
+(3) å¯¹è±¡è®¿é—®
 
 
-Ö±½ÓÓÃ value["key"]¼´¿É
-(4) Êä³öjson¸ñÊ½´®
-µ÷ÓÃ Json::FastWriter µÄwriter
-²»Ö§³Öutf-8¸ñÊ½µÄÊä³ö£¬ĞèÒª×Ô¼ºµ÷ÓÃwriterÖ®ºó£¬ÓÃiconv×ª»¯³Éutf-8×Ö·û´®
+ç›´æ¥ç”¨ value["key"]å³å¯
+(4) è¾“å‡ºjsonæ ¼å¼ä¸²
+è°ƒç”¨ Json::FastWriter çš„writer
+ä¸æ”¯æŒutf-8æ ¼å¼çš„è¾“å‡ºï¼Œéœ€è¦è‡ªå·±è°ƒç”¨writerä¹‹åï¼Œç”¨iconvè½¬åŒ–æˆutf-8å­—ç¬¦ä¸²
 
 

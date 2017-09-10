@@ -1,24 +1,24 @@
-Window.Open����������ֵ
+Window.Open参数、返回值
 
-һ��window.open()֧�ֻ�����
+一、window.open()支持环境：
  
 JavaScript1.0+/JScript1.0+/Nav2+/IE3+/Opera3+
  
 
-���������﷨��
+二、基本语法：
  
 window.open(pageURL,name,parameters)
  
-���У�
+其中：
  
-pageURLΪ�Ӵ���·��
+pageURL为子窗口路径
  
-nameΪ�Ӵ��ھ��
+name为子窗口句柄
  
-parametersΪ���ڲ���(�������ö��ŷָ�)
+parameters为窗口参数(各参数用逗号分隔)
  
 
-����ʾ����
+三、示例：
  
 <SCRIPT>
  
@@ -26,67 +26,67 @@ parametersΪ���ڲ���(�������ö��ŷָ�)
  
 window.open('page.html','newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
  
-//д��һ��
+//写成一行
  
 -->
  
 </SCRIPT>
  
-�ű����к�page.html�����´���newwindow�д򿪣���Ϊ100����Ϊ400��������0���أ�����0���أ��޹��������޲˵������޹����������ɵ�����С���޵�ַ������״̬��������ա�
+脚本运行后，page.html将在新窗体newwindow中打开，宽为100，高为400，距屏顶0象素，屏左0象素，无工具条，无菜单条，无滚动条，不可调整大小，无地址栏，无状态栏。请对照。
  
-�����������漰��Ϊ���õļ����������������⻹�кܶ���������������ġ��ġ��������
+　　上例中涉及的为常用的几个参数，除此以外还有很多其他参数，请见四。四、各项参数
  
-��������yes/noҲ��ʹ��1/0��pixelvalueΪ�������ֵ����λ���ء�
- 
-
-����|ȡֵ��Χ|˵��
+　　其中yes/no也可使用1/0；pixelvalue为具体的数值，单位象素。
  
 
-alwaysLowered|yes/no|ָ���������������д���֮��
+参数|取值范围|说明
  
-alwaysRaised|yes/no|ָ���������������д���֮��
+
+alwaysLowered|yes/no|指定窗口隐藏在所有窗口之后
  
-depended|yes/no|�Ƿ�͸�����ͬʱ�ر�
+alwaysRaised|yes/no|指定窗口悬浮在所有窗口之上
  
-directories|yes/no|Nav2��3��Ŀ¼���Ƿ�ɼ�
+depended|yes/no|是否和父窗口同时关闭
  
-height|pixelvalue|���ڸ߶�
+directories|yes/no|Nav2和3的目录栏是否可见
  
-hotkeys|yes/no|��û�˵����Ĵ������谲ȫ�˳��ȼ�
+height|pixelvalue|窗口高度
  
-innerHeight|pixelvalue|�������ĵ������ظ߶�
+hotkeys|yes/no|在没菜单栏的窗口中设安全退出热键
  
-innerWidth|pixelvalue|�������ĵ������ؿ���
+innerHeight|pixelvalue|窗口中文档的像素高度
  
-location|yes/no|λ�����Ƿ�ɼ�
+innerWidth|pixelvalue|窗口中文档的像素宽度
  
-menubar|yes/no|�˵����Ƿ�ɼ�
+location|yes/no|位置栏是否可见
  
-outerHeight|pixelvalue|�趨����(����װ�α߿�)�����ظ߶�
+menubar|yes/no|菜单栏是否可见
  
-outerWidth|pixelvalue|�趨����(����װ�α߿�)�����ؿ���
+outerHeight|pixelvalue|设定窗口(包括装饰边框)的像素高度
  
-resizable|yes/no|���ڴ�С�Ƿ�ɵ���
+outerWidth|pixelvalue|设定窗口(包括装饰边框)的像素宽度
  
-screenX|pixelvalue|���ھ���Ļ��߽�����س���
+resizable|yes/no|窗口大小是否可调整
  
-screenY|pixelvalue|���ھ���Ļ�ϱ߽�����س���
+screenX|pixelvalue|窗口距屏幕左边界的像素长度
  
-scrollbars|yes/no|�����Ƿ���й�����
+screenY|pixelvalue|窗口距屏幕上边界的像素长度
  
-titlebar|yes/no|������Ŀ���Ƿ�ɼ�
+scrollbars|yes/no|窗口是否可有滚动栏
  
-toolbar|yes/no|���ڹ������Ƿ�ɼ�
+titlebar|yes/no|窗口题目栏是否可见
  
-Width|pixelvalue|���ڵ����ؿ���
+toolbar|yes/no|窗口工具栏是否可见
  
-z-look|yes/no|���ڱ�������Ƿ�����������֮��
+Width|pixelvalue|窗口的像素宽度
+ 
+z-look|yes/no|窗口被激活后是否浮在其它窗口之上
  
 
 
-��1��������ĵ������ڴ��롿
+【1、最基本的弹出窗口代码】
  
-������ʵ����ǳ��򵥣�<SCRIPTLANGUAGE="javascript">
+　　其实代码非常简单：<SCRIPTLANGUAGE="javascript">
  
 <!--
  
@@ -94,61 +94,61 @@ window.open('page.html')
  
 -->
  
-</SCRIPT��Ϊ����һ��javascripts���룬��������Ӧ�÷���<SCRIPTLANGUAGE="javascript">��ǩ��</script>֮�䡣<!--��-->�Ƕ�һЩ�汾�͵�����������ã�����Щ��������в��Ὣ��ǩ�еĴ�����Ϊ�ı���ʾ������Ҫ���������ϰ�߰���
+</SCRIPT因为着是一段javascripts代码，所以它们应该放在<SCRIPTLANGUAGE="javascript">标签和</script>之间。<!--和-->是对一些版本低的浏览器起作用，在这些老浏览器中不会将标签中的代码作为文本显示出来。要养成这个好习惯啊。
  
-����Window.open('page.html')���ڿ��Ƶ����µĴ���page.html�����page.html������������ͬһ·���£�ǰ��Ӧд��·��������·��(http://)�����·��(../)���ɡ��õ����ź�˫���Ŷ����ԣ�ֻ�ǲ�Ҫ���á�
+　　Window.open('page.html')用于控制弹出新的窗口page.html，如果page.html不与主窗口在同一路径下，前面应写明路径，绝对路径(http://)和相对路径(../)均可。用单引号和双引号都可以，只是不要混用。
  
-������һ�δ�����Լ���HTML������λ�ã�<head>��</head>֮����ԣ�<body>��</body>Ҳ���ԣ�ԽǰԽ��ִ�У�������ҳ����볤������ʹҳ����㵯���;�����ǰ�š�
+　　这一段代码可以加入HTML的任意位置，<head>和</head>之间可以，<body>间</body>也可以，越前越早执行，尤其是页面代码长，又想使页面早点弹出就尽量往前放。
  
-��2���������ú�ĵ������ڡ�
+【2、经过设置后的弹出窗口】
  
 
-������˵һ˵�������ڵ����á�ֻҪ��������Ĵ����м�һ�㶫���Ϳ����ˡ�
+下面再说一说弹出窗口的设置。只要再往上面的代码中加一点东西就可以了。
  
-������������������Ĵ��ڵ���ۣ��ߴ��С��������λ������Ӧ��ҳ��ľ��������<SCRIPTLANGUAGE="javascript">
+我们来定制这个弹出的窗口的外观，尺寸大小，弹出的位置以适应该页面的具体情况。<SCRIPTLANGUAGE="javascript">
  
 <!--
  
 window.open('page.html','newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
  
-//д��һ��
+//写成一行
  
 -->
  
-</SCRIPT>�������ͣ�
+</SCRIPT>参数解释：
  
-<SCRIPTLANGUAGE="javascript">js�ű���ʼ��
+<SCRIPTLANGUAGE="javascript">js脚本开始；
  
-window.open�����´��ڵ����
+window.open弹出新窗口的命令；
  
-'page.html'�������ڵ��ļ�����
+'page.html'弹出窗口的文件名；
  
-'newwindow'�������ڵ����֣������ļ��������Ǳ��룬���ÿ�''���棻
+'newwindow'弹出窗口的名字（不是文件名），非必须，可用空''代替；
  
-height=100���ڸ߶ȣ�
+height=100窗口高度；
  
-width=400���ڿ��ȣ�
+width=400窗口宽度；
  
-top=0���ھ�����Ļ�Ϸ�������ֵ��
+top=0窗口距离屏幕上方的象素值；
  
-left=0���ھ�����Ļ��������ֵ��
+left=0窗口距离屏幕左侧的象素值；
  
-toolbar=no�Ƿ���ʾ��������yesΪ��ʾ��
+toolbar=no是否显示工具栏，yes为显示；
  
-menubar��scrollbars��ʾ�˵����͹�������
+menubar，scrollbars表示菜单栏和滚动栏。
  
-Resizable=no�Ƿ������ı䴰�ڴ�С��yesΪ������
+Resizable=no是否允许改变窗口大小，yes为允许；
  
-location=no�Ƿ���ʾ��ַ����yesΪ������
+location=no是否显示地址栏，yes为允许；
  
-status=no�Ƿ���ʾ״̬���ڵ���Ϣ��ͨ�����ļ��Ѿ��򿪣���yesΪ������
+status=no是否显示状态栏内的信息（通常是文件已经打开），yes为允许；
  
-</SCRIPT>js�ű�����
+</SCRIPT>js脚本结束
  
 
-��3���ú������Ƶ������ڡ�<html>
+【3、用函数控制弹出窗口】<html>
  
-������һ�������Ĵ���
+下面是一个完整的代码
  
 <head>
  
@@ -158,7 +158,7 @@ status=no�Ƿ���ʾ״̬���ڵ���Ϣ��ͨ�����ļ��Ѿ��򿪣���yesΪ������
  
 functionopenwin(){window.open("page.html","newwindow","height=100,width=400,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no")
  
-//д��һ��
+//写成一行
  
 }
  
@@ -170,35 +170,35 @@ functionopenwin(){window.open("page.html","newwindow","height=100,width=400,tool
  
 <bodyonload="openwin()">
  
-�������ҳ�����ݡ�
+…任意的页面内容…
  
 </body>
  
 </html>
  
-���ﶨ����һ������openwin(),�������ݾ��Ǵ�һ�����ڡ��ڵ�����֮ǰû���κ���;��
+这里定义了一个函数openwin(),函数内容就是打开一个窗口。在调用它之前没有任何用途。
  
-��ô�����أ�
+怎么调用呢？
  
-����һ��<bodyonload="openwin()">�������ҳ��ʱ�������ڣ�
+方法一：<bodyonload="openwin()">浏览器读页面时弹出窗口；
  
-��������<bodyonunload="openwin()">������뿪ҳ��ʱ�������ڣ�
+方法二：<bodyonunload="openwin()">浏览器离开页面时弹出窗口；
  
-����������һ�����ӵ��ã�
+方法三：用一个连接调用：
  
-<ahref="#"onclick="openwin()">��һ������</a>
+<ahref="#"onclick="openwin()">打开一个窗口</a>
  
-ע�⣺ʹ�õ�"#"�������ӡ�
+注意：使用的"#"是虚连接。
  
-�����ģ���һ����ť���ã�
+方法四：用一个按钮调用：
  
-<inputtype="button"onclick="openwin()"value="�򿪴���">
- 
-
-��4��ͬʱ����2�����ڡ�
+<inputtype="button"onclick="openwin()"value="打开窗口">
  
 
-��Դ������΢�Ķ�һ�£�
+【4、同时弹出2个窗口】
+ 
+
+对源代码稍微改动一下：
  
 <scriptLANGUAGE="JavaScript">
  
@@ -208,11 +208,11 @@ functionopenwin()
  
 {window.open("page.html","newwindow","height=100,width=100,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no")
  
-//д��һ��
+//写成一行
  
 window.open("page2.html","newwindow2","height=100,width=100,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no")
  
-//д��һ��
+//写成一行
  
 }
  
@@ -221,15 +221,15 @@ window.open("page2.html","newwindow2","height=100,width=100,top=100,left=100,too
 </script>
  
 
-Ϊ���ⵯ����2�����ڸ��ǣ���top��left����һ�µ�����λ�ò�Ҫ�໥���Ǽ��ɡ����������˵�������ַ������ü��ɡ�
+为避免弹出的2个窗口覆盖，用top和left控制一下弹出的位置不要相互覆盖即可。最后用上面说过的四种方法调用即可。
  
-ע�⣺2�����ڵ�name(newwindows��newwindow2)��Ҫ��ͬ�����߸ɴ�ȫ��Ϊ�ա�OK��
- 
-
-��5�������ڴ��ļ�1.htm��ͬʱ����С����page.html��
+注意：2个窗口的name(newwindows和newwindow2)不要相同，或者干脆全部为空。OK？
  
 
-���´������������<head>����
+【5、主窗口打开文件1.htm，同时弹出小窗口page.html】
+ 
+
+如下代码加入主窗口<head>区：
  
 <scriptlanguage="javascript">
  
@@ -245,45 +245,45 @@ functionopenwin()
  
 </script>
  
-����<body>����
+加入<body>区：
  
-<ahref="1.htm"onclick="openwin()">open</a>���ɡ�
- 
-
-��6�������Ĵ���֮��ʱ�رտ��ơ�
+<ahref="1.htm"onclick="openwin()">open</a>即可。
  
 
-���������ٶԵ����Ĵ��ڽ���һЩ���ƣ�Ч���͸����ˡ���������ٽ�һС�δ�����뵯����ҳ��(ע���Ǽ��뵽page.html��HTML�У��ɲ�����ҳ���У�����)������10����Զ��ر��ǲ��Ǹ����ˣ�
+【6、弹出的窗口之定时关闭控制】
  
-���ȣ������´������page.html�ļ���<head>����
+
+下面我们再对弹出的窗口进行一些控制，效果就更好了。如果我们再将一小段代码加入弹出的页面(注意是加入到page.html的HTML中，可不是主页面中，否则…)，让它10秒后自动关闭是不是更酷了？
+ 
+首先，将如下代码加入page.html文件的<head>区：
  
 <scriptlanguage="JavaScript">
  
 functioncloseit()
  
-{setTimeout("self.close()",10000)//����}
+{setTimeout("self.close()",10000)//毫秒}
  
 </script>
  
-Ȼ������<bodyonload="closeit()">��һ�仰����page.html��ԭ�е�<BODY>��һ��Ϳ����ˡ�(��һ�仰ǧ��Ҫ����д������һ��������ǵ��ùرմ��ڵĴ��룬10���Ӻ�����йرոô��ڡ�)
+然后，再用<bodyonload="closeit()">这一句话代替page.html中原有的<BODY>这一句就可以了。(这一句话千万不要忘记写啊！这一句的作用是调用关闭窗口的代码，10秒钟后就自行关闭该窗口。)
  
 
-��7���ڵ��������м���һ���رհ�ť��
+【7、在弹出窗口中加上一个关闭按钮】
  
 <FORM>
  
-<INPUTTYPE='BUTTON'VALUE='�ر�'onClick='window.close()'>
+<INPUTTYPE='BUTTON'VALUE='关闭'onClick='window.close()'>
  
 </FORM>
  
-�Ǻǣ����ڸ��������ˣ�
+呵呵，现在更加完美了！
  
-��8���ڰ����ĵ�������-һ��ҳ���������ڡ�
+【8、内包含的弹出窗口-一个页面两个窗口】
  
 
-��������Ӷ������������ڣ�һ���������ڣ���һ���ǵ�����С���ڡ�
+上面的例子都包含两个窗口，一个是主窗口，另一个是弹出的小窗口。
  
-ͨ����������ӣ��������һ��ҳ������������Ч����
+通过下面的例子，你可以在一个页面内完成上面的效果。
  
 <html>
  
@@ -295,9 +295,9 @@ functionopenwin()
  
 {OpenWindow=window.open("","newwin","height=250,width=250,toolbar=no,scrollbars="+scroll+",menubar=no");
  
-//д��һ��
+//写成一行
  
-OpenWindow.document.write("<TITLE>����</TITLE>")
+OpenWindow.document.write("<TITLE>例子</TITLE>")
  
 OpenWindow.document.write("<BODYBGCOLOR=#ffffff>")
  
@@ -317,25 +317,25 @@ OpenWindow.document.close()}
  
 <body>
  
-<ahref="#"onclick="openwin()">��һ������</a>
+<ahref="#"onclick="openwin()">打开一个窗口</a>
  
-<inputtype="button"onclick="openwin()"value="�򿪴���">
+<inputtype="button"onclick="openwin()"value="打开窗口">
  
 </body>
  
 </html>
  
-����OpenWindow.document.write()����Ĵ��벻���Ǳ�׼��HTML��ֻҪ���ո�ʽд������м��ɡ�ǧ��ע���һ����ǩ����һ����ǩ�ͻ���ִ��󡣼ǵ���OpenWindow.document.close()��������
+看看OpenWindow.document.write()里面的代码不就是标准的HTML吗？只要按照格式写更多的行即可。千万注意多一个标签或少一个标签就会出现错误。记得用OpenWindow.document.close()结束啊。
  
 
-��9���ռ�Ӧ��--�����Ĵ���֮Cookie���ơ�
+【9、终极应用--弹出的窗口之Cookie控制】
  
 
-����һ�£�����ĵ���������Ȼ�ᣬ������һ��Сë��(������ϲ��֮�У�һ��û�з��ְɣ�)�����㽫����Ľű�����һ����ҪƵ��������ҳ����(������ҳ)����ôÿ��ˢ�����ҳ�棬���ڶ��ᵯ��һ�Σ��ǲ��Ƿǳ����ˣ�:-(�н���İ취��Yes!;-)Followme.
+回想一下，上面的弹出窗口虽然酷，但是有一点小毛病(沉浸在喜悦之中，一定没有发现吧？)比如你将上面的脚本放在一个需要频繁经过的页面里(例如首页)，那么每次刷新这个页面，窗口都会弹出一次，是不是非常烦人？:-(有解决的办法吗？Yes!;-)Followme.
  
-����ʹ��cookie������һ�¾Ϳ����ˡ�
+我们使用cookie来控制一下就可以了。
  
-���ȣ������´��������ҳ��HTML��<HEAD>����
+首先，将如下代码加入主页面HTML的<HEAD>区：
  
 <script>
  
@@ -387,14 +387,14 @@ document.cookie="popped=yes"
  
 </script>
  
-Ȼ����<bodyonload="loadpopup()">��ע�ⲻ��openwin����loadpop�������滻��ҳ����ԭ�е�<BODY>��һ�伴�ɡ����������ˢ��һ�����ҳ������½����ҳ�棬������Ҳ���ᵯ���ˡ�������Pop-Only-Once��
+然后，用<bodyonload="loadpopup()">（注意不是openwin而是loadpop啊！）替换主页面中原有的<BODY>这一句即可。你可以试着刷新一下这个页面或重新进入该页面，窗口再也不会弹出了。真正的Pop-Only-Once！
  
-д�����ﵯ�����ڵ�������Ӧ�ü��ɻ�������������ˣ���Ҳ�ۻ��ˣ�һ����˵����ô�࣬ϣ��������������ҳ�����������������ͷǳ���ο�ˡ�
+写到这里弹出窗口的制作和应用技巧基本上算是完成了，俺也累坏了，一口气说了这么多，希望对正在制作网页的朋友有所帮助俺就非常欣慰了。
  
-��Ҫע����ǣ�JS�ű��еĵĴ�Сд���ǰ�󱣳�һ�¡�
+需要注意的是，JS脚本中的的大小写最好前后保持一致。
  
-��10���رյ�������ʱ��ˢ�¸����塿
+【10、关闭弹出窗口时候刷新父窗体】
  
-���������JS������ʵ�ֹرյ�������ˢ�¸�����
+引用下面的JS方法，实现关闭弹出窗口刷新父窗体
  
 javascript:opener.location.href=opener.location.href;opener=null;window.close()

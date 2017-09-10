@@ -1,42 +1,42 @@
-Javascript event.srcElement srcElement ÊÇDomÊÂ¼şÖĞµÄÊÂ¼ş×î³õÖ¸ÅÉµ½µÄÔªËØ¡£ ±ÈÈçÓĞÒ»¸ödiv£¬ÀïÃæÓĞÒ»¸ö°´Å¥¡£ÄãÏìÓ¦divµÄonclickÊÂ¼ş£¬µ«Êµ¼ÊÉÏ£¬Äãµ¥»÷µÄÖ»ÊÇËüÄÚ²¿µÄ°´Å¥£¬ÄÇÃ´£¬srcElementÖ¸ÏòµÄ£¬¾ÍÊÇÄÇ¸ö°´Å¥¡£srcElementÖ»ÔÚIEÖĞÓĞĞ§¡£ÔÚOperaÏµÁĞä¯ÀÀÆ÷ÖĞ¶ÔÓ¦µÄÊôĞÔÊÇtarget¸øÄãÒ»¸öIEÏÂÊ¹ÓÃµÄÀı×Ó¡£<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" ><head>    <title>ÎŞ±êÌâÒ³</title>    <script type="text/javascript">    function onLoad()    {        document.getElementById( "myDiv" ).attachEvent( "onclick", on_myDivClick );    }    function onUnLoad()    {        document.getElementById( "myDiv" ).detachEvent( "onclick", on_myDivClick );    }    function on_myDivClick( e )    {        if( !e ) e = window.event;        alert( "event: " + e.type + ", fromElement = " + e.srcElement.id );    }    </script></head><body onload="onLoad()" onunload="onUnLoad()"><div id="myDiv">    <input type="button" id="btn1" value="button1" />    <input type="button" id="btn2" value="button2" /></div></body></html>
+Javascript event.srcElement srcElement æ˜¯Domäº‹ä»¶ä¸­çš„äº‹ä»¶æœ€åˆæŒ‡æ´¾åˆ°çš„å…ƒç´ ã€‚ æ¯”å¦‚æœ‰ä¸€ä¸ªdivï¼Œé‡Œé¢æœ‰ä¸€ä¸ªæŒ‰é’®ã€‚ä½ å“åº”divçš„onclickäº‹ä»¶ï¼Œä½†å®é™…ä¸Šï¼Œä½ å•å‡»çš„åªæ˜¯å®ƒå†…éƒ¨çš„æŒ‰é’®ï¼Œé‚£ä¹ˆï¼ŒsrcElementæŒ‡å‘çš„ï¼Œå°±æ˜¯é‚£ä¸ªæŒ‰é’®ã€‚srcElementåªåœ¨IEä¸­æœ‰æ•ˆã€‚åœ¨Operaç³»åˆ—æµè§ˆå™¨ä¸­å¯¹åº”çš„å±æ€§æ˜¯targetç»™ä½ ä¸€ä¸ªIEä¸‹ä½¿ç”¨çš„ä¾‹å­ã€‚<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" ><head>    <title>æ— æ ‡é¢˜é¡µ</title>    <script type="text/javascript">    function onLoad()    {        document.getElementById( "myDiv" ).attachEvent( "onclick", on_myDivClick );    }    function onUnLoad()    {        document.getElementById( "myDiv" ).detachEvent( "onclick", on_myDivClick );    }    function on_myDivClick( e )    {        if( !e ) e = window.event;        alert( "event: " + e.type + ", fromElement = " + e.srcElement.id );    }    </script></head><body onload="onLoad()" onunload="onUnLoad()"><div id="myDiv">    <input type="button" id="btn1" value="button1" />    <input type="button" id="btn2" value="button2" /></div></body></html>
 Javascript event.srcElement
 
-¸Ğ¾õÕâ¸öÍ¦ºÃ£¬¿ÉÒÔ²¶»ñµ±Ç°ÊÂ¼ş×÷ÓÃµÄ¶ÔÏó£¬Èçevent.srcElement.tagName¿ÉÒÔ²¶»ñ»î¶¯±ê¼ÇÃû³Æ¡£
-×¢Òâ»ñÈ¡µÄ±ê¼Ç¶¼ÒÔ´óĞ´±íÊ¾£¬Èç"TD","TR","A"µÈ¡£ËùÒÔ°Ñ¿´¹ıµÄÒ»Ğ©³­ÏÂÀ´£¬²»¼ÇµÃµÄÊ±ºòÔÙÀ´¿´¿´¡£
+æ„Ÿè§‰è¿™ä¸ªæŒºå¥½ï¼Œå¯ä»¥æ•è·å½“å‰äº‹ä»¶ä½œç”¨çš„å¯¹è±¡ï¼Œå¦‚event.srcElement.tagNameå¯ä»¥æ•è·æ´»åŠ¨æ ‡è®°åç§°ã€‚
+æ³¨æ„è·å–çš„æ ‡è®°éƒ½ä»¥å¤§å†™è¡¨ç¤ºï¼Œå¦‚"TD","TR","A"ç­‰ã€‚æ‰€ä»¥æŠŠçœ‹è¿‡çš„ä¸€äº›æŠ„ä¸‹æ¥ï¼Œä¸è®°å¾—çš„æ—¶å€™å†æ¥çœ‹çœ‹ã€‚
 
 <script type="text/javascript">
 function tdclick(){
 if(event.srcElement.tagName.toLowerCase()=='td')
-alert("ĞĞ£º"+(event.srcElement.parentNode.rowIndex+1)+"ÁĞ£º"+(event.srcElement.cellIndex+1));
+alert("è¡Œï¼š"+(event.srcElement.parentNode.rowIndex+1)+"åˆ—ï¼š"+(event.srcElement.cellIndex+1));
 }
 </script>
 
-event.srcElement´Ó×ÖÃæÉÏ¿ÉÒÔ¿´³öÀ´ÓĞÒÔÏÂ¹Ø¼ü×Ö£ºÊÂ¼ş,Ô´     ËûµÄÒâË¼¾ÍÊÇ£ºµ±Ç°ÊÂ¼şµÄÔ´£¬
+event.srcElementä»å­—é¢ä¸Šå¯ä»¥çœ‹å‡ºæ¥æœ‰ä»¥ä¸‹å…³é”®å­—ï¼šäº‹ä»¶,æº     ä»–çš„æ„æ€å°±æ˜¯ï¼šå½“å‰äº‹ä»¶çš„æºï¼Œ
 
-ÎÒÃÇ¿ÉÒÔµ÷ÓÃËûµÄ¸÷ÖÖÊôĞÔ ¾ÍÏñ:document.getElementById("")ÕâÑùµÄ¹¦ÄÜ£¬
+æˆ‘ä»¬å¯ä»¥è°ƒç”¨ä»–çš„å„ç§å±æ€§ å°±åƒ:document.getElementById("")è¿™æ ·çš„åŠŸèƒ½ï¼Œ
 
-¾­³£ÓĞÈËÎÊ firefox ÏÂµÄ event.srcElement ÔõÃ´ÓÃ£¬ÔÚ´ËÏêÏ¸ËµÃ÷£º
+ç»å¸¸æœ‰äººé—® firefox ä¸‹çš„ event.srcElement æ€ä¹ˆç”¨ï¼Œåœ¨æ­¤è¯¦ç»†è¯´æ˜ï¼š
 
-IEÏÂ,event¶ÔÏóÓĞsrcElementÊôĞÔ,µ«ÊÇÃ»ÓĞtargetÊôĞÔ;FirefoxÏÂ,event¶ÔÏóÓĞtargetÊôĞÔ,µ«ÊÇÃ»ÓĞsrcElementÊôĞÔ.µ«ËûÃÇµÄ×÷ÓÃÊÇÏàµ±µÄ£¬¼´£º
+IEä¸‹,eventå¯¹è±¡æœ‰srcElementå±æ€§,ä½†æ˜¯æ²¡æœ‰targetå±æ€§;Firefoxä¸‹,eventå¯¹è±¡æœ‰targetå±æ€§,ä½†æ˜¯æ²¡æœ‰srcElementå±æ€§.ä½†ä»–ä»¬çš„ä½œç”¨æ˜¯ç›¸å½“çš„ï¼Œå³ï¼š
 
-firefox ÏÂµÄ event.target = IE ÏÂµÄ event.srcElement
+firefox ä¸‹çš„ event.target = IE ä¸‹çš„ event.srcElement
 
-½â¾ö·½·¨:Ê¹ÓÃobj(obj = event.srcElement ? event.srcElement : event.target;)À´´úÌæIEÏÂµÄevent.srcElement»òÕßFirefoxÏÂµÄevent.target.
+è§£å†³æ–¹æ³•:ä½¿ç”¨obj(obj = event.srcElement ? event.srcElement : event.target;)æ¥ä»£æ›¿IEä¸‹çš„event.srcElementæˆ–è€…Firefoxä¸‹çš„event.target.
 
-ÒÔÏÂÊÇ¼¸ÖÖ³£¼ûµ½µÄÇé¿ö(IEÏÂ²âÊÔÍ¨¹ı£¬ÈçÒª²âÊÔfirefoxÏÂµÄevent.target¿ÉÒÔĞŞ¸Ä²¢±£´æ´úÂëºóÓÃfirefox´ò¿ª²âÊÔ)£º
+ä»¥ä¸‹æ˜¯å‡ ç§å¸¸è§åˆ°çš„æƒ…å†µ(IEä¸‹æµ‹è¯•é€šè¿‡ï¼Œå¦‚è¦æµ‹è¯•firefoxä¸‹çš„event.targetå¯ä»¥ä¿®æ”¹å¹¶ä¿å­˜ä»£ç åç”¨firefoxæ‰“å¼€æµ‹è¯•)ï¼š
 
 
 --------------------------------------------------------------------------------
 
  
 
-event.srcElement.XÏÔÊ¾Ò»¸ö¿Ø¼şµÄ¸÷ÖÖÊôĞÔ
+event.srcElement.Xæ˜¾ç¤ºä¸€ä¸ªæ§ä»¶çš„å„ç§å±æ€§
 
 <div id="div_001">
 
     <form id="form_001">
 
-        <input type="button" id="button_001_id" name="button_001_Name" value=" µ¥»÷²é¿´" class="button_001_Class" onclick="Get_srcElement(this)">
+        <input type="button" id="button_001_id" name="button_001_Name" value=" å•å‡»æŸ¥çœ‹" class="button_001_Class" onclick="Get_srcElement(this)">
 
     </form>
 
@@ -77,7 +77,7 @@ alert(srcElement)
 
  
 
-event.srcElement.selectedIndexÒ»°ãÊ¹ÓÃÔÚselect¶ÔÏñÉÏ£º
+event.srcElement.selectedIndexä¸€èˆ¬ä½¿ç”¨åœ¨selectå¯¹åƒä¸Šï¼š
 
 <select name="selectname" onchange="alert(event.srcElement.options[event.srcElement.selectedIndex].value)" >
 
@@ -98,33 +98,33 @@ event.srcElement.selectedIndexÒ»°ãÊ¹ÓÃÔÚselect¶ÔÏñÉÏ£º
 
  
 
-µÚÒ»¸ö×Ó±êÇ©Îª
+ç¬¬ä¸€ä¸ªå­æ ‡ç­¾ä¸º
 
 event.srcElement.firstChild
 
-×îºó¸öÒ»¸öÊÇ
+æœ€åä¸ªä¸€ä¸ªæ˜¯
 
 event.srcElement.lastChild
 
-µ±È»Ò²¿ÉÒÔÓÃ
+å½“ç„¶ä¹Ÿå¯ä»¥ç”¨
 
 event.srcElement.children[i]
 
 event.srcElement.ChildNode[i]
 
-ÖÁÓÚevent.srcElement.parentElementÊÇÖ¸ÔÚÊó±êËùÔÚ¶ÔÏóµÄÉÏÒ»¸ö¶ÔÏó£®
+è‡³äºevent.srcElement.parentElementæ˜¯æŒ‡åœ¨é¼ æ ‡æ‰€åœ¨å¯¹è±¡çš„ä¸Šä¸€ä¸ªå¯¹è±¡ï¼
 
 <div onclick="Get_srcElement()">
 
-<div id="001" style="border:1px solid red;width:100%;height:500px"> <span id="node001">ÕâÊÇµÚ1½áµãdiv001<span>
+<div id="001" style="border:1px solid red;width:100%;height:500px"> <span id="node001">è¿™æ˜¯ç¬¬1ç»“ç‚¹div001<span>
 
-  <div id="002" style="border:1px solid red;width:80%;height:300px"> <span id="node002">ÕâÊÇµÚ2½áµãdiv002<span>
+  <div id="002" style="border:1px solid red;width:80%;height:300px"> <span id="node002">è¿™æ˜¯ç¬¬2ç»“ç‚¹div002<span>
 
-    <div id="003" style="border:1px solid red;width:50%;height:200px"> <span id="node003">ÕâÊÇµÚ3½áµãdiv003<span>
+    <div id="003" style="border:1px solid red;width:50%;height:200px"> <span id="node003">è¿™æ˜¯ç¬¬3ç»“ç‚¹div003<span>
 
     </div>
 
-    <div id="004" style="border:1px solid red;width:50%;height:200px"> <span id="node003">ÕâÊÇµÚ3½áµãdiv004<span>
+    <div id="004" style="border:1px solid red;width:50%;height:200px"> <span id="node003">è¿™æ˜¯ç¬¬3ç»“ç‚¹div004<span>
 
     </div>
 
@@ -160,31 +160,31 @@ alert(srcElement)
 
 <div style="border:10px red solid">
 
-<input type="button" value="¸¸ÔªËØ±êÇ©" >
+<input type="button" value="çˆ¶å…ƒç´ æ ‡ç­¾" >
 
 </div>
 
-event.srcElementÓĞ¹ØÎÊÌâ- -
+event.srcElementæœ‰å…³é—®é¢˜- -
 
  
 
-event.srcElementµÄ×Ó±êÇ© ºÍ¸¸±êÇ©:
+event.srcElementçš„å­æ ‡ç­¾ å’Œçˆ¶æ ‡ç­¾:
 
-µÚÒ»¸ö×Ó±êÇ©Îª
+ç¬¬ä¸€ä¸ªå­æ ‡ç­¾ä¸º
 
 event.srcElement.firstChild
 
-×îºó¸öÒ»¸öÊÇ
+æœ€åä¸ªä¸€ä¸ªæ˜¯
 
 event.srcElement.lastChild
 
-µ±È»Ò²¿ÉÒÔÓÃ
+å½“ç„¶ä¹Ÿå¯ä»¥ç”¨
 
 event.srcElement.children[i]
 
 event.srcElement.ChildNode[i]
 
-ÖÁÓÚevent.srcElement.parentElementÊÇÖ¸ÔÚÊó±êËùÔÚ¶ÔÏóµÄÉÏÒ»¸ö¶ÔÏó£®
+è‡³äºevent.srcElement.parentElementæ˜¯æŒ‡åœ¨é¼ æ ‡æ‰€åœ¨å¯¹è±¡çš„ä¸Šä¸€ä¸ªå¯¹è±¡ï¼
 
 </span>
 
@@ -208,19 +208,19 @@ function f()
 
 </script>
 
-<a title="a²âÊÔ" >a²âÊÔ</a>
+<a title="aæµ‹è¯•" >aæµ‹è¯•</a>
 
 <br>
 
 <table border=1 width="200">
 
-<tr title="tr²âÊÔ" ><td>tr</td></tr>
+<tr title="træµ‹è¯•" ><td>tr</td></tr>
 
 </table>
 
 <table border=1 width="200">
 
-<tr><td title="td²âÊÔ" >td</td></tr>
+<tr><td title="tdæµ‹è¯•" >td</td></tr>
 
 </table>
 
@@ -240,15 +240,15 @@ function f()
 
  
 
-javascript event.srcElement ¼æÈİÎÊÌâ 
+javascript event.srcElement å…¼å®¹é—®é¢˜ 
  
 
-event = event? event: window.eventvar n = event.srcElement.id? event.srcElement.id:event.target.id; µÚ¶ş¾ä»°firefox±¨´í  event.srcElementÎ´¶¨Òå£¬ÔõÃ´½â¾ö£¿ IEÃ»ÎÊÌâ
+event = event? event: window.eventvar n = event.srcElement.id? event.srcElement.id:event.target.id; ç¬¬äºŒå¥è¯firefoxæŠ¥é”™  event.srcElementæœªå®šä¹‰ï¼Œæ€ä¹ˆè§£å†³ï¼Ÿ IEæ²¡é—®é¢˜
        
-ÒòÎªffÏÂ±¾Éí²»Ö§³ÖsrcElement¶øÊÇÖ§³Ötarget,ÄãÕâÀïÕâÃ´ÓÃÒ²ÊÇÎªÁË¼æÈİä¯ÀÀÆ÷,µ«ÊÇevent.srcElement.idÕâÃ´Ğ´»á´Óevent.srcElementÀïÕÒidÊôĞÔ,ÕâÑùÊÇÄ¬ÈÏevent.srcElement´æÔÚµÄ,¶ø»ğºüÊÇ²»´æÔÚ,µ±È»¾Í±¨´íÁË.var obj=event.srcElement ? event.srcElement : event.target;ÔÙµ÷ÓÃobj.id¾ÍĞĞÁË.
+å› ä¸ºffä¸‹æœ¬èº«ä¸æ”¯æŒsrcElementè€Œæ˜¯æ”¯æŒtarget,ä½ è¿™é‡Œè¿™ä¹ˆç”¨ä¹Ÿæ˜¯ä¸ºäº†å…¼å®¹æµè§ˆå™¨,ä½†æ˜¯event.srcElement.idè¿™ä¹ˆå†™ä¼šä»event.srcElementé‡Œæ‰¾idå±æ€§,è¿™æ ·æ˜¯é»˜è®¤event.srcElementå­˜åœ¨çš„,è€Œç«ç‹æ˜¯ä¸å­˜åœ¨,å½“ç„¶å°±æŠ¥é”™äº†.var obj=event.srcElement ? event.srcElement : event.target;å†è°ƒç”¨obj.idå°±è¡Œäº†.
  
 
-µã»÷Õû¸öÒ³Ãæ³ıÁËidÎª showMsgÔªËØ
+ç‚¹å‡»æ•´ä¸ªé¡µé¢é™¤äº†idä¸º showMsgå…ƒç´ 
 
     $(document).click(function() {
         //var event = window.event || arguments.callee.caller.arguments[0], srcElement = event.srcElement
@@ -276,7 +276,7 @@ event = event? event: window.eventvar n = event.srcElement.id? event.srcElement.
   <script type="text/javascript">
     function tdclick(){
         if(event.srcElement.tagName.toLowerCase()=='td')
-            alert("ĞĞ£º"+(event.srcElement.parentNode.rowIndex+1)+"ÁĞ£º"+(event.srcElement.cellIndex+1));
+            alert("è¡Œï¼š"+(event.srcElement.parentNode.rowIndex+1)+"åˆ—ï¼š"+(event.srcElement.cellIndex+1));
     }
   </script>
 </head>

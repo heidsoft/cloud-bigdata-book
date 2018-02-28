@@ -1,8 +1,0 @@
-
-./configure --prefix=PREFIX 
-
-root@myweb]# service httpd restart
-httpd: Could not determine the server's fully qualified domain name, using 127.0.0.1 for ServerName
-
-修改httpd.conf文件，增加:
-ServerName <server_name_or_ip_addr>

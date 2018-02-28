@@ -35,3 +35,12 @@ useradd --system --home=/opt/opt/cm-5.12.1/run/cloudera-scm-server/ --no-create-
 
 yum -y install epel-release
 yum install python-pip
+
+
+# 启动关闭
+ etc/init.d/cloudera-scm-server stop
+ etc/init.d/cloudera-scm-server start
+
+
+etc/init.d/cloudera-scm-agent stop 
+etc/init.d/cloudera-scm-agent start

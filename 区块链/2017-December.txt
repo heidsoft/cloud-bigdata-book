@@ -1,0 +1,215 @@
+From karl at dglab.com  Fri Dec  1 01:42:59 2017
+From: karl at dglab.com (=?UTF-8?B?44Ki44Or44Og44CA44Kr44O844Or44Oo44OP44Oz?=)
+Date: Fri, 1 Dec 2017 10:42:59 +0900
+Subject: [bitcoin-discuss] TLDR; summary
+In-Reply-To: <CAGCathyWVaN0hRSv-yem26P_HjrfZd4wRpjKdV03b49fFf_aYw@mail.gmail.com>
+References: <PS2P216MB0179BA13525941BFDE12D6029D3B0@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+	<CAGCathw_GuKEsCT1e8A4ZsU683cT_0xvwvw+m-gPG9SUhAExKQ@mail.gmail.com>
+	<COyyUd4-zGbetkFkGq7opPT7yJtu5s15zMWFg4IN-t-UYSUumwVr2FDNAdSB-kLFZ0iikB-XaWJ8esWSpwLNyHnf9tC60yK7fEtboTxUw5o=@protonmail.com>
+	<CAGCathyWVaN0hRSv-yem26P_HjrfZd4wRpjKdV03b49fFf_aYw@mail.gmail.com>
+Message-ID: <CALJw2w70Uoih4NXeD-g-6+KsaAtjD1XArk18k2fRm0AZmN4sDA@mail.gmail.com>
+
+On Fri, Dec 1, 2017 at 6:12 AM, Lucas Clemente Vella via
+bitcoin-discuss <bitcoin-discuss at lists.linuxfoundation.org> wrote:
+> If there isn't a consensus that it is okay to fail to supply the demand for
+> Bitcoin transactions, it can only be explained as a failure to see the
+> logical connections between what you called "two differente things". The
+> dynamics of Bitcoin economy changed completely when miners stopped to
+> confirm transactions that they were willing to do, but couldn't due to
+> protocol limitations. If every pending transaction in mempool today paid a
+> fee every miner was willing to accept, many of them would still remain
+> unconfirmed indefinitely. That was different with the demand of two years
+> ago, where the only valid transactions not getting confirmed were the ones
+> failing to meet the fee threshold the miner was willing to accept.
+
+I believe you are misunderstanding the situation. The miners are
+willing to mine *any* transaction at *any* fee, if it means their
+revenue increases (the altruistic behavior of the past is probably of
+the past). If we allowed blocks to be infinitely sized, the miners
+would mine all transactions always, as that would maximize their
+profit.
+
+This means users would have no incentive whatsoever to pay higher than
+the minimum fee, because their transactions would be mined in the next
+block anyway, regardless.
+
+Note that user fees are currently ~11% of the total revenue of miners
+(the remaining 89% being the subsidy), and this would have to rise to
+~55% in 2020 at the next subsidy halving, to retain the current
+pay-out of btc per block.
+
+I'm not saying we must retain that amount for the miners, but I think
+any changes to the fee system need to take this into consideration.
+
+-Kalle.
+
+From lvella at gmail.com  Fri Dec  1 02:48:47 2017
+From: lvella at gmail.com (Lucas Clemente Vella)
+Date: Fri, 1 Dec 2017 00:48:47 -0200
+Subject: [bitcoin-discuss] TLDR; summary
+In-Reply-To: <CALJw2w70Uoih4NXeD-g-6+KsaAtjD1XArk18k2fRm0AZmN4sDA@mail.gmail.com>
+References: <PS2P216MB0179BA13525941BFDE12D6029D3B0@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+	<CAGCathw_GuKEsCT1e8A4ZsU683cT_0xvwvw+m-gPG9SUhAExKQ@mail.gmail.com>
+	<COyyUd4-zGbetkFkGq7opPT7yJtu5s15zMWFg4IN-t-UYSUumwVr2FDNAdSB-kLFZ0iikB-XaWJ8esWSpwLNyHnf9tC60yK7fEtboTxUw5o=@protonmail.com>
+	<CAGCathyWVaN0hRSv-yem26P_HjrfZd4wRpjKdV03b49fFf_aYw@mail.gmail.com>
+	<CALJw2w70Uoih4NXeD-g-6+KsaAtjD1XArk18k2fRm0AZmN4sDA@mail.gmail.com>
+Message-ID: <CAGCathxo-PCGpcwpVEuHzBRSa8Qiwzkzo3pPjoM250fCUh60ug@mail.gmail.com>
+
+2017-11-30 23:42 GMT-02:00 ??? ?????? <karl at dglab.com>:
+
+> On Fri, Dec 1, 2017 at 6:12 AM, Lucas Clemente Vella via
+> bitcoin-discuss <bitcoin-discuss at lists.linuxfoundation.org> wrote:
+> > If there isn't a consensus that it is okay to fail to supply the demand
+> for
+> > Bitcoin transactions, it can only be explained as a failure to see the
+> > logical connections between what you called "two differente things". The
+> > dynamics of Bitcoin economy changed completely when miners stopped to
+> > confirm transactions that they were willing to do, but couldn't due to
+> > protocol limitations. If every pending transaction in mempool today paid
+> a
+> > fee every miner was willing to accept, many of them would still remain
+> > unconfirmed indefinitely. That was different with the demand of two years
+> > ago, where the only valid transactions not getting confirmed were the
+> ones
+> > failing to meet the fee threshold the miner was willing to accept.
+>
+> I believe you are misunderstanding the situation. The miners are
+> willing to mine *any* transaction at *any* fee, if it means their
+> revenue increases (the altruistic behavior of the past is probably of
+> the past). If we allowed blocks to be infinitely sized, the miners
+> would mine all transactions always, as that would maximize their
+> profit.
+>
+> This means users would have no incentive whatsoever to pay higher than
+> the minimum fee, because their transactions would be mined in the next
+> block anyway, regardless.
+>
+> Note that user fees are currently ~11% of the total revenue of miners
+> (the remaining 89% being the subsidy), and this would have to rise to
+> ~55% in 2020 at the next subsidy halving, to retain the current
+> pay-out of btc per block.
+>
+> I'm not saying we must retain that amount for the miners, but I think
+> any changes to the fee system need to take this into consideration.
+>
+> -Kalle.
+>
+
+This concern weakly explains my initial claim that consensus revolves
+around being OK to push users and economic activities out of Bitcoin: the
+need to keep the total reward after the next subsidy halving.
+
+I say weakly because the real value of the reward is not measured in BTC,
+but in whatever currency the miners' electricity and equipment is valued.
+Considering that, miners reward per block in the last year alone increased
+tenfold, while not changing that drastically in total amount of BTC
+received. If we then consider the hypothetical scenario where Bitcoin had
+not driven users away, and maintained its economical properties of low fees
+and fast transactions for the ever increasing demand for cryptocurrency, it
+is quite probable it would still retain 80%+ of the total crypto market
+cap, market that would be probably bigger now, with no civil war and the
+flagship of the cryptocurrency growing at full speed. Miner's reward per
+block would easily be worth 2 times what it is by now, although probably
+with a smaller absolute amount of BTC. Extrapolating this scenario to the
+halving in 2020, and assuming Bitcoin value wouldn't suddenly rise due to
+lowered supply, miner count would probably drop, but drop to a value orders
+of magnitude higher it will probably have by following this current path of
+strangled growth.
+
+-- 
+Lucas Clemente Vella
+lvella at gmail.com
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/bitcoin-discuss/attachments/20171201/cfe236a7/attachment.html>
+
+From willtech at live.com.au  Fri Dec  1 06:40:10 2017
+From: willtech at live.com.au (Damian Williamson)
+Date: Fri, 1 Dec 2017 06:40:10 +0000
+Subject: [bitcoin-discuss] TLDR; summary
+Message-ID: <PS2P216MB0179D450D9274C66C58614039D390@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+
+Thank you for the discussion in reply, it is a complicated concern.
+
+
+I realize now with further consideration of the article that I originally posted, uncapped block sizes may introduce a problem. Another person posted a similar idea as a proposed BIP to the bitcoin-dev list yesterday. My realization was that there may be nothing to stop a rogue or greedy miner from scooping all of the transactions in the transaction pool into the next block, scooping all transaction fees for themselves. Then, with all transactions processing into the next block, there would be no need to pay fees. That would be bad for Bitcoin. However, the other person seemed to suggest that it would not be economical to scoop all transactions. Due to the extra computational bandwidth required their block would not likely be the first solved so, there would be an equilibrium point where you scoop some transactions to solve the block first and get paid. If that is correct, fully uncapped block sizes at miners choice would still not quite work as the next block would then always contain one transaction only to be the first solved for the least computational power. What I suggested was that each transaction has a likelihood of being included in the next block and, what I supposed is that all transactions whose lucky number comes up then get included. This would still provide a random distribution of solved blocks amongst all miners. How what I foresaw could be enforced amongst all mining software to stop block underskimming by rogues and just solving one transaction (or one or, two transactions less) for a block which would likely be an issue, I do not know. If there was a block minimum size, why would anybody risk expending more computational power with less likelihood of solving the block?
+
+
+A slight divergence on the topic of bad. IMO the current RBF implementation is bad. If store merchants operate on instant approval, as they would with EFTPOS and as we have seen already in implementations of Bitcoin at POS (not waiting for any confirms) then, a dishonest Bitcoin user could redivert the BTC back to themselves using RBF before there were any confirms and after they had already left the store. A solution would be to only allow RBF to replace the fee and not the whole transaction (replace with a higher fee). Another possibility would be for POS implementations of Bitcoin to not approve transactions with RBF set until there are confirms. The first does not introduce any additional issues but limits the possible uses of the RBF feature. The second would likely be problematic at POS - what to do if the customer pays with RBF set, have them take a seat for three to thirty days? Not an issue for online merchants where it is simple to wait for confirms - is Bitcoin actually seen as a live-in-store retail solution?
+
+
+Regards,
+
+Damian Williamson
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/bitcoin-discuss/attachments/20171201/b22be05e/attachment-0001.html>
+
+From willtech at live.com.au  Fri Dec  1 10:01:46 2017
+From: willtech at live.com.au (Damian Williamson)
+Date: Fri, 1 Dec 2017 10:01:46 +0000
+Subject: [bitcoin-discuss] TLDR; summary
+In-Reply-To: <PS2P216MB0179D450D9274C66C58614039D390@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+References: <PS2P216MB0179D450D9274C66C58614039D390@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+Message-ID: <PS2P216MB01799BDC98B6A34CC93AFFF99D390@PS2P216MB0179.KORP216.PROD.OUTLOOK.COM>
+
+Just tested RBF - it already works much as I was suggesting it should, much different to what I saw described.
+
+
+Regards,
+
+Damian Williamson
+
+________________________________
+From: Damian Williamson <willtech at live.com.au>
+Sent: Friday, 1 December 2017 5:40:10 PM
+To: bitcoin-discuss at lists.linuxfoundation.org
+Subject: TLDR; summary
+
+
+Thank you for the discussion in reply, it is a complicated concern.
+
+
+I realize now with further consideration of the article that I originally posted, uncapped block sizes may introduce a problem. Another person posted a similar idea as a proposed BIP to the bitcoin-dev list yesterday. My realization was that there may be nothing to stop a rogue or greedy miner from scooping all of the transactions in the transaction pool into the next block, scooping all transaction fees for themselves. Then, with all transactions processing into the next block, there would be no need to pay fees. That would be bad for Bitcoin. However, the other person seemed to suggest that it would not be economical to scoop all transactions. Due to the extra computational bandwidth required their block would not likely be the first solved so, there would be an equilibrium point where you scoop some transactions to solve the block first and get paid. If that is correct, fully uncapped block sizes at miners choice would still not quite work as the next block would then always contain one transaction only to be the first solved for the least computational power. What I suggested was that each transaction has a likelihood of being included in the next block and, what I supposed is that all transactions whose lucky number comes up then get included. This would still provide a random distribution of solved blocks amongst all miners. How what I foresaw could be enforced amongst all mining software to stop block underskimming by rogues and just solving one transaction (or one or, two transactions less) for a block which would likely be an issue, I do not know. If there was a block minimum size, why would anybody risk expending more computational power with less likelihood of solving the block?
+
+
+A slight divergence on the topic of bad. IMO the current RBF implementation is bad. If store merchants operate on instant approval, as they would with EFTPOS and as we have seen already in implementations of Bitcoin at POS (not waiting for any confirms) then, a dishonest Bitcoin user could redivert the BTC back to themselves using RBF before there were any confirms and after they had already left the store. A solution would be to only allow RBF to replace the fee and not the whole transaction (replace with a higher fee). Another possibility would be for POS implementations of Bitcoin to not approve transactions with RBF set until there are confirms. The first does not introduce any additional issues but limits the possible uses of the RBF feature. The second would likely be problematic at POS - what to do if the customer pays with RBF set, have them take a seat for three to thirty days? Not an issue for online merchants where it is simple to wait for confirms - is Bitcoin actually seen as a live-in-store retail solution?
+
+
+Regards,
+
+Damian Williamson
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/bitcoin-discuss/attachments/20171201/67790877/attachment.html>
+
+From cannon at cannon-ciota.info  Fri Dec 22 04:13:28 2017
+From: cannon at cannon-ciota.info (CANNON)
+Date: Fri, 22 Dec 2017 04:13:28 +0000
+Subject: [bitcoin-discuss] Two questions on conversion to Segwit addresses
+Message-ID: <c7987cb9-3688-d0ac-94a1-0443dd4f4c00@cannon-ciota.info>
+
+Question 1 - Security of P2SH wrapped segwit
+I am getting mixed information from multiple sources.
+The claim is that P2SH outputs have only 80 bits of security. Some people claim that this only applies to mulisig P2SH addresses.
+While others claims this applies to all P2SH outputs. I am aware of bech32 encoding which fixes this issue but bech32 is not supported by anything yet let alone any
+hardware wallets. (No, not even Trezor supports bech32. People are saying Trezor supports bech32, this is only partial truth. The latest firmware update supports bech32,
+but no wallet software exists yet which lets Trezor actually use bech32.)
+Can someone inform if the security weakness of P2SH applies to all P2SH outputs including P2SH segwit addresses, or no? If P2SH wrapped segwit addresses are not affected, why?
+
+Question 2 - How can people possibly convert to segwit?
+To take advantage of the increased blockspace offered by segwit people need to switch to segwit addresses. But how is it even possible to convert to segwit if there is no
+space available on the 1 MB chain to even convert to segwit? To even get a confirmation at current moment is unaffordable, especially if trying to merge multiple inputs.
+
+Please enlighten me.
+
+
+
+-- 
+Cannon
+PGP Fingerprint: 2BB5 15CD 66E7 4E28 45DC 6494 A5A2 2879 3F06 E832 
+Email: cannon at cannon-ciota.info
+
+NOTICE: ALL EMAIL CORRESPONDENCE NOT SIGNED/ENCRYPTED WITH PGP SHOULD BE CONSIDERED POTENTIALLY FORGED, AND NOT PRIVATE.
+If this matters to you, use PGP or bitmessage.
+

@@ -1,0 +1,454 @@
+From rusty at rustcorp.com.au  Fri Oct 23 23:10:52 2015
+From: rusty at rustcorp.com.au (Rusty Russell)
+Date: Sat, 24 Oct 2015 09:40:52 +1030
+Subject: [bitcoin-discuss] [bitcoin-dev] Mailing List Moderation Now
+	Active.
+In-Reply-To: <CA+w+GKSo75Y3bum+NOVjvaSiqyAozirg=PUrF-3ACg5GRXcp2w@mail.gmail.com>
+References: <878u6velnc.fsf@rustcorp.com.au>
+	<CA+w+GKSo75Y3bum+NOVjvaSiqyAozirg=PUrF-3ACg5GRXcp2w@mail.gmail.com>
+Message-ID: <87a8r9b2pv.fsf@rustcorp.com.au>
+
+Mike Hearn <hearn at vinumeris.com> writes:
+>>
+>>     - Posts must concern the near-term development of the bitcoin core
+>>       code or bitcoin protocol.
+>>
+>
+> Are block size discussions considered acceptable, then?
+
+Depends.  To highlight which parts of the guidelines I expect to apply:
+
+    - Posts must contribute to bitcoin development.
+
+    - Generally encouraged: patches, notification of pull requests, BIP
+      proposals [...]
+
+    - Generally discouraged: [...] rehashing settled topics without new
+      data, moderation concerns.
+
+I've Cc'd bitcoin-discuss rather than bitcoin-dev; that's the place to
+raise moderation concerns.
+
+Cheers,
+Rusty,
+
+From rusty at rustcorp.com.au  Sat Oct 24 02:39:16 2015
+From: rusty at rustcorp.com.au (Rusty Russell)
+Date: Sat, 24 Oct 2015 13:09:16 +1030
+Subject: [bitcoin-discuss] [bitcoin-dev] Mailing List Moderation Now
+	Active.
+In-Reply-To: <CAKzdR-qnyv_nBYOQQiqBOW9CXgoOygZoY3DkBs0V7s6PDSdMtw@mail.gmail.com>
+References: <878u6velnc.fsf@rustcorp.com.au>
+	<CA+w+GKSo75Y3bum+NOVjvaSiqyAozirg=PUrF-3ACg5GRXcp2w@mail.gmail.com>
+	<CAKzdR-qnyv_nBYOQQiqBOW9CXgoOygZoY3DkBs0V7s6PDSdMtw@mail.gmail.com>
+Message-ID: <874mhhat2j.fsf@rustcorp.com.au>
+
+Sergio Demian Lerner <sergio.d.lerner at gmail.com> writes:
+> Jokes should be allowed. It's esential to human to human communication.
+
+That's why I said "generally discouraged".
+
+The key test is "Posts must contribute to bitcoin development".  If the
+post does that, and uses humor, fantastic.
+
+But if a joke is all you've got, save it for reddit.
+
+Hope that clarifies,
+Rusty.
+
+From rusty at rustcorp.com.au  Sat Oct 24 02:55:10 2015
+From: rusty at rustcorp.com.au (Rusty Russell)
+Date: Sat, 24 Oct 2015 13:25:10 +1030
+Subject: [bitcoin-discuss] [bitcoin-dev] Mailing List Moderation Now
+	Active.
+In-Reply-To: <562AD71F.9010104@riseup.net>
+References: <878u6velnc.fsf@rustcorp.com.au> <562AD71F.9010104@riseup.net>
+Message-ID: <871tclasc1.fsf@rustcorp.com.au>
+
+odinn <odinn.cyberguerrilla at riseup.net> writes:
+> That is very general and subjective.
+
+Yes.
+
+> Just as a reminder, when the mailing list policy was initially floated
+> by Jeff Garzik, I issued a concern (by way of reply to the proposal)
+> about the overbroad nature of what could be construed as "off-topic"
+> or what could be generally discouraged on this list.  You can see my
+> thoughts on that here:
+>
+> https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-October/011
+> 541.html
+
+I'm actually with you on this, that I would have preferred a much more
+consultative process around the moderation rules.  But it had become
+clear that people wanted moderation immediately.
+
+> Rusty Russell via bitcoin-dev:
+>> Generally discouraged: shower thoughts, wild speculation, jokes,
+>> +1s, non-technical bitcoin issues
+>
+> I do not feel that "shower thoughts, wild speculation, jokes, +1s,
+> non-technical bitcoin issues," are an appropriate way to narrow
+> conversation for this list.  While many people can see the example of
+> "shower thoughts" or "jokes" being, by themselves, something as not
+> ideal for submittal to what is intended to be a more technical list,
+> the spectrum of what apparently is intended to be excluded here is
+> overbroad and will likely result in a substantial amount of list
+> censorship.
+
+I am quite concerned about censorship, which is why all rejected emails
+should be forwarded to the bitcoin-dev-moderated list.  (The result is
+is far from perfect, BTW, as mailman forwards as at attachment, which
+gets detached at the other end ; if someone wants to script up a better
+bouncer that'd be great!).
+
+> I continue to recommend (as I did before) removal of any
+> enforcement and moderator sections and provisions, and again suggest
+> that the list page describe what the roles are of each person (who is
+> actually managing or moderating the list) involved are. Currently
+> there is no description of such roles at the list page as shown at
+> https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev
+
+Thanks!  For the moment I've updated this to link to the moderation
+activation post, which contains all the details.
+
+> For the record, I consider that my post today "contributes to bitcoin
+> development" because it advocates for a greater level of freedom of
+> expression and thought than is currently being established as a
+> standard for the list.
+
+At the three month mark, I expect we'll see how many people agree with
+you.  For now, your post has been moderated by the current policy.
+
+> It is entirely possible that the restrictions
+> you have put in place may lead to people not submitting significant
+> and meaningful ideas to this list that they would otherwise have
+> considered providing in the absence of the new list policy.
+
+It is entirely possible.  But it's known that significant developers
+stopped reading the list due to noise, which is why we're moderating.
+
+> Finally,
+> if it is the intent that there be development of a system without
+> financial censorship, then there should also be an effort to have open
+> discussion about that subject, without censorship of the ideas
+> initially involved, even if (and perhaps especially when) there is
+> obvious community disagreement about them.  For such circumstances,
+> this community does need more fora to discuss than just the list,
+> obviously, and might need special dialogue opportunities, with Chatham
+> House Rule (as used in the bitcoin meeting in Montreal) applied, or
+> similar to facilitate an open discussion.
+
+There should be such fora, but bitcoin-dev isn't it.
+
+> But the list does not need
+> moderation (at least, not of the kind announced here) ~ rather, it
+> needs an even greater diversity of ideas and thought.
+
+My feedback so far disagrees.  Developers need a place to discuss
+development, and that's bitcoin-dev.
+
+Cheers,
+Rusty.
+
+From g1liusbitcoin at gmail.com  Mon Oct 26 18:14:07 2015
+From: g1liusbitcoin at gmail.com (G1lius .)
+Date: Mon, 26 Oct 2015 19:14:07 +0100
+Subject: [bitcoin-discuss] Bitcoin dev IRC meeting in layman's terms
+	(2015-10-22)
+Message-ID: <CAHK+0KSVs_PvwuJdH5XHTZrQu8RvMXU5j7Wv2AA1VHjoExv_9Q@mail.gmail.com>
+
+Once again my attempt to summarize and explain the weekly bitcoin developer
+meeting in layman's terms.
+Link to last weeks summarization: (
+https://www.reddit.com/r/Bitcoin/comments/3pcinz/bitcoin_dev_irc_meeting_in_laymans_terms_20151015/
+)
+
+
+*Disclaimer*
+
+Please bear in mind I'm not a developer and I'd have problems coding "hello
+world!", so some things might be incorrect or plain wrong.
+Like any other write-up it likely contains personal biases, although I try
+to stay as neutral as I can.
+There are no decisions being made in these meetings, so if I say "everyone
+agrees" this means everyone present in the meeting, that's not consensus,
+but since a fair amount of devs are present it's a good representation.
+The dev IRC and mailinglist are for bitcoin development purposes. If you
+have not contributed actual code to a bitcoin-implementation, this is
+probably not the place you want to reach out to. There are many places to
+discuss things that the developers read, including this sub-reddit.
+
+
+link to this week logs (
+http://bitcoinstats.com/irc/bitcoin-dev/logs/2015/10/22#l1445540405.0 )
+Meeting minutes by meetbot (
+http://www.erisian.com.au/meetbot/bitcoin-dev/2015/bitcoin-dev.2015-10-22-19.05.html
+)
+
+
+Main topics discussed where:
+
+Mempool Memory Usage
+LevelDB replacement
+Median Past locktime & CLTV
+
+
+**Short topics/notes**
+
+BIP 9 ( https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki )
+Versionbits PR #6816 ( https://github.com/bitcoin/bitcoin/pull/6816 ) is
+ready for implementation and needs more reviews.
+
+A 3 month moderation period on the bitcoin-dev mailinglist has started, as
+well as a new list bitcoin-discuss. more details:
+http://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-October/011591.html
+
+"bitcoin.org had incorrect release notes for 0.11.1. It's corrected now.
+They had posted the release notes for the initial RC and not updated them.
+Process wise it would be good to watch out for that in the future."
+
+
+**Mempool Memory Usage**
+
+- background
+
+When a transaction is relayed across the network it is held by the nodes in
+memory, until it gets into a block. All these transactions that sit in
+memory are called the memorypool or mempool for short.
+Like we could see during the spam-attack if there's a big back-log of
+transactions that couldn't make it in the blockchain this mempool can get
+pretty big resulting in nodes crashing.
+
+To stop this from happening devs created a mechanism to reject and/or
+remove transactions from the mempool. This mempool limiting (
+https://github.com/bitcoin/bitcoin/pull/6722 ) got merged this week.
+
+Also relevant: There is an already existing limit on the database cache
+size called "dbCache". The default value for that is 100MB.
+
+- meeting comments
+
+Testing shows there's a discrepancy between the configured mempool limit
+and the actual memory usage. This is caused by the amount of UTXO data when
+processing transactions.
+This data is only flushed after a block is processed (so temporarily
+exceeding the cache limit set in dbCache).
+
+There are 2 "obvious" solutions for this:
+
+1. Always enforce the UTXO cache limit, just like the mempool limit is
+always enforced.
+Downside for that is if you misconfigure your mempool limit an attack can
+blow away your UTXO cache, which significantly slows down validation and
+propagation.
+
+2. Take the UTXO cache into account when limiting the mempool.
+Downside for that is that you could construct transactions which require
+way more cache space and thereby more easily kick out other transactions.
+
+A more optimal solution would be to give priority in the cache to things in
+the mempool.
+Ways to achieve that are to kick UTXO's from transaction that are evicted
+from the mempool out of the cache and from transactions that never made it
+into the mempool.
+Something TheBlueMatt is working on (
+https://github.com/bitcoin/bitcoin/pull/6872 )
+
+
+- meeting conclusion
+
+Continue to research and optimize.
+
+
+**LevelDB replacement**
+
+- background
+
+LevelDB is the database system currently used in bitcoin. Since this is not
+being maintained for some time devs are looking for replacements.
+
+- meeting comments
+
+jgarzik worked on a patch for SQLite (
+https://github.com/bitcoin/bitcoin/pull/6873 )
+Some people express concerns whether the performance will be good enough
+with SQLite, but there are no benchmark results yet.
+
+- meeting conclusion
+
+Do research into other options
+Do lots of benchmarks and report results
+
+
+
+**Median Past locktime & CLTV**
+
+- background
+
+When a block is created miners include a timestamp. This timestamp has to
+be between the median of the previous 11 blocks and the network-adjusted
+time +2 hours. So this timestamp can vary a decent amount from the real
+time.
+With the introduction of lock-time transactions, that are only valid after
+a certain time, miners are incentivised to lie about the time in order to
+include time-locked transactions (and their fees) that wouldn't otherwise
+be valid.
+BIP 113 enables the usage of GetMedianTimePast (the median of the previous
+11 blocks) from the prior block in lock-time transactions to combat this
+behaviour. Users can compensate for this by adding 1 hour (6 blocks) to
+their lock times.
+
+CLTV stands for CheckLockTimeVerify, BIP65 (
+https://github.com/bitcoin/bitcoin/pull/6351 ) Commonly referred to as: How
+you thought nLockTime worked before you actually tried to use it.
+
+- meeting comments
+
+CLTV is ready to be merged (and has been merged at time of writing)
+Questions of whether to add median past locktime as mempool only or as
+softfork
+Overall questions as to what to include in the CLTV deployment, what to
+include as mem-pool only and what as softfork.
+Median past locktime violates current 'standard' behavior, so we would
+prefer to have that violation dead in the network before the median past
+locktime softfork moves forward.
+
+
+- meeting conclusion
+
+
+review BIP-113: Mempool-only median time-past as endpoint for lock-time
+calculations ( https://github.com/bitcoin/bitcoin/pull/6566 )
+review the CLTV backports (done and merged at time of writing)
+Backport median past locktime to 0.10 and 0.11
+
+
+
+
+**Participants**
+
+btcdrak         btcdrak
+sipa            Pieter Wuille
+gmaxwell        Gregory Maxwell
+BlueMatt        Matt Corallo
+morcos          Alex Morcos
+petertodd       Peter Todd
+CodeShark       Eric Lombrozo
+jgarzik         Jeff Garzik
+maaku           Mark Friedenbach
+kanzure         Bryan Bishop
+jcorgan         Johnathan Corgan
+Luke-Jr         Luke Dashjr
+jonasschnelli   Jonas Schnelli
+sdaftuar        Suhas Daftuar
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/bitcoin-discuss/attachments/20151026/18cf1dd8/attachment.html>
+
+From rusty at rustcorp.com.au  Tue Oct 27 19:19:18 2015
+From: rusty at rustcorp.com.au (Rusty Russell)
+Date: Wed, 28 Oct 2015 05:49:18 +1030
+Subject: [bitcoin-discuss] [bitcoin-dev] Mailing List Moderation Now
+	Active.
+In-Reply-To: <15718474.uA0ggx9rdo@1337h4x0r>
+References: <878u6velnc.fsf@rustcorp.com.au> <15718474.uA0ggx9rdo@1337h4x0r>
+Message-ID: <87pp00w24p.fsf@rustcorp.com.au>
+
+xor via bitcoin-dev <bitcoin-dev at lists.linuxfoundation.org> writes:
+> On Thursday, October 22, 2015 11:59:11 AM Rusty Russell via bitcoin-dev wrote:
+>>   - All rejected posts will be forwarded to a list for public viewing:
+>>     https://lists.ozlabs.org/pipermail/bitcoin-dev-moderation/
+>
+> They are not readable, they all say:
+>> An embedded message was scrubbed...
+
+Indeed, it's not great :(
+
+Click on the link and you will get the original mail in all its glory.
+
+As I said, if someone wants to hack up a redirecter which pulls out the
+attached message, I'll be happy to run it somewhere the moderators can
+bounce the message to.
+
+Cheers,
+Rusty.
+PS.  Off-topic for bitcoin-dev, CC'd bitcoin-discuss instead.
+
+From rusty at rustcorp.com.au  Thu Oct 29 03:34:34 2015
+From: rusty at rustcorp.com.au (Rusty Russell)
+Date: Thu, 29 Oct 2015 14:04:34 +1030
+Subject: [bitcoin-discuss] [bitcoin-dev] Mailing List Moderation Now
+	Active.
+In-Reply-To: <CA+w+GKRcR2jL_39NuS-Yvu1xLc4y6A4tU5dxDN9+5Z2jUc_mrg@mail.gmail.com>
+References: <878u6velnc.fsf@rustcorp.com.au>
+	<CA+w+GKSo75Y3bum+NOVjvaSiqyAozirg=PUrF-3ACg5GRXcp2w@mail.gmail.com>
+	<CABsx9T32Y94cXyubaedpicH=izCEBBN662b0oTNSi5sN6hnM=w@mail.gmail.com>
+	<CA+w+GKRcR2jL_39NuS-Yvu1xLc4y6A4tU5dxDN9+5Z2jUc_mrg@mail.gmail.com>
+Message-ID: <87twpawdo5.fsf@rustcorp.com.au>
+
+Mike Hearn <hearn at vinumeris.com> writes:
+> This post by Gavin got rejected by the moderators.
+>
+> Without a doubt this moderation policy is already a disaster. I'm fully
+> expecting this message to get rejected too
+
+Hi Mike!
+
+Once someone gets a post accepted, we unset their mod bit, and only
+reset it on complaints.
+
+However, I have reset yours, so your *next* post will be moderated.
+
+>    - Well known uber-troll Gavin Andresen
+
+Indeed, the moderation thread is off-topic, and this was over-eager.
+
+The content was fine, and the appeal process is fairly simple: re-send,
+and CC: Jeff Garzik.
+
+>    - And his partner in crime, Sergio Damian Lerner
+
+Yep, a one liner saying jokes should be allowed.  My reply
+was fairly clear:
+
+http://lists.linuxfoundation.org/pipermail/bitcoin-discuss/2015-October/000001.html
+
+>    - Someone discussing a bug
+
+Indeed, that thread moved off to the bug tracker.  Unfortunately you
+can't see the rejection message, but it was pretty clear and polite,
+and pointed them directly to the bug on github.
+
+>    - Someone who wants to discuss CLTV
+
+This one was a line ball.  It's not really bitcoin development, it's
+"how do I use CLTV to...".  On the other hand, it's about Tier's
+atomic cross-chain transfers BIP draft.
+
+No other mods were around, so in the end I told him to send it to Tier,
+or re-send and appeal to Jeff.
+
+After discussion with others, I would now let that through.
+
+>    - Someone pointing out that censorship of technical discussion is rarely
+>    a good idea
+
+Clearly off-topic for a development list, and inflammatory.  They were
+told to post their concerns to me, Jeff, bitcoin-discuss, and to bring
+them out at the three month review.
+
+>    - Someone pointing out that censorship of people complaining about
+>    censorship is also taking place.
+
+Same as above.
+
+Moderation is off-topic, because it's was clear that most developers
+don't want more discussion about discussion.
+
+Two false positives (and at least as many false negatives) is bad, but I
+hope that by the time review rolls around we'll be more polished.
+
+Cheers,
+Rusty.
+

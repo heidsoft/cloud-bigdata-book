@@ -1,6 +1,5 @@
-# 我的公众号
-![云计算与大数据](images/cloud-and-bigdata.jpg)
+# cloud-blockchain-book
 
-# 捐赠支持
-![捐赠支持](images/support-me.png)
-
+```
+非业余记录
+```

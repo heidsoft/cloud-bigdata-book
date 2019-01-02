@@ -1,13 +1,13 @@
-extern "C"µÄÓÃ·¨½âÎö 
-1.ÒýÑÔ
-¡¡¡¡C++ÓïÑÔµÄ´´½¨³õÖÔÊÇ¡°a better C¡±£¬µ«ÊÇÕâ²¢²»ÒâÎ¶×ÅC++ÖÐÀàËÆCÓïÑÔµÄÈ«¾Ö±äÁ¿ºÍº¯ÊýËù²ÉÓÃµÄ±àÒëºÍÁ¬½Ó·½Ê½ÓëCÓïÑÔÍêÈ«ÏàÍ¬¡£×÷ÎªÒ»ÖÖÓûÓëC¼æÈÝµÄÓïÑÔ£¬
-C++±£ÁôÁËÒ»²¿·Ö¹ý³ÌÊ½ÓïÑÔµÄÌØµã£¨±»ÊÀÈË³ÆÎª¡°²»³¹µ×µØÃæÏò¶ÔÏó¡±£©£¬Òò¶øËü¿ÉÒÔ¶¨Òå²»ÊôÓÚÈÎºÎÀàµÄÈ«¾Ö±äÁ¿ºÍº¯Êý¡£µ«ÊÇ£¬C++±Ï¾¹ÊÇÒ»ÖÖÃæÏò¶ÔÏóµÄ³ÌÐòÉè¼ÆÓïÑÔ
-£¬ÎªÁËÖ§³Öº¯ÊýµÄÖØÔØ£¬C++¶ÔÈ«¾Öº¯ÊýµÄ´¦Àí·½Ê½ÓëCÓÐÃ÷ÏÔµÄ²»Í¬¡£
+extern "C"çš„ç”¨æ³•è§£æž 
+1.å¼•è¨€
+ã€€ã€€C++è¯­è¨€çš„åˆ›å»ºåˆè¡·æ˜¯â€œa better Câ€ï¼Œä½†æ˜¯è¿™å¹¶ä¸æ„å‘³ç€C++ä¸­ç±»ä¼¼Cè¯­è¨€çš„å…¨å±€å˜é‡å’Œå‡½æ•°æ‰€é‡‡ç”¨çš„ç¼–è¯‘å’Œè¿žæŽ¥æ–¹å¼ä¸ŽCè¯­è¨€å®Œå…¨ç›¸åŒã€‚ä½œä¸ºä¸€ç§æ¬²ä¸ŽCå…¼å®¹çš„è¯­è¨€ï¼Œ
+C++ä¿ç•™äº†ä¸€éƒ¨åˆ†è¿‡ç¨‹å¼è¯­è¨€çš„ç‰¹ç‚¹ï¼ˆè¢«ä¸–äººç§°ä¸ºâ€œä¸å½»åº•åœ°é¢å‘å¯¹è±¡â€ï¼‰ï¼Œå› è€Œå®ƒå¯ä»¥å®šä¹‰ä¸å±žäºŽä»»ä½•ç±»çš„å…¨å±€å˜é‡å’Œå‡½æ•°ã€‚ä½†æ˜¯ï¼ŒC++æ¯•ç«Ÿæ˜¯ä¸€ç§é¢å‘å¯¹è±¡çš„ç¨‹åºè®¾è®¡è¯­è¨€
+ï¼Œä¸ºäº†æ”¯æŒå‡½æ•°çš„é‡è½½ï¼ŒC++å¯¹å…¨å±€å‡½æ•°çš„å¤„ç†æ–¹å¼ä¸ŽCæœ‰æ˜Žæ˜¾çš„ä¸åŒã€‚
  
-2.´Ó±ê×¼Í·ÎÄ¼þËµÆð
-¡¡¡¡Ä³ÆóÒµÔø¾­¸ø³öÈçÏÂµÄÒ»µÀÃæÊÔÌâ£º
-¡¡¡¡ÃæÊÔÌâ
-¡¡¡¡ÎªÊ²Ã´±ê×¼Í·ÎÄ¼þ¶¼ÓÐÀàËÆÒÔÏÂµÄ½á¹¹£¿
+2.ä»Žæ ‡å‡†å¤´æ–‡ä»¶è¯´èµ·
+ã€€ã€€æŸä¼ä¸šæ›¾ç»ç»™å‡ºå¦‚ä¸‹çš„ä¸€é“é¢è¯•é¢˜ï¼š
+ã€€ã€€é¢è¯•é¢˜
+ã€€ã€€ä¸ºä»€ä¹ˆæ ‡å‡†å¤´æ–‡ä»¶éƒ½æœ‰ç±»ä¼¼ä»¥ä¸‹çš„ç»“æž„ï¼Ÿ
     #ifndef __INCvxWorksh
     #define __INCvxWorksh
     #ifdef __cplusplus
@@ -18,109 +18,109 @@ C++±£ÁôÁËÒ»²¿·Ö¹ý³ÌÊ½ÓïÑÔµÄÌØµã£¨±»ÊÀÈË³ÆÎª¡°²»³¹µ×µØÃæÏò¶ÔÏó¡±£©£¬Òò¶øËü¿ÉÒÔ¶¨Ò
     }
     #endif
     #endif /* __INCvxWorksh */
-¡¡¡¡·ÖÎö
-¡¡¡¡ÏÔÈ»£¬Í·ÎÄ¼þÖÐµÄ±àÒëºê¡°#ifndef __INCvxWorksh¡¢#define __INCvxWorksh¡¢#endif¡± µÄ×÷ÓÃÊÇ·ÀÖ¹¸ÃÍ·ÎÄ¼þ±»ÖØ¸´ÒýÓÃ¡£
-¡¡¡¡ÄÇÃ´
+ã€€ã€€åˆ†æž
+ã€€ã€€æ˜¾ç„¶ï¼Œå¤´æ–‡ä»¶ä¸­çš„ç¼–è¯‘å®â€œ#ifndef __INCvxWorkshã€#define __INCvxWorkshã€#endifâ€ çš„ä½œç”¨æ˜¯é˜²æ­¢è¯¥å¤´æ–‡ä»¶è¢«é‡å¤å¼•ç”¨ã€‚
+ã€€ã€€é‚£ä¹ˆ
 #ifdef __cplusplus
 extern "C" {
-¡¡#endif
-¡¡#ifdef __cplusplus
+ã€€#endif
+ã€€#ifdef __cplusplus
 }
 #endif
-¡¡¡¡µÄ×÷ÓÃÓÖÊÇÊ²Ã´ÄØ£¿ÎÒÃÇ½«ÔÚÏÂÎÄÒ»Ò»µÀÀ´¡£
+ã€€ã€€çš„ä½œç”¨åˆæ˜¯ä»€ä¹ˆå‘¢ï¼Ÿæˆ‘ä»¬å°†åœ¨ä¸‹æ–‡ä¸€ä¸€é“æ¥ã€‚
  
-3.Éî²ã½ÒÃÜextern "C"
-¡¡¡¡extern "C" °üº¬Ë«ÖØº¬Òå£¬´Ó×ÖÃæÉÏ¼´¿ÉµÃµ½£ºÊ×ÏÈ£¬±»ËüÐÞÊÎµÄÄ¿±êÊÇ¡°extern¡±µÄ£»Æä´Î£¬±»ËüÐÞÊÎµÄÄ¿±êÊÇ¡°C¡±µÄ¡£ÈÃÎÒÃÇÀ´ÏêÏ¸½â¶ÁÕâÁ½ÖØº¬Òå¡£
-¡¡¡¡±»extern "C"ÏÞ¶¨µÄº¯Êý»ò±äÁ¿ÊÇexternÀàÐÍµÄ£»
-¡¡ externÊÇC/C++ÓïÑÔÖÐ±íÃ÷º¯ÊýºÍÈ«¾Ö±äÁ¿×÷ÓÃ·¶Î§£¨¿É¼ûÐÔ£©µÄ¹Ø¼ü×Ö£¬¸Ã¹Ø¼ü×Ö¸æËß±àÒëÆ÷£¬ÆäÉùÃ÷µÄº¯ÊýºÍ±äÁ¿¿ÉÒÔÔÚ±¾Ä£¿é»òÆäËüÄ£¿éÖÐÊ¹ÓÃ¡£¼Ç×¡£¬ÏÂÁÐÓï¾ä£º
-¡¡¡¡extern int a;
-¡¡¡¡½ö½öÊÇÒ»¸ö±äÁ¿µÄÉùÃ÷£¬Æä²¢²»ÊÇÔÚ¶¨Òå±äÁ¿a£¬²¢Î´Îªa·ÖÅäÄÚ´æ¿Õ¼ä¡£±äÁ¿aÔÚËùÓÐÄ£¿éÖÐ×÷ÎªÒ»ÖÖÈ«¾Ö±äÁ¿Ö»ÄÜ±»¶¨ÒåÒ»´Î£¬·ñÔò»á³öÏÖÁ¬½Ó´íÎó¡£
-¡¡¡¡Í¨³££¬ÔÚÄ£¿éµÄÍ·ÎÄ¼þÖÐ¶Ô±¾Ä£¿éÌá¹©¸øÆäËüÄ£¿éÒýÓÃµÄº¯ÊýºÍÈ«¾Ö±äÁ¿ÒÔ¹Ø¼ü×ÖexternÉùÃ÷¡£ÀýÈç£¬Èç¹ûÄ£¿éBÓûÒýÓÃ¸ÃÄ£¿éAÖÐ¶¨ÒåµÄÈ«¾Ö±äÁ¿ºÍº¯ÊýÊ±Ö»Ðè°üº¬Ä£¿éAµÄÍ·ÎÄ¼þ¼´¿É¡£ÕâÑù£¬Ä£¿éBÖÐµ÷ÓÃÄ£¿éAÖÐµÄº¯ÊýÊ±£¬ÔÚ±àÒë½×¶Î£¬Ä£¿éBËäÈ»ÕÒ²»µ½¸Ãº¯Êý£¬µ«ÊÇ²¢²»»á±¨´í£»Ëü»áÔÚÁ¬½Ó½×¶ÎÖÐ´ÓÄ£¿éA±àÒëÉú³ÉµÄÄ¿±ê´úÂëÖÐÕÒµ½´Ëº¯Êý¡£
-¡¡¡¡Óëextern¶ÔÓ¦µÄ¹Ø¼ü×ÖÊÇstatic£¬±»ËüÐÞÊÎµÄÈ«¾Ö±äÁ¿ºÍº¯ÊýÖ»ÄÜÔÚ±¾Ä£¿éÖÐÊ¹ÓÃ¡£Òò´Ë£¬Ò»¸öº¯Êý»ò±äÁ¿Ö»¿ÉÄÜ±»±¾Ä£¿éÊ¹ÓÃÊ±£¬Æä²»¿ÉÄÜ±»extern ¡°C¡±ÐÞÊÎ¡£
-¡¡¡¡±»extern "C"ÐÞÊÎµÄ±äÁ¿ºÍº¯ÊýÊÇ°´ÕÕCÓïÑÔ·½Ê½±àÒëºÍÁ¬½ÓµÄ£»
-¡¡¡¡Î´¼Óextern ¡°C¡±ÉùÃ÷Ê±µÄ±àÒë·½Ê½
-¡¡¡¡Ê×ÏÈ¿´¿´C++ÖÐ¶ÔÀàËÆCµÄº¯ÊýÊÇÔõÑù±àÒëµÄ¡£
-¡¡¡¡×÷ÎªÒ»ÖÖÃæÏò¶ÔÏóµÄÓïÑÔ£¬C++Ö§³Öº¯ÊýÖØÔØ£¬¶ø¹ý³ÌÊ½ÓïÑÔCÔò²»Ö§³Ö¡£º¯Êý±»C++±àÒëºóÔÚ·ûºÅ¿âÖÐµÄÃû×ÖÓëCÓïÑÔµÄ²»Í¬¡£ÀýÈç£¬¼ÙÉèÄ³¸öº¯ÊýµÄÔ­ÐÍÎª£º
+3.æ·±å±‚æ­å¯†extern "C"
+ã€€ã€€extern "C" åŒ…å«åŒé‡å«ä¹‰ï¼Œä»Žå­—é¢ä¸Šå³å¯å¾—åˆ°ï¼šé¦–å…ˆï¼Œè¢«å®ƒä¿®é¥°çš„ç›®æ ‡æ˜¯â€œexternâ€çš„ï¼›å…¶æ¬¡ï¼Œè¢«å®ƒä¿®é¥°çš„ç›®æ ‡æ˜¯â€œCâ€çš„ã€‚è®©æˆ‘ä»¬æ¥è¯¦ç»†è§£è¯»è¿™ä¸¤é‡å«ä¹‰ã€‚
+ã€€ã€€è¢«extern "C"é™å®šçš„å‡½æ•°æˆ–å˜é‡æ˜¯externç±»åž‹çš„ï¼›
+ã€€ externæ˜¯C/C++è¯­è¨€ä¸­è¡¨æ˜Žå‡½æ•°å’Œå…¨å±€å˜é‡ä½œç”¨èŒƒå›´ï¼ˆå¯è§æ€§ï¼‰çš„å…³é”®å­—ï¼Œè¯¥å…³é”®å­—å‘Šè¯‰ç¼–è¯‘å™¨ï¼Œå…¶å£°æ˜Žçš„å‡½æ•°å’Œå˜é‡å¯ä»¥åœ¨æœ¬æ¨¡å—æˆ–å…¶å®ƒæ¨¡å—ä¸­ä½¿ç”¨ã€‚è®°ä½ï¼Œä¸‹åˆ—è¯­å¥ï¼š
+ã€€ã€€extern int a;
+ã€€ã€€ä»…ä»…æ˜¯ä¸€ä¸ªå˜é‡çš„å£°æ˜Žï¼Œå…¶å¹¶ä¸æ˜¯åœ¨å®šä¹‰å˜é‡aï¼Œå¹¶æœªä¸ºaåˆ†é…å†…å­˜ç©ºé—´ã€‚å˜é‡aåœ¨æ‰€æœ‰æ¨¡å—ä¸­ä½œä¸ºä¸€ç§å…¨å±€å˜é‡åªèƒ½è¢«å®šä¹‰ä¸€æ¬¡ï¼Œå¦åˆ™ä¼šå‡ºçŽ°è¿žæŽ¥é”™è¯¯ã€‚
+ã€€ã€€é€šå¸¸ï¼Œåœ¨æ¨¡å—çš„å¤´æ–‡ä»¶ä¸­å¯¹æœ¬æ¨¡å—æä¾›ç»™å…¶å®ƒæ¨¡å—å¼•ç”¨çš„å‡½æ•°å’Œå…¨å±€å˜é‡ä»¥å…³é”®å­—externå£°æ˜Žã€‚ä¾‹å¦‚ï¼Œå¦‚æžœæ¨¡å—Bæ¬²å¼•ç”¨è¯¥æ¨¡å—Aä¸­å®šä¹‰çš„å…¨å±€å˜é‡å’Œå‡½æ•°æ—¶åªéœ€åŒ…å«æ¨¡å—Açš„å¤´æ–‡ä»¶å³å¯ã€‚è¿™æ ·ï¼Œæ¨¡å—Bä¸­è°ƒç”¨æ¨¡å—Aä¸­çš„å‡½æ•°æ—¶ï¼Œåœ¨ç¼–è¯‘é˜¶æ®µï¼Œæ¨¡å—Bè™½ç„¶æ‰¾ä¸åˆ°è¯¥å‡½æ•°ï¼Œä½†æ˜¯å¹¶ä¸ä¼šæŠ¥é”™ï¼›å®ƒä¼šåœ¨è¿žæŽ¥é˜¶æ®µä¸­ä»Žæ¨¡å—Aç¼–è¯‘ç”Ÿæˆçš„ç›®æ ‡ä»£ç ä¸­æ‰¾åˆ°æ­¤å‡½æ•°ã€‚
+ã€€ã€€ä¸Žexternå¯¹åº”çš„å…³é”®å­—æ˜¯staticï¼Œè¢«å®ƒä¿®é¥°çš„å…¨å±€å˜é‡å’Œå‡½æ•°åªèƒ½åœ¨æœ¬æ¨¡å—ä¸­ä½¿ç”¨ã€‚å› æ­¤ï¼Œä¸€ä¸ªå‡½æ•°æˆ–å˜é‡åªå¯èƒ½è¢«æœ¬æ¨¡å—ä½¿ç”¨æ—¶ï¼Œå…¶ä¸å¯èƒ½è¢«extern â€œCâ€ä¿®é¥°ã€‚
+ã€€ã€€è¢«extern "C"ä¿®é¥°çš„å˜é‡å’Œå‡½æ•°æ˜¯æŒ‰ç…§Cè¯­è¨€æ–¹å¼ç¼–è¯‘å’Œè¿žæŽ¥çš„ï¼›
+ã€€ã€€æœªåŠ extern â€œCâ€å£°æ˜Žæ—¶çš„ç¼–è¯‘æ–¹å¼
+ã€€ã€€é¦–å…ˆçœ‹çœ‹C++ä¸­å¯¹ç±»ä¼¼Cçš„å‡½æ•°æ˜¯æ€Žæ ·ç¼–è¯‘çš„ã€‚
+ã€€ã€€ä½œä¸ºä¸€ç§é¢å‘å¯¹è±¡çš„è¯­è¨€ï¼ŒC++æ”¯æŒå‡½æ•°é‡è½½ï¼Œè€Œè¿‡ç¨‹å¼è¯­è¨€Cåˆ™ä¸æ”¯æŒã€‚å‡½æ•°è¢«C++ç¼–è¯‘åŽåœ¨ç¬¦å·åº“ä¸­çš„åå­—ä¸ŽCè¯­è¨€çš„ä¸åŒã€‚ä¾‹å¦‚ï¼Œå‡è®¾æŸä¸ªå‡½æ•°çš„åŽŸåž‹ä¸ºï¼š
 void foo( int x, int y );
-¡¡¡¡¸Ãº¯Êý±»C±àÒëÆ÷±àÒëºóÔÚ·ûºÅ¿âÖÐµÄÃû×ÖÎª_foo£¬¶øC++±àÒëÆ÷Ôò»á²úÉúÏñ_foo_int_intÖ®ÀàµÄÃû×Ö£¨²»Í¬µÄ±àÒëÆ÷¿ÉÄÜÉú³ÉµÄÃû×Ö²»Í¬£¬µ«ÊÇ¶¼²ÉÓÃÁËÏàÍ¬µÄ»úÖÆ£¬Éú³ÉµÄÐÂÃû×Ö³ÆÎª¡°mangled name¡±£©¡£
-¡¡¡¡_foo_int_intÕâÑùµÄÃû×Ö°üº¬ÁËº¯ÊýÃû¡¢º¯Êý²ÎÊýÊýÁ¿¼°ÀàÐÍÐÅÏ¢£¬C++¾ÍÊÇ¿¿ÕâÖÖ»úÖÆÀ´ÊµÏÖº¯ÊýÖØÔØµÄ¡£ÀýÈç£¬ÔÚC++ÖÐ£¬º¯Êývoid foo( int x, int y )Óëvoid foo( int x, float y )±àÒëÉú³ÉµÄ·ûºÅÊÇ²»ÏàÍ¬µÄ£¬ºóÕßÎª_foo_int_float¡£
-¡¡¡¡Í¬ÑùµØ£¬C++ÖÐµÄ±äÁ¿³ýÖ§³Ö¾Ö²¿±äÁ¿Íâ£¬»¹Ö§³ÖÀà³ÉÔ±±äÁ¿ºÍÈ«¾Ö±äÁ¿¡£ÓÃ»§Ëù±àÐ´³ÌÐòµÄÀà³ÉÔ±±äÁ¿¿ÉÄÜÓëÈ«¾Ö±äÁ¿Í¬Ãû£¬ÎÒÃÇÒÔ"."À´Çø·Ö¡£¶ø±¾ÖÊÉÏ£¬±àÒëÆ÷ÔÚ½øÐÐ±àÒëÊ±£¬Óëº¯ÊýµÄ´¦ÀíÏàËÆ£¬Ò²ÎªÀàÖÐµÄ±äÁ¿È¡ÁËÒ»¸ö¶ÀÒ»ÎÞ¶þµÄÃû×Ö£¬Õâ¸öÃû×ÖÓëÓÃ»§³ÌÐòÖÐÍ¬ÃûµÄÈ«¾Ö±äÁ¿Ãû×Ö²»Í¬¡£
-¡¡¡¡Î´¼Óextern "C"ÉùÃ÷Ê±µÄÁ¬½Ó·½Ê½
-¡¡¡¡¼ÙÉèÔÚC++ÖÐ£¬Ä£¿éAµÄÍ·ÎÄ¼þÈçÏÂ£º
-// Ä£¿éAÍ·ÎÄ¼þ¡¡moduleA.h
+ã€€ã€€è¯¥å‡½æ•°è¢«Cç¼–è¯‘å™¨ç¼–è¯‘åŽåœ¨ç¬¦å·åº“ä¸­çš„åå­—ä¸º_fooï¼Œè€ŒC++ç¼–è¯‘å™¨åˆ™ä¼šäº§ç”Ÿåƒ_foo_int_intä¹‹ç±»çš„åå­—ï¼ˆä¸åŒçš„ç¼–è¯‘å™¨å¯èƒ½ç”Ÿæˆçš„åå­—ä¸åŒï¼Œä½†æ˜¯éƒ½é‡‡ç”¨äº†ç›¸åŒçš„æœºåˆ¶ï¼Œç”Ÿæˆçš„æ–°åå­—ç§°ä¸ºâ€œmangled nameâ€ï¼‰ã€‚
+ã€€ã€€_foo_int_intè¿™æ ·çš„åå­—åŒ…å«äº†å‡½æ•°åã€å‡½æ•°å‚æ•°æ•°é‡åŠç±»åž‹ä¿¡æ¯ï¼ŒC++å°±æ˜¯é è¿™ç§æœºåˆ¶æ¥å®žçŽ°å‡½æ•°é‡è½½çš„ã€‚ä¾‹å¦‚ï¼Œåœ¨C++ä¸­ï¼Œå‡½æ•°void foo( int x, int y )ä¸Žvoid foo( int x, float y )ç¼–è¯‘ç”Ÿæˆçš„ç¬¦å·æ˜¯ä¸ç›¸åŒçš„ï¼ŒåŽè€…ä¸º_foo_int_floatã€‚
+ã€€ã€€åŒæ ·åœ°ï¼ŒC++ä¸­çš„å˜é‡é™¤æ”¯æŒå±€éƒ¨å˜é‡å¤–ï¼Œè¿˜æ”¯æŒç±»æˆå‘˜å˜é‡å’Œå…¨å±€å˜é‡ã€‚ç”¨æˆ·æ‰€ç¼–å†™ç¨‹åºçš„ç±»æˆå‘˜å˜é‡å¯èƒ½ä¸Žå…¨å±€å˜é‡åŒåï¼Œæˆ‘ä»¬ä»¥"."æ¥åŒºåˆ†ã€‚è€Œæœ¬è´¨ä¸Šï¼Œç¼–è¯‘å™¨åœ¨è¿›è¡Œç¼–è¯‘æ—¶ï¼Œä¸Žå‡½æ•°çš„å¤„ç†ç›¸ä¼¼ï¼Œä¹Ÿä¸ºç±»ä¸­çš„å˜é‡å–äº†ä¸€ä¸ªç‹¬ä¸€æ— äºŒçš„åå­—ï¼Œè¿™ä¸ªåå­—ä¸Žç”¨æˆ·ç¨‹åºä¸­åŒåçš„å…¨å±€å˜é‡åå­—ä¸åŒã€‚
+ã€€ã€€æœªåŠ extern "C"å£°æ˜Žæ—¶çš„è¿žæŽ¥æ–¹å¼
+ã€€ã€€å‡è®¾åœ¨C++ä¸­ï¼Œæ¨¡å—Açš„å¤´æ–‡ä»¶å¦‚ä¸‹ï¼š
+// æ¨¡å—Aå¤´æ–‡ä»¶ã€€moduleA.h
 #ifndef MODULE_A_H
 #define MODULE_A_H
 int foo( int x, int y );
 #endif
-¡¡¡¡ÔÚÄ£¿éBÖÐÒýÓÃ¸Ãº¯Êý£º
-// Ä£¿éBÊµÏÖÎÄ¼þ¡¡moduleB.cpp
+ã€€ã€€åœ¨æ¨¡å—Bä¸­å¼•ç”¨è¯¥å‡½æ•°ï¼š
+// æ¨¡å—Bå®žçŽ°æ–‡ä»¶ã€€moduleB.cpp
 #include "moduleA.h"
 foo(2,3);
-¡¡¡¡Êµ¼ÊÉÏ£¬ÔÚÁ¬½Ó½×¶Î£¬Á¬½ÓÆ÷»á´ÓÄ£¿éAÉú³ÉµÄÄ¿±êÎÄ¼þmoduleA.objÖÐÑ°ÕÒ_foo_int_intÕâÑùµÄ·ûºÅ£¡
-¡¡¡¡¼Óextern "C"ÉùÃ÷ºóµÄ±àÒëºÍÁ¬½Ó·½Ê½
-¡¡¡¡¼Óextern "C"ÉùÃ÷ºó£¬Ä£¿éAµÄÍ·ÎÄ¼þ±äÎª£º
-// Ä£¿éAÍ·ÎÄ¼þ¡¡moduleA.h
+ã€€ã€€å®žé™…ä¸Šï¼Œåœ¨è¿žæŽ¥é˜¶æ®µï¼Œè¿žæŽ¥å™¨ä¼šä»Žæ¨¡å—Aç”Ÿæˆçš„ç›®æ ‡æ–‡ä»¶moduleA.objä¸­å¯»æ‰¾_foo_int_intè¿™æ ·çš„ç¬¦å·ï¼
+ã€€ã€€åŠ extern "C"å£°æ˜ŽåŽçš„ç¼–è¯‘å’Œè¿žæŽ¥æ–¹å¼
+ã€€ã€€åŠ extern "C"å£°æ˜ŽåŽï¼Œæ¨¡å—Açš„å¤´æ–‡ä»¶å˜ä¸ºï¼š
+// æ¨¡å—Aå¤´æ–‡ä»¶ã€€moduleA.h
 #ifndef MODULE_A_H
 #define MODULE_A_H
 extern "C" int foo( int x, int y );
 #endif
-¡¡¡¡ÔÚÄ£¿éBµÄÊµÏÖÎÄ¼þÖÐÈÔÈ»µ÷ÓÃfoo( 2,3 )£¬Æä½á¹ûÊÇ£º
-¡¡¡¡£¨1£©Ä£¿éA±àÒëÉú³ÉfooµÄÄ¿±ê´úÂëÊ±£¬Ã»ÓÐ¶ÔÆäÃû×Ö½øÐÐÌØÊâ´¦Àí£¬²ÉÓÃÁËCÓïÑÔµÄ·½Ê½£»
-¡¡¡¡£¨2£©Á¬½ÓÆ÷ÔÚÎªÄ£¿éBµÄÄ¿±ê´úÂëÑ°ÕÒfoo(2,3)µ÷ÓÃÊ±£¬Ñ°ÕÒµÄÊÇÎ´¾­ÐÞ¸ÄµÄ·ûºÅÃû_foo¡£
-¡¡¡¡Èç¹ûÔÚÄ£¿éAÖÐº¯ÊýÉùÃ÷ÁËfooÎªextern "C"ÀàÐÍ£¬¶øÄ£¿éBÖÐ°üº¬µÄÊÇextern int foo( int x, int y ) £¬ÔòÄ£¿éBÕÒ²»µ½Ä£¿éAÖÐµÄº¯Êý£»·´Ö®ÒàÈ»¡£
-¡¡¡¡ËùÒÔ£¬¿ÉÒÔÓÃÒ»¾ä»°¸ÅÀ¨extern ¡°C¡±Õâ¸öÉùÃ÷µÄÕæÊµÄ¿µÄ£¨ÈÎºÎÓïÑÔÖÐµÄÈÎºÎÓï·¨ÌØÐÔµÄµ®Éú¶¼²»ÊÇËæÒâ¶øÎªµÄ£¬À´Ô´ÓÚÕæÊµÊÀ½çµÄÐèÇóÇý¶¯¡£ÎÒÃÇÔÚË¼¿¼ÎÊÌâÊ±£¬²»ÄÜÖ»Í£ÁôÔÚÕâ¸öÓïÑÔÊÇÔõÃ´×öµÄ£¬»¹ÒªÎÊÒ»ÎÊËüÎªÊ²Ã´ÒªÕâÃ´×ö£¬¶¯»úÊÇÊ²Ã´£¬ÕâÑùÎÒÃÇ¿ÉÒÔ¸üÉîÈëµØÀí½âÐí¶àÎÊÌâ£©£º
-¡¡¡¡ÊµÏÖC++ÓëC¼°ÆäËüÓïÑÔµÄ»ìºÏ±à³Ì¡£
-Ã÷°×ÁËC++ÖÐextern "C"µÄÉèÁ¢¶¯»ú£¬ÎÒÃÇÏÂÃæÀ´¾ßÌå·ÖÎöextern "C"Í¨³£µÄÊ¹ÓÃ¼¼ÇÉ¡£
+ã€€ã€€åœ¨æ¨¡å—Bçš„å®žçŽ°æ–‡ä»¶ä¸­ä»ç„¶è°ƒç”¨foo( 2,3 )ï¼Œå…¶ç»“æžœæ˜¯ï¼š
+ã€€ã€€ï¼ˆ1ï¼‰æ¨¡å—Aç¼–è¯‘ç”Ÿæˆfooçš„ç›®æ ‡ä»£ç æ—¶ï¼Œæ²¡æœ‰å¯¹å…¶åå­—è¿›è¡Œç‰¹æ®Šå¤„ç†ï¼Œé‡‡ç”¨äº†Cè¯­è¨€çš„æ–¹å¼ï¼›
+ã€€ã€€ï¼ˆ2ï¼‰è¿žæŽ¥å™¨åœ¨ä¸ºæ¨¡å—Bçš„ç›®æ ‡ä»£ç å¯»æ‰¾foo(2,3)è°ƒç”¨æ—¶ï¼Œå¯»æ‰¾çš„æ˜¯æœªç»ä¿®æ”¹çš„ç¬¦å·å_fooã€‚
+ã€€ã€€å¦‚æžœåœ¨æ¨¡å—Aä¸­å‡½æ•°å£°æ˜Žäº†fooä¸ºextern "C"ç±»åž‹ï¼Œè€Œæ¨¡å—Bä¸­åŒ…å«çš„æ˜¯extern int foo( int x, int y ) ï¼Œåˆ™æ¨¡å—Bæ‰¾ä¸åˆ°æ¨¡å—Aä¸­çš„å‡½æ•°ï¼›åä¹‹äº¦ç„¶ã€‚
+ã€€ã€€æ‰€ä»¥ï¼Œå¯ä»¥ç”¨ä¸€å¥è¯æ¦‚æ‹¬extern â€œCâ€è¿™ä¸ªå£°æ˜Žçš„çœŸå®žç›®çš„ï¼ˆä»»ä½•è¯­è¨€ä¸­çš„ä»»ä½•è¯­æ³•ç‰¹æ€§çš„è¯žç”Ÿéƒ½ä¸æ˜¯éšæ„è€Œä¸ºçš„ï¼Œæ¥æºäºŽçœŸå®žä¸–ç•Œçš„éœ€æ±‚é©±åŠ¨ã€‚æˆ‘ä»¬åœ¨æ€è€ƒé—®é¢˜æ—¶ï¼Œä¸èƒ½åªåœç•™åœ¨è¿™ä¸ªè¯­è¨€æ˜¯æ€Žä¹ˆåšçš„ï¼Œè¿˜è¦é—®ä¸€é—®å®ƒä¸ºä»€ä¹ˆè¦è¿™ä¹ˆåšï¼ŒåŠ¨æœºæ˜¯ä»€ä¹ˆï¼Œè¿™æ ·æˆ‘ä»¬å¯ä»¥æ›´æ·±å…¥åœ°ç†è§£è®¸å¤šé—®é¢˜ï¼‰ï¼š
+ã€€ã€€å®žçŽ°C++ä¸ŽCåŠå…¶å®ƒè¯­è¨€çš„æ··åˆç¼–ç¨‹ã€‚
+æ˜Žç™½äº†C++ä¸­extern "C"çš„è®¾ç«‹åŠ¨æœºï¼Œæˆ‘ä»¬ä¸‹é¢æ¥å…·ä½“åˆ†æžextern "C"é€šå¸¸çš„ä½¿ç”¨æŠ€å·§ã€‚
  
-¡¡¡¡4.extern "C"µÄ¹ßÓÃ·¨
-¡¡¡¡£¨1£©ÔÚC++ÖÐÒýÓÃCÓïÑÔÖÐµÄº¯ÊýºÍ±äÁ¿£¬ÔÚ°üº¬CÓïÑÔÍ·ÎÄ¼þ£¨¼ÙÉèÎªcExample.h£©Ê±£¬Ðè½øÐÐÏÂÁÐ´¦Àí£º
+ã€€ã€€4.extern "C"çš„æƒ¯ç”¨æ³•
+ã€€ã€€ï¼ˆ1ï¼‰åœ¨C++ä¸­å¼•ç”¨Cè¯­è¨€ä¸­çš„å‡½æ•°å’Œå˜é‡ï¼Œåœ¨åŒ…å«Cè¯­è¨€å¤´æ–‡ä»¶ï¼ˆå‡è®¾ä¸ºcExample.hï¼‰æ—¶ï¼Œéœ€è¿›è¡Œä¸‹åˆ—å¤„ç†ï¼š
 extern "C"
 {
 #include "cExample.h"
 }
-¡¡¡¡¶øÔÚCÓïÑÔµÄÍ·ÎÄ¼þÖÐ£¬¶ÔÆäÍâ²¿º¯ÊýÖ»ÄÜÖ¸¶¨ÎªexternÀàÐÍ£¬CÓïÑÔÖÐ²»Ö§³Öextern "C"ÉùÃ÷£¬ÔÚ.cÎÄ¼þÖÐ°üº¬ÁËextern "C"Ê±»á³öÏÖ±àÒëÓï·¨´íÎó¡£
-¡¡¡¡±ÊÕß±àÐ´µÄC++ÒýÓÃCº¯ÊýÀý×Ó¹¤³ÌÖÐ°üº¬µÄÈý¸öÎÄ¼þµÄÔ´´úÂëÈçÏÂ£º
-/* cÓïÑÔÍ·ÎÄ¼þ£ºcExample.h */
+ã€€ã€€è€Œåœ¨Cè¯­è¨€çš„å¤´æ–‡ä»¶ä¸­ï¼Œå¯¹å…¶å¤–éƒ¨å‡½æ•°åªèƒ½æŒ‡å®šä¸ºexternç±»åž‹ï¼ŒCè¯­è¨€ä¸­ä¸æ”¯æŒextern "C"å£°æ˜Žï¼Œåœ¨.cæ–‡ä»¶ä¸­åŒ…å«äº†extern "C"æ—¶ä¼šå‡ºçŽ°ç¼–è¯‘è¯­æ³•é”™è¯¯ã€‚
+ã€€ã€€ç¬”è€…ç¼–å†™çš„C++å¼•ç”¨Cå‡½æ•°ä¾‹å­å·¥ç¨‹ä¸­åŒ…å«çš„ä¸‰ä¸ªæ–‡ä»¶çš„æºä»£ç å¦‚ä¸‹ï¼š
+/* cè¯­è¨€å¤´æ–‡ä»¶ï¼šcExample.h */
 #ifndef C_EXAMPLE_H
 #define C_EXAMPLE_H
-extern int add(int x,int y);     //×¢:Ð´³Éextern "C" int add(int , int ); Ò²¿ÉÒÔ
+extern int add(int x,int y);     //æ³¨:å†™æˆextern "C" int add(int , int ); ä¹Ÿå¯ä»¥
 #endif
-/* cÓïÑÔÊµÏÖÎÄ¼þ£ºcExample.c */
+/* cè¯­è¨€å®žçŽ°æ–‡ä»¶ï¼šcExample.c */
 #include "cExample.h"
 int add( int x, int y )
 {
-¡¡return x + y;
+ã€€return x + y;
 }
-// c++ÊµÏÖÎÄ¼þ£¬µ÷ÓÃadd£ºcppFile.cpp
+// c++å®žçŽ°æ–‡ä»¶ï¼Œè°ƒç”¨addï¼šcppFile.cpp
 extern "C"
 {
-¡¡#include "cExample.h"        //×¢£º´Ë´¦²»Í×£¬Èç¹ûÕâÑù±àÒëÍ¨²»¹ý£¬»»³É extern "C" int add(int , int ); ¿ÉÒÔÍ¨¹ý
+ã€€#include "cExample.h"        //æ³¨ï¼šæ­¤å¤„ä¸å¦¥ï¼Œå¦‚æžœè¿™æ ·ç¼–è¯‘é€šä¸è¿‡ï¼Œæ¢æˆ extern "C" int add(int , int ); å¯ä»¥é€šè¿‡
 }
 int main(int argc, char* argv[])
 {
-¡¡add(2,3);
-¡¡return 0;
+ã€€add(2,3);
+ã€€return 0;
 }
-¡¡¡¡Èç¹ûC++µ÷ÓÃÒ»¸öCÓïÑÔ±àÐ´µÄ.DLLÊ±£¬µ±°üÀ¨.DLLµÄÍ·ÎÄ¼þ»òÉùÃ÷½Ó¿Úº¯ÊýÊ±£¬Ó¦¼Óextern "C" {¡¡}¡£
-¡¡¡¡£¨2£©ÔÚCÖÐÒýÓÃC++ÓïÑÔÖÐµÄº¯ÊýºÍ±äÁ¿Ê±£¬C++µÄÍ·ÎÄ¼þÐèÌí¼Óextern "C"£¬µ«ÊÇÔÚCÓïÑÔÖÐ²»ÄÜÖ±½ÓÒýÓÃÉùÃ÷ÁËextern "C"µÄ¸ÃÍ·ÎÄ¼þ£¬Ó¦¸Ã½ö½«CÎÄ¼þÖÐ½«C++ÖÐ¶¨ÒåµÄextern "C"º¯ÊýÉùÃ÷ÎªexternÀàÐÍ¡£
-¡¡¡¡±ÊÕß±àÐ´µÄCÒýÓÃC++º¯ÊýÀý×Ó¹¤³ÌÖÐ°üº¬µÄÈý¸öÎÄ¼þµÄÔ´´úÂëÈçÏÂ£º
-//C++Í·ÎÄ¼þ cppExample.h
+ã€€ã€€å¦‚æžœC++è°ƒç”¨ä¸€ä¸ªCè¯­è¨€ç¼–å†™çš„.DLLæ—¶ï¼Œå½“åŒ…æ‹¬.DLLçš„å¤´æ–‡ä»¶æˆ–å£°æ˜ŽæŽ¥å£å‡½æ•°æ—¶ï¼Œåº”åŠ extern "C" {ã€€}ã€‚
+ã€€ã€€ï¼ˆ2ï¼‰åœ¨Cä¸­å¼•ç”¨C++è¯­è¨€ä¸­çš„å‡½æ•°å’Œå˜é‡æ—¶ï¼ŒC++çš„å¤´æ–‡ä»¶éœ€æ·»åŠ extern "C"ï¼Œä½†æ˜¯åœ¨Cè¯­è¨€ä¸­ä¸èƒ½ç›´æŽ¥å¼•ç”¨å£°æ˜Žäº†extern "C"çš„è¯¥å¤´æ–‡ä»¶ï¼Œåº”è¯¥ä»…å°†Cæ–‡ä»¶ä¸­å°†C++ä¸­å®šä¹‰çš„extern "C"å‡½æ•°å£°æ˜Žä¸ºexternç±»åž‹ã€‚
+ã€€ã€€ç¬”è€…ç¼–å†™çš„Cå¼•ç”¨C++å‡½æ•°ä¾‹å­å·¥ç¨‹ä¸­åŒ…å«çš„ä¸‰ä¸ªæ–‡ä»¶çš„æºä»£ç å¦‚ä¸‹ï¼š
+//C++å¤´æ–‡ä»¶ cppExample.h
 #ifndef CPP_EXAMPLE_H
 #define CPP_EXAMPLE_H
 extern "C" int add( int x, int y );
 #endif
-//C++ÊµÏÖÎÄ¼þ cppExample.cpp
+//C++å®žçŽ°æ–‡ä»¶ cppExample.cpp
 #include "cppExample.h"
 int add( int x, int y )
 {
-¡¡return x + y;
+ã€€return x + y;
 }
-/* CÊµÏÖÎÄ¼þ cFile.c
-/* ÕâÑù»á±àÒë³ö´í£º#include "cExample.h" */
+/* Cå®žçŽ°æ–‡ä»¶ cFile.c
+/* è¿™æ ·ä¼šç¼–è¯‘å‡ºé”™ï¼š#include "cExample.h" */
 extern int add( int x, int y );
 int main( int argc, char* argv[] )
 {
-¡¡add( 2, 3 );
-¡¡return 0;
+ã€€add( 2, 3 );
+ã€€return 0;
 }
-Èç¹ûÉîÈëÀí½âÁËµÚ3½ÚÖÐËù²ûÊöµÄextern "C"ÔÚ±àÒëºÍÁ¬½Ó½×¶Î·¢»ÓµÄ×÷ÓÃ£¬¾ÍÄÜÕæÕýÀí½â±¾½ÚËù²ûÊöµÄ´ÓC++ÒýÓÃCº¯ÊýºÍCÒýÓÃC++º¯ÊýµÄ¹ßÓÃ·¨¡£¶ÔµÚ4½Ú¸ø³öµÄÊ¾Àý´úÂë£¬ÐèÒªÌØ±ðÁôÒâ¸÷¸öÏ¸½Ú¡£
+å¦‚æžœæ·±å…¥ç†è§£äº†ç¬¬3èŠ‚ä¸­æ‰€é˜è¿°çš„extern "C"åœ¨ç¼–è¯‘å’Œè¿žæŽ¥é˜¶æ®µå‘æŒ¥çš„ä½œç”¨ï¼Œå°±èƒ½çœŸæ­£ç†è§£æœ¬èŠ‚æ‰€é˜è¿°çš„ä»ŽC++å¼•ç”¨Cå‡½æ•°å’ŒCå¼•ç”¨C++å‡½æ•°çš„æƒ¯ç”¨æ³•ã€‚å¯¹ç¬¬4èŠ‚ç»™å‡ºçš„ç¤ºä¾‹ä»£ç ï¼Œéœ€è¦ç‰¹åˆ«ç•™æ„å„ä¸ªç»†èŠ‚ã€‚

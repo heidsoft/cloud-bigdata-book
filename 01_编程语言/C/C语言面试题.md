@@ -1,53 +1,53 @@
-1¡¢ int a=5;
+1ã€ int a=5;
  a=(a=3*5,a*4),a+5;
- a=£¿
- ×¢£º¸³ÖµÔËËã·ûÒªÓÅÏÈÓÚ¶ººÅÔËËã·û£¬¹Ê a = 60;
+ a=ï¼Ÿ
+ æ³¨ï¼šèµ‹å€¼è¿ç®—ç¬¦è¦ä¼˜å…ˆäºŽé€—å·è¿ç®—ç¬¦ï¼Œæ•… a = 60;
  
-2¡¢½»»»Á½¸ö±äÁ¿£¨ÕûÐÍ£©µÄÖµ£¬ÇÒ²»ÔÊÐíÊ¹ÓÃÖÐ¼äÖµ
+2ã€äº¤æ¢ä¸¤ä¸ªå˜é‡ï¼ˆæ•´åž‹ï¼‰çš„å€¼ï¼Œä¸”ä¸å…è®¸ä½¿ç”¨ä¸­é—´å€¼
  int a,b;
  a^=b;
  b^=a;
  a^=b;
- ×¢£ºa,b±ØÐëÎªÕûÐÍ±äÁ¿
+ æ³¨ï¼ša,bå¿…é¡»ä¸ºæ•´åž‹å˜é‡
  
-3¡¢int a=3;
+3ã€int a=3;
  a+=a-=a*a;
  a=?
- ¡°=¡±Îª×ÔÓÒÏò×ó½áºÏ£¬¹Êa=a-a*a,a=-6; a=a+a,a=-12;
+ â€œ=â€ä¸ºè‡ªå³å‘å·¦ç»“åˆï¼Œæ•…a=a-a*a,a=-6; a=a+a,a=-12;
  
-4¡¢int a;
- scanf(¡± %d\n¡±,&a);
- ×¢£ºÊ¹ÓÃscanfº¯ÊýÊ±£¬½¨Òé²»Òª°üº¬¡¯\n¡¯¡£Èç¹ûÕâÑùÊ¹ÓÃ£¬ÔòÔÚÊäÈë±äÁ¿aµÄÖµÊ±£¬Ó¦¸Ã°´Á½´Î<Enter>¼ü£¬ÒòÎª×Ö·û¡¯\n¡¯µÄ×÷ÓÃÏàµ±ÓÚ<Enter>¼ü¡£
+4ã€int a;
+ scanf(â€ %d\nâ€,&a);
+ æ³¨ï¼šä½¿ç”¨scanfå‡½æ•°æ—¶ï¼Œå»ºè®®ä¸è¦åŒ…å«â€™\nâ€™ã€‚å¦‚æžœè¿™æ ·ä½¿ç”¨ï¼Œåˆ™åœ¨è¾“å…¥å˜é‡açš„å€¼æ—¶ï¼Œåº”è¯¥æŒ‰ä¸¤æ¬¡<Enter>é”®ï¼Œå› ä¸ºå­—ç¬¦â€™\nâ€™çš„ä½œç”¨ç›¸å½“äºŽ<Enter>é”®ã€‚
  
-5¡¢switchÓï¾äµÄÒ»°ãÐÎÊ½Îª£º
- switch(±í´ïÊ½£©
+5ã€switchè¯­å¥çš„ä¸€èˆ¬å½¢å¼ä¸ºï¼š
+ switch(è¡¨è¾¾å¼ï¼‰
  {
- case ³£Á¿±í´ïÊ½1£ºÓï¾ä1
- case ³£Á¿±í´ïÊ½2£ºÓï¾ä2
- ¡­¡­
- case ³£Á¿±í´ïÊ½n£ºÓï¾än
- default:Óï¾än+1
+ case å¸¸é‡è¡¨è¾¾å¼1ï¼šè¯­å¥1
+ case å¸¸é‡è¡¨è¾¾å¼2ï¼šè¯­å¥2
+ â€¦â€¦
+ case å¸¸é‡è¡¨è¾¾å¼nï¼šè¯­å¥n
+ default:è¯­å¥n+1
  }
- ×¢£ºswitch±í´ïÊ½Ëù¼ÆËãµÄ½á¹û±ØÐëÎªÕûÐÍ£¬³£Á¿±í´ïÊ½Ò²±ØÐëÊÇÕûÐÍÊýÖµ£¬ÇÒ²»ÄÜÎª±äÁ¿¡£
+ æ³¨ï¼šswitchè¡¨è¾¾å¼æ‰€è®¡ç®—çš„ç»“æžœå¿…é¡»ä¸ºæ•´åž‹ï¼Œå¸¸é‡è¡¨è¾¾å¼ä¹Ÿå¿…é¡»æ˜¯æ•´åž‹æ•°å€¼ï¼Œä¸”ä¸èƒ½ä¸ºå˜é‡ã€‚
  
-6¡¢Ð´³öfloatÀàÐÍµÄ±äÁ¿iÓëÁãÖµ±È½ÏµÄÓï¾ä¡£
+6ã€å†™å‡ºfloatç±»åž‹çš„å˜é‡iä¸Žé›¶å€¼æ¯”è¾ƒçš„è¯­å¥ã€‚
  if ((x >=0.00001) &&(x<=-0.00001))
  
-7¡¢
- £¨1£©ÓÃÂß¼­±í´ïÊ½¡¢forÑ­»·Óï¾äÇó½âÂß¼­Ìâ¡£5Î»ÔË¶¯Ô±²Î¼ÓÁË10Ã×Ì¨ÌøË®±ÈÈü£¬ÓÐÈËÈÃËûÃÇÔ¤²â±ÈÈü½á¹û
- AÑ¡ÊÖËµ£ºBµÚÒ»£¬ÎÒµÚÈý¡£
- BÑ¡ÊÖËµ£ºÎÒµÚ¶þ£¬EµÚËÄ¡£
- CÑ¡ÊÖËµ£ºÎÒµÚÒ»£¬DµÚ¶þ¡£
- DÑ¡ÊÖËµ£ºC×îºó£¬ÎÒµÚÈý¡£
- EÑ¡ÊÖËµ£ºÎÒµÚËÄ£¬AµÚÒ»¡£
- ±ÈÈü½áÊøºó£¬Ã¿Î»Ñ¡ÊÖ¶¼Ëµ¶ÔÁËÒ»°ë£¬Çë±à³ÌÈ·¶¨±ÈÈüµÄÃû´Î¡£
- £¨2£©ÈÕ±¾Ä³µØ·¢ÉúÁËÒ»¼þÄ±É±°¸£¬¾¯²ìÍ¨¹ýÅÅ²éÈ·¶¨É±ÈËÐ×ÊÖ±ØÎª4¸öÏÓÒÉ·¸µÄÒ»¸ö¡£ÒÔÏÂÎª4¸öÏÓÒÉ·¸µÄ¹©´Ê¡£
- AËµ£º²»ÊÇÎÒ¡£
- BËµ£ºÊÇC¡£
- CËµ£ºÊÇD¡£
- DËµ£ºCÔÚºúËµ
- ÒÑÖª3¸öÈËËµÁËÕæ»°£¬1¸öÈËËµµÄÊÇ¼Ù»°¡£ÏÖÔÚÇë¸ù¾ÝÕâÐ©ÐÅÏ¢£¬Ð´Ò»¸ö³ÌÐòÀ´È·¶¨µ½µ×Ë­ÊÇÐ×ÊÖ¡£
- ½â£º
+7ã€
+ ï¼ˆ1ï¼‰ç”¨é€»è¾‘è¡¨è¾¾å¼ã€forå¾ªçŽ¯è¯­å¥æ±‚è§£é€»è¾‘é¢˜ã€‚5ä½è¿åŠ¨å‘˜å‚åŠ äº†10ç±³å°è·³æ°´æ¯”èµ›ï¼Œæœ‰äººè®©ä»–ä»¬é¢„æµ‹æ¯”èµ›ç»“æžœ
+ Aé€‰æ‰‹è¯´ï¼šBç¬¬ä¸€ï¼Œæˆ‘ç¬¬ä¸‰ã€‚
+ Bé€‰æ‰‹è¯´ï¼šæˆ‘ç¬¬äºŒï¼ŒEç¬¬å››ã€‚
+ Cé€‰æ‰‹è¯´ï¼šæˆ‘ç¬¬ä¸€ï¼ŒDç¬¬äºŒã€‚
+ Dé€‰æ‰‹è¯´ï¼šCæœ€åŽï¼Œæˆ‘ç¬¬ä¸‰ã€‚
+ Eé€‰æ‰‹è¯´ï¼šæˆ‘ç¬¬å››ï¼ŒAç¬¬ä¸€ã€‚
+ æ¯”èµ›ç»“æŸåŽï¼Œæ¯ä½é€‰æ‰‹éƒ½è¯´å¯¹äº†ä¸€åŠï¼Œè¯·ç¼–ç¨‹ç¡®å®šæ¯”èµ›çš„åæ¬¡ã€‚
+ ï¼ˆ2ï¼‰æ—¥æœ¬æŸåœ°å‘ç”Ÿäº†ä¸€ä»¶è°‹æ€æ¡ˆï¼Œè­¦å¯Ÿé€šè¿‡æŽ’æŸ¥ç¡®å®šæ€äººå‡¶æ‰‹å¿…ä¸º4ä¸ªå«Œç–‘çŠ¯çš„ä¸€ä¸ªã€‚ä»¥ä¸‹ä¸º4ä¸ªå«Œç–‘çŠ¯çš„ä¾›è¯ã€‚
+ Aè¯´ï¼šä¸æ˜¯æˆ‘ã€‚
+ Bè¯´ï¼šæ˜¯Cã€‚
+ Cè¯´ï¼šæ˜¯Dã€‚
+ Dè¯´ï¼šCåœ¨èƒ¡è¯´
+ å·²çŸ¥3ä¸ªäººè¯´äº†çœŸè¯ï¼Œ1ä¸ªäººè¯´çš„æ˜¯å‡è¯ã€‚çŽ°åœ¨è¯·æ ¹æ®è¿™äº›ä¿¡æ¯ï¼Œå†™ä¸€ä¸ªç¨‹åºæ¥ç¡®å®šåˆ°åº•è°æ˜¯å‡¶æ‰‹ã€‚
+ è§£ï¼š
  #include<stdio.h>
  int main()
  {
@@ -56,25 +56,25 @@
  for(i=1;i<=4;i++)
  {
  killer =64 +i;
- sum = (killer !=¡¯A')+(killer ==¡¯C')+(killer == ¡®D¡¯) +(killer!=¡¯D');
+ sum = (killer !=â€™A')+(killer ==â€™C')+(killer == â€˜Dâ€™) +(killer!=â€™D');
  if(sum ==3)
  {
  flag=1;
- printf(¡°%c is the killer.\n¡±,killer);
+ printf(â€œ%c is the killer.\nâ€,killer);
  break;
  }
  }
  if(flag ==0)
- printf(¡°Can not find\n¡±);
+ printf(â€œCan not find\nâ€);
  return 0;
  }
  
-8¡¢
- Ä£¿é»¯×¼Ôò¾ÍÊÇ°ÑÒ»¸ö´óÎÊÌâ·Ö½âÎªÐí¶àÐ¡ÎÊÌâ£¬Ã¿¸öÐ¡ÎÊÌâÓÉÒ»¸öº¯ÊýÀ´½â¾ö£¬Ã¿¸öº¯Êý¶¼Íê³ÉÒ»¸öÌØ¶¨µÄ¹¦ÄÜ£¬¸÷¸öÐ¡ÎÊÌâÓ¦¸Ã¾¡Á¿¶ÀÁ¢£¬¼´ËùÎ½¸ßÄÚ¾Û£¬µÍñîºÏ¡£º¯ÊýÄÚ²¿Ó¦¸ÃÊÇ¸ßÄÚ¾Û£¬Íê³ÉÒ»Ð©½ôÃÜÏà¹ØµÄÈÎÎñ£¬º¯ÊýÖ®¼äÓ¦¸ÃÖ»ÓÐÒ»Ð©·Ç³£±ØÒªµÄÁªÏµ£¬¼´µÍñîºÏ¡£
+8ã€
+ æ¨¡å—åŒ–å‡†åˆ™å°±æ˜¯æŠŠä¸€ä¸ªå¤§é—®é¢˜åˆ†è§£ä¸ºè®¸å¤šå°é—®é¢˜ï¼Œæ¯ä¸ªå°é—®é¢˜ç”±ä¸€ä¸ªå‡½æ•°æ¥è§£å†³ï¼Œæ¯ä¸ªå‡½æ•°éƒ½å®Œæˆä¸€ä¸ªç‰¹å®šçš„åŠŸèƒ½ï¼Œå„ä¸ªå°é—®é¢˜åº”è¯¥å°½é‡ç‹¬ç«‹ï¼Œå³æ‰€è°“é«˜å†…èšï¼Œä½Žè€¦åˆã€‚å‡½æ•°å†…éƒ¨åº”è¯¥æ˜¯é«˜å†…èšï¼Œå®Œæˆä¸€äº›ç´§å¯†ç›¸å…³çš„ä»»åŠ¡ï¼Œå‡½æ•°ä¹‹é—´åº”è¯¥åªæœ‰ä¸€äº›éžå¸¸å¿…è¦çš„è”ç³»ï¼Œå³ä½Žè€¦åˆã€‚
  
-9¡¢
- extern µÄÊ¹ÓÃ£¨±äÁ¿ºÍº¯Êý£©
- Ô´ÎÄ¼þfile1.c:
+9ã€
+ extern çš„ä½¿ç”¨ï¼ˆå˜é‡å’Œå‡½æ•°ï¼‰
+ æºæ–‡ä»¶file1.c:
  #include<stdio.h>
  
 extern long power(int);
@@ -85,8 +85,8 @@ extern long power(int);
  total = power(n);
  return 0;
  }
- Ô´ÎÄ¼þfile2.c
- extern A;   //Íâ²¿ÉùÃ÷ Ò»°ãÖ»Ö»Õë¶ÔµÄÊÇÈ«¾Ö±äÁ¿
+ æºæ–‡ä»¶file2.c
+ extern A;   //å¤–éƒ¨å£°æ˜Ž ä¸€èˆ¬åªåªé’ˆå¯¹çš„æ˜¯å…¨å±€å˜é‡
  long power(int n)
  {
  long total =1;
@@ -96,36 +96,36 @@ extern long power(int);
  return total;
  }
  
-10¡¢
- Êý×é³õÊ¼»¯£º
- ÔÚËùÓÐº¯ÊýÍâ¶¨ÒåµÄÊý×éµÄËùÓÐÔªËØ½«±»×Ô¶¯¸³Óè³õÖµ0£¬ÔÚº¯ÊýÄÚ²¿¶¨ÒåµÄÊý×é£¬ÏµÍ³²»»áÎªÆä½øÐÐ³õÊ¼»¯£¬ÔÚÊ¹ÓÃÊý×éÔªËØÇ°±ØÐë¶ÔÔªËØ½øÐÐ³õÊ¼»¯¡£
+10ã€
+ æ•°ç»„åˆå§‹åŒ–ï¼š
+ åœ¨æ‰€æœ‰å‡½æ•°å¤–å®šä¹‰çš„æ•°ç»„çš„æ‰€æœ‰å…ƒç´ å°†è¢«è‡ªåŠ¨èµ‹äºˆåˆå€¼0ï¼Œåœ¨å‡½æ•°å†…éƒ¨å®šä¹‰çš„æ•°ç»„ï¼Œç³»ç»Ÿä¸ä¼šä¸ºå…¶è¿›è¡Œåˆå§‹åŒ–ï¼Œåœ¨ä½¿ç”¨æ•°ç»„å…ƒç´ å‰å¿…é¡»å¯¹å…ƒç´ è¿›è¡Œåˆå§‹åŒ–ã€‚
  
-11¡¢
+11ã€
  int a[5]={1,2,3,4,5};
  int *p=a;
- p = a +10 £»//²»ºÏ·¨µÄ, ÒòÎª¸ÃÊý×éÖ»ÓÐ5¸öÔªËØ
- p= a +5 ; //ºÏ·¨µÄ£¬ËäÈ»¸ÃÊý×éÖ»ÓÐ5¸öÔªËØ£¬´Óa[0]µ½a[4],µ«p¿ÉÒÔÖ¸ÏòÊý×é´æ´¢¿Õ¼äµÄÏÂÒ»¸öÎ»ÖÃ¡£µ«²»ÄÜ¶Ô¸Ã±äÁ¿Ö´ÐÐ*pÔËËã£¬¼´²»ÄÜ»ñµÃ´ËÊ±Ö¸ÕëpËùÖ¸ÏòµÄ±äÁ¿µÄÖµ¡£
- a++;//²»ºÏ·¨µÄ£¬²»ÄÜ¶ÔÊý×éÃûÖ´ÐÐ++¡¢¨C²Ù×÷¡£ÕâÊÇÒòÎªaÊÇÊý×éÃû£¬ËüÊÇÊý×éµÄÊ×µØÖ·£¬ËüµÄÖµÔÚ³ÌÐòµÄÔËÐÐ¹ý³ÌÖÐÊ½¹Ì¶¨²»±äµÄ£¬ÊÇ³£Á¿¡£
- ×¢£ºÔÚÖ¸ÕëÉÏ½øÐÐ¼Ó¼õÔËËãºóËùµÃµ½µÄÖ¸Õë£¬±ØÐëÖ¸ÏòÍ¬Ò»¸öÊý×é»òÖ¸ÏòÊý×é´æ´¢¿Õ¼äµÄÏÂÒ»¸öµ¥Ôª¡£
+ p = a +10 ï¼›//ä¸åˆæ³•çš„, å› ä¸ºè¯¥æ•°ç»„åªæœ‰5ä¸ªå…ƒç´ 
+ p= a +5 ; //åˆæ³•çš„ï¼Œè™½ç„¶è¯¥æ•°ç»„åªæœ‰5ä¸ªå…ƒç´ ï¼Œä»Ža[0]åˆ°a[4],ä½†på¯ä»¥æŒ‡å‘æ•°ç»„å­˜å‚¨ç©ºé—´çš„ä¸‹ä¸€ä¸ªä½ç½®ã€‚ä½†ä¸èƒ½å¯¹è¯¥å˜é‡æ‰§è¡Œ*pè¿ç®—ï¼Œå³ä¸èƒ½èŽ·å¾—æ­¤æ—¶æŒ‡é’ˆpæ‰€æŒ‡å‘çš„å˜é‡çš„å€¼ã€‚
+ a++;//ä¸åˆæ³•çš„ï¼Œä¸èƒ½å¯¹æ•°ç»„åæ‰§è¡Œ++ã€â€“æ“ä½œã€‚è¿™æ˜¯å› ä¸ºaæ˜¯æ•°ç»„åï¼Œå®ƒæ˜¯æ•°ç»„çš„é¦–åœ°å€ï¼Œå®ƒçš„å€¼åœ¨ç¨‹åºçš„è¿è¡Œè¿‡ç¨‹ä¸­å¼å›ºå®šä¸å˜çš„ï¼Œæ˜¯å¸¸é‡ã€‚
+ æ³¨ï¼šåœ¨æŒ‡é’ˆä¸Šè¿›è¡ŒåŠ å‡è¿ç®—åŽæ‰€å¾—åˆ°çš„æŒ‡é’ˆï¼Œå¿…é¡»æŒ‡å‘åŒä¸€ä¸ªæ•°ç»„æˆ–æŒ‡å‘æ•°ç»„å­˜å‚¨ç©ºé—´çš„ä¸‹ä¸€ä¸ªå•å…ƒã€‚
  
-12¡¢
- Çø±ðint (*p)[5]ºÍint *p[5]¡£
- Ç°ÕßÊÇÒ»¸öÖ¸Õë£¬ËüÖ¸ÏòÒ»¸öº¬ÓÐ5¸öÔªËØµÄÊý×é¡£ºóÕßÊÇÒ»¸öÊý×é£¬ËüµÄ³¤¶ÈÎª5£¬Êý×éÖÐÃ¿Ò»¸öÔªËØÖ¸ÏòÒ»¸öÕûÐÍ±äÁ¿¡£
- Çø±ðint *f( int i, int j)ºÍ int (*p)( int i ,int j)
- Ç°ÕßÊÇ·µ»ØÖ¸ÕëµÄº¯Êý£¬ËüÊÇÒ»¸öº¯ÊýµÄÉùÃ÷£¬ºóÕßÊÇÖ¸Ïòº¯ÊýµÄÖ¸Õë£¬Ëü¶¨ÒåÁËÒ»¸öÖ¸Õë¡£
+12ã€
+ åŒºåˆ«int (*p)[5]å’Œint *p[5]ã€‚
+ å‰è€…æ˜¯ä¸€ä¸ªæŒ‡é’ˆï¼Œå®ƒæŒ‡å‘ä¸€ä¸ªå«æœ‰5ä¸ªå…ƒç´ çš„æ•°ç»„ã€‚åŽè€…æ˜¯ä¸€ä¸ªæ•°ç»„ï¼Œå®ƒçš„é•¿åº¦ä¸º5ï¼Œæ•°ç»„ä¸­æ¯ä¸€ä¸ªå…ƒç´ æŒ‡å‘ä¸€ä¸ªæ•´åž‹å˜é‡ã€‚
+ åŒºåˆ«int *f( int i, int j)å’Œ int (*p)( int i ,int j)
+ å‰è€…æ˜¯è¿”å›žæŒ‡é’ˆçš„å‡½æ•°ï¼Œå®ƒæ˜¯ä¸€ä¸ªå‡½æ•°çš„å£°æ˜Žï¼ŒåŽè€…æ˜¯æŒ‡å‘å‡½æ•°çš„æŒ‡é’ˆï¼Œå®ƒå®šä¹‰äº†ä¸€ä¸ªæŒ‡é’ˆã€‚
  
-13¡¢
+13ã€
  void change(int i, int *p)
  {
  i++;
  if(p != NULL)
  (*p)++;
  }
- ¶ÔÓÚÖ¸ÕëÐÍÐÎ²Î£¬Êµ²ÎÒ²¿ÉÒÔÊÇNULL£¬Òò´Ëchangeº¯ÊýÖÐ±ØÐë¼ì²épÊÇ·ñÎªNULL¡£Èç¹ûÊµ²ÎÎªNULL£¬ÄÇÃ´Óï¾ä£¨*p)++½«µ¼ÖÂ³ÌÐò±ÀÀ£¡£
- ×¢£ºÈç¹ûÒ»¸öº¯ÊýµÄ²ÎÊýÖÐÓÐÖ¸Õë£¬ÄÇÃ´³öÓÚ³ÌÐò½¡×³ÐÔµÄ¿¼ÂÇ£¬ÔÚ¸Ãº¯ÊýÖÐÐë¼ì²é²ÎÊýÊÇ·ñÎªNULL.
+ å¯¹äºŽæŒ‡é’ˆåž‹å½¢å‚ï¼Œå®žå‚ä¹Ÿå¯ä»¥æ˜¯NULLï¼Œå› æ­¤changeå‡½æ•°ä¸­å¿…é¡»æ£€æŸ¥pæ˜¯å¦ä¸ºNULLã€‚å¦‚æžœå®žå‚ä¸ºNULLï¼Œé‚£ä¹ˆè¯­å¥ï¼ˆ*p)++å°†å¯¼è‡´ç¨‹åºå´©æºƒã€‚
+ æ³¨ï¼šå¦‚æžœä¸€ä¸ªå‡½æ•°çš„å‚æ•°ä¸­æœ‰æŒ‡é’ˆï¼Œé‚£ä¹ˆå‡ºäºŽç¨‹åºå¥å£®æ€§çš„è€ƒè™‘ï¼Œåœ¨è¯¥å‡½æ•°ä¸­é¡»æ£€æŸ¥å‚æ•°æ˜¯å¦ä¸ºNULL.
  
-14¡¢
- º¯ÊýÖ¸ÕëµÄÊ¹ÓÃÊ¾Àý£º
+14ã€
+ å‡½æ•°æŒ‡é’ˆçš„ä½¿ç”¨ç¤ºä¾‹ï¼š
  #include <stdio.h>
  #define GET_MAX 0
  #define GET_MIN 1
@@ -153,12 +153,12 @@ int get_max(int i, int j)
  {
  int i =5,j = 10,ret;
  ret = compare(i,j,GET_MAX);
- printf(¡°The MAX is %d\n¡±,ret);
+ printf(â€œThe MAX is %d\nâ€,ret);
  return 0;
  }
- ×¢£º£¨1£©²»ÄÜ¶ÔÖ¸Ïòº¯ÊýµÄÖ¸Õë×öÈÎºÎÔËËã£¬Èçp++¡¢p¨C¡¢p+n¡¢p-n¶¼ÊÇ´íÎóµÄ¡£
- £¨2£©Ö¸Ïòº¯ÊýµÄÖ¸ÕëÄÜÍ¨¹ýÍ¬ÀàÐÍµÄº¯Êý£¨¼´²ÎÊýÏàÍ¬¡¢·µ»ØÀàÐÍÏàÍ¬£©Ãû¡¢º¯ÊýÖ¸Õë»òNULLÀ´½øÐÐ³õÊ¼»¯»ò¸³Öµ¡£½«º¯ÊýÖ¸Õë³õÊ¼»¯»ò¸³ÖµÎªNULL£¬±íÊ¾¸ÃÖ¸ÕëÄ¿Ç°²»Ö¸ÏòÈÎºÎº¯Êý¡£
- º¯ÊýÖ¸Õë×öÐÎ²Î£º
+ æ³¨ï¼šï¼ˆ1ï¼‰ä¸èƒ½å¯¹æŒ‡å‘å‡½æ•°çš„æŒ‡é’ˆåšä»»ä½•è¿ç®—ï¼Œå¦‚p++ã€pâ€“ã€p+nã€p-néƒ½æ˜¯é”™è¯¯çš„ã€‚
+ ï¼ˆ2ï¼‰æŒ‡å‘å‡½æ•°çš„æŒ‡é’ˆèƒ½é€šè¿‡åŒç±»åž‹çš„å‡½æ•°ï¼ˆå³å‚æ•°ç›¸åŒã€è¿”å›žç±»åž‹ç›¸åŒï¼‰åã€å‡½æ•°æŒ‡é’ˆæˆ–NULLæ¥è¿›è¡Œåˆå§‹åŒ–æˆ–èµ‹å€¼ã€‚å°†å‡½æ•°æŒ‡é’ˆåˆå§‹åŒ–æˆ–èµ‹å€¼ä¸ºNULLï¼Œè¡¨ç¤ºè¯¥æŒ‡é’ˆç›®å‰ä¸æŒ‡å‘ä»»ä½•å‡½æ•°ã€‚
+ å‡½æ•°æŒ‡é’ˆåšå½¢å‚ï¼š
  #include<stdio.h>
  int get_big(int i, int j)
  {
@@ -177,7 +177,7 @@ int get_max(int i, int j)
  ret =get_max(i,j,k,get_big);
  return 0;
  }
- º¯ÊýÖ¸Õë×÷º¯Êý·µ»ØÖµ£º
+ å‡½æ•°æŒ‡é’ˆä½œå‡½æ•°è¿”å›žå€¼ï¼š
  #include <stdio.h>
  int get_big(int i, int j)
  {
@@ -185,7 +185,7 @@ int get_max(int i, int j)
  }
  int (*get_function(int a))(int ,int )
  {
- printf(¡°the number is %d\n¡±,a);
+ printf(â€œthe number is %d\nâ€,a);
  return get_big;
  }
  int main()
@@ -194,30 +194,30 @@ int get_max(int i, int j)
  int (*p)(int,int);
  p = get_function(100);
  max = p(i,j);
- printf(¡°The MAX is %d\n¡±,max);
+ printf(â€œThe MAX is %d\nâ€,max);
  return 0;
  }
- ×¢£ºint (*get_function(int a0)(int ,int)ÊÇÒ»¸ö·µ»Øº¯ÊýÖ¸ÕëµÄº¯Êý¡£Õâ¸ö¿ÉÄÜ±È½ÏÄÑÒÔÀí½â¡£ÎÒÃÇÊ×ÏÈ×¥×¡get_function,ÒòÎªÔËËã·û£¨£©µÄÓÅÏÈ¼¶±È*¸ß£¬ËûµÄ·µ»ØÖµÊÇint(*)(int,int),Ò²¾ÍÊÇËü·µ»ØµÄÊÇÒ»¸öÖ¸Ïòº¯ÊýµÄÖ¸Õë¡£¸ÃÖ¸ÕëËùÖ¸ÏòµÄº¯ÊýÓÐÁ½¸öÕûÐÍ²ÎÊý¡£get_functionÖÐ£¬½«get_big×÷Îªº¯ÊýµÄ·µ»ØÖµ¡£get_bigÊÇÒ»¸öº¯ÊýÃû£¬Ò²ÊÇº¯Êýget_bigµÄÈë¿ÚµØÖ·£¬ËûÊÇÒ»¸öÖ¸Õë¡£
- 15¡¢
- char string[] = ¡°Linux C¡±;
- char *p = ¡°Linux C¡±;
- //¡±Linux C¡±ÊÇÒ»¸ö×Ö·û´®³£Á¿¡£CÓïÑÔ¶ÔÓÚ×Ö·û´®³£Á¿Í¨³£ÊÇÕâÑù´¦ÀíµÄ£ºÔÚÄÚ´æÖÐ¿ª±ÙÒ»¸ö×Ö·ûÊý×éÀ´´æ´¢¸Ã×Ö·û´®³£Á¿£¬²¢°Ñ¿ª±Ù³öµÄ×Ö·ûÊý×éµÄÊ×µØÖ·¸³¸øp.
- ×¢£ºstring[0] = ¡®a¡¯ÊÇ¿ÉÒÔµÄ£¬¶øp[0] = ¡®a¡¯ÊÇ·Ç·¨µÄ£¬ÒòÎªpÖ¸ÏòµÄÊÇ×Ö·û´®³£Á¿£¬³£Á¿µÄÄÚÈÝ²»¿É¸Ä±ä¡£°ÑpÖ¸ÏòÒ»¸ö×Ö·û´®³£Á¿»ò×Ö·ûÊý×éÊ±ºÏ·¨µÄ£¬ÀýÈç£ºp = ¡°Hello World!¡±; p= string;
- 16¡¢
- ÏÂÃæÕâ¶ÎÐ¡³ÌÐòµÄÊä³öÊÇÊ²Ã´£¿
+ æ³¨ï¼šint (*get_function(int a0)(int ,int)æ˜¯ä¸€ä¸ªè¿”å›žå‡½æ•°æŒ‡é’ˆçš„å‡½æ•°ã€‚è¿™ä¸ªå¯èƒ½æ¯”è¾ƒéš¾ä»¥ç†è§£ã€‚æˆ‘ä»¬é¦–å…ˆæŠ“ä½get_function,å› ä¸ºè¿ç®—ç¬¦ï¼ˆï¼‰çš„ä¼˜å…ˆçº§æ¯”*é«˜ï¼Œä»–çš„è¿”å›žå€¼æ˜¯int(*)(int,int),ä¹Ÿå°±æ˜¯å®ƒè¿”å›žçš„æ˜¯ä¸€ä¸ªæŒ‡å‘å‡½æ•°çš„æŒ‡é’ˆã€‚è¯¥æŒ‡é’ˆæ‰€æŒ‡å‘çš„å‡½æ•°æœ‰ä¸¤ä¸ªæ•´åž‹å‚æ•°ã€‚get_functionä¸­ï¼Œå°†get_bigä½œä¸ºå‡½æ•°çš„è¿”å›žå€¼ã€‚get_bigæ˜¯ä¸€ä¸ªå‡½æ•°åï¼Œä¹Ÿæ˜¯å‡½æ•°get_bigçš„å…¥å£åœ°å€ï¼Œä»–æ˜¯ä¸€ä¸ªæŒ‡é’ˆã€‚
+ 15ã€
+ char string[] = â€œLinux Câ€;
+ char *p = â€œLinux Câ€;
+ //â€Linux Câ€æ˜¯ä¸€ä¸ªå­—ç¬¦ä¸²å¸¸é‡ã€‚Cè¯­è¨€å¯¹äºŽå­—ç¬¦ä¸²å¸¸é‡é€šå¸¸æ˜¯è¿™æ ·å¤„ç†çš„ï¼šåœ¨å†…å­˜ä¸­å¼€è¾Ÿä¸€ä¸ªå­—ç¬¦æ•°ç»„æ¥å­˜å‚¨è¯¥å­—ç¬¦ä¸²å¸¸é‡ï¼Œå¹¶æŠŠå¼€è¾Ÿå‡ºçš„å­—ç¬¦æ•°ç»„çš„é¦–åœ°å€èµ‹ç»™p.
+ æ³¨ï¼šstring[0] = â€˜aâ€™æ˜¯å¯ä»¥çš„ï¼Œè€Œp[0] = â€˜aâ€™æ˜¯éžæ³•çš„ï¼Œå› ä¸ºpæŒ‡å‘çš„æ˜¯å­—ç¬¦ä¸²å¸¸é‡ï¼Œå¸¸é‡çš„å†…å®¹ä¸å¯æ”¹å˜ã€‚æŠŠpæŒ‡å‘ä¸€ä¸ªå­—ç¬¦ä¸²å¸¸é‡æˆ–å­—ç¬¦æ•°ç»„æ—¶åˆæ³•çš„ï¼Œä¾‹å¦‚ï¼šp = â€œHello World!â€; p= string;
+ 16ã€
+ ä¸‹é¢è¿™æ®µå°ç¨‹åºçš„è¾“å‡ºæ˜¯ä»€ä¹ˆï¼Ÿ
  #include<stdio.h>
  void main()
  {
  int a[5] = {1,2,3,4,5};
  int *ptr = (int *)(&a+1);
- printf(¡°%d,%d\n¡±,*(a+1),*(ptr-));
+ printf(â€œ%d,%d\nâ€,*(a+1),*(ptr-));
  }
- ×¢£º &a+1²»ÊÇÊ×µØÖ·+1£¬ÏµÍ³»áÈÏÎª¼ÓÒ»¸öaÊý×éµÄÆ«ÒÆ£¬ÊÇÆ«ÒÆÁËÒ»¸öÊý×éµÄ´óÐ¡£¨±¾ÀýÊÇ5¸öint£©¡£¶ÔÓÚint *ptr=(int *)(&a+1)£¬ptrÊÇ&(a[5]0,Ò²¾ÍÊÇa+5¡£ptrÓë(&a+1)ÀàÐÍÊÇ²»Ò»ÑùµÄ£¬ËùÒÔptr-1Ö»»á¼õÈ¥sizeof(int *)¡£a£¬&aµÄµØÖ·ÊÇÒ»ÑùµÄ£¬µ«º¬Òå²»Ò»Ñù£¬aÊÇÊý×éÊ×µØÖ·£¬Ò²¾ÍÊÇa[0]µÄµØÖ·£¬&aÊÇ¶ÔÏó£¨Êý×é£©Ê×µØÖ·£¬a+1ÊÇÊý×éÏÂÒ»ÔªËØµÄµØÖ·£¬¼´a[1]£¬&a+1ÊÇÏÂÒ»¸ö¶ÔÏóµÄµØÖ·£¬¼´a[5]¡£*(a+1)¾ÍÊÇa[1] £¬*(ptr-1)ÊÇa[4]£¬Ö´ÐÐ½á¹ûÊÇ2£¬5¡£
- 17¡¢
- ¼ÙÉèÄãÖ»ÖªµÀÒ»¸öÊý×éµÄÊý×éÃû£¨a[]),ÈçºÎÈ·¶¨Õâ¸öÊý×éµÄ³¤¶È£¿
+ æ³¨ï¼š &a+1ä¸æ˜¯é¦–åœ°å€+1ï¼Œç³»ç»Ÿä¼šè®¤ä¸ºåŠ ä¸€ä¸ªaæ•°ç»„çš„åç§»ï¼Œæ˜¯åç§»äº†ä¸€ä¸ªæ•°ç»„çš„å¤§å°ï¼ˆæœ¬ä¾‹æ˜¯5ä¸ªintï¼‰ã€‚å¯¹äºŽint *ptr=(int *)(&a+1)ï¼Œptræ˜¯&(a[5]0,ä¹Ÿå°±æ˜¯a+5ã€‚pträ¸Ž(&a+1)ç±»åž‹æ˜¯ä¸ä¸€æ ·çš„ï¼Œæ‰€ä»¥ptr-1åªä¼šå‡åŽ»sizeof(int *)ã€‚aï¼Œ&açš„åœ°å€æ˜¯ä¸€æ ·çš„ï¼Œä½†å«ä¹‰ä¸ä¸€æ ·ï¼Œaæ˜¯æ•°ç»„é¦–åœ°å€ï¼Œä¹Ÿå°±æ˜¯a[0]çš„åœ°å€ï¼Œ&aæ˜¯å¯¹è±¡ï¼ˆæ•°ç»„ï¼‰é¦–åœ°å€ï¼Œa+1æ˜¯æ•°ç»„ä¸‹ä¸€å…ƒç´ çš„åœ°å€ï¼Œå³a[1]ï¼Œ&a+1æ˜¯ä¸‹ä¸€ä¸ªå¯¹è±¡çš„åœ°å€ï¼Œå³a[5]ã€‚*(a+1)å°±æ˜¯a[1] ï¼Œ*(ptr-1)æ˜¯a[4]ï¼Œæ‰§è¡Œç»“æžœæ˜¯2ï¼Œ5ã€‚
+ 17ã€
+ å‡è®¾ä½ åªçŸ¥é“ä¸€ä¸ªæ•°ç»„çš„æ•°ç»„åï¼ˆa[]),å¦‚ä½•ç¡®å®šè¿™ä¸ªæ•°ç»„çš„é•¿åº¦ï¼Ÿ
  int length = sizeof(a)/sizeof(a[0]);
- 18¡¢
- ÏÂÃæÕâ¸ö³ÌÐò±àÒëÊ±»á±¨´í£¬ÇëÖ¸³ö´íÎó²¢¸ÄÕý¡£
+ 18ã€
+ ä¸‹é¢è¿™ä¸ªç¨‹åºç¼–è¯‘æ—¶ä¼šæŠ¥é”™ï¼Œè¯·æŒ‡å‡ºé”™è¯¯å¹¶æ”¹æ­£ã€‚
  #include<stdio.h>
  int main(void)
  {
@@ -226,7 +226,7 @@ int get_max(int i, int j)
  p = &arr;
  return 0;
  }
- &arrÊÇÒ»¸öÖ¸Ïò³¤¶ÈÎª100µÄÊý×éµÄÖ¸Õë£¬¶øpÊÇÖ¸ÏòÖ¸Õë£¨¸ÃÖ¸ÕëÖ¸ÏòµÄÊÇintÐÍ±äÁ¿£©µÄÖ¸Õë¡£Ö÷º¯Êý¿ÉÒÔ¸ÄÎª£º
+ &arræ˜¯ä¸€ä¸ªæŒ‡å‘é•¿åº¦ä¸º100çš„æ•°ç»„çš„æŒ‡é’ˆï¼Œè€Œpæ˜¯æŒ‡å‘æŒ‡é’ˆï¼ˆè¯¥æŒ‡é’ˆæŒ‡å‘çš„æ˜¯intåž‹å˜é‡ï¼‰çš„æŒ‡é’ˆã€‚ä¸»å‡½æ•°å¯ä»¥æ”¹ä¸ºï¼š
  int main(void)
  {
  int **p,*q;
@@ -235,25 +235,25 @@ int get_max(int i, int j)
  p =&q;
  return 0;
  }
- ÓÃÖ¸Õëq½øÐÐ¹ý¶É¡£
- ×¢£ºÁ½¸öÖ¸ÕëÖ»ÓÐÔÚËùÖ¸ÏòµÄÊý¾ÝµÄÀàÐÍÒ»ÖÂÊ±²Å¿ÉÒÔÏà»¥¸³Öµ¡£
- 19¡¢
- Ð´Ò»¸ö³ÌÐò£¬ÒÔµÝ¹é·½Ê½·´ÐòÊä³öÒ»¸ö×Ö·û´®¡£Èç¸ø¶¨×Ö·û´®¡°abc¡±Êä³ö¡°cba ¡±¡£
+ ç”¨æŒ‡é’ˆqè¿›è¡Œè¿‡æ¸¡ã€‚
+ æ³¨ï¼šä¸¤ä¸ªæŒ‡é’ˆåªæœ‰åœ¨æ‰€æŒ‡å‘çš„æ•°æ®çš„ç±»åž‹ä¸€è‡´æ—¶æ‰å¯ä»¥ç›¸äº’èµ‹å€¼ã€‚
+ 19ã€
+ å†™ä¸€ä¸ªç¨‹åºï¼Œä»¥é€’å½’æ–¹å¼ååºè¾“å‡ºä¸€ä¸ªå­—ç¬¦ä¸²ã€‚å¦‚ç»™å®šå­—ç¬¦ä¸²â€œabcâ€è¾“å‡ºâ€œcba â€ã€‚
  #include<stdio.h>
  void reverse(char *p)
  {
- if( *p == ¡®\0¡ä)
+ if( *p == â€˜\0â€²)
  return;
  reverse(p+1);
- printf(¡°%c¡±,*p);
+ printf(â€œ%câ€,*p);
  }
  int main()
  {
- reverse(¡°abc¡±);
- printf(¡°\n¡±);
+ reverse(â€œabcâ€);
+ printf(â€œ\nâ€);
  return 0;
  }
- 20¡¢Ð´Ò»¸öµÝ¹é³ÌÐò£¬ÅÐ¶ÏÊý×éa[n]ÊÇ·ñÊÇÒ»¸öµÝÔöµÄÊý×é¡£
+ 20ã€å†™ä¸€ä¸ªé€’å½’ç¨‹åºï¼Œåˆ¤æ–­æ•°ç»„a[n]æ˜¯å¦æ˜¯ä¸€ä¸ªé€’å¢žçš„æ•°ç»„ã€‚
  #include<stdio.h>
  int fun( int a[],int n)
  {
@@ -267,16 +267,16 @@ int get_max(int i, int j)
  {
  int a[] = {1,2,3,4,5,6};
  if( fun(a,sizeof(a)/sizeof(a[0]) == 1)
- printf(¡°a:ok\n¡±);
+ printf(â€œa:ok\nâ€);
  else
- printf(¡°a:no\n¡±);
+ printf(â€œa:no\nâ€);
  return 0;
  }
- 21¡¢
- Ð´Ò»¸öº¯Êý£¬ËüµÄÔ­ÐÍÊÇ£º
+ 21ã€
+ å†™ä¸€ä¸ªå‡½æ•°ï¼Œå®ƒçš„åŽŸåž‹æ˜¯ï¼š
  int findnumstring (char *outputsr, char *intputstr)
- ¹¦ÄÜ£ºÔÚ×Ö·û´®ÖÐÕÒ³öÁ¬Ðø×î³¤µÄÊý×Ö´®£¬°ÑÕâ¸ö´®µÄ³¤¶È·µ»Ø£¬²¢°ÑÕâ¸ö×î³¤Êý×Ö´®¸³¸øÆäÖÐÒ»¸öº¯Êý²ÎÊýoutputstrËùÖ¸ÄÚ´æ¡£
- ÀýÈç£º¡°abcd12345eee125sss123456789 ¡°µÄÊ×µØÖ·´«¸ø intputstrºó£¬º¯Êý½«·µ»Ø9£¬outputstrËùÖ¸µÄÖµÎª123456789¡£
+ åŠŸèƒ½ï¼šåœ¨å­—ç¬¦ä¸²ä¸­æ‰¾å‡ºè¿žç»­æœ€é•¿çš„æ•°å­—ä¸²ï¼ŒæŠŠè¿™ä¸ªä¸²çš„é•¿åº¦è¿”å›žï¼Œå¹¶æŠŠè¿™ä¸ªæœ€é•¿æ•°å­—ä¸²èµ‹ç»™å…¶ä¸­ä¸€ä¸ªå‡½æ•°å‚æ•°outputstræ‰€æŒ‡å†…å­˜ã€‚
+ ä¾‹å¦‚ï¼šâ€œabcd12345eee125sss123456789 â€œçš„é¦–åœ°å€ä¼ ç»™ intputstråŽï¼Œå‡½æ•°å°†è¿”å›ž9ï¼Œoutputstræ‰€æŒ‡çš„å€¼ä¸º123456789ã€‚
  #include<stdio.h>
  #include<string.h>
  #include<stdlib.h>
@@ -284,9 +284,9 @@ int get_max(int i, int j)
  {
  char *in = inputstr , *out = outputstr , *temp , *final;
  int count = 0,maxlen = 0;
- while( *in != ¡®\0¡ä)
+ while( *in != â€˜\0â€²)
  {
- if( *in > 47 && *in <58£©
+ if( *in > 47 && *in <58ï¼‰
  {
  for( temp = in; *in >47 && *in <58; in++)
  count ++;
@@ -306,20 +306,20 @@ int get_max(int i, int j)
  out++;
  final++;
  }
- *out = ¡®\0¡ä;
+ *out = â€˜\0â€²;
  return maxlen;
  }
  void main()
  {
- char string[] =¡±abcd12345eee125ss123456789¡å;
+ char string[] =â€abcd12345eee125ss123456789â€³;
  char *p = (char *)malloc( strlen(string) +1);
  int count = findnumstring(p,string);
- printf(¡°%s\n number string length =%d\n¡±,p ,count);
+ printf(â€œ%s\n number string length =%d\nâ€,p ,count);
  }
- 22¡¢
- Ð´Ò»¸öÊµÏÖ×Ö·û´®¿½±´µÄº¯Êý¡£¸ø¶¨×Ö·û´®¿½±´º¯ÊýstrcpyµÄÔ­ÐÍ£º
+ 22ã€
+ å†™ä¸€ä¸ªå®žçŽ°å­—ç¬¦ä¸²æ‹·è´çš„å‡½æ•°ã€‚ç»™å®šå­—ç¬¦ä¸²æ‹·è´å‡½æ•°strcpyçš„åŽŸåž‹ï¼š
  char *strcpy(char *dest,const char *src);
- ÒªÇó£º£¨1£©²»µ÷ÓÃÈÎºÎ¿âº¯Êý¡££¨2£©ËµÃ÷º¯ÊýÎªÊ²Ã´·µ»Øchar *.
+ è¦æ±‚ï¼šï¼ˆ1ï¼‰ä¸è°ƒç”¨ä»»ä½•åº“å‡½æ•°ã€‚ï¼ˆ2ï¼‰è¯´æ˜Žå‡½æ•°ä¸ºä»€ä¹ˆè¿”å›žchar *.
  char *strcpy(char *dest,char *src)
  {
  if( (dest == NULL) || (src == NULL) )
@@ -327,52 +327,52 @@ int get_max(int i, int j)
  return NULL;
  }
  char *ret_string = dest;
- while( *dest ++ = *src++)!=¡¯\0¡ä);
+ while( *dest ++ = *src++)!=â€™\0â€²);
  return ret_string;
  }
- ×¢£º·µ»Øchar * Ö¸ÕëµÄÔ­ÒòÊÇÎªÁËÊµÏÖÁ´Ê½±í´ïÊ½£¬Èç£º
- int length = strlen( strcpy( dest, ¡°hello world¡±) );
- 23¡¢
- Á·Ï°Ìâ£º
- £¨1£©ÓÃµÝ¹éµÄ·½·¨ÇóÒ»¸öÓÐn¸öÔªËØµÄintÐÍÊý×éµÄ×î´óÖµ¡£
- £¨2£©ÀûÓÃÊý×é¿ÉÒÔÊµÏÖ¸ß¾«¶È¼ÆËã£¬·½·¨ÊÇ½«´óÕûÊýÃ¿Î»ÉÏµÄÊý×Ö´æ´¢ÎªÊý×éµÄÒ»¸öÔªËØ¡£¶ÔÓÚ£º
+ æ³¨ï¼šè¿”å›žchar * æŒ‡é’ˆçš„åŽŸå› æ˜¯ä¸ºäº†å®žçŽ°é“¾å¼è¡¨è¾¾å¼ï¼Œå¦‚ï¼š
+ int length = strlen( strcpy( dest, â€œhello worldâ€) );
+ 23ã€
+ ç»ƒä¹ é¢˜ï¼š
+ ï¼ˆ1ï¼‰ç”¨é€’å½’çš„æ–¹æ³•æ±‚ä¸€ä¸ªæœ‰nä¸ªå…ƒç´ çš„intåž‹æ•°ç»„çš„æœ€å¤§å€¼ã€‚
+ ï¼ˆ2ï¼‰åˆ©ç”¨æ•°ç»„å¯ä»¥å®žçŽ°é«˜ç²¾åº¦è®¡ç®—ï¼Œæ–¹æ³•æ˜¯å°†å¤§æ•´æ•°æ¯ä½ä¸Šçš„æ•°å­—å­˜å‚¨ä¸ºæ•°ç»„çš„ä¸€ä¸ªå…ƒç´ ã€‚å¯¹äºŽï¼š
  m= 88200807199688
  n= 345678912345678
- ±àÐ´º¯Êý£¬ÊµÏÖ´óÕûÊým¡¢nµÄ¼Ó¡¢¼õ¡¢³ËÔËËã¡£
- £¨3£©Ô¼Éª·òÎÊÌâ£º
- ¹Å´úÄ³·¨¹ÙÒªÅÐ¾ön¸ö·¸ÈËËÀÐÌ£¬ËûÓÐÒ»Ìõ»ÄÌÆµÄÂß¼­£¬½«·¸ÈËÊ×Î²µÄÏà½ÓÅÅ³ÉÔ²È¦£¬È»ºó´ÓµÚs¸öÈË¿ªÊ¼ÊýÆð£¬Ã¿Êýµ½µÚm¸ö·¸ÈË£¬¾ÍÀ­³öÀ´´¦¾ö£»È»ºóÓÖÊým¸ö£¬Êýµ½µÄ·¸ÈËÓÖÀ­³öÀ´´¦¾ö£¬ÒÀ´ÎÀàÍÆ¡£Ê£ÏÂµÄ×îºóÒ»ÈË¿ÉÒÔ»íÃâ¡£
- ±àÐ´³ÌÐò£¬¸ø³ö´¦¾öË³Ðò£¬²¢¸ø³öÄÄÒ»¸öÈË¿ÉÒÔ»îÏÂÀ´¡£
- £¨4£©±àÐ´Ò»¸öº¯Êý£¬ÇóÁ½¸ö×Ö·û´®µÄ³¤¶È×î´óµÄ¹«¹²×Ó´®¡£
- 24¡¢
- ºêµÄ×÷ÓÃ·¶Î§ÊÇ´Óºê¶¨Òå¿ªÊ¼µ½±¾Ô´³ÌÐòÎÄ¼þ½áÊøÎªÖ¹¡£Ò²¿ÉÒÔÊ¹ÓÃ#undefÀ´ÌáÇ°ÖÕÖ¹×÷ÓÃ·¶Î§¡£ÀýÈç£º
+ ç¼–å†™å‡½æ•°ï¼Œå®žçŽ°å¤§æ•´æ•°mã€nçš„åŠ ã€å‡ã€ä¹˜è¿ç®—ã€‚
+ ï¼ˆ3ï¼‰çº¦ç‘Ÿå¤«é—®é¢˜ï¼š
+ å¤ä»£æŸæ³•å®˜è¦åˆ¤å†³nä¸ªçŠ¯äººæ­»åˆ‘ï¼Œä»–æœ‰ä¸€æ¡è’å”çš„é€»è¾‘ï¼Œå°†çŠ¯äººé¦–å°¾çš„ç›¸æŽ¥æŽ’æˆåœ†åœˆï¼Œç„¶åŽä»Žç¬¬sä¸ªäººå¼€å§‹æ•°èµ·ï¼Œæ¯æ•°åˆ°ç¬¬mä¸ªçŠ¯äººï¼Œå°±æ‹‰å‡ºæ¥å¤„å†³ï¼›ç„¶åŽåˆæ•°mä¸ªï¼Œæ•°åˆ°çš„çŠ¯äººåˆæ‹‰å‡ºæ¥å¤„å†³ï¼Œä¾æ¬¡ç±»æŽ¨ã€‚å‰©ä¸‹çš„æœ€åŽä¸€äººå¯ä»¥è±å…ã€‚
+ ç¼–å†™ç¨‹åºï¼Œç»™å‡ºå¤„å†³é¡ºåºï¼Œå¹¶ç»™å‡ºå“ªä¸€ä¸ªäººå¯ä»¥æ´»ä¸‹æ¥ã€‚
+ ï¼ˆ4ï¼‰ç¼–å†™ä¸€ä¸ªå‡½æ•°ï¼Œæ±‚ä¸¤ä¸ªå­—ç¬¦ä¸²çš„é•¿åº¦æœ€å¤§çš„å…¬å…±å­ä¸²ã€‚
+ 24ã€
+ å®çš„ä½œç”¨èŒƒå›´æ˜¯ä»Žå®å®šä¹‰å¼€å§‹åˆ°æœ¬æºç¨‹åºæ–‡ä»¶ç»“æŸä¸ºæ­¢ã€‚ä¹Ÿå¯ä»¥ä½¿ç”¨#undefæ¥æå‰ç»ˆæ­¢ä½œç”¨èŒƒå›´ã€‚ä¾‹å¦‚ï¼š
  #define MAX 256
  int main()
  {
- ¡­¡­¡­
+ â€¦â€¦â€¦
  }
  #undef MAX
  int f()
  {
- ¡­..
+ â€¦..
  }
- ÓÉÓÚÊ¹ÓÃÁË#undef£¬Ê¹ºêÃûMAXÖ»ÔÚmainº¯ÊýÖÐÓÐÐ§¡£
- 25¡¢±à³ÌÐ¡¼¼ÇÉ
- Ê¾Àý£º#ifdef DEBUG
- printf(¡°a=%d,b=%d¡±,a,b);
+ ç”±äºŽä½¿ç”¨äº†#undefï¼Œä½¿å®åMAXåªåœ¨mainå‡½æ•°ä¸­æœ‰æ•ˆã€‚
+ 25ã€ç¼–ç¨‹å°æŠ€å·§
+ ç¤ºä¾‹ï¼š#ifdef DEBUG
+ printf(â€œa=%d,b=%dâ€,a,b);
  #endif
- ÔÚµ÷ÊÔ³ÌÐòÊ±£¬¿ÉÒÔÔÚÔ´³ÌÐòÍ·²¿¼ÓÈëÈçÏÂÓï¾ä£º
+ åœ¨è°ƒè¯•ç¨‹åºæ—¶ï¼Œå¯ä»¥åœ¨æºç¨‹åºå¤´éƒ¨åŠ å…¥å¦‚ä¸‹è¯­å¥ï¼š
  #define DEBUG
- ÕâÑùÔÚÈí¼þ¿ª·¢½×¶Î£¬±àÒëÔËÐÐ³ÌÐòÊ±»áÊä³ö±äÁ¿a,bµÄÖµ¡£µ±³ÌÐòµ÷ÊÔÍê±Ï£¬ÔÚÔ´³ÌÐòÎÄ¼þÍ·²¿É¾³ýÕâÒ»ÐÐ£¬ÔòÓÃ»§ÔËÐÐÊ±²»»áÊä³öa,bµÄÖµ¡£ÕâÀï´òÓ¡³öa,bÖµÖ»ÊÇ¹©µ÷ÊÔÊ¹ÓÃ¡£
- 26¡¢
- ²»ÄÜ°Ñ¹²ÓÃÌå±äÁ¿×÷Îªº¯Êý²ÎÊý£¬Ò²²»ÄÜÊ¹º¯Êý·µ»Ø¹²ÓÃÌå±äÁ¿£¬µ«¿ÉÒÔÊ¹ÓÃÖ¸Ïò¹²ÓÃÌå±äÁ¿µÄÖ¸Õë¡£
- 27¡¢
+ è¿™æ ·åœ¨è½¯ä»¶å¼€å‘é˜¶æ®µï¼Œç¼–è¯‘è¿è¡Œç¨‹åºæ—¶ä¼šè¾“å‡ºå˜é‡a,bçš„å€¼ã€‚å½“ç¨‹åºè°ƒè¯•å®Œæ¯•ï¼Œåœ¨æºç¨‹åºæ–‡ä»¶å¤´éƒ¨åˆ é™¤è¿™ä¸€è¡Œï¼Œåˆ™ç”¨æˆ·è¿è¡Œæ—¶ä¸ä¼šè¾“å‡ºa,bçš„å€¼ã€‚è¿™é‡Œæ‰“å°å‡ºa,bå€¼åªæ˜¯ä¾›è°ƒè¯•ä½¿ç”¨ã€‚
+ 26ã€
+ ä¸èƒ½æŠŠå…±ç”¨ä½“å˜é‡ä½œä¸ºå‡½æ•°å‚æ•°ï¼Œä¹Ÿä¸èƒ½ä½¿å‡½æ•°è¿”å›žå…±ç”¨ä½“å˜é‡ï¼Œä½†å¯ä»¥ä½¿ç”¨æŒ‡å‘å…±ç”¨ä½“å˜é‡çš„æŒ‡é’ˆã€‚
+ 27ã€
  typedif int NUMBER[10];
- NUMBER ÉùÃ÷Îªº¬ÓÐ10¸öÔªËØµÄÊý×éÀàÐÍ¡£
+ NUMBER å£°æ˜Žä¸ºå«æœ‰10ä¸ªå…ƒç´ çš„æ•°ç»„ç±»åž‹ã€‚
  NUMBER n;
  n[0] =1;
- nÎªº¬ÓÐ10¸öÔªËØµÄÊý×é¡£
- 28¡¢
- CÓïÑÔÔÊÐíÔÚÒ»¸ö½á¹¹ÌåÖØÒÔÎ»Îªµ¥Î»À´Ê¹ÓÃÄÚ´æ£¬ÕâÖÖÒÔÎªÎªµ¥Î»µÄ³ÉÔ±³ÆÎªÎ»Óò»òÎ»¶Î¡£
+ nä¸ºå«æœ‰10ä¸ªå…ƒç´ çš„æ•°ç»„ã€‚
+ 28ã€
+ Cè¯­è¨€å…è®¸åœ¨ä¸€ä¸ªç»“æž„ä½“é‡ä»¥ä½ä¸ºå•ä½æ¥ä½¿ç”¨å†…å­˜ï¼Œè¿™ç§ä»¥ä¸ºä¸ºå•ä½çš„æˆå‘˜ç§°ä¸ºä½åŸŸæˆ–ä½æ®µã€‚
  struct bit_data
  {
  int a:6;
@@ -380,14 +380,14 @@ int get_max(int i, int j)
  int c:4;
  int d;
  }
- ×¢£º0~5µÄ6Î»´æ·Åa£¬6~9µÄ4Î»´æ·Åb,10~13µÄ4Î»´æ·Åc£¬14~31µÄ18Î»¿ÕÏÐ£¬32~63µÄ32Î»´æ·Åd.
- ÈôÄ³Ò»Î»¶ÎÒª´ÓÁíÍâÒ»¸ö´æ´¢µ¥Ôª¿ªÊ¼´æ·Å£¬½á¹¹ÌåÖÐµÄ³ÉÔ±¿ÉÒÔ¶¨Òå³ÉÈçÏÂÐÎÊ½£º
+ æ³¨ï¼š0~5çš„6ä½å­˜æ”¾aï¼Œ6~9çš„4ä½å­˜æ”¾b,10~13çš„4ä½å­˜æ”¾cï¼Œ14~31çš„18ä½ç©ºé—²ï¼Œ32~63çš„32ä½å­˜æ”¾d.
+ è‹¥æŸä¸€ä½æ®µè¦ä»Žå¦å¤–ä¸€ä¸ªå­˜å‚¨å•å…ƒå¼€å§‹å­˜æ”¾ï¼Œç»“æž„ä½“ä¸­çš„æˆå‘˜å¯ä»¥å®šä¹‰æˆå¦‚ä¸‹å½¢å¼ï¼š
  int a:6;
  int b:4;
  int :0;
  int c:4;
  int d;
- ×¢£ºaÊ¹ÓÃ0~5µÄ6Î»£¬bÊ¹ÓÃ6~9µÄ4Î»¡£c´ÓÏÂÒ»¸ö´æ´¢µ¥Ôª¿ªÊ¼´æ·Å£¬¼´´æ·ÅÔÚ32~35Î»£¬10~31Î»¿ÕÏÐ¡£
+ æ³¨ï¼šaä½¿ç”¨0~5çš„6ä½ï¼Œbä½¿ç”¨6~9çš„4ä½ã€‚cä»Žä¸‹ä¸€ä¸ªå­˜å‚¨å•å…ƒå¼€å§‹å­˜æ”¾ï¼Œå³å­˜æ”¾åœ¨32~35ä½ï¼Œ10~31ä½ç©ºé—²ã€‚
  struct bit_data
  {
  int a:6;
@@ -396,10 +396,10 @@ int get_max(int i, int j)
  int c:4;
  int d;
  };
- ×¢£º0~5Î»´æ·Åa£¬6~9Î»´æ·Åb£¬10~17Î»µÄ8Î»Ç¿ÖÆ¿ÕÏÐ£¬18~21Î»´æ·Åc,22~31Î»µÄ10Î»Ò²¿ÕÏÐ¡£32~63µÄ32Î»´æ·Åd¡£
- 29¡¢
- ¿ìËÙÍ³¼Æ¸ø¶¨ÕûÊý¶þ½øÖÆÐÎÊ½ÖÐ1µÄ¸öÊý.
- int func( int x£©
+ æ³¨ï¼š0~5ä½å­˜æ”¾aï¼Œ6~9ä½å­˜æ”¾bï¼Œ10~17ä½çš„8ä½å¼ºåˆ¶ç©ºé—²ï¼Œ18~21ä½å­˜æ”¾c,22~31ä½çš„10ä½ä¹Ÿç©ºé—²ã€‚32~63çš„32ä½å­˜æ”¾dã€‚
+ 29ã€
+ å¿«é€Ÿç»Ÿè®¡ç»™å®šæ•´æ•°äºŒè¿›åˆ¶å½¢å¼ä¸­1çš„ä¸ªæ•°.
+ int func( int xï¼‰
  {
  int count = 0;
  while (x)
@@ -409,5 +409,5 @@ int get_max(int i, int j)
  }
  return count;
  }
- ÈçÊäÈë9999£¬¸Ãº¯Êý·µ»Ø8¡£
- ×¢£º9999 = 9 x1024 +512 +256 +15
+ å¦‚è¾“å…¥9999ï¼Œè¯¥å‡½æ•°è¿”å›ž8ã€‚
+ æ³¨ï¼š9999 = 9 x1024 +512 +256 +15

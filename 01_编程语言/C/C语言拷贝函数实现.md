@@ -1,4 +1,4 @@
-// 字符串拷贝函数的实现
+// 瀛楃涓叉嫹璐濆嚱鏁扮殑瀹炵幇
 char *strcpy(char *dest, const char *src)
 {
 	if ( !dest || !src )

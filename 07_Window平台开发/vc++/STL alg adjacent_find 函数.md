@@ -1,4 +1,4 @@
-STL alg adjacent_find º¯Êı
+STL alg adjacent_find å‡½æ•°
 
 template <class ForwardIterator>
    ForwardIterator adjacent_find ( ForwardIterator first, ForwardIterator last );
@@ -6,11 +6,11 @@ template <class ForwardIterator>
 template <class ForwardIterator, class BinaryPredicate>
    ForwardIterator adjacent_find ( ForwardIterator first, ForwardIterator last,
                                    BinaryPredicate pred );
-ÁÚ½ü²éÕÒÈİÆ÷ÔªËØ
+é‚»è¿‘æŸ¥æ‰¾å®¹å™¨å…ƒç´ 
 
-adjacent_findËã·¨ÓÃÓÚ²éÕÒÏàµÈ»òÂú×ãÌõ¼şµÄÁÚ½üÔªËØ¶Ô¡£ÆäÓĞÁ½ÖÖº¯ÊıÔ­ĞÍ£ºÒ»ÖÖÊÇÔÚµü´úÆ÷Çø¼ä[first , last)ÉÏ²éÕÒÁ½¸öÁ¬ĞøµÄÔªËØÏàµÈÊ±£¬ÁíÒ»ÖÖÊÇÊ¹ÓÃ¶şÔªÎ½´ÊÅĞ¶Ïpred£¬²éÕÒµü´úÆ÷Çø¼ä[first , last)ÉÏÂú×ãpredÌõ¼şµÄÁÚ½üÔªËØ¶Ô ¡£ 
+adjacent_findç®—æ³•ç”¨äºæŸ¥æ‰¾ç›¸ç­‰æˆ–æ»¡è¶³æ¡ä»¶çš„é‚»è¿‘å…ƒç´ å¯¹ã€‚å…¶æœ‰ä¸¤ç§å‡½æ•°åŸå‹ï¼šä¸€ç§æ˜¯åœ¨è¿­ä»£å™¨åŒºé—´[first , last)ä¸ŠæŸ¥æ‰¾ä¸¤ä¸ªè¿ç»­çš„å…ƒç´ ç›¸ç­‰æ—¶ï¼Œå¦ä¸€ç§æ˜¯ä½¿ç”¨äºŒå…ƒè°“è¯åˆ¤æ–­predï¼ŒæŸ¥æ‰¾è¿­ä»£å™¨åŒºé—´[first , last)ä¸Šæ»¡è¶³predæ¡ä»¶çš„é‚»è¿‘å…ƒç´ å¯¹ ã€‚ 
 
-º¯ÊıÔ­ĞÍ£º 
+å‡½æ•°åŸå‹ï¼š 
 template <class ForwardIterator>
    ForwardIterator adjacent_find ( ForwardIterator first, ForwardIterator last )
 {
@@ -26,16 +26,16 @@ template <class ForwardIterator>
 
 
 
-²ÎÊı
+å‚æ•°
 first, last 
-Ö¸³öÒª²éÕÒµÄµü´úÆ÷Çø¼ä[first,last) 
+æŒ‡å‡ºè¦æŸ¥æ‰¾çš„è¿­ä»£å™¨åŒºé—´[first,last) 
 pred 
-ÓÃ¶şÔªÎ½´Êpred×÷Îª²ÎÊı£¬²éÕÒµü´úÆ÷Çø¼ä[first , last)ÉÏÂú×ãpredÌõ¼şÅĞ¶ÏµÄÁÚ½üÔªËØ¶Ô£¬Ëü¿ÉÒÔÊÇÒ»¸öº¯Êı»ò¶ÔÏóÄÚµÄÀàÖØÔØoperator()¡£ 
+ç”¨äºŒå…ƒè°“è¯predä½œä¸ºå‚æ•°ï¼ŒæŸ¥æ‰¾è¿­ä»£å™¨åŒºé—´[first , last)ä¸Šæ»¡è¶³predæ¡ä»¶åˆ¤æ–­çš„é‚»è¿‘å…ƒç´ å¯¹ï¼Œå®ƒå¯ä»¥æ˜¯ä¸€ä¸ªå‡½æ•°æˆ–å¯¹è±¡å†…çš„ç±»é‡è½½operator()ã€‚ 
 
-·µ»ØÖµ
-ÕÒµ½Ôò·µ»ØÔªËØ¶ÔÖĞµÚÒ»¸öÔªËØµÄµü´úÆ÷Î»ÖÃ£¬Î´ÕÒµ½Ôò·µ»Øµü´úÆ÷Ä©Î»ÖÃlast¡£ 
+è¿”å›å€¼
+æ‰¾åˆ°åˆ™è¿”å›å…ƒç´ å¯¹ä¸­ç¬¬ä¸€ä¸ªå…ƒç´ çš„è¿­ä»£å™¨ä½ç½®ï¼Œæœªæ‰¾åˆ°åˆ™è¿”å›è¿­ä»£å™¨æœ«ä½ç½®lastã€‚ 
 
-Ê¾Àı´úÂë
+ç¤ºä¾‹ä»£ç 
 // adjacent_find example
 #include <iostream>
 #include <algorithm>
@@ -68,7 +68,7 @@ int main () {
 
  
 
-Êä³ö:
+è¾“å‡º:
 the first consecutive repeated elements are: 30the second consecutive repeated elements are: 10
  
 

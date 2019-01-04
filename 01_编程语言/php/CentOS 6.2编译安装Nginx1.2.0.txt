@@ -1,16 +1,16 @@
-CentOS 6.2±àÒë°²×°Nginx1.2.0
+CentOS 6.2ç¼–è¯‘å®‰è£…Nginx1.2.0
  
-µÚÒ»²½£ºÏÂÔØnginxÔ´Âë°üºÍËùĞèÒªµÄ¿âÎÄ¼ş¡£
+ç¬¬ä¸€æ­¥ï¼šä¸‹è½½nginxæºç åŒ…å’Œæ‰€éœ€è¦çš„åº“æ–‡ä»¶ã€‚
 
 cd /tmp#Nginx1.2.0
 wget http://www.nginx.org/download/nginx-1.2.0.tar.gz
 
 #Nginx(pcre)
-wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.13.tar.gzÒ²¿ÉÒÔÊ¹ÓÃyum install pcre ×Ô¶¯°²×°pcre¿â
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.13.tar.gzä¹Ÿå¯ä»¥ä½¿ç”¨yum install pcre è‡ªåŠ¨å®‰è£…pcreåº“
 
-µÚ¶ş²½£º¿ªÊ¼°²×°nginx
+ç¬¬äºŒæ­¥ï¼šå¼€å§‹å®‰è£…nginx
 
-#°²×°Nginx
+#å®‰è£…Nginx
 tar -zxvf nginx-1.2.0.tar.gz && cd nginx-1.2.0 &&
 ./configure --user=www --group=www \
 --prefix=/usr/local/webserver/nginx \
@@ -22,20 +22,20 @@ tar -zxvf nginx-1.2.0.tar.gz && cd nginx-1.2.0 &&
 --lock-path=/var/run/nginx.lock \
 --pid-path=/var/run/nginx.pid
 
-±àÒëÍê³ÉÃ»´íÎóºó£¬Ö´ĞĞÒÔÏÂÃüÁî
-make && make install && cd ../ µÚÈı²½£º¸ü¸ÄÅäÖÃ
+ç¼–è¯‘å®Œæˆæ²¡é”™è¯¯åï¼Œæ‰§è¡Œä»¥ä¸‹å‘½ä»¤
+make && make install && cd ../ ç¬¬ä¸‰æ­¥ï¼šæ›´æ”¹é…ç½®
 
-#¸ü¸ÄÅäÖÃ
+#æ›´æ”¹é…ç½®
 vi /usr/local/webserver/nginx/conf/nginx.conf
 
-#ĞŞ¸ÄÒ»Ğ©²ÎÊı,±ğÖ±½ÓÌæ»»ÎÄ¼ş,ÕâÖ»ÊÇÒ»²¿·Ö
+#ä¿®æ”¹ä¸€äº›å‚æ•°,åˆ«ç›´æ¥æ›¿æ¢æ–‡ä»¶,è¿™åªæ˜¯ä¸€éƒ¨åˆ†
 user www
 
 events {
     use epoll;
     worker_connections  1024;
 }
-listen       80;server_name  localhost;index ¡¡¡¡    index.html index.htm index.php;root¡¡¡¡¡¡¡¡¡¡ /var/www/html;
+listen       80;server_name  localhost;index ã€€ã€€    index.html index.htm index.php;rootã€€ã€€ã€€ã€€ã€€ /var/www/html;
 location ~ .*\.(php|php5)?$ {
             fastcgi_pass   127.0.0.1:9000;
             fastcgi_index  index.php;
@@ -43,25 +43,25 @@ location ~ .*\.(php|php5)?$ {
             include        fastcgi_params;
         }
 
-#×¢ÒâÕâÀï
+#æ³¨æ„è¿™é‡Œ
 #$document_root$fastcgi_script_name;
-#¼ì²âÅäÖÃÎÄ¼ş
+#æ£€æµ‹é…ç½®æ–‡ä»¶
 /usr/local/webserver/nginx/sbin/nginx -t
 
-#ÌáÊ¾±íÊ¾³É¹¦
+#æç¤ºè¡¨ç¤ºæˆåŠŸ
 #nginx: the configuration file /usr/local/webserver/nginx/conf/nginx.conf syntax is ok
 #nginx: configuration file /usr/local/webserver/nginx/conf/nginx.conf test is successful
 
-#¿ªÆôNginx
+#å¼€å¯Nginx
 /usr/local/webserver/nginx/sbin/nginx
-#Æ½»¬ÖØÆôNginx
+#å¹³æ»‘é‡å¯Nginx
 /usr/local/webserver/nginx/sbin/nginx -s reload
 
-#Ìí¼Ó¿ª»úÆô¶¯
+#æ·»åŠ å¼€æœºå¯åŠ¨
 vi /etc/rc.d/rc.local
-#×îºóÒ»ĞĞ¼ÓÈë
-/usr/local/webserver/nginx/sbin/nginx &µÚËÄ²½£º²âÊÔvi /var/www/html/index.php
-#ĞÂ½¨indexÎÄ¼ş£¬ÊäÈë
+#æœ€åä¸€è¡ŒåŠ å…¥
+/usr/local/webserver/nginx/sbin/nginx &ç¬¬å››æ­¥ï¼šæµ‹è¯•vi /var/www/html/index.php
+#æ–°å»ºindexæ–‡ä»¶ï¼Œè¾“å…¥
 <?php
 phpinfo();
 ?>

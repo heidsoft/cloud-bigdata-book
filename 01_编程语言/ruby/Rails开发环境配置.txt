@@ -1,52 +1,52 @@
-Windows ÏÂ Aptana Studio 3 Ruby on Rails ¿ª·¢»·¾³ÅäÖÃ  
+Windows ä¸‹ Aptana Studio 3 Ruby on Rails å¼€å‘çŽ¯å¢ƒé…ç½®  
 
-1¡¢ÏÂÔØ Ruby  µã»÷ Windows installer ÏÂÔØ²¢°²×°ÔÚ  ÎÒÓÃµÄÊÇRuby1.9.3 ×îÐÂ°æµÄ
+1ã€ä¸‹è½½ Ruby  ç‚¹å‡» Windows installer ä¸‹è½½å¹¶å®‰è£…åœ¨  æˆ‘ç”¨çš„æ˜¯Ruby1.9.3 æœ€æ–°ç‰ˆçš„
 
-µØÖ·£ºhttp://rubyonrails.org/download 
+åœ°å€ï¼šhttp://rubyonrails.org/download 
 
-2¡¢ÏÂÔØ RubyGems  Ñ¡ÔñZIP¸ñÊ½£¬ÓÃËüÀ´¸üÐÂÒ»Ð©Ö§³ÖÎÄ¼þ
+2ã€ä¸‹è½½ RubyGems  é€‰æ‹©ZIPæ ¼å¼ï¼Œç”¨å®ƒæ¥æ›´æ–°ä¸€äº›æ”¯æŒæ–‡ä»¶
 
-µØÖ·£ºhttp://rubygems.org/pages/download 
+åœ°å€ï¼šhttp://rubygems.org/pages/download 
 
-3¡¢ÏÂÔØ Aptana Studio 3 ²¢°²×°
+3ã€ä¸‹è½½ Aptana Studio 3 å¹¶å®‰è£…
 
-ÍøÖ·£ºhttp://www.aptana.com/products/studio3 
+ç½‘å€ï¼šhttp://www.aptana.com/products/studio3 
 
-4¡¢Ruby °²×°Íê³Éºó ÔËÐÐCMD ruby -v ºó³öÏÖµ±Ç°×°µÄrubyµÄ°æ±¾ºÅ ËµÃ÷ruby°²×°ºÃÁË
+4ã€Ruby å®‰è£…å®ŒæˆåŽ è¿è¡ŒCMD ruby -v åŽå‡ºçŽ°å½“å‰è£…çš„rubyçš„ç‰ˆæœ¬å· è¯´æ˜Žrubyå®‰è£…å¥½äº†
 
 c:\>ruby -v
 
 ruby 1.9.3p194 (2012-04-20) [i386-mingw32]
 
-5¡¢ÏÂÃæÎÒÃÇÀ´°²×° RubyGems 
+5ã€ä¸‹é¢æˆ‘ä»¬æ¥å®‰è£… RubyGems 
 
-½âÑ¹¸Õ²ÅÏÂÔØµÄrubygems-1.8.24.zip ÔÚCMDÏÂ cd µ½ rubygems-1.8.24 Àï Ö´ÐÐ ruby setup.rb 
+è§£åŽ‹åˆšæ‰ä¸‹è½½çš„rubygems-1.8.24.zip åœ¨CMDä¸‹ cd åˆ° rubygems-1.8.24 é‡Œ æ‰§è¡Œ ruby setup.rb 
 
-c:\>ruby setup.rb #Ö´ÐÐÍêºó ÎÒÃÇ¿´Ò»ÏÂrubygemsµ±Ç°°æ±¾
+c:\>ruby setup.rb #æ‰§è¡Œå®ŒåŽ æˆ‘ä»¬çœ‹ä¸€ä¸‹rubygemså½“å‰ç‰ˆæœ¬
 
 c:\>gem -v
 
 1.8.24
 
 
-ÕâÑùÎÒÃÇµÄRubyGems ¾Í°²×°Íê³ÉÁË
+è¿™æ ·æˆ‘ä»¬çš„RubyGems å°±å®‰è£…å®Œæˆäº†
 
-6¡¢ÏÂÃæÎÒÃÇ°²×°Rails
+6ã€ä¸‹é¢æˆ‘ä»¬å®‰è£…Rails
 
 c:\>gem install rails
 
-Õâ¸ö¹ý³Ì¿ÉÄÜ»áÂýÒ»µã¡£»áÏÂÔØN¸ö°ü£¬Ö±µ½Rails°²×°Íê±Ï£¬Íê±ÏºóÎÒÃÇ¿´Ò»ÏÂ°æ±¾ºÅ
+è¿™ä¸ªè¿‡ç¨‹å¯èƒ½ä¼šæ…¢ä¸€ç‚¹ã€‚ä¼šä¸‹è½½Nä¸ªåŒ…ï¼Œç›´åˆ°Railså®‰è£…å®Œæ¯•ï¼Œå®Œæ¯•åŽæˆ‘ä»¬çœ‹ä¸€ä¸‹ç‰ˆæœ¬å·
 
 c:\>rails -v
 
 Rails 3.2.3
 
 
-7¡¢»ù±¾µÄruby on rails °²×°Íê³ÉÁË¡£µ«ÊÇµ±ÎÒÃÇÔËÐÐAptana Studio 3 ²¢½¨Á¢¹¤×÷¡£
+7ã€åŸºæœ¬çš„ruby on rails å®‰è£…å®Œæˆäº†ã€‚ä½†æ˜¯å½“æˆ‘ä»¬è¿è¡ŒAptana Studio 3 å¹¶å»ºç«‹å·¥ä½œã€‚
 
-ÔÚ Aptana Studio 3 -> new -> Rails Project ÎÒÃÇÏÈÉú³ÉÒ»¸ödemo¹¤³Ì  
+åœ¨ Aptana Studio 3 -> new -> Rails Project æˆ‘ä»¬å…ˆç”Ÿæˆä¸€ä¸ªdemoå·¥ç¨‹  
 
-Name ´¦ÎÒÃÇÊä demo µã»÷Íê³É »á¿´µ½ÈçÏÂÐÅÏ¢
+Name å¤„æˆ‘ä»¬è¾“ demo ç‚¹å‡»å®Œæˆ ä¼šçœ‹åˆ°å¦‚ä¸‹ä¿¡æ¯
 
 
 Administrator@QN1M0CLRBS5FHRU ~/My Documents/Aptana Studio 3 Workspace/demo
@@ -78,13 +78,13 @@ An error occured while installing json (1.7.3), and Bundler cannot continue.
 Make sure that `gem install json -v '1.7.3'` succeeds before bundling.
 
 
-ÎÒÃÇ»á¿´µ½È±ÉÙ json ²¢ÌáÊ¾ÎÒÃÇ°²×° µ«ÊÇÄØ¡£Ëû¸øµÄÕâÁ½¸öÍ¬Ö· ÎÒÊÇ´ò²»¿ª ÎÒÃÇµ½ÆäËüµØ·½ÏÂÔØ
+æˆ‘ä»¬ä¼šçœ‹åˆ°ç¼ºå°‘ json å¹¶æç¤ºæˆ‘ä»¬å®‰è£… ä½†æ˜¯å‘¢ã€‚ä»–ç»™çš„è¿™ä¸¤ä¸ªåŒå€ æˆ‘æ˜¯æ‰“ä¸å¼€ æˆ‘ä»¬åˆ°å…¶å®ƒåœ°æ–¹ä¸‹è½½
 
-µØÖ·£ºhttps://github.com/oneclick/rubyinstaller/downloads/
+åœ°å€ï¼šhttps://github.com/oneclick/rubyinstaller/downloads/
 
-Ñ¡ÔñDevKit-tdm-32-4.5.2-20111229-1559-sfx.exe ¡ª DevKit-4.5.2 self extracting archive 
+é€‰æ‹©DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe â€” DevKit-4.5.2 self extracting archive 
 
-Õâ¸öÎÄ¼þÔ¼ÓÐ20M  ÏÂÔØÍê³Éºó½âÑ¹ÖÁc:\dk\Î»ÖÃ ÎÒÃÇÔÚCMDÏÂ°²×°
+è¿™ä¸ªæ–‡ä»¶çº¦æœ‰20M  ä¸‹è½½å®ŒæˆåŽè§£åŽ‹è‡³c:\dk\ä½ç½® æˆ‘ä»¬åœ¨CMDä¸‹å®‰è£…
 
 c:\dk>ruby dk.rb init
 
@@ -94,7 +94,7 @@ c:\dk>ruby dk.rb install
 
  
 
-8¡¢ÎÒÀ´Æô¶¯Ò»ÏÂ¸Õ²ÅÉú³ÉµÄdemo ¹¤³Ì
+8ã€æˆ‘æ¥å¯åŠ¨ä¸€ä¸‹åˆšæ‰ç”Ÿæˆçš„demo å·¥ç¨‹
 
 Administrator@QN1M0CLRBS5FHRU ~/My Documents/Aptana Studio 3 Workspace/demo 
 $ rails s
@@ -102,7 +102,7 @@ Could not find gem 'jquery-rails (>= 0) x86-mingw32' in the gems available on th
 [0m
 Run `bundle install` to install missing gems.
 
-³öÏÖ´íÎó¡£ÌáÊ¾ÎÒÃÇÒªÔËÐÐdemo¹¤×÷sever ·þÎñ£¬»¹ÐèÒª°²×°Ò»Ð©²å¼þÀ´Ö§³Örails ·þÎñÔËÐÐ¡£
+å‡ºçŽ°é”™è¯¯ã€‚æç¤ºæˆ‘ä»¬è¦è¿è¡Œdemoå·¥ä½œsever æœåŠ¡ï¼Œè¿˜éœ€è¦å®‰è£…ä¸€äº›æ’ä»¶æ¥æ”¯æŒrails æœåŠ¡è¿è¡Œã€‚
 
 C:\>gem install jquery-rails
 Fetching: jquery-rails-2.0.2.gem (100%)
@@ -145,7 +145,7 @@ Installing RDoc documentation for uglifier-1.2.4...
 
  
 
-ÒÔÉÏÀ¶É«µÄ °²×°Íêºó¡£ÔÚAptana Studio 3 ÔËÐÐ rails s»áÌáÊ¾
+ä»¥ä¸Šè“è‰²çš„ å®‰è£…å®ŒåŽã€‚åœ¨Aptana Studio 3 è¿è¡Œ rails sä¼šæç¤º
 
 $ rails s
 => Booting WEBrick
@@ -157,9 +157,9 @@ $ rails s
 [2012-05-14 13:04:23] INFO  WEBrick::HTTPServer#start: pid=964 port=3000
 
 
-×Ô´ËÎÒÃÇµÄruby on rails ÒÑ¾­ÅäÖÃÍê³ÉÁË
+è‡ªæ­¤æˆ‘ä»¬çš„ruby on rails å·²ç»é…ç½®å®Œæˆäº†
 
-µ«ÊÇÎÒÃÇÎªÁË¸üÍêÃÀÒ»Ð©»¹Òª°²×°Ò»¸ördoc
+ä½†æ˜¯æˆ‘ä»¬ä¸ºäº†æ›´å®Œç¾Žä¸€äº›è¿˜è¦å®‰è£…ä¸€ä¸ªrdoc
 
 c:\>gem install rdoc-data
 

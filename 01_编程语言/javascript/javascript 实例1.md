@@ -1,215 +1,215 @@
 event.srcElement.setCapture();  
 event.srcElement.releaseCapture();   
-ÊÂ¼ş°´¼ü 
+äº‹ä»¶æŒ‰é”® 
 event.keyCode 
 event.shiftKey 
 event.altKey 
 event.ctrlKey 
-ÊÂ¼ş·µ»ØÖµ 
+äº‹ä»¶è¿”å›å€¼ 
 event.returnValue 
-Êó±êÎ»ÖÃ 
+é¼ æ ‡ä½ç½® 
 event.x 
 event.y 
-´°Ìå»î¶¯ÔªËØ 
+çª—ä½“æ´»åŠ¨å…ƒç´  
 document.activeElement 
-°ó¶¨ÊÂ¼ş 
+ç»‘å®šäº‹ä»¶ 
 document.captureEvents(Event.KEYDOWN); 
-·ÃÎÊ´°ÌåÔªËØ 
+è®¿é—®çª—ä½“å…ƒç´  
 document.all("txt").focus(); 
 document.all("txt").select(); 
-´°ÌåÃüÁî 
+çª—ä½“å‘½ä»¤ 
 document.execCommand 
-´°ÌåCOOKIE 
+çª—ä½“COOKIE 
 document.cookie 
-²Ëµ¥ÊÂ¼ş 
+èœå•äº‹ä»¶ 
 document.oncontextmenu 
-´´½¨ÔªËØ 
+åˆ›å»ºå…ƒç´  
 document.createElement("SPAN");   
-¸ù¾İÊó±ê»ñµÃÔªËØ£º 
+æ ¹æ®é¼ æ ‡è·å¾—å…ƒç´ ï¼š 
 document.elementFromPoint(event.x,event.y).tagName=="TD 
 document.elementFromPoint(event.x,event.y).appendChild(ms)   
-´°ÌåÍ¼Æ¬ 
-document.images[Ë÷Òı] 
-´°ÌåÊÂ¼ş°ó¶¨ 
+çª—ä½“å›¾ç‰‡ 
+document.images[ç´¢å¼•] 
+çª—ä½“äº‹ä»¶ç»‘å®š 
 document.onmousedown=scrollwindow; 
-ÔªËØ 
-document.´°Ìå.elements[Ë÷Òı] 
-¶ÔÏó°ó¶¨ÊÂ¼ş 
+å…ƒç´  
+document.çª—ä½“.elements[ç´¢å¼•] 
+å¯¹è±¡ç»‘å®šäº‹ä»¶ 
 document.all.xxx.detachEvent('onclick',a); 
-²å¼şÊıÄ¿ 
+æ’ä»¶æ•°ç›® 
 navigator.plugins 
-È¡±äÁ¿ÀàĞÍ 
+å–å˜é‡ç±»å‹ 
 typeof($js_libpath) == "undefined" 
-ÏÂÀ­¿ò 
-ÏÂÀ­¿ò.options[Ë÷Òı] 
-ÏÂÀ­¿ò.options.length 
-²éÕÒ¶ÔÏó 
+ä¸‹æ‹‰æ¡† 
+ä¸‹æ‹‰æ¡†.options[ç´¢å¼•] 
+ä¸‹æ‹‰æ¡†.options.length 
+æŸ¥æ‰¾å¯¹è±¡ 
 document.getElementsByName("r1"); 
 document.getElementById(id); 
-¶¨Ê± 
+å®šæ—¶ 
 timer=setInterval('scrollwindow()',delay); 
 clearInterval(timer); 
-UNCODE±àÂë 
+UNCODEç¼–ç  
 escape() ,unescape 
-¸¸¶ÔÏó 
+çˆ¶å¯¹è±¡ 
 obj.parentElement(dhtml) 
 obj.parentNode(dom) 
-½»»»±íµÄĞĞ 
+äº¤æ¢è¡¨çš„è¡Œ 
 TableID.moveRow(2,1) 
-Ìæ»»CSS 
+æ›¿æ¢CSS 
 document.all.csss.href = "a.css"; 
-²¢ÅÅÏÔÊ¾ 
+å¹¶æ’æ˜¾ç¤º 
 display:inline 
-Òş²Ø½¹µã 
+éšè—ç„¦ç‚¹ 
 hidefocus=true 
-¸ù¾İ¿í¶È»»ĞĞ 
+æ ¹æ®å®½åº¦æ¢è¡Œ 
 style="word-break:break-all" 
-×Ô¶¯Ë¢ĞÂ 
+è‡ªåŠ¨åˆ·æ–° 
 <meta HTTP-EQUIV="refresh" C> 
-¼òµ¥ÓÊ¼ş 
+ç®€å•é‚®ä»¶ 
 <a  href="[email=aaa@bbb.com?subject=ccc&body=xxxyyy]mailto:aaa@bbb.com?subject=ccc&body=xxxyyy[/email]">   
-¿ìËÙ×ªµ½Î»ÖÃ 
+å¿«é€Ÿè½¬åˆ°ä½ç½® 
 obj.scrollIntoView(true) 
-Ãª 
+é”š 
 <a name="first"> 
 <a href="#first">anchors</a> 
-ÍøÒ³´«µİ²ÎÊı 
+ç½‘é¡µä¼ é€’å‚æ•° 
 location.search(); 
-¿É±à¼­ 
+å¯ç¼–è¾‘ 
 obj.contenteditable=true 
-Ö´ĞĞ²Ëµ¥ÃüÁî 
+æ‰§è¡Œèœå•å‘½ä»¤ 
 obj.execCommand 
-Ë«×Ö½Ú×Ö·û 
+åŒå­—èŠ‚å­—ç¬¦ 
 /[^\x00-\xff]/ 
-ºº×Ö 
+æ±‰å­— 
 /[\u4e00-\u9fa5]/ 
-ÈÃÓ¢ÎÄ×Ö·û´®³¬³ö±í¸ñ¿í¶È×Ô¶¯»»ĞĞ 
+è®©è‹±æ–‡å­—ç¬¦ä¸²è¶…å‡ºè¡¨æ ¼å®½åº¦è‡ªåŠ¨æ¢è¡Œ 
 word-wrap: break-word; word-break: break-all; 
-Í¸Ã÷±³¾° 
+é€æ˜èƒŒæ™¯ 
 <IFRAME src="1.htm" width=300 height=180 allowtransparency></iframe> 
-»ñµÃstyleÄÚÈİ 
+è·å¾—styleå†…å®¹ 
 obj.style.cssText 
-HTML±êÇ© 
+HTMLæ ‡ç­¾ 
 document.documentElement.innerHTML 
-µÚÒ»¸östyle±êÇ© 
+ç¬¬ä¸€ä¸ªstyleæ ‡ç­¾ 
 document.styleSheets[0] 
-style±êÇ©ÀïµÄµÚÒ»¸öÑùÊ½ 
+styleæ ‡ç­¾é‡Œçš„ç¬¬ä¸€ä¸ªæ ·å¼ 
 document.styleSheets[0].rules[0] 
-·ÀÖ¹µã»÷¿ÕÁ´½ÓÊ±£¬Ò³ÃæÍùÍùÖØÖÃµ½Ò³Ê×¶Ë¡£ 
+é˜²æ­¢ç‚¹å‡»ç©ºé“¾æ¥æ—¶ï¼Œé¡µé¢å¾€å¾€é‡ç½®åˆ°é¡µé¦–ç«¯ã€‚ 
 <a href="javascript:function()">word</a> 
-ÉÏÒ»ÍøÒ³Ô´ 
+ä¸Šä¸€ç½‘é¡µæº 
 asp: 
 request.servervariables("HTTP_REFERER") 
 javascript: 
 document.referrer 
-ÊÍ·ÅÄÚ´æ 
+é‡Šæ”¾å†…å­˜ 
 CollectGarbage(); 
-½ûÖ¹ÓÒ¼ü 
+ç¦æ­¢å³é”® 
 document.oncontextmenu = function() { return false;} 
-½ûÖ¹±£´æ 
+ç¦æ­¢ä¿å­˜ 
 <noscript><iframe src="*.htm"></iframe></noscript> 
-½ûÖ¹Ñ¡È¡<body      Shortcut Icon" href="favicon.ico"> 
-favicon.ico Ãû×Ö×îºÃ²»±ä16*16µÄ16É«,·ÅĞéÄâÄ¿Â¼¸ùÄ¿Â¼ÏÂ 
-ÊÕ²ØÀ¸Í¼±ê 
+ç¦æ­¢é€‰å–<body      Shortcut Icon" href="favicon.ico"> 
+favicon.ico åå­—æœ€å¥½ä¸å˜16*16çš„16è‰²,æ”¾è™šæ‹Ÿç›®å½•æ ¹ç›®å½•ä¸‹ 
+æ”¶è—æ å›¾æ ‡ 
 <link rel="Bookmark" href="favicon.ico"> 
-²é¿´Ô´Âë 
-<input type=button value=²é¿´ÍøÒ³Ô´´úÂë > 
-¹Ø±ÕÊäÈë·¨ 
+æŸ¥çœ‹æºç  
+<input type=button value=æŸ¥çœ‹ç½‘é¡µæºä»£ç  > 
+å…³é—­è¾“å…¥æ³• 
 <input style="ime-mode:disabled"> 
-×Ô¶¯È«Ñ¡ 
+è‡ªåŠ¨å…¨é€‰ 
 <input type=text name=text1 value="123" > 
-ENTER¼ü¿ÉÒÔÈÃ¹â±êÒÆµ½ÏÂÒ»¸öÊäÈë¿ò 
+ENTERé”®å¯ä»¥è®©å…‰æ ‡ç§»åˆ°ä¸‹ä¸€ä¸ªè¾“å…¥æ¡† 
 <input > 
-ÎÄ±¾¿òµÄÄ¬ÈÏÖµ 
+æ–‡æœ¬æ¡†çš„é»˜è®¤å€¼ 
 <input type=text value="123" > 
-title»»ĞĞ 
+titleæ¢è¡Œ 
 obj.title = "123 sdfs " 
-»ñµÃÊ±¼äËù´ú±íµÄÎ¢Ãë 
+è·å¾—æ—¶é—´æ‰€ä»£è¡¨çš„å¾®ç§’ 
 var n1 = new Date("2004-10-10".replace(/-/g, "\/")).getTime() 
-´°¿ÚÊÇ·ñ¹Ø±Õ 
+çª—å£æ˜¯å¦å…³é—­ 
 win.closed 
 
-checkbox±âÆ½ 
+checkboxæ‰å¹³ 
 <input type=checkbox style="position: absolute; clip:rect(5px 15px 15px 5px)"><br> 
-»ñÈ¡Ñ¡ÖĞÄÚÈİ 
+è·å–é€‰ä¸­å†…å®¹ 
 document.selection.createRange().duplicate().text 
-×Ô¶¯Íê³É¹¦ÄÜ 
-<input  type=text  autocomplete=on>´ò¿ª¸Ã¹¦ÄÜ  
-<input  type=text  autocomplete=off>¹Ø±Õ¸Ã¹¦ÄÜ 
-´°¿Ú×î´ó»¯ 
+è‡ªåŠ¨å®ŒæˆåŠŸèƒ½ 
+<input  type=text  autocomplete=on>æ‰“å¼€è¯¥åŠŸèƒ½  
+<input  type=text  autocomplete=off>å…³é—­è¯¥åŠŸèƒ½ 
+çª—å£æœ€å¤§åŒ– 
 <body > 
-ÎŞ¹Ø±Õ°´Å¥IE window.open("aa.htm", "meizz", "fullscreen=7"); 
-Í³Ò»±àÂë/½âÂë alert(decodeURIComponent(encodeURIComponent("http://ÄãºÃ.com?as= hehe"))) 
-encodeURIComponent¶Ô":"¡¢"/"¡¢";" ºÍ "?"Ò²±àÂë 
+æ— å…³é—­æŒ‰é’®IE window.open("aa.htm", "meizz", "fullscreen=7"); 
+ç»Ÿä¸€ç¼–ç /è§£ç  alert(decodeURIComponent(encodeURIComponent("http://ä½ å¥½.com?as= hehe"))) 
+encodeURIComponentå¯¹":"ã€"/"ã€";" å’Œ "?"ä¹Ÿç¼–ç  
  
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 13:27 ±à¼­ ] 
-×îĞÂ»Ø¸´
-İ¸¶ûÖ®¼ä at 2007-4-17 11:29:12 
-¸ß¼¶Ó¦ÓÃ(Ò») ~~~~~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 13:27 ç¼–è¾‘ ] 
+æœ€æ–°å›å¤
+èå°”ä¹‹é—´ at 2007-4-17 11:29:12 
+é«˜çº§åº”ç”¨(ä¸€) ~~~~~~~~~~~~~~
 
 
-//¸÷ÖÖ³ß´ç 
+//å„ç§å°ºå¯¸ 
 
-s  +=  "\r\nÍøÒ³¿É¼ûÇøÓò¿í£º"+  document.body.clientWidth;   
-s  +=  "\r\nÍøÒ³¿É¼ûÇøÓò¸ß£º"+  document.body.clientHeight;   
-s  +=  "\r\nÍøÒ³¿É¼ûÇøÓò¸ß£º"+  document.body.offsetWeight  +"  (°üÀ¨±ßÏßµÄ¿í)";   
-s  +=  "\r\nÍøÒ³¿É¼ûÇøÓò¸ß£º"+  document.body.offsetHeight  +"  (°üÀ¨±ßÏßµÄ¿í)";   
-s  +=  "\r\nÍøÒ³ÕıÎÄÈ«ÎÄ¿í£º"+  document.body.scrollWidth;   
-s  +=  "\r\nÍøÒ³ÕıÎÄÈ«ÎÄ¸ß£º"+  document.body.scrollHeight;   
-s  +=  "\r\nÍøÒ³±»¾íÈ¥µÄ¸ß£º"+  document.body.scrollTop;   
-s  +=  "\r\nÍøÒ³±»¾íÈ¥µÄ×ó£º"+  document.body.scrollLeft;   
-s  +=  "\r\nÍøÒ³ÕıÎÄ²¿·ÖÉÏ£º"+  window.screenTop;   
-s  +=  "\r\nÍøÒ³ÕıÎÄ²¿·Ö×ó£º"+  window.screenLeft;   
-s  +=  "\r\nÆÁÄ»·Ö±æÂÊµÄ¸ß£º"+  window.screen.height;   
-s  +=  "\r\nÆÁÄ»·Ö±æÂÊµÄ¿í£º"+  window.screen.width;   
-s  +=  "\r\nÆÁÄ»¿ÉÓÃ¹¤×÷Çø¸ß¶È£º"+  window.screen.availHeight;   
-s  +=  "\r\nÆÁÄ»¿ÉÓÃ¹¤×÷Çø¿í¶È£º"+  window.screen.availWidth;   
+s  +=  "\r\nç½‘é¡µå¯è§åŒºåŸŸå®½ï¼š"+  document.body.clientWidth;   
+s  +=  "\r\nç½‘é¡µå¯è§åŒºåŸŸé«˜ï¼š"+  document.body.clientHeight;   
+s  +=  "\r\nç½‘é¡µå¯è§åŒºåŸŸé«˜ï¼š"+  document.body.offsetWeight  +"  (åŒ…æ‹¬è¾¹çº¿çš„å®½)";   
+s  +=  "\r\nç½‘é¡µå¯è§åŒºåŸŸé«˜ï¼š"+  document.body.offsetHeight  +"  (åŒ…æ‹¬è¾¹çº¿çš„å®½)";   
+s  +=  "\r\nç½‘é¡µæ­£æ–‡å…¨æ–‡å®½ï¼š"+  document.body.scrollWidth;   
+s  +=  "\r\nç½‘é¡µæ­£æ–‡å…¨æ–‡é«˜ï¼š"+  document.body.scrollHeight;   
+s  +=  "\r\nç½‘é¡µè¢«å·å»çš„é«˜ï¼š"+  document.body.scrollTop;   
+s  +=  "\r\nç½‘é¡µè¢«å·å»çš„å·¦ï¼š"+  document.body.scrollLeft;   
+s  +=  "\r\nç½‘é¡µæ­£æ–‡éƒ¨åˆ†ä¸Šï¼š"+  window.screenTop;   
+s  +=  "\r\nç½‘é¡µæ­£æ–‡éƒ¨åˆ†å·¦ï¼š"+  window.screenLeft;   
+s  +=  "\r\nå±å¹•åˆ†è¾¨ç‡çš„é«˜ï¼š"+  window.screen.height;   
+s  +=  "\r\nå±å¹•åˆ†è¾¨ç‡çš„å®½ï¼š"+  window.screen.width;   
+s  +=  "\r\nå±å¹•å¯ç”¨å·¥ä½œåŒºé«˜åº¦ï¼š"+  window.screen.availHeight;   
+s  +=  "\r\nå±å¹•å¯ç”¨å·¥ä½œåŒºå®½åº¦ï¼š"+  window.screen.availWidth;   
 
 
 
-//¹ıÂËÊı×Ö 
+//è¿‡æ»¤æ•°å­— 
 
 <input type=text onkeypress="return event.keyCode>=48&&event.keyCode<=57||(this.value.indexOf('.')<0?event.keyCode==46:false)" onpaste="return !clipboardData.getData('text').match(/\D/)" ondragenter="return false"> 
 
 
-//ÌØÊâÓÃÍ¾ 
+//ç‰¹æ®Šç”¨é€” 
 
-<input type=button value=µ¼ÈëÊÕ²Ø¼Ğ onclick="window.external.ImportExportFavorites(true,'http://localhost');"> 
-<input type=button value=µ¼³öÊÕ²Ø¼Ğ onclick="window.external.ImportExportFavorites(false,'http://localhost');"> 
-<input type=button value=ÕûÀíÊÕ²Ø¼Ğ onclick="window.external.ShowBrowserUI('OrganizeFavorites', null)"> 
-<input type=button value=ÓïÑÔÉèÖÃ   onclick="window.external.ShowBrowserUI('LanguageDialog', null)"> 
-<input type=button value=¼ÓÈëÊÕ²Ø¼Ğ onclick="window.external.AddFavorite('http://www.google.com/', 'google')"> 
-<input type=button value=¼ÓÈëµ½ÆµµÀ onclick="window.external.addChannel('http://www.google.com/')"> 
-<input type=button value=¼ÓÈëµ½ÆµµÀ onclick="window.external.showBrowserUI('PrivacySettings',null)"> 
+<input type=button value=å¯¼å…¥æ”¶è—å¤¹ onclick="window.external.ImportExportFavorites(true,'http://localhost');"> 
+<input type=button value=å¯¼å‡ºæ”¶è—å¤¹ onclick="window.external.ImportExportFavorites(false,'http://localhost');"> 
+<input type=button value=æ•´ç†æ”¶è—å¤¹ onclick="window.external.ShowBrowserUI('OrganizeFavorites', null)"> 
+<input type=button value=è¯­è¨€è®¾ç½®   onclick="window.external.ShowBrowserUI('LanguageDialog', null)"> 
+<input type=button value=åŠ å…¥æ”¶è—å¤¹ onclick="window.external.AddFavorite('http://www.google.com/', 'google')"> 
+<input type=button value=åŠ å…¥åˆ°é¢‘é“ onclick="window.external.addChannel('http://www.google.com/')"> 
+<input type=button value=åŠ å…¥åˆ°é¢‘é“ onclick="window.external.showBrowserUI('PrivacySettings',null)"> 
 
 
-//²»»º´æ 
+//ä¸ç¼“å­˜ 
 
 <META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0"> 
 
 
-//ÕıÔòÆ¥Åä 
+//æ­£åˆ™åŒ¹é… 
 
-Æ¥ÅäÖĞÎÄ×Ö·ûµÄÕıÔò±í´ïÊ½£º [\u4e00-\u9fa5] 
-Æ¥ÅäË«×Ö½Ú×Ö·û(°üÀ¨ºº×ÖÔÚÄÚ)£º[^\x00-\xff] 
-Æ¥Åä¿ÕĞĞµÄÕıÔò±í´ïÊ½£º\n[\s| ]*\r 
-Æ¥ÅäHTML±ê¼ÇµÄÕıÔò±í´ïÊ½£º/<(.*)>.*<\/\1>|<(.*) \/>/  
-Æ¥ÅäÊ×Î²¿Õ¸ñµÄÕıÔò±í´ïÊ½£º(^\s*)|(\s*$)£¨ÏñvbscriptÄÇÑùµÄtrimº¯Êı£© 
-Æ¥ÅäEmailµØÖ·µÄÕıÔò±í´ïÊ½£º\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)* 
-Æ¥ÅäÍøÖ·URLµÄÕıÔò±í´ïÊ½£ºhttp://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)? 
-ÒÔÏÂÊÇÀı×Ó£º 
-ÀûÓÃÕıÔò±í´ïÊ½ÏŞÖÆÍøÒ³±íµ¥ÀïµÄÎÄ±¾¿òÊäÈëÄÚÈİ£º 
-ÓÃÕıÔò±í´ïÊ½ÏŞÖÆÖ»ÄÜÊäÈëÖĞÎÄ£ºonkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))" 
-1.ÓÃÕıÔò±í´ïÊ½ÏŞÖÆÖ»ÄÜÊäÈëÈ«½Ç×Ö·û£º onkeyup="value=value.replace(/[^\uFF00-\uFFFF]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\uFF00-\uFFFF]/g,''))" 
-2.ÓÃÕıÔò±í´ïÊ½ÏŞÖÆÖ»ÄÜÊäÈëÊı×Ö£ºonkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" 
-3.ÓÃÕıÔò±í´ïÊ½ÏŞÖÆÖ»ÄÜÊäÈëÊı×ÖºÍÓ¢ÎÄ£ºonkeyup="value=value.replace(/[\W]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" 
+åŒ¹é…ä¸­æ–‡å­—ç¬¦çš„æ­£åˆ™è¡¨è¾¾å¼ï¼š [\u4e00-\u9fa5] 
+åŒ¹é…åŒå­—èŠ‚å­—ç¬¦(åŒ…æ‹¬æ±‰å­—åœ¨å†…)ï¼š[^\x00-\xff] 
+åŒ¹é…ç©ºè¡Œçš„æ­£åˆ™è¡¨è¾¾å¼ï¼š\n[\s| ]*\r 
+åŒ¹é…HTMLæ ‡è®°çš„æ­£åˆ™è¡¨è¾¾å¼ï¼š/<(.*)>.*<\/\1>|<(.*) \/>/  
+åŒ¹é…é¦–å°¾ç©ºæ ¼çš„æ­£åˆ™è¡¨è¾¾å¼ï¼š(^\s*)|(\s*$)ï¼ˆåƒvbscripté‚£æ ·çš„trimå‡½æ•°ï¼‰ 
+åŒ¹é…Emailåœ°å€çš„æ­£åˆ™è¡¨è¾¾å¼ï¼š\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)* 
+åŒ¹é…ç½‘å€URLçš„æ­£åˆ™è¡¨è¾¾å¼ï¼šhttp://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)? 
+ä»¥ä¸‹æ˜¯ä¾‹å­ï¼š 
+åˆ©ç”¨æ­£åˆ™è¡¨è¾¾å¼é™åˆ¶ç½‘é¡µè¡¨å•é‡Œçš„æ–‡æœ¬æ¡†è¾“å…¥å†…å®¹ï¼š 
+ç”¨æ­£åˆ™è¡¨è¾¾å¼é™åˆ¶åªèƒ½è¾“å…¥ä¸­æ–‡ï¼šonkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))" 
+1.ç”¨æ­£åˆ™è¡¨è¾¾å¼é™åˆ¶åªèƒ½è¾“å…¥å…¨è§’å­—ç¬¦ï¼š onkeyup="value=value.replace(/[^\uFF00-\uFFFF]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\uFF00-\uFFFF]/g,''))" 
+2.ç”¨æ­£åˆ™è¡¨è¾¾å¼é™åˆ¶åªèƒ½è¾“å…¥æ•°å­—ï¼šonkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" 
+3.ç”¨æ­£åˆ™è¡¨è¾¾å¼é™åˆ¶åªèƒ½è¾“å…¥æ•°å­—å’Œè‹±æ–‡ï¼šonkeyup="value=value.replace(/[\W]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" 
 
 
-//Ïû³ıÍ¼Ïñ¹¤¾ßÀ¸
+//æ¶ˆé™¤å›¾åƒå·¥å…·æ 
 
 <IMG SRC="mypicture.jpg" HEIGHT="100px" WIDTH="100px" GALLERYIMG="false">  
 or 
@@ -218,7 +218,7 @@ or
 </head> 
 
 
-//ÎŞÌáÊ¾¹Ø±Õ 
+//æ— æç¤ºå…³é—­ 
 
 function Close() 
 { 
@@ -248,7 +248,7 @@ else
 
 
 
-//È¡µÃ¿Ø¼şµÃ¾ø¶ÔÎ»ÖÃ(1) 
+//å–å¾—æ§ä»¶å¾—ç»å¯¹ä½ç½®(1) 
 
 <script language="javascript">  
 function getoffset(e) 
@@ -269,14 +269,14 @@ return rec
 
 
 
-//»ñµÃ¿Ø¼şµÄ¾ø¶ÔÎ»ÖÃ(2) 
+//è·å¾—æ§ä»¶çš„ç»å¯¹ä½ç½®(2) 
 
 oRect = obj.getBoundingClientRect(); 
 oRect.left 
 oRect. 
 
 
-//×îĞ¡»¯,×î´ó»¯,¹Ø±Õ
+//æœ€å°åŒ–,æœ€å¤§åŒ–,å…³é—­
 
 <object id=min classid="clsid:ADB880A6-D8FF-11CF-9377-00AA003B7A11">  
 <param name="Command" value="Minimize"></object>  
@@ -284,17 +284,17 @@ oRect.
 <param name="Command" value="Maximize"></object>  
 <OBJECT id=close classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">  
 <PARAM NAME="Command" value="Close"></OBJECT>  
-<input type=button value=×îĞ¡»¯ onclick=min.Click()>  
-<input type=button value=×î´ó»¯ onclick=max.Click()>  
-<input type=button value=¹Ø±Õ onclick=close.Click()>  
+<input type=button value=æœ€å°åŒ– onclick=min.Click()>  
+<input type=button value=æœ€å¤§åŒ– onclick=max.Click()>  
+<input type=button value=å…³é—­ onclick=close.Click()>  
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 13:21 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 11:30:53 
-¼ÌĞø~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 13:21 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 11:30:53 
+ç»§ç»­~~~~~~~~~
 
-//¹â±êÍ£ÔÚÎÄ×Ö×îºó 
+//å…‰æ ‡åœåœ¨æ–‡å­—æœ€å 
 
 
 <script language="javascript"> 
@@ -309,61 +309,61 @@ r.select();
 </script> 
 <input type=text name=text1 value="123" onfocus="cc()"> 
 
-//Ò³Ãæ½øÈëºÍÍË³öµÄÌØĞ§ 
+//é¡µé¢è¿›å…¥å’Œé€€å‡ºçš„ç‰¹æ•ˆ 
 
-½øÈëÒ³Ãæ<meta http-equiv="Page-Enter" content="revealTrans(duration=x, transition=y)"> 
-ÍÆ³öÒ³Ãæ<meta http-equiv="Page-Exit" content="revealTrans(duration=x, transition=y)">  
-Õâ¸öÊÇÒ³Ãæ±»ÔØÈëºÍµ÷³öÊ±µÄÒ»Ğ©ÌØĞ§¡£duration±íÊ¾ÌØĞ§µÄ³ÖĞøÊ±¼ä£¬ÒÔÃëÎªµ¥Î»¡£transition±íÊ¾Ê¹ 
-ÓÃÄÄÖÖÌØĞ§£¬È¡ÖµÎª1-23: 
-¡¡¡¡0 ¾ØĞÎËõĞ¡  
-¡¡¡¡1 ¾ØĞÎÀ©´ó  
-¡¡¡¡2 Ô²ĞÎËõĞ¡ 
-¡¡¡¡3 Ô²ĞÎÀ©´ó  
-¡¡¡¡4 ÏÂµ½ÉÏË¢ĞÂ  
-¡¡¡¡5 ÉÏµ½ÏÂË¢ĞÂ 
-¡¡¡¡6 ×óµ½ÓÒË¢ĞÂ  
-¡¡¡¡7 ÓÒµ½×óË¢ĞÂ  
-¡¡¡¡8 Êú°ÙÒ¶´° 
-¡¡¡¡9 ºá°ÙÒ¶´°  
-¡¡¡¡10 ´íÎ»ºá°ÙÒ¶´°  
-¡¡¡¡11 ´íÎ»Êú°ÙÒ¶´° 
-¡¡¡¡12 µãÀ©É¢  
-¡¡¡¡13 ×óÓÒµ½ÖĞ¼äË¢ĞÂ  
-¡¡¡¡14 ÖĞ¼äµ½×óÓÒË¢ĞÂ 
-¡¡¡¡15 ÖĞ¼äµ½ÉÏÏÂ 
-¡¡¡¡16 ÉÏÏÂµ½ÖĞ¼ä  
-¡¡¡¡17 ÓÒÏÂµ½×óÉÏ 
-¡¡¡¡18 ÓÒÉÏµ½×óÏÂ  
-¡¡¡¡19 ×óÉÏµ½ÓÒÏÂ  
-¡¡¡¡20 ×óÏÂµ½ÓÒÉÏ 
-¡¡¡¡21 ºáÌõ  
-¡¡¡¡22 ÊúÌõ  
-¡¡¡¡23  
-
-
-//ÍøÒ³ÊÇ·ñ±»¼ìË÷ <meta name="ROBOTS" content="ÊôĞÔÖµ"> 
-¡¡¡¡ÆäÖĞÊôĞÔÖµÓĞÒÔÏÂÒ»Ğ©: 
-¡¡¡¡ÊôĞÔÖµÎª"all": ÎÄ¼ş½«±»¼ìË÷£¬ÇÒÒ³ÉÏÁ´½Ó¿É±»²éÑ¯£» 
-¡¡¡¡ÊôĞÔÖµÎª"none": ÎÄ¼ş²»±»¼ìË÷£¬¶øÇÒ²»²éÑ¯Ò³ÉÏµÄÁ´½Ó£» 
-¡¡¡¡ÊôĞÔÖµÎª"index": ÎÄ¼ş½«±»¼ìË÷£» 
-¡¡¡¡ÊôĞÔÖµÎª"follow": ²éÑ¯Ò³ÉÏµÄÁ´½Ó£» 
-¡¡¡¡ÊôĞÔÖµÎª"noindex": ÎÄ¼ş²»¼ìË÷£¬µ«¿É±»²éÑ¯Á´½Ó£» 
-¡¡¡¡ÊôĞÔÖµÎª"nofollow":  
+è¿›å…¥é¡µé¢<meta http-equiv="Page-Enter" content="revealTrans(duration=x, transition=y)"> 
+æ¨å‡ºé¡µé¢<meta http-equiv="Page-Exit" content="revealTrans(duration=x, transition=y)">  
+è¿™ä¸ªæ˜¯é¡µé¢è¢«è½½å…¥å’Œè°ƒå‡ºæ—¶çš„ä¸€äº›ç‰¹æ•ˆã€‚durationè¡¨ç¤ºç‰¹æ•ˆçš„æŒç»­æ—¶é—´ï¼Œä»¥ç§’ä¸ºå•ä½ã€‚transitionè¡¨ç¤ºä½¿ 
+ç”¨å“ªç§ç‰¹æ•ˆï¼Œå–å€¼ä¸º1-23: 
+ã€€ã€€0 çŸ©å½¢ç¼©å°  
+ã€€ã€€1 çŸ©å½¢æ‰©å¤§  
+ã€€ã€€2 åœ†å½¢ç¼©å° 
+ã€€ã€€3 åœ†å½¢æ‰©å¤§  
+ã€€ã€€4 ä¸‹åˆ°ä¸Šåˆ·æ–°  
+ã€€ã€€5 ä¸Šåˆ°ä¸‹åˆ·æ–° 
+ã€€ã€€6 å·¦åˆ°å³åˆ·æ–°  
+ã€€ã€€7 å³åˆ°å·¦åˆ·æ–°  
+ã€€ã€€8 ç«–ç™¾å¶çª— 
+ã€€ã€€9 æ¨ªç™¾å¶çª—  
+ã€€ã€€10 é”™ä½æ¨ªç™¾å¶çª—  
+ã€€ã€€11 é”™ä½ç«–ç™¾å¶çª— 
+ã€€ã€€12 ç‚¹æ‰©æ•£  
+ã€€ã€€13 å·¦å³åˆ°ä¸­é—´åˆ·æ–°  
+ã€€ã€€14 ä¸­é—´åˆ°å·¦å³åˆ·æ–° 
+ã€€ã€€15 ä¸­é—´åˆ°ä¸Šä¸‹ 
+ã€€ã€€16 ä¸Šä¸‹åˆ°ä¸­é—´  
+ã€€ã€€17 å³ä¸‹åˆ°å·¦ä¸Š 
+ã€€ã€€18 å³ä¸Šåˆ°å·¦ä¸‹  
+ã€€ã€€19 å·¦ä¸Šåˆ°å³ä¸‹  
+ã€€ã€€20 å·¦ä¸‹åˆ°å³ä¸Š 
+ã€€ã€€21 æ¨ªæ¡  
+ã€€ã€€22 ç«–æ¡  
+ã€€ã€€23  
 
 
-//´òÓ¡·ÖÒ³ <p  style="page-break-after:always">page1</p>   
+//ç½‘é¡µæ˜¯å¦è¢«æ£€ç´¢ <meta name="ROBOTS" content="å±æ€§å€¼"> 
+ã€€ã€€å…¶ä¸­å±æ€§å€¼æœ‰ä»¥ä¸‹ä¸€äº›: 
+ã€€ã€€å±æ€§å€¼ä¸º"all": æ–‡ä»¶å°†è¢«æ£€ç´¢ï¼Œä¸”é¡µä¸Šé“¾æ¥å¯è¢«æŸ¥è¯¢ï¼› 
+ã€€ã€€å±æ€§å€¼ä¸º"none": æ–‡ä»¶ä¸è¢«æ£€ç´¢ï¼Œè€Œä¸”ä¸æŸ¥è¯¢é¡µä¸Šçš„é“¾æ¥ï¼› 
+ã€€ã€€å±æ€§å€¼ä¸º"index": æ–‡ä»¶å°†è¢«æ£€ç´¢ï¼› 
+ã€€ã€€å±æ€§å€¼ä¸º"follow": æŸ¥è¯¢é¡µä¸Šçš„é“¾æ¥ï¼› 
+ã€€ã€€å±æ€§å€¼ä¸º"noindex": æ–‡ä»¶ä¸æ£€ç´¢ï¼Œä½†å¯è¢«æŸ¥è¯¢é“¾æ¥ï¼› 
+ã€€ã€€å±æ€§å€¼ä¸º"nofollow":  
+
+
+//æ‰“å°åˆ†é¡µ <p  style="page-break-after:always">page1</p>   
 <p  style="page-break-after:always">page2</p>   
 
 
 
-//ÉèÖÃ´òÓ¡ 
+//è®¾ç½®æ‰“å° 
 
 <object id="factory" style="display:none" viewastext 
   classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814" 
   codebase="http://www.meadroid.com/scriptx/ScriptX.cab#Version=5,60,0,360" 
 ></object> 
-<input type=button value=Ò³ÃæÉèÖÃ onclick="factory.printing.PageSetup()"> 
-<input type=button value=´òÓ¡Ô¤ÀÀ onclick="factory.printing.Preview()"> 
+<input type=button value=é¡µé¢è®¾ç½® onclick="factory.printing.PageSetup()"> 
+<input type=button value=æ‰“å°é¢„è§ˆ onclick="factory.printing.Preview()"> 
   
 <script language=javascript> 
 function window.onload() 
@@ -377,8 +377,8 @@ function window.onload()
    factory.printing.paperSize = "A4" 
    factory.printing.paperSource = "Manual feed" 
    // -- basic features 
-   factory.printing.header = "¾Ó×óÏÔÊ¾&b¾ÓÖĞÏÔÊ¾&b¾ÓÓÒÏÔÊ¾Ò³Âë£¬µÚ&pÒ³/¹²&PÒ³" 
-   factory.printing.footer = "£¨×Ô¶¨ÒåÒ³½Å£©" 
+   factory.printing.header = "å±…å·¦æ˜¾ç¤º&bå±…ä¸­æ˜¾ç¤º&bå±…å³æ˜¾ç¤ºé¡µç ï¼Œç¬¬&pé¡µ/å…±&Pé¡µ" 
+   factory.printing.footer = "ï¼ˆè‡ªå®šä¹‰é¡µè„šï¼‰" 
    factory.printing.portrait = false 
    factory.printing.leftMargin = 0.75 
    factory.printing.topMargin = 1.5 
@@ -389,48 +389,48 @@ function Print(frame) {
   factory.printing.Print(true, frame) // print with prompt 
 } 
 </script> 
-<input type=button value="´òÓ¡±¾Ò³" onclick="factory.printing.Print(false)"> 
-<input type=button value="Ò³ÃæÉèÖÃ" onclick="factory.printing.PageSetup()"> 
-<input type=button value="´òÓ¡Ô¤ÀÀ" onclick="factory.printing.Preview()"><br> 
-<a href="http://www.meadroid.com/scriptx/docs/printdoc.htm?static"  target=_blank>¾ßÌåÊ¹ÓÃÊÖ²á£¬¸ü¶àĞÅÏ¢£¬µãÕâÀï</a> 
+<input type=button value="æ‰“å°æœ¬é¡µ" onclick="factory.printing.Print(false)"> 
+<input type=button value="é¡µé¢è®¾ç½®" onclick="factory.printing.PageSetup()"> 
+<input type=button value="æ‰“å°é¢„è§ˆ" onclick="factory.printing.Preview()"><br> 
+<a href="http://www.meadroid.com/scriptx/docs/printdoc.htm?static"  target=_blank>å…·ä½“ä½¿ç”¨æ‰‹å†Œï¼Œæ›´å¤šä¿¡æ¯ï¼Œç‚¹è¿™é‡Œ</a> 
 
 
-//×Ô´øµÄ´òÓ¡Ô¤ÀÀ 
-WebBrowser.ExecWB(1,1) ´ò¿ª  
-Web.ExecWB(2,1) ¹Ø±ÕÏÖÔÚËùÓĞµÄIE´°¿Ú£¬²¢´ò¿ªÒ»¸öĞÂ´°¿Ú  
-Web.ExecWB(4,1) ±£´æÍøÒ³  
-Web.ExecWB(6,1) ´òÓ¡  
-Web.ExecWB(7,1) ´òÓ¡Ô¤ÀÀ  
-Web.ExecWB(8,1) ´òÓ¡Ò³ÃæÉèÖÃ  
-Web.ExecWB(10,1) ²é¿´Ò³ÃæÊôĞÔ  
-Web.ExecWB(15,1) ºÃÏñÊÇ³·Ïú£¬ÓĞ´ıÈ·ÈÏ  
-Web.ExecWB(17,1) È«Ñ¡  
-Web.ExecWB(22,1) Ë¢ĞÂ  
-Web.ExecWB(45,1) ¹Ø±Õ´°ÌåÎŞÌáÊ¾  
+//è‡ªå¸¦çš„æ‰“å°é¢„è§ˆ 
+WebBrowser.ExecWB(1,1) æ‰“å¼€  
+Web.ExecWB(2,1) å…³é—­ç°åœ¨æ‰€æœ‰çš„IEçª—å£ï¼Œå¹¶æ‰“å¼€ä¸€ä¸ªæ–°çª—å£  
+Web.ExecWB(4,1) ä¿å­˜ç½‘é¡µ  
+Web.ExecWB(6,1) æ‰“å°  
+Web.ExecWB(7,1) æ‰“å°é¢„è§ˆ  
+Web.ExecWB(8,1) æ‰“å°é¡µé¢è®¾ç½®  
+Web.ExecWB(10,1) æŸ¥çœ‹é¡µé¢å±æ€§  
+Web.ExecWB(15,1) å¥½åƒæ˜¯æ’¤é”€ï¼Œæœ‰å¾…ç¡®è®¤  
+Web.ExecWB(17,1) å…¨é€‰  
+Web.ExecWB(22,1) åˆ·æ–°  
+Web.ExecWB(45,1) å…³é—­çª—ä½“æ— æç¤º  
 <style media=print>  
-.Noprint{display:none;}<!--ÓÃ±¾ÑùÊ½ÔÚ´òÓ¡Ê±Òş²Ø·Ç´òÓ¡ÏîÄ¿-->  
-.PageNext{page-break-after: always;}<!--¿ØÖÆ·ÖÒ³-->  
+.Noprint{display:none;}<!--ç”¨æœ¬æ ·å¼åœ¨æ‰“å°æ—¶éšè—éæ‰“å°é¡¹ç›®-->  
+.PageNext{page-break-after: always;}<!--æ§åˆ¶åˆ†é¡µ-->  
 </style>  
 <object  id="WebBrowser"  width=0  height=0  classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2">     
 </object>     
   
 <center class="Noprint" > 
-<input type=button value=´òÓ¡ onclick=document.all.WebBrowser.ExecWB(6,1)>  
-<input type=button value=Ö±½Ó´òÓ¡ onclick=document.all.WebBrowser.ExecWB(6,6)>  
-<input type=button value=Ò³ÃæÉèÖÃ onclick=document.all.WebBrowser.ExecWB(8,1)>  
+<input type=button value=æ‰“å° onclick=document.all.WebBrowser.ExecWB(6,1)>  
+<input type=button value=ç›´æ¥æ‰“å° onclick=document.all.WebBrowser.ExecWB(6,6)>  
+<input type=button value=é¡µé¢è®¾ç½® onclick=document.all.WebBrowser.ExecWB(8,1)>  
 </p>  
-<p> <input type=button value=´òÓ¡Ô¤ÀÀ onclick=document.all.WebBrowser.ExecWB(7,1)>  
+<p> <input type=button value=æ‰“å°é¢„è§ˆ onclick=document.all.WebBrowser.ExecWB(7,1)>  
 </center> 
 
 
 
-//È¥µô´òÓ¡Ê±µÄÒ³Ã¼Ò³½Å 
+//å»æ‰æ‰“å°æ—¶çš„é¡µçœ‰é¡µè„š 
 
 <script  language="JavaScript">   
 var HKEY_Root,HKEY_Path,HKEY_Key; 
 HKEY_Root="HKEY_CURRENT_USER"; 
 HKEY_Path="\\Software\\Microsoft\\Internet Explorer\\PageSetup\\"; 
-//ÉèÖÃÍøÒ³´òÓ¡µÄÒ³Ã¼Ò³½ÅÎª¿Õ 
+//è®¾ç½®ç½‘é¡µæ‰“å°çš„é¡µçœ‰é¡µè„šä¸ºç©º 
 function PageSetup_Null() 
 { 
 try 
@@ -443,25 +443,25 @@ try
 } 
 catch(e){} 
 } 
-//ÉèÖÃÍøÒ³´òÓ¡µÄÒ³Ã¼Ò³½ÅÎªÄ¬ÈÏÖµ 
+//è®¾ç½®ç½‘é¡µæ‰“å°çš„é¡µçœ‰é¡µè„šä¸ºé»˜è®¤å€¼ 
 function  PageSetup_Default() 
 {   
 try 
 { 
   var Wsh=new ActiveXObject("WScript.Shell"); 
   HKEY_Key="header"; 
-  Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"&w&bÒ³Âë,&p/&P"); 
+  Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"&w&bé¡µç ,&p/&P"); 
   HKEY_Key="footer"; 
   Wsh.RegWrite(HKEY_Root+HKEY_Path+HKEY_Key,"&u&b&d"); 
 } 
 catch(e){} 
 } 
 </script> 
-<input type="button" value="Çå¿ÕÒ³Âë" onclick=PageSetup_Null()> 
-<input type="button" value="»Ö¸´Ò³Âë" onclick=PageSetup_Default()> 
+<input type="button" value="æ¸…ç©ºé¡µç " onclick=PageSetup_Null()> 
+<input type="button" value="æ¢å¤é¡µç " onclick=PageSetup_Default()> 
 
 
-//ä¯ÀÀÆ÷ÑéÖ¤ 
+//æµè§ˆå™¨éªŒè¯ 
 
 function checkBrowser() 
 {  
@@ -484,84 +484,84 @@ function checkBrowser()
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 11:36 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 11:31:45 
-ÔÙ¼ÌĞø~~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 11:36 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 11:31:45 
+å†ç»§ç»­~~~~~~~~~~~
 
-//¼ÆËãÄÚÈİ¿íºÍ¸ß
+//è®¡ç®—å†…å®¹å®½å’Œé«˜
 
 <SCRIPT  language="javascript">   
 function  test(obj)   
 {   
        var  range  =  obj.createTextRange();   
-       alert("ÄÚÈİÇø¿í¶È:  "  +  range.boundingWidth     
-                                                 +  "px\r\nÄÚÈİÇø¸ß¶È:  "  +  range.boundingHeight  +  "px");   
+       alert("å†…å®¹åŒºå®½åº¦:  "  +  range.boundingWidth     
+                                                 +  "px\r\nå†…å®¹åŒºé«˜åº¦:  "  +  range.boundingHeight  +  "px");   
               
 }   
 </SCRIPT>   
 <BODY>   
-<Textarea id="txt" height="150">sdf</textarea><INPUT  type="button"  value="¼ÆËãÄÚÈİ¿í¶È"  onClick="test(txt)">   
+<Textarea id="txt" height="150">sdf</textarea><INPUT  type="button"  value="è®¡ç®—å†…å®¹å®½åº¦"  onClick="test(txt)">   
 </BODY> 
 
 
 
-//ÎŞÄ£Ê½µÄÌáÊ¾¿ò function modelessAlert(Msg) 
+//æ— æ¨¡å¼çš„æç¤ºæ¡† function modelessAlert(Msg) 
 { 
    window.showModelessDialog("javascript:alert(\""+escape(Msg)+"\");window.close();","","status:no;resizable:no;help:no;dialogHeight:height:30px;dialogHeight:40px;"); 
 } 
 
 
 
-//ÆÁ±Î°´¼ü 
+//å±è”½æŒ‰é”® 
 <html> 
 <head> 
   <meta http-equiv="Content-Type" content="text/html; charset=gb2312"> 
   <noscript><meta http-equiv="refresh" content="0;url=about:noscript"></noscript> 
-  <title>ÆÁ±ÎÊó±êÓÒ¼ü¡¢Ctrl+N¡¢Shift+F10¡¢Alt+F4¡¢F11¡¢F5Ë¢ĞÂ¡¢ÍË¸ñ¼ü</title> 
+  <title>å±è”½é¼ æ ‡å³é”®ã€Ctrl+Nã€Shift+F10ã€Alt+F4ã€F11ã€F5åˆ·æ–°ã€é€€æ ¼é”®</title> 
 </head> 
 <body> 
 <script language="Javascript"><!-- 
-  //ÆÁ±ÎÊó±êÓÒ¼ü¡¢Ctrl+N¡¢Shift+F10¡¢F11¡¢F5Ë¢ĞÂ¡¢ÍË¸ñ¼ü 
-  //Author: meizz(Ã·»¨Óê) 2002-6-18 
-function document.oncontextmenu(){event.returnValue=false;}//ÆÁ±ÎÊó±êÓÒ¼ü 
-function window.onhelp(){return false} //ÆÁ±ÎF1°ïÖú 
+  //å±è”½é¼ æ ‡å³é”®ã€Ctrl+Nã€Shift+F10ã€F11ã€F5åˆ·æ–°ã€é€€æ ¼é”® 
+  //Author: meizz(æ¢…èŠ±é›¨) 2002-6-18 
+function document.oncontextmenu(){event.returnValue=false;}//å±è”½é¼ æ ‡å³é”® 
+function window.onhelp(){return false} //å±è”½F1å¸®åŠ© 
 function document.onkeydown() 
 { 
   if ((window.event.altKey)&& 
-      ((window.event.keyCode==37)||   //ÆÁ±Î Alt+ ·½Ïò¼ü ¡û 
-       (window.event.keyCode==39)))   //ÆÁ±Î Alt+ ·½Ïò¼ü ¡ú 
+      ((window.event.keyCode==37)||   //å±è”½ Alt+ æ–¹å‘é”® â† 
+       (window.event.keyCode==39)))   //å±è”½ Alt+ æ–¹å‘é”® â†’ 
   { 
-     alert("²»×¼ÄãÊ¹ÓÃALT+·½Ïò¼üÇ°½ø»òºóÍËÍøÒ³£¡"); 
+     alert("ä¸å‡†ä½ ä½¿ç”¨ALT+æ–¹å‘é”®å‰è¿›æˆ–åé€€ç½‘é¡µï¼"); 
      event.returnValue=false; 
   } 
-     /* ×¢£ºÕâ»¹²»ÊÇÕæÕıµØÆÁ±Î Alt+ ·½Ïò¼ü£¬ 
-     ÒòÎª Alt+ ·½Ïò¼üµ¯³ö¾¯¸æ¿òÊ±£¬°´×¡ Alt ¼ü²»·Å£¬ 
-     ÓÃÊó±êµãµô¾¯¸æ¿ò£¬ÕâÖÖÆÁ±Î·½·¨¾ÍÊ§Ğ§ÁË¡£ÒÔºóÈô 
-     ÓĞÄÄÎ»¸ßÊÖÓĞÕæÕıÆÁ±Î Alt ¼üµÄ·½·¨£¬Çë¸æÖª¡£*/ 
-  if ((event.keyCode==8)  ||                 //ÆÁ±ÎÍË¸ñÉ¾³ı¼ü 
-      (event.keyCode==116)||                 //ÆÁ±Î F5 Ë¢ĞÂ¼ü 
+     /* æ³¨ï¼šè¿™è¿˜ä¸æ˜¯çœŸæ­£åœ°å±è”½ Alt+ æ–¹å‘é”®ï¼Œ 
+     å› ä¸º Alt+ æ–¹å‘é”®å¼¹å‡ºè­¦å‘Šæ¡†æ—¶ï¼ŒæŒ‰ä½ Alt é”®ä¸æ”¾ï¼Œ 
+     ç”¨é¼ æ ‡ç‚¹æ‰è­¦å‘Šæ¡†ï¼Œè¿™ç§å±è”½æ–¹æ³•å°±å¤±æ•ˆäº†ã€‚ä»¥åè‹¥ 
+     æœ‰å“ªä½é«˜æ‰‹æœ‰çœŸæ­£å±è”½ Alt é”®çš„æ–¹æ³•ï¼Œè¯·å‘ŠçŸ¥ã€‚*/ 
+  if ((event.keyCode==8)  ||                 //å±è”½é€€æ ¼åˆ é™¤é”® 
+      (event.keyCode==116)||                 //å±è”½ F5 åˆ·æ–°é”® 
       (event.ctrlKey && event.keyCode==82)){ //Ctrl + R 
      event.keyCode=0; 
      event.returnValue=false; 
      } 
-  if (event.keyCode==122){event.keyCode=0;event.returnValue=false;}  //ÆÁ±ÎF11 
-  if (event.ctrlKey && event.keyCode==78) event.returnValue=false;   //ÆÁ±Î Ctrl+n 
-  if (event.shiftKey && event.keyCode==121)event.returnValue=false;  //ÆÁ±Î shift+F10 
+  if (event.keyCode==122){event.keyCode=0;event.returnValue=false;}  //å±è”½F11 
+  if (event.ctrlKey && event.keyCode==78) event.returnValue=false;   //å±è”½ Ctrl+n 
+  if (event.shiftKey && event.keyCode==121)event.returnValue=false;  //å±è”½ shift+F10 
   if (window.event.srcElement.tagName == "A" && window.event.shiftKey)  
-      window.event.returnValue = false;             //ÆÁ±Î shift ¼ÓÊó±ê×ó¼üĞÂ¿ªÒ»ÍøÒ³ 
-  if ((window.event.altKey)&&(window.event.keyCode==115))             //ÆÁ±ÎAlt+F4 
+      window.event.returnValue = false;             //å±è”½ shift åŠ é¼ æ ‡å·¦é”®æ–°å¼€ä¸€ç½‘é¡µ 
+  if ((window.event.altKey)&&(window.event.keyCode==115))             //å±è”½Alt+F4 
   { 
       window.showModelessDialog("about:blank","","dialogWidth:1px;dialogheight:1px"); 
       return false; 
   } 
 } 
 </script> 
-ÆÁ±ÎÊó±êÓÒ¼ü¡¢Ctrl+N¡¢Shift+F10¡¢Alt+F4¡¢F11¡¢F5Ë¢ĞÂ¡¢ÍË¸ñ¼ü 
+å±è”½é¼ æ ‡å³é”®ã€Ctrl+Nã€Shift+F10ã€Alt+F4ã€F11ã€F5åˆ·æ–°ã€é€€æ ¼é”® 
 </body> 
 </html> 
 
 
-//ÆÁ±Î´òÓ¡ 
+//å±è”½æ‰“å° 
 <style> 
 @media print{ 
 * {display:none} 
@@ -569,7 +569,7 @@ function document.onkeydown()
 </style> 
 
 
-//ÒÆ¶¯µÄÍ¼²ã£¬ÍÏ¶¯ 
+//ç§»åŠ¨çš„å›¾å±‚ï¼Œæ‹–åŠ¨ 
 
 1.<span style='position:absolute;width:200;height:200;background:red' onmousedown=MouseDown(this) onmousemove=MouseMove() onmouseup=MouseUp()>meizz</span> 
 <script language=javascript> 
@@ -627,7 +627,7 @@ orgObjY=parseInt(document.all.myDiv.style.top);
 
 </script> 
   
-//ÎÄµµ×´Ì¬¸Ä±ä 
+//æ–‡æ¡£çŠ¶æ€æ”¹å˜ 
 
 <iframe src="a.html" id="f" name="f" scrolling="no" frameborder=0 marginwidth=0 marginheight=0></iframe> 
 <script> 
@@ -642,7 +642,7 @@ doc.onreadystatechange=s
 </script> 
 
 
-//Ë¢ĞÂºó²»±äµÄÎÄ±¾¿ò <HTML> 
+//åˆ·æ–°åä¸å˜çš„æ–‡æœ¬æ¡† <HTML> 
 <HEAD> 
 <META NAME="save" CONTENT="history"> 
 <STYLE> 
@@ -656,21 +656,21 @@ doc.onreadystatechange=s
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 11:34 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 11:33:22 
-»¹ÔÚ¼ÌĞø~~~~~~~~~~~~ 
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 11:34 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 11:33:22 
+è¿˜åœ¨ç»§ç»­~~~~~~~~~~~~ 
 
 
-//·ÃÎÊ¼ôÌù°å 
+//è®¿é—®å‰ªè´´æ¿ 
 
 event.dataTransfer.setData("URL", oImage.src); 
 sImageURL = event.dataTransfer.getData("URL") 
-(2)ÆÕÍ¨·ÃÎÊ 
+(2)æ™®é€šè®¿é—® 
 window.clipboardData.setData("Text",oSource.innerText); 
 window.clipboardData.getData("Text"); 
 
 
-//²Ù×÷COOKIE 
+//æ“ä½œCOOKIE 
 
 function SetCookie(sName, sValue) 
 { 
@@ -694,7 +694,7 @@ document.cookie = sName + "=" + escape(sValue) + "; expires=Fri, 31 Dec 1999 23:
 } 
 
 
-//setTimeoutÔö¼Ó²ÎÊı 
+//setTimeoutå¢åŠ å‚æ•° 
 
 <script> 
 var _st = window.setTimeout; 
@@ -713,7 +713,7 @@ window.setTimeout(test,1000,'fason');
 </script> 
 
 
-//×Ô¶¨ÒåµÄapply,call 
+//è‡ªå®šä¹‰çš„apply,call 
 
 Function.prototype.apply = function (obj, argu) { 
 if (obj) obj.constructor.prototype._caller = this;  
@@ -731,7 +731,7 @@ for (var i=1;i<arguments.length;i++)
 return this.apply(obj, argu); 
 };        
 
-//ÏÂÔØÎÄ¼ş 
+//ä¸‹è½½æ–‡ä»¶ 
 
 function DownURL(strRemoteURL,strLocalURL) 
 { 
@@ -752,12 +752,12 @@ try
 } 
 catch(e) 
 { 
-  window.confirm("ÏÂÔØURL³ö´í!"); 
+  window.confirm("ä¸‹è½½URLå‡ºé”™!"); 
 } 
-//window.confirm("ÏÂÔØÍê³É."); 
+//window.confirm("ä¸‹è½½å®Œæˆ."); 
 } 
 
-//¼ìÑéÁ¬½ÓÊÇ·ñÓĞĞ§ 
+//æ£€éªŒè¿æ¥æ˜¯å¦æœ‰æ•ˆ 
 
 function getXML(URL)  
 { 
@@ -791,7 +791,7 @@ finally
 
 
 
-//POST´úÌæFORM 
+//POSTä»£æ›¿FORM 
 
 <SCRIPT language="VBScript"> 
 Function URLEncoding(vstrIn) 
@@ -827,7 +827,7 @@ Function bytes2BSTR(vIn)
     bytes2BSTR = strReturn 
 End Function 
 dim strA,oReq 
-strA = URLEncoding("submit1=Submit&text1=ÖĞÎÄ") 
+strA = URLEncoding("submit1=Submit&text1=ä¸­æ–‡") 
 set oReq = CreateObject("MSXML2.XMLHTTP") 
 oReq.open "POST","http://ServerName/VDir/TstResult.asp",false 
 oReq.setRequestHeader "Content-Length",Len(strA) 
@@ -836,29 +836,29 @@ oReq.send strA
 msgbox bytes2BSTR(oReq.responseBody) 
 </SCRIPT> 
 
-//readyStateÊÇxmlhttp·µ»ØÊı¾İµÄ½ø¶È£¬0=ÔØÈëÖĞ,1=Î´³õÊ¼»¯,2=ÒÑÔØÈë,3=ÔËĞĞÖĞ,4=Íê³É
+//readyStateæ˜¯xmlhttpè¿”å›æ•°æ®çš„è¿›åº¦ï¼Œ0=è½½å…¥ä¸­,1=æœªåˆå§‹åŒ–,2=å·²è½½å…¥,3=è¿è¡Œä¸­,4=å®Œæˆ
 
 
 
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 13:22 ±à¼­ ]
-ÍçÊ¯ at 2007-4-17 11:36:30 
-ºÃÌù£¡
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 13:22 ç¼–è¾‘ ]
+é¡½çŸ³ at 2007-4-17 11:36:30 
+å¥½è´´ï¼
 
-¶¥ÁË£¬¿ÉÏ§ÎÒ¿´²»¶®£¡
-İ¸¶ûÖ®¼ä at 2007-4-17 11:40:38 
-¸ß¼¶Ó¦ÓÃ£¨¶ş£©~~~~~~~~~~~~~~~~
+é¡¶äº†ï¼Œå¯æƒœæˆ‘çœ‹ä¸æ‡‚ï¼
+èå°”ä¹‹é—´ at 2007-4-17 11:40:38 
+é«˜çº§åº”ç”¨ï¼ˆäºŒï¼‰~~~~~~~~~~~~~~~~
 
 
-//×é¼şÊÇ·ñ°²×° 
+//ç»„ä»¶æ˜¯å¦å®‰è£… 
 
 isComponentInstalled("{6B053A4B-A7EC-4D3D-4567-B8FF8A1A5739}", "componentID")) 
 
 
 
-//¼ì²éÍøÒ³ÊÇ·ñ´æÔÚ 
+//æ£€æŸ¥ç½‘é¡µæ˜¯å¦å­˜åœ¨ 
 
 function CheckURL(URL) 
 { 
@@ -879,10 +879,10 @@ function CheckURL(URL)
 } 
 
 
-//Á¬½ÓÊı¾İ¿â 
+//è¿æ¥æ•°æ®åº“ 
 
 <script language="javascript"> 
-  //ÓÃ JavaScript Ğ´·şÎñÆ÷¶ËÁ¬½ÓÊı¾İ¿âµÄ´úÂëÊ¾Àı 
+  //ç”¨ JavaScript å†™æœåŠ¡å™¨ç«¯è¿æ¥æ•°æ®åº“çš„ä»£ç ç¤ºä¾‹ 
   var conn = new ActiveXObject("ADODB.Connection"); 
   conn.Open("Provider=SQLOLEDB.1; Data Source=localhost; User ID=sa; " 
     +"Password=; Initial Catalog=pubs"); 
@@ -905,29 +905,29 @@ rs.moveNext;
 </script> 
 
 
-//Ê¹ÓÃÊı¾İµº 
+//ä½¿ç”¨æ•°æ®å²› 
 
 <html> 
 <body> 
-srno£º<input type=text datasrc=#xmldate DataFLD=srno size="76"><BR> 
-times£º<input type=text datasrc=#xmldate DataFLD=times size="76"><BR> 
-<input id="first" TYPE=button value="<<¡¡µÚÒ»Ìõ¼ÇÂ¼" onclick="xmldate.recordset.moveFirst()"> 
-<input id="prev" TYPE=button value="<ÉÏÒ»Ìõ¼ÇÂ¼" onclick="xmldate.recordset.movePrevious()">   
-<input id="next" TYPE=button value="ÏÂÒ»Ìõ¼ÇÂ¼>" onclick="xmldate.recordset.moveNext()">   
-<input id="last" TYPE=button value="×îºóÒ»Ìõ¼ÇÂ¼>>" onclick="xmldate.recordset.moveLast()">    
-<input id="Add" TYPE=button value="Ìí¼ÓĞÂ¼ÇÂ¼" onclick="xmldate.recordset.addNew()">   
+srnoï¼š<input type=text datasrc=#xmldate DataFLD=srno size="76"><BR> 
+timesï¼š<input type=text datasrc=#xmldate DataFLD=times size="76"><BR> 
+<input id="first" TYPE=button value="<<ã€€ç¬¬ä¸€æ¡è®°å½•" onclick="xmldate.recordset.moveFirst()"> 
+<input id="prev" TYPE=button value="<ä¸Šä¸€æ¡è®°å½•" onclick="xmldate.recordset.movePrevious()">   
+<input id="next" TYPE=button value="ä¸‹ä¸€æ¡è®°å½•>" onclick="xmldate.recordset.moveNext()">   
+<input id="last" TYPE=button value="æœ€åä¸€æ¡è®°å½•>>" onclick="xmldate.recordset.moveLast()">    
+<input id="Add" TYPE=button value="æ·»åŠ æ–°è®°å½•" onclick="xmldate.recordset.addNew()">   
 
 <XML ID="xmldate"> 
 <infolist> 
 <info ><srno>20041025-01</srno><times>null</times></info> 
-<info ><srno>20041101-09</srno><times>2004Äê10ÔÂ1ÈÕ2µã22·Ö0Ãë</times></info> 
+<info ><srno>20041101-09</srno><times>2004å¹´10æœˆ1æ—¥2ç‚¹22åˆ†0ç§’</times></info> 
 </infolist> 
 </XML> 
 </body> 
 </html> 
 
 
-//»ñµÃ²ÎÊı 
+//è·å¾—å‚æ•° 
 
 <body> 
 <a href="javascript:location.href=location.href + '?a=1&b=2'">search</a> 
@@ -950,7 +950,7 @@ for(var i= 0;i<s.length;i++)
 
 
 
-//¿É±à¼­SELECT 
+//å¯ç¼–è¾‘SELECT 
 
 <input type=text name=re_name style="width:100px;height:21px;font-size:10pt;"><span style="width:18px;border:0px solid red;"><select name="r00" style="margin-left:-100px;width:118px; background-color:#FFEEEE;" onChange="document.all.re_name.value=this.value;"> 
                 <option value="1">11111111<option> 
@@ -961,7 +961,7 @@ for(var i= 0;i<s.length;i++)
 
 
 
-//ÉèÖÃ¹â±êÎ»ÖÃ 
+//è®¾ç½®å…‰æ ‡ä½ç½® 
 
 function getCaret(textbox) 
 { 
@@ -1008,12 +1008,12 @@ document.selection.createRange().text = text;
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 13:23 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 11:46:52 
-ÀÛÁËĞİÏ¢Ò»ÏÂ~~~~~¼ÌĞø¼ÌĞø~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 13:23 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 11:46:52 
+ç´¯äº†ä¼‘æ¯ä¸€ä¸‹~~~~~ç»§ç»­ç»§ç»­~~~~
 
 
-//Ò³ÄÚ²éÕÒ 
+//é¡µå†…æŸ¥æ‰¾ 
 
 function findInPage(str) 
 { 
@@ -1045,7 +1045,7 @@ else
   } 
   else 
   { 
-   alert(str + "...            ÄúÒªÕÒµÄÎÄ×Ö²»´æÔÚ¡£\n \nÇëÊÔ×ÅÊäÈëÒ³ÃæÖĞµÄ¹Ø¼ü×ÖÔÙ´Î²éÕÒ£¡"); 
+   alert(str + "...            æ‚¨è¦æ‰¾çš„æ–‡å­—ä¸å­˜åœ¨ã€‚\n \nè¯·è¯•ç€è¾“å…¥é¡µé¢ä¸­çš„å…³é”®å­—å†æ¬¡æŸ¥æ‰¾ï¼"); 
   } 
 } 
 return false; 
@@ -1054,7 +1054,7 @@ return false;
 
 
 
-//²Ù×÷EXECL 
+//æ“ä½œEXECL 
 
 <script language="javascript"> 
 function jStartExcel() { 
@@ -1081,16 +1081,16 @@ newBook.Worksheets(1).Name="My First WorkSheet";
 </script> 
 
 
-//×Ô¶¨ÒåÌáÊ¾Ìõ 
+//è‡ªå®šä¹‰æç¤ºæ¡ 
 
-<a href="#" title="ÕâÊÇÌáÊ¾">tip</a> 
+<a href="#" title="è¿™æ˜¯æç¤º">tip</a> 
 <script Language="JavaScript"> 
-//***********Ä¬ÈÏÉèÖÃ¶¨Òå.********************* 
-tPopWait=50;//Í£ÁôtWaitºÀÃëºóÏÔÊ¾ÌáÊ¾¡£ 
-tPopShow=5000;//ÏÔÊ¾tShowºÀÃëºó¹Ø±ÕÌáÊ¾ 
+//***********é»˜è®¤è®¾ç½®å®šä¹‰.********************* 
+tPopWait=50;//åœç•™tWaitè±ªç§’åæ˜¾ç¤ºæç¤ºã€‚ 
+tPopShow=5000;//æ˜¾ç¤ºtShowè±ªç§’åå…³é—­æç¤º 
 showPopStep=20; 
 popOpacity=99; 
-//***************ÄÚ²¿±äÁ¿¶¨Òå***************** 
+//***************å†…éƒ¨å˜é‡å®šä¹‰***************** 
 sPop=null; 
 curShow=null; 
 tFadeOut=null; 
@@ -1159,7 +1159,7 @@ document.onmouseover=showPopupText;
 </script> 
 
 
-//²åÈëÎÄ×Ö 
+//æ’å…¥æ–‡å­— 
 
 document.onclick =function(){  
 var oSource = window.event.srcElement;  
@@ -1169,13 +1169,13 @@ var sel = document.selection;
 if (sel!=null) {  
 var rng = sel.createRange();  
 if (rng!=null)  
-rng.pasteHTML("<font color=red>²åÈëÎÄ×Ö</font>");  
+rng.pasteHTML("<font color=red>æ’å…¥æ–‡å­—</font>");  
 }  
 }  
 
 
 
-//netscapteÏÂ²Ù×÷xml 
+//netscapteä¸‹æ“ä½œxml 
 
 doc = new ActiveXObject("Msxml2.DOMDocument"); 
 doc = new ActiveXObject("Microsoft.XMLDOM") 
@@ -1183,30 +1183,30 @@ doc = new ActiveXObject("Microsoft.XMLDOM")
 doc = (new DOMParser()).parseFromString(sXML,'text/xml') 
 
 
-//½ûÖ¹FSO 
+//ç¦æ­¢FSO 
 
-1.×¢Ïú×é¼ş 
+1.æ³¨é”€ç»„ä»¶ 
 regsvr32 /u scrrun.dll 
-2.ĞŞ¸ÄPROGID  
+2.ä¿®æ”¹PROGID  
 HKEY_CLASSES_ROOT\Scripting.FileSystemObject 
 Scripting.FileSystemObject 
-3.¶ÔÓÚÊ¹ÓÃobjectµÄÓÃ»§£¬ĞŞ¸ÄHKEY_CLASSES_ROOT\Scripting. 
+3.å¯¹äºä½¿ç”¨objectçš„ç”¨æˆ·ï¼Œä¿®æ”¹HKEY_CLASSES_ROOT\Scripting. 
 
 
-//Ê¡ÂÔºÅ 
+//çœç•¥å· 
 
 <DIV STYLE="width: 120px; height: 50px; border: 1px solid blue; 
             overflow: hidden; text-overflow:ellipsis"> 
-<NOBR>¾ÍÊÇ±ÈÈçÓĞÒ»ĞĞÎÄ×Ö£¬ºÜ³¤£¬±í¸ñÄÚÒ»ĞĞÏÔÊ¾²»ÏÂ.</NOBR> 
+<NOBR>å°±æ˜¯æ¯”å¦‚æœ‰ä¸€è¡Œæ–‡å­—ï¼Œå¾ˆé•¿ï¼Œè¡¨æ ¼å†…ä¸€è¡Œæ˜¾ç¤ºä¸ä¸‹.</NOBR> 
 </DIV> 
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 11:53 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 11:48:15 
-»¹ÓĞ~~~~~~²»¼±
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 11:53 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 11:48:15 
+è¿˜æœ‰~~~~~~ä¸æ€¥
 
-//ÅĞ¶Ï¼üÖµ 
+//åˆ¤æ–­é”®å€¼ 
 
 <html> 
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312"> 
@@ -1219,22 +1219,22 @@ function keyDown(e)
 if(!ie) 
 { 
   var nkey=e.which; 
-  var iekey='ÏÖÔÚÊÇnsä¯ÀÀÆ÷'; 
+  var iekey='ç°åœ¨æ˜¯nsæµè§ˆå™¨'; 
   var realkey=String.fromCharCode(e.which); 
 } 
 if(ie) 
 { 
   var iekey=event.keyCode; 
-  var nkey='ÏÖÔÚÊÇieä¯ÀÀÆ÷'; 
+  var nkey='ç°åœ¨æ˜¯ieæµè§ˆå™¨'; 
   var realkey=String.fromCharCode(event.keyCode); 
-  if(event.keyCode==32){realkey='\' ¿Õ¸ñ\''} 
-  if(event.keyCode==13){realkey='\' »Ø³µ\''} 
+  if(event.keyCode==32){realkey='\' ç©ºæ ¼\''} 
+  if(event.keyCode==13){realkey='\' å›è½¦\''} 
   if(event.keyCode==27){realkey='\' Esc\''} 
   if(event.keyCode==16){realkey='\' Shift\''} 
   if(event.keyCode==17){realkey='\' Ctrl\''} 
   if(event.keyCode==18){realkey='\' Alt\''} 
 } 
-alert('nsä¯ÀÀÆ÷ÖĞ¼üÖµ:'+nkey+'\n'+'ieä¯ÀÀÆ÷ÖĞ¼üÖµ:'+iekey+'\n'+'Êµ¼Ê¼üÎª'+realkey); 
+alert('nsæµè§ˆå™¨ä¸­é”®å€¼:'+nkey+'\n'+'ieæµè§ˆå™¨ä¸­é”®å€¼:'+iekey+'\n'+'å®é™…é”®ä¸º'+realkey); 
 } 
 document.onkeydown = keyDown; 
 </script> 
@@ -1243,14 +1243,14 @@ document.onkeydown = keyDown;
 //Javascript Document. 
 <hr> 
 <center> 
-<h3>Çë°´ÈÎÒâÒ»¸ö¼ü¡£¡£¡£¡£</h3> 
+<h3>è¯·æŒ‰ä»»æ„ä¸€ä¸ªé”®ã€‚ã€‚ã€‚ã€‚</h3> 
 </center> 
 </body> 
 </html> 
 
 
 
-//¼ì²âmedia play°æ±¾ 
+//æ£€æµ‹media playç‰ˆæœ¬ 
 
 <IE:clientCaps ID="oClientCaps" style="{behavior:url(#default#clientcaps)}" /> 
 <SCRIPT> 
@@ -1265,22 +1265,22 @@ var flash="";
     flash += "."; 
       flash += version; 
     } 
-     document.write("ÄúµÄWindows Media Player °æ±¾ÊÇ:"+flash+"<p>"); 
+     document.write("æ‚¨çš„Windows Media Player ç‰ˆæœ¬æ˜¯:"+flash+"<p>"); 
   } 
 </SCRIPT> 
 
 
 
-//Í¼Ïó°´±ÈÀı 
+//å›¾è±¡æŒ‰æ¯”ä¾‹ 
 
 <script language="JavaScript"> 
 <!-- 
-//Í¼Æ¬°´±ÈÀıËõ·Å 
+//å›¾ç‰‡æŒ‰æ¯”ä¾‹ç¼©æ”¾ 
 var flag=false; 
 function DrawImage(ImgD){ 
 var image=new Image(); 
-var iwidth = 80;  //¶¨ÒåÔÊĞíÍ¼Æ¬¿í¶È 
-var iheight = 80;  //¶¨ÒåÔÊĞíÍ¼Æ¬¸ß¶È 
+var iwidth = 80;  //å®šä¹‰å…è®¸å›¾ç‰‡å®½åº¦ 
+var iheight = 80;  //å®šä¹‰å…è®¸å›¾ç‰‡é«˜åº¦ 
 image.src=ImgD.src; 
 if(image.width>0 && image.height>0){ 
 flag=true; 
@@ -1292,7 +1292,7 @@ if(image.width/image.height>= iwidth/iheight){
   ImgD.width=image.width;   
   ImgD.height=image.height; 
   } 
-  ImgD.alt=image.width+"¡Á"+image.height; 
+  ImgD.alt=image.width+"Ã—"+image.height; 
   } 
 else{ 
   if(image.height>iheight){   
@@ -1302,7 +1302,7 @@ else{
   ImgD.width=image.width;   
   ImgD.height=image.height; 
   } 
-  ImgD.alt=image.width+"¡Á"+image.height; 
+  ImgD.alt=image.width+"Ã—"+image.height; 
   } 
 } 
 }  
@@ -1312,7 +1312,7 @@ else{
 
 
 
-//Ï¸ÏßSELECT 
+//ç»†çº¿SELECT 
 
 <span style="border:1px solid #000000; position:absolute; overflow:hidden;" > 
 <select style="margin:-2px;"> 
@@ -1335,7 +1335,7 @@ for( var i=0; i<arguments.length; i++ ) {
 }; 
 
 
-//jsÃ¶¾Ù 
+//jsæšä¸¾ 
 
 function getComputerName() 
 { 
@@ -1348,7 +1348,7 @@ for(e = new Enumerator(objWMIService) ; !e.atEnd() ; e.moveNext())
 } 
 
 
-//Ìõ¼ş±àÒë
+//æ¡ä»¶ç¼–è¯‘
 
 <script language=javascript> 
 /*@cc_on @*/ 
@@ -1362,7 +1362,7 @@ function window.confirm(str)
 </script> 
 
 
-//È¡µÃinnerText 
+//å–å¾—innerText 
 
 
 <SCRIPT LANGUAGE="JavaScript"> 
@@ -1371,7 +1371,7 @@ var xmlDoc = new ActiveXObject("Msxml2.DOMDocument.4.0");
 var currNode; 
 xmlDoc.async = false; 
 xmlDoc.async = false; 
-xmlDoc.loadXML("<TABLENAME>      ÄãºÃÄã°¢Èı    ´ó·¨     Ë¾·¨µÈËÄ              </TABLENAME>"); 
+xmlDoc.loadXML("<TABLENAME>      ä½ å¥½ä½ é˜¿ä¸‰    å¤§æ³•     å¸æ³•ç­‰å››              </TABLENAME>"); 
 currNode = xmlDoc.documentElement; 
     
   var s = currNode.xml; 
@@ -1382,7 +1382,7 @@ currNode = xmlDoc.documentElement;
 </SCRIPT> 
 
 
-//mergeAttributes ¸´ÖÆËùÓĞ¶Á/Ğ´±êÇ©ÊôĞÔµ½Ö¸¶¨ÔªËØ¡£ 
+//mergeAttributes å¤åˆ¶æ‰€æœ‰è¯»/å†™æ ‡ç­¾å±æ€§åˆ°æŒ‡å®šå…ƒç´ ã€‚ 
 
 <SCRIPT> 
 function fnMerge(){ 
@@ -1412,411 +1412,411 @@ onclick="fnMerge()"
 
 
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 11:50 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:04:58 
-JavaScript[¶ÔÏó.ÊôĞÔ]¼¯½õ ~~~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 11:50 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:04:58 
+JavaScript[å¯¹è±¡.å±æ€§]é›†é”¦ ~~~~~~~~~~~~
 
-SCRIPT ±ê¼Ç  
+SCRIPT æ ‡è®°  
 
-ÓÃÓÚ°üº¬javascript´úÂë.  
+ç”¨äºåŒ…å«javascriptä»£ç .  
 
-Óï·¨  
+è¯­æ³•  
 
-ÊôĞÔ  
+å±æ€§  
 
-LANGUAGE ¶¨Òå½Å±¾ÓïÑÔ  
+LANGUAGE å®šä¹‰è„šæœ¬è¯­è¨€  
 
-SRC ¶¨ÒåÒ»¸öURLÓÃÒÔÖ¸¶¨ÒÔ.JS½áÎ²µÄÎÄ¼ş 
+SRC å®šä¹‰ä¸€ä¸ªURLç”¨ä»¥æŒ‡å®šä»¥.JSç»“å°¾çš„æ–‡ä»¶ 
 
 
-windows¶ÔÏó  
+windowså¯¹è±¡  
 
-Ã¿¸öHTMLÎÄµµµÄ¶¥²ã¶ÔÏó.  
+æ¯ä¸ªHTMLæ–‡æ¡£çš„é¡¶å±‚å¯¹è±¡.  
 
-ÊôĞÔ  
+å±æ€§  
 
-frames[] ×ÓèåÊı×é.Ã¿¸ö×ÓèåÊı×é°´Ô´ÎÄµµÖĞ¶¨ÒåµÄË³Ğò´æ·Å.  
+frames[] å­æ¡¢æ•°ç»„.æ¯ä¸ªå­æ¡¢æ•°ç»„æŒ‰æºæ–‡æ¡£ä¸­å®šä¹‰çš„é¡ºåºå­˜æ”¾.  
 
-feames.length ×Óèå¸öÊı.  
+feames.length å­æ¡¢ä¸ªæ•°.  
 
-self µ±Ç°´°¿Ú.  
+self å½“å‰çª—å£.  
 
-parent ¸¸´°¿Ú(µ±Ç°´°¿ÚÊÇÖĞÒ»¸ö×Ó´°¿Ú).  
+parent çˆ¶çª—å£(å½“å‰çª—å£æ˜¯ä¸­ä¸€ä¸ªå­çª—å£).  
 
-top ¶¥²ã´°¿Ú(ÊÇËùÓĞ¿É¼û´°¿ÚµÄ¸¸´°¿Ú).  
+top é¡¶å±‚çª—å£(æ˜¯æ‰€æœ‰å¯è§çª—å£çš„çˆ¶çª—å£).  
 
-status ä¯ÀÀÆ÷×´Ì¬´°¿ÚÉÏµÄÏûÏ¢.  
+status æµè§ˆå™¨çŠ¶æ€çª—å£ä¸Šçš„æ¶ˆæ¯.  
 
-defaultStatus µ±statusÎŞĞ§Ê±,³öÏÖÔÚä¯ÀÀÆ÷×´Ì¬´°¿ÚÉÏµÄÈ±Ê¡ÏûÏ¢.  
+defaultStatus å½“statusæ— æ•ˆæ—¶,å‡ºç°åœ¨æµè§ˆå™¨çŠ¶æ€çª—å£ä¸Šçš„ç¼ºçœæ¶ˆæ¯.  
 
-name ÄÚ²¿Ãû,ÎªÓÉwindow.open()·½·¨´ò¿ªµÄ´°¿Ú¶¨ÒåµÄÃû×Ö.  
+name å†…éƒ¨å,ä¸ºç”±window.open()æ–¹æ³•æ‰“å¼€çš„çª—å£å®šä¹‰çš„åå­—.  
 
-·½·¨  
+æ–¹æ³•  
 
-alert("message") ÏÔÊ¾º¬ÓĞ¸ø¶¨ÏûÏ¢µÄ"javascript Alert"¶Ô»°¿ò.  
+alert("message") æ˜¾ç¤ºå«æœ‰ç»™å®šæ¶ˆæ¯çš„"javascript Alert"å¯¹è¯æ¡†.  
 
-confirm("message") ÏÔÊ¾º¬ÓĞ¸ø¶¨ÏûÏ¢µÄ"Confirm"¶Ô»°¿ò(ÓĞÒ»¸öOK°´Å¥ºÍÒ»¸öCancel°´Å¥).Èç¹ûÓÃ»§µ¥»÷OK·µ»Øtrue,·ñÔò·µ»Øfalse.  
+confirm("message") æ˜¾ç¤ºå«æœ‰ç»™å®šæ¶ˆæ¯çš„"Confirm"å¯¹è¯æ¡†(æœ‰ä¸€ä¸ªOKæŒ‰é’®å’Œä¸€ä¸ªCancelæŒ‰é’®).å¦‚æœç”¨æˆ·å•å‡»OKè¿”å›true,å¦åˆ™è¿”å›false.  
 
-prompt("message") ÏÔÊ¾Ò»¸ö"prompt"¶Ô»°¿ò,ÒªÇóÓÃ»§¸ù¾İÏÔÊ¾ÏûÏ¢¸øÓèÏàÓ¦ÊäÈë.  
+prompt("message") æ˜¾ç¤ºä¸€ä¸ª"prompt"å¯¹è¯æ¡†,è¦æ±‚ç”¨æˆ·æ ¹æ®æ˜¾ç¤ºæ¶ˆæ¯ç»™äºˆç›¸åº”è¾“å…¥.  
 
-open("URL","name") ´ò¿ªÒ»¸öĞÂ´°¿Ú,¸øÓèÒ»¸öÖ¸¶¨µÄÃû×Ö.  
+open("URL","name") æ‰“å¼€ä¸€ä¸ªæ–°çª—å£,ç»™äºˆä¸€ä¸ªæŒ‡å®šçš„åå­—.  
 
-close() ¹Ø±Õµ±Ç°´°¿Ú. 
+close() å…³é—­å½“å‰çª—å£. 
 
 
-frame¶ÔÏó  
+frameå¯¹è±¡  
 
-ËüÊÇÕû¸öä¯ÀÀÆ÷´°¿ÚµÄ×Ó´°¿Ú,³ıÁËstatus,defaultStatus,nameÊôĞÔÍâ,ËüÓµÓĞwindow¶ÔÏóµÄÈ«²¿ÊôĞÔ.  
+å®ƒæ˜¯æ•´ä¸ªæµè§ˆå™¨çª—å£çš„å­çª—å£,é™¤äº†status,defaultStatus,nameå±æ€§å¤–,å®ƒæ‹¥æœ‰windowå¯¹è±¡çš„å…¨éƒ¨å±æ€§.  
 
-location¶ÔÏó  
+locationå¯¹è±¡  
 
-º¬ÓĞµ±Ç°URLµÄĞÅÏ¢.  
+å«æœ‰å½“å‰URLçš„ä¿¡æ¯.  
 
-ÊôĞÔ  
+å±æ€§  
 
-href Õû¸öURL×Ö·û´®.  
+href æ•´ä¸ªURLå­—ç¬¦ä¸².  
 
-protocol º¬ÓĞURLµÚÒ»²¿·ÖµÄ×Ö·û´®,Èçhttp:  
+protocol å«æœ‰URLç¬¬ä¸€éƒ¨åˆ†çš„å­—ç¬¦ä¸²,å¦‚http:  
 
-host °üº¬ÓĞURLÖĞÖ÷»úÃû:¶Ë¿ÚºÅ²¿·ÖµÄ×Ö·û´®.Èç//www.cenpok.net/server/  
+host åŒ…å«æœ‰URLä¸­ä¸»æœºå:ç«¯å£å·éƒ¨åˆ†çš„å­—ç¬¦ä¸².å¦‚//www.cenpok.net/server/  
 
-hostname °üº¬URLÖĞÖ÷»úÃûµÄ×Ö·û´®.Èçhttp://www.cenpok.net  
+hostname åŒ…å«URLä¸­ä¸»æœºåçš„å­—ç¬¦ä¸².å¦‚http://www.cenpok.net  
 
-port °üº¬URLÖĞ¿ÉÄÜ´æÔÚµÄ¶Ë¿ÚºÅ×Ö·û´®.  
+port åŒ…å«URLä¸­å¯èƒ½å­˜åœ¨çš„ç«¯å£å·å­—ç¬¦ä¸².  
 
-pathname URLÖĞ"/"ÒÔºóµÄ²¿·Ö.Èç~list/index.htm  
+pathname URLä¸­"/"ä»¥åçš„éƒ¨åˆ†.å¦‚~list/index.htm  
 
-hash "#"ºÅ(CGI²ÎÊı)Ö®ºóµÄ×Ö·û´®.  
+hash "#"å·(CGIå‚æ•°)ä¹‹åçš„å­—ç¬¦ä¸².  
 
-search "?"ºÅ(CGI²ÎÊı)Ö®ºóµÄ×Ö·û´®.  
+search "?"å·(CGIå‚æ•°)ä¹‹åçš„å­—ç¬¦ä¸².  
 
 
-document¶ÔÏó 
+documentå¯¹è±¡ 
 
-º¬ÓĞµ±Ç°ÎÄµµĞÅÏ¢µÄ¶ÔÏó. 
+å«æœ‰å½“å‰æ–‡æ¡£ä¿¡æ¯çš„å¯¹è±¡. 
 
-ÊôĞÔ 
+å±æ€§ 
 
-title µ±Ç°ÎÄµµ±êÌâ,Èç¹ûÎ´¶¨Òå,Ôò°üº¬"Untitled". 
+title å½“å‰æ–‡æ¡£æ ‡é¢˜,å¦‚æœæœªå®šä¹‰,åˆ™åŒ…å«"Untitled". 
 
-location ÎÄµµµÄÈ«URL. 
+location æ–‡æ¡£çš„å…¨URL. 
 
-lastModified º¬ÓĞÎÄµµ×îºóĞŞ¸ÄÈÕÆÚ. 
+lastModified å«æœ‰æ–‡æ¡£æœ€åä¿®æ”¹æ—¥æœŸ. 
 
-referrer µ÷ÓÃÕßURL,¼´ÓÃ»§ÊÇ´ÓÄÄ¸öURLÁ´½Óµ½µ±Ç°Ò³ÃæµÄ. 
+referrer è°ƒç”¨è€…URL,å³ç”¨æˆ·æ˜¯ä»å“ªä¸ªURLé“¾æ¥åˆ°å½“å‰é¡µé¢çš„. 
 
-bgColor ±³¾°É«(#xxxxxx) 
+bgColor èƒŒæ™¯è‰²(#xxxxxx) 
 
-fgColor Ç°¾°ÎÄ±¾ÑÕÉ«. 
+fgColor å‰æ™¯æ–‡æœ¬é¢œè‰². 
 
-linkColor ³¬Á´½ÓÑÕÉ«. 
+linkColor è¶…é“¾æ¥é¢œè‰². 
 
-vlinkColor ·ÃÎÊ¹ıµÄ³¬Á´ÑÕÉ«. 
+vlinkColor è®¿é—®è¿‡çš„è¶…é“¾é¢œè‰². 
 
-alinkColor ¼¤»îÁ´ÑÕÉ«(Êó±ê°´×¡Î´·ÅÊ±). 
+alinkColor æ¿€æ´»é“¾é¢œè‰²(é¼ æ ‡æŒ‰ä½æœªæ”¾æ—¶). 
 
-forms[] ÎÄµµÖĞform¶ÔÏóµÄÊı×é,°´¶¨Òå´ÎĞò´æ´¢. 
+forms[] æ–‡æ¡£ä¸­formå¯¹è±¡çš„æ•°ç»„,æŒ‰å®šä¹‰æ¬¡åºå­˜å‚¨. 
 
-forms.length ÎÄµµÖĞµÄform¶ÔÏóÊıÄ¿. 
+forms.length æ–‡æ¡£ä¸­çš„formå¯¹è±¡æ•°ç›®. 
 
-links[] ÓëÎÄµµÖĞËùÓĞHREFÁ´¶ÔÓ¦µÄÊı×é¶ÔÏó,°´´ÎĞò¶¨Òå´æ´¢. 
+links[] ä¸æ–‡æ¡£ä¸­æ‰€æœ‰HREFé“¾å¯¹åº”çš„æ•°ç»„å¯¹è±¡,æŒ‰æ¬¡åºå®šä¹‰å­˜å‚¨. 
 
-links.length ÎÄµµÖĞHREFÁ´µÄÊıÄ¿. 
+links.length æ–‡æ¡£ä¸­HREFé“¾çš„æ•°ç›®. 
 
-anchors[] Ãª(...)Êı×é,°´´ÎĞò¶¨Òå´æ´¢. 
+anchors[] é”š(...)æ•°ç»„,æŒ‰æ¬¡åºå®šä¹‰å­˜å‚¨. 
 
-anchors.length ÎÄµµÖĞÃªµÄÊıÄ¿. 
+anchors.length æ–‡æ¡£ä¸­é”šçš„æ•°ç›®. 
 
-·½·¨ 
+æ–¹æ³• 
 
-write("string") ½«×Ö·û´®Í»³ö¸øµ±Ç°´°¿Ú.(×Ö·û´®¿ÉÒÔº¬ÓĞHTML±ê¼Ç) 
+write("string") å°†å­—ç¬¦ä¸²çªå‡ºç»™å½“å‰çª—å£.(å­—ç¬¦ä¸²å¯ä»¥å«æœ‰HTMLæ ‡è®°) 
 
-writeln("string") Óëwrite()ÀàËÆ,ÔÚ½áÎ²×·¼Ó»Ø³µ·û,Ö»ÔÚÔ¤¶¨¸ñÊ½ÎÄ±¾ÖĞ(...»ò...)ÉúĞ§. 
+writeln("string") ä¸write()ç±»ä¼¼,åœ¨ç»“å°¾è¿½åŠ å›è½¦ç¬¦,åªåœ¨é¢„å®šæ ¼å¼æ–‡æœ¬ä¸­(...æˆ–...)ç”Ÿæ•ˆ. 
 
-clear() Çåµ±Ç°´°¿Ú. 
+clear() æ¸…å½“å‰çª—å£. 
 
-close() ¹Ø±Õµ±Ç°´°¿Ú. 
+close() å…³é—­å½“å‰çª—å£. 
 
 
-form¶ÔÏó
+formå¯¹è±¡
 
-ÊôĞÔ 
+å±æ€§ 
 
 name 
 
-ÖĞµÄNAMEÊôĞÔµÄ×Ö·û´®Öµ. 
+ä¸­çš„NAMEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-method ÖĞMETHODÊôĞÔµÄÀàÖµ,"0"="GET" ,"1"="POST" . 
+method ä¸­METHODå±æ€§çš„ç±»å€¼,"0"="GET" ,"1"="POST" . 
 
-action ÖĞACTIONÊôĞÔµÄ×Ö·û´®Öµ. 
+action ä¸­ACTIONå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-target ±í¸ñÊı¾İÌá½»µÄÄ¿±ê,Óë±ê¼ÇÖĞÏàÓ¦ÊôĞÔÒ»ÖÂ. 
+target è¡¨æ ¼æ•°æ®æäº¤çš„ç›®æ ‡,ä¸æ ‡è®°ä¸­ç›¸åº”å±æ€§ä¸€è‡´. 
 
-elements[index] elementsÊôĞÔ°üº¬formÖĞµÄ¸÷¸öÔªËØ. 
+elements[index] elementså±æ€§åŒ…å«formä¸­çš„å„ä¸ªå…ƒç´ . 
 
-length ±í¸ñÖĞµÄÔªËØ¸öÊı. 
+length è¡¨æ ¼ä¸­çš„å…ƒç´ ä¸ªæ•°. 
 
-·½·¨ 
+æ–¹æ³• 
 
-submit() Ìá½»±í¸ñ. 
+submit() æäº¤è¡¨æ ¼. 
 
-ÊÂ¼ş´¦ÀíÆ÷onSubmit() ÓÃ»§µ¥»÷Ò»¸ö¶¨ÒåºÃµÄ°´Å¥Ìá½»formÊ±ÔËĞĞµÄ´úÂë. 
+äº‹ä»¶å¤„ç†å™¨onSubmit() ç”¨æˆ·å•å‡»ä¸€ä¸ªå®šä¹‰å¥½çš„æŒ‰é’®æäº¤formæ—¶è¿è¡Œçš„ä»£ç . 
 
-textºÍtextarea¶ÔÏó 
+textå’Œtextareaå¯¹è±¡ 
 
-ÊôĞÔ 
+å±æ€§ 
 
-name NAMEÊôĞÔµÄ×Ö·û´®Öµ. 
+name NAMEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-value ÓòÄÚÈİµÄ×Ö·û´®Öµ. 
+value åŸŸå†…å®¹çš„å­—ç¬¦ä¸²å€¼. 
 
-defaultValue ÓòÄÚÈİµÄ³õÊ¼×Ö·û´®Öµ. 
+defaultValue åŸŸå†…å®¹çš„åˆå§‹å­—ç¬¦ä¸²å€¼. 
 
-·½·¨ 
+æ–¹æ³• 
 
-focus() ÉèÖÃ¶ÔÏóÊäÈë½¹µã. 
+focus() è®¾ç½®å¯¹è±¡è¾“å…¥ç„¦ç‚¹. 
 
-blur() ´Ó¶ÔÏóÉÏÒÆ×ßÊäÈë½¹µã. 
+blur() ä»å¯¹è±¡ä¸Šç§»èµ°è¾“å…¥ç„¦ç‚¹. 
 
-select() Ñ¡¶¨¶ÔÏóµÄÊäÈëÇøÓò.
+select() é€‰å®šå¯¹è±¡çš„è¾“å…¥åŒºåŸŸ.
 
-ÊÂ¼ş´¦ÀíÆ÷
+äº‹ä»¶å¤„ç†å™¨
 
-onFocus µ±ÊäÈë½¹µã½øÈëÊ±Ö´ĞĞ. 
+onFocus å½“è¾“å…¥ç„¦ç‚¹è¿›å…¥æ—¶æ‰§è¡Œ. 
 
-onBlur µ±ÓòÊ§È¥½¹µãÊ±Ö´ĞĞ. 
+onBlur å½“åŸŸå¤±å»ç„¦ç‚¹æ—¶æ‰§è¡Œ. 
 
-onSelect µ±ÓòÖĞÓĞ²¿·ÖÎÄ±¾±»Ñ¡¶¨Ê±Ö´ĞĞ. 
+onSelect å½“åŸŸä¸­æœ‰éƒ¨åˆ†æ–‡æœ¬è¢«é€‰å®šæ—¶æ‰§è¡Œ. 
 
-onChange µ±ÓòÊ§È¥½¹µãÇÒÓòÖµÏà¶ÔÓÚonFocusÖ´ĞĞÓĞËù¸Ä±äÊ±Ö´ĞĞ.
+onChange å½“åŸŸå¤±å»ç„¦ç‚¹ä¸”åŸŸå€¼ç›¸å¯¹äºonFocusæ‰§è¡Œæœ‰æ‰€æ”¹å˜æ—¶æ‰§è¡Œ.
 
-¸´Ñ¡¿ò(checkbox)¶ÔÏó 
+å¤é€‰æ¡†(checkbox)å¯¹è±¡ 
 
-ÊôĞÔ
-name NAMEÊôĞÔµÄ×Ö·û´®Öµ. 
+å±æ€§
+name NAMEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-value ¸´Ñ¡¿òÄÚÈİµÄ×Ö·û´®Öµ.Èç¹ûÉèÖÃÁË,ÔòÎª"on",·ñÔòÎª"off". 
+value å¤é€‰æ¡†å†…å®¹çš„å­—ç¬¦ä¸²å€¼.å¦‚æœè®¾ç½®äº†,åˆ™ä¸º"on",å¦åˆ™ä¸º"off". 
 
-checked ¸´Ñ¡¿òÄÚÈİµÄ²¼¶ûÖµ.Èç¹ûÉèÖÃÁË,ÔòÎªtrue,·ñÔòÎªfalse . 
+checked å¤é€‰æ¡†å†…å®¹çš„å¸ƒå°”å€¼.å¦‚æœè®¾ç½®äº†,åˆ™ä¸ºtrue,å¦åˆ™ä¸ºfalse . 
 
-defaultChecked ·´Ó³(CHECKED)ÊôĞÔµÄ²¼¶ûÖµ(È±Ê¡×´Ì¬). 
+defaultChecked åæ˜ (CHECKED)å±æ€§çš„å¸ƒå°”å€¼(ç¼ºçœçŠ¶æ€). 
 
-·½·¨ 
+æ–¹æ³• 
 
-click() Ñ¡¶¨¸´Ñ¡¿ò,²¢Ê¹Ö®×´Ì¬Îª"on". 
+click() é€‰å®šå¤é€‰æ¡†,å¹¶ä½¿ä¹‹çŠ¶æ€ä¸º"on". 
 
-ÊÂ¼ş´¦ÀíÆ÷ 
+äº‹ä»¶å¤„ç†å™¨ 
 
-onClick µ±ÓÃ»§µ¥»÷CheckboxÊ±Ö´ĞĞ. 
-
-
-µ¥Ñ¡°´Å¥(radio)¶ÔÏó 
-
-ÊôĞÔ 
-
-name NAMEÊôĞÔµÄ×Ö·û´®Öµ. 
-
-length radio¶ÔÏóÖĞµ¥Ñ¡°´Å¥µÄ¸öÊı. 
-
-value VALUEÊôĞÔµÄ×Ö·û´®Öµ. 
-
-checked ²¼¶ûÖµ,°´ÏÂÎªtrue,·ñÔòÎªfalse . 
-
-defaultChecked ·´Ó³CHECKEDÊôĞÔÖµµÄ²¼¶ûÖµ. 
-
-·½·¨ 
-
-click() Ñ¡¶¨µ¥Ñ¡°´Å¥. 
-
-ÊÂ¼ş´¦ÀíÆ÷ 
-
-onClick µ±µ¥Ñ¡°´Å¥±»Ñ¡¶¨Ê±Ö´ĞĞ. 
+onClick å½“ç”¨æˆ·å•å‡»Checkboxæ—¶æ‰§è¡Œ. 
 
 
-select¶ÔÏó 
+å•é€‰æŒ‰é’®(radio)å¯¹è±¡ 
 
-ÊôĞÔ 
+å±æ€§ 
 
-length select¶ÔÏóÖĞ¶ÔÏóµÄ¸öÊı. 
+name NAMEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-name ÓÉNAME=ÊôĞÔ¶¨ÒåµÄselect¶ÔÏóµÄÄÚ²¿Ãû. 
+length radioå¯¹è±¡ä¸­å•é€‰æŒ‰é’®çš„ä¸ªæ•°. 
 
-selectedIndex select¶ÔÏóÖĞµ±Ç°±»Ñ¡optionµÄÏÂ±ê. 
+value VALUEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-options ¸ÃÊôĞÔ¶ÔÓ¦ÓÚÔÚHTMLÖĞ¶¨Òåselect¶ÔÏóÊ±±ê¼ÇÖĞµÄÄÚÈİ,ËüÓĞÈçÏÂÊôĞÔ: 
+checked å¸ƒå°”å€¼,æŒ‰ä¸‹ä¸ºtrue,å¦åˆ™ä¸ºfalse . 
 
-text ±ê¼ÇºóµÄÎÄ±¾´®. 
+defaultChecked åæ˜ CHECKEDå±æ€§å€¼çš„å¸ƒå°”å€¼. 
 
-value VALUEÊôĞÔµÄÖµ,µ±Submit°´Å¥±»°´ÏÂÊ±,¸ÃÖµ±»Ìá½». 
+æ–¹æ³• 
 
-defaultSelected ·´Ó³±ê¼ÇµÄSELECTEDÊôĞÔµÄ²¼¶ûÖµ. 
+click() é€‰å®šå•é€‰æŒ‰é’®. 
 
-selected ·´Ó³optionµÄµ±Ç°Ñ¡Ôñ×´Ì¬µÄ²¼¶ûÖµ. 
+äº‹ä»¶å¤„ç†å™¨ 
 
-ÊÂ¼ş´¦ÀíÆ÷ 
-
-onFocus µ±ÊäÈë½¹µã½øÈëÓòÊ±Ö´ĞĞ. 
-
-onBlur µ±ÓòÊ§È¥ÊäÈë½¹µãÊ±Ö´ĞĞ. 
-
-onChange µ±ÓòÊ§È¥½¹µãÇÒÈç¹ûÓòµÄÖµÏà¶ÔÓÚonFocusÖ´ĞĞÊ±ÓĞËù¸Ä±ä,ÔòÖ´ĞĞonChange. 
+onClick å½“å•é€‰æŒ‰é’®è¢«é€‰å®šæ—¶æ‰§è¡Œ. 
 
 
-Button¶ÔÏó 
+selectå¯¹è±¡ 
 
-±í¸ñÖĞÓĞÈıÖÖÀàĞÍ°´Å¥,ÓÉ±ê¼ÇÖĞµÄTYPEÊôĞÔ¶¨Òå: 
+å±æ€§ 
+
+length selectå¯¹è±¡ä¸­å¯¹è±¡çš„ä¸ªæ•°. 
+
+name ç”±NAME=å±æ€§å®šä¹‰çš„selectå¯¹è±¡çš„å†…éƒ¨å. 
+
+selectedIndex selectå¯¹è±¡ä¸­å½“å‰è¢«é€‰optionçš„ä¸‹æ ‡. 
+
+options è¯¥å±æ€§å¯¹åº”äºåœ¨HTMLä¸­å®šä¹‰selectå¯¹è±¡æ—¶æ ‡è®°ä¸­çš„å†…å®¹,å®ƒæœ‰å¦‚ä¸‹å±æ€§: 
+
+text æ ‡è®°åçš„æ–‡æœ¬ä¸². 
+
+value VALUEå±æ€§çš„å€¼,å½“SubmitæŒ‰é’®è¢«æŒ‰ä¸‹æ—¶,è¯¥å€¼è¢«æäº¤. 
+
+defaultSelected åæ˜ æ ‡è®°çš„SELECTEDå±æ€§çš„å¸ƒå°”å€¼. 
+
+selected åæ˜ optionçš„å½“å‰é€‰æ‹©çŠ¶æ€çš„å¸ƒå°”å€¼. 
+
+äº‹ä»¶å¤„ç†å™¨ 
+
+onFocus å½“è¾“å…¥ç„¦ç‚¹è¿›å…¥åŸŸæ—¶æ‰§è¡Œ. 
+
+onBlur å½“åŸŸå¤±å»è¾“å…¥ç„¦ç‚¹æ—¶æ‰§è¡Œ. 
+
+onChange å½“åŸŸå¤±å»ç„¦ç‚¹ä¸”å¦‚æœåŸŸçš„å€¼ç›¸å¯¹äºonFocusæ‰§è¡Œæ—¶æœ‰æ‰€æ”¹å˜,åˆ™æ‰§è¡ŒonChange. 
+
+
+Buttonå¯¹è±¡ 
+
+è¡¨æ ¼ä¸­æœ‰ä¸‰ç§ç±»å‹æŒ‰é’®,ç”±æ ‡è®°ä¸­çš„TYPEå±æ€§å®šä¹‰: 
 
 .submit (type="SUBMIT") 
 .reset (type="RESET") 
 .custom (type="BUTTON") 
 
-ËùÓĞ°´Å¥¶ÔÏó¶¼ÓĞÈçÏÂ³É·Ö: 
-ÊôĞÔ 
+æ‰€æœ‰æŒ‰é’®å¯¹è±¡éƒ½æœ‰å¦‚ä¸‹æˆåˆ†: 
+å±æ€§ 
 
-value VALUEÊôĞÔµÄ×Ö·û´®Öµ. 
+value VALUEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
 
-name NAMEÊôĞÔµÄ×Ö·û´®Öµ. 
-·½·¨ 
+name NAMEå±æ€§çš„å­—ç¬¦ä¸²å€¼. 
+æ–¹æ³• 
 
-click() Ñ¡¶¨°´Å¥ 
+click() é€‰å®šæŒ‰é’® 
 
-ÊÂ¼ş´¦ÀíÆ÷ 
+äº‹ä»¶å¤„ç†å™¨ 
 
-onClick µ±°´Å¥±»µ¥»÷Ê±Ö´ĞĞ. 
-
-
-submitºÍreset¶ÔÏó 
-
-ÊôĞÔ 
-
-value VALUE=ÊôĞÔµÄÄÚÈİ. 
-
-name NAME=ÊôĞÔµÄÄÚÈİ. 
-
-·½·¨ 
-
-click() Ñ¡¶¨°´Å¥ 
-
-ÊÂ¼ş´¦ÀíÆ÷ 
-
-onClick µ±°´Å¥±»µ¥»÷Ê±Ö´ĞĞ. 
+onClick å½“æŒ‰é’®è¢«å•å‡»æ—¶æ‰§è¡Œ. 
 
 
-password¶ÔÏó 
+submitå’Œresetå¯¹è±¡ 
 
-ÊôĞÔ 
+å±æ€§ 
 
-defaultValue VALUE=ÊôĞÔµÄÄÚÈİ. 
+value VALUE=å±æ€§çš„å†…å®¹. 
 
-name NAME=ÊôĞÔµÄÄÚÈİ. 
+name NAME=å±æ€§çš„å†…å®¹. 
 
-value Ä¿Ç°ÊäÈëpasswordÓòµÄÊı¾İ. 
+æ–¹æ³• 
 
-·½·¨ 
+click() é€‰å®šæŒ‰é’® 
 
-focus() ½«½¹µã´øÈëpasswordÓò. 
+äº‹ä»¶å¤„ç†å™¨ 
 
-blur ½«½¹µã´ÓpasswordÓòÒÆ³ö. 
-
-select() Ñ¡¶¨passwordÓòÖĞµÄµ±Ç°Êı¾İ,ÒÔ±¸ĞŞ¸Ä. 
+onClick å½“æŒ‰é’®è¢«å•å‡»æ—¶æ‰§è¡Œ. 
 
 
-navigator¶ÔÏó 
-¸Ã¶ÔÏóÓÃÓÚÈ·¶¨ÓÃ»§·ÃÎÊÊ±Ê¹ÓÃµÄNavigator°æ±¾. 
+passwordå¯¹è±¡ 
 
-ÊôĞÔ 
+å±æ€§ 
 
-appCodeName Ïà¶ÔÓÚÓÃ»§ä¯ÀÀÆ÷µÄ"codename" 
+defaultValue VALUE=å±æ€§çš„å†…å®¹. 
 
-appName Ïà¶ÔÓÚÓÃ»§ä¯ÀÀÆ÷µÄÊµ¼ÊÃû×Ö. 
+name NAME=å±æ€§çš„å†…å®¹. 
 
-appVersion Ïà¶ÔÓÚÓÃ»§ä¯ÀÀÆ÷µÄ°æ±¾ºÅ. 
+value ç›®å‰è¾“å…¥passwordåŸŸçš„æ•°æ®. 
 
-userAgent ¸ÃÊôĞÔ·´Ó³ÓÃ»§ä¯ÀÀÆ÷µÄÈ«²¿ĞÅÏ¢.
+æ–¹æ³• 
+
+focus() å°†ç„¦ç‚¹å¸¦å…¥passwordåŸŸ. 
+
+blur å°†ç„¦ç‚¹ä»passwordåŸŸç§»å‡º. 
+
+select() é€‰å®špasswordåŸŸä¸­çš„å½“å‰æ•°æ®,ä»¥å¤‡ä¿®æ”¹. 
 
 
-string¶ÔÏó 
+navigatorå¯¹è±¡ 
+è¯¥å¯¹è±¡ç”¨äºç¡®å®šç”¨æˆ·è®¿é—®æ—¶ä½¿ç”¨çš„Navigatorç‰ˆæœ¬. 
 
-string¶ÔÏóÎª²Ù×÷×Ö·û´®µÄÄÚÈİÌá¹©ÁËºÜ¶à·½·¨. 
+å±æ€§ 
 
-ÊôĞÔ 
+appCodeName ç›¸å¯¹äºç”¨æˆ·æµè§ˆå™¨çš„"codename" 
 
-length ×Ö·û´®µÄ³¤¶È,¼´×Ö·û´®ÖĞ×Ö·ûµÄ¸öÊı. 
+appName ç›¸å¯¹äºç”¨æˆ·æµè§ˆå™¨çš„å®é™…åå­—. 
 
-·½·¨ 
+appVersion ç›¸å¯¹äºç”¨æˆ·æµè§ˆå™¨çš„ç‰ˆæœ¬å·. 
+
+userAgent è¯¥å±æ€§åæ˜ ç”¨æˆ·æµè§ˆå™¨çš„å…¨éƒ¨ä¿¡æ¯.
+
+
+stringå¯¹è±¡ 
+
+stringå¯¹è±¡ä¸ºæ“ä½œå­—ç¬¦ä¸²çš„å†…å®¹æä¾›äº†å¾ˆå¤šæ–¹æ³•. 
+
+å±æ€§ 
+
+length å­—ç¬¦ä¸²çš„é•¿åº¦,å³å­—ç¬¦ä¸²ä¸­å­—ç¬¦çš„ä¸ªæ•°. 
+
+æ–¹æ³• 
 
 big(),blink(),bold(),fixed(),italics(),small(),sub(),strike(),sup(),fontColor(color),fontSize(size) 
 
-ÒÔÉÏ·½·¨Îª×Ö·û´®Ôö¼ÓÏàÓ¦µÄHTML±ê¼Ç. 
+ä»¥ä¸Šæ–¹æ³•ä¸ºå­—ç¬¦ä¸²å¢åŠ ç›¸åº”çš„HTMLæ ‡è®°. 
 
-charAt(index) ·µ»Ø×Ö·û´®ÖĞindex´¦µÄ×Ö·û. 
+charAt(index) è¿”å›å­—ç¬¦ä¸²ä¸­indexå¤„çš„å­—ç¬¦. 
 
-indexOf(searchValue,[fromIndex]) ¸Ã·½·¨ÔÚ×Ö·û´®ÖĞÑ°ÕÒµÚÒ»´Î³öÏÖµÄsearchValue.Èç¹û¸ø¶¨ÁËfromIndex,Ôò´Ó ×Ö·û´®ÄÚ¸ÃÎ»ÖÃ¿ªÊ¼ËÑË÷,µ±searchValueÕÒµ½ºó,·µ»Ø¸Ã´®µÚÒ»¸ö×Ö·ûµÄÎ»ÖÃ. 
+indexOf(searchValue,[fromIndex]) è¯¥æ–¹æ³•åœ¨å­—ç¬¦ä¸²ä¸­å¯»æ‰¾ç¬¬ä¸€æ¬¡å‡ºç°çš„searchValue.å¦‚æœç»™å®šäº†fromIndex,åˆ™ä» å­—ç¬¦ä¸²å†…è¯¥ä½ç½®å¼€å§‹æœç´¢,å½“searchValueæ‰¾åˆ°å,è¿”å›è¯¥ä¸²ç¬¬ä¸€ä¸ªå­—ç¬¦çš„ä½ç½®. 
 
-lastIndexOf(searchValue,[fromIndex]) ´Ó×Ö·û´®µÄÎ²²¿ÏòÇ°ËÑË÷searchValue,²¢±¨¸æÕÒµ½µÄµÚÒ»¸öÊµÀı. 
+lastIndexOf(searchValue,[fromIndex]) ä»å­—ç¬¦ä¸²çš„å°¾éƒ¨å‘å‰æœç´¢searchValue,å¹¶æŠ¥å‘Šæ‰¾åˆ°çš„ç¬¬ä¸€ä¸ªå®ä¾‹. 
 
-substring(indexA,indexB) »ñÈ¡×ÔindexAµ½indexBµÄ×Ó´®. 
+substring(indexA,indexB) è·å–è‡ªindexAåˆ°indexBçš„å­ä¸². 
 
-toLowerCase(),toUpperCase() ½«×Ö·û´®ÖĞËùÓĞ×Ö·ûÈ«²¿×ª»»³É´óĞ´,Ğ¡Ğ´. 
+toLowerCase(),toUpperCase() å°†å­—ç¬¦ä¸²ä¸­æ‰€æœ‰å­—ç¬¦å…¨éƒ¨è½¬æ¢æˆå¤§å†™,å°å†™. 
 
 
-Date¶ÔÏó 
+Dateå¯¹è±¡ 
 
-ÒªÊ¹ÓÃDate¶ÔÏó,±ØĞëÏÈÉú³ÉÒ»¸öDateÊµÀı: 
+è¦ä½¿ç”¨Dateå¯¹è±¡,å¿…é¡»å…ˆç”Ÿæˆä¸€ä¸ªDateå®ä¾‹: 
 
-±äÁ¿Ãû=new Date(); 
+å˜é‡å=new Date(); 
 
-·½·¨ 
+æ–¹æ³• 
 getDay(),getDate(),getHours(),getMinutes(),getMonth(),getSeconds(),getTime(), 
 getTimeZoneOffset(),getYear() 
 
-»¹ÓĞsetDay... ... 
+è¿˜æœ‰setDay... ... 
 
-toGMTString() ÓÃGMT¸ñÊ½·µ»Øµ±Ç°Ê±¼ä. (Sun,12 Feb 1999 14:19:22 GMT)
+toGMTString() ç”¨GMTæ ¼å¼è¿”å›å½“å‰æ—¶é—´. (Sun,12 Feb 1999 14:19:22 GMT)
 
-toLocaleString ÓÃlocale¸ñÊ½·µ»Øµ±Ç°Ê±¼ä. (03/11/99 14:19:22) 
+toLocaleString ç”¨localeæ ¼å¼è¿”å›å½“å‰æ—¶é—´. (03/11/99 14:19:22) 
 
-parse(date) ½«ÆÕÍ¨date×Ö·û´®×ª»»³ÉºÀÃëĞÎÊ½,´Ó¶ø¸øsetTime()×ö²ÎÊı. 
+parse(date) å°†æ™®é€šdateå­—ç¬¦ä¸²è½¬æ¢æˆè±ªç§’å½¢å¼,ä»è€Œç»™setTime()åšå‚æ•°. 
 
 
-Math¶ÔÏó 
+Mathå¯¹è±¡ 
 
-ÊôĞÔ 
+å±æ€§ 
 
-LN10 (10µÄ×ÔÈ»¶ÔÊı) 
+LN10 (10çš„è‡ªç„¶å¯¹æ•°) 
 
 PI (3.1415926...) 
 
-SQRT1_2 (1/2µÄÆ½·½¸ù) 
+SQRT1_2 (1/2çš„å¹³æ–¹æ ¹) 
 
-·½·¨ 
+æ–¹æ³• 
 
-abs(x) ·µ»ØxµÄ¾ø¶ÔÖµ 
-acos(x) ·µ»ØxµÄarc cosineÖµ 
-asin(x) ·µ»ØxµÄarc sinÖµ 
-atan(x) ·µ»ØxµÄarc tangentÖµ 
-ceil(x) ·µ»Ø´óÓÚµÈÓÚxµÄ×îĞ¡ÕûÊı 
-cos(x) ·µ»ØxµÄcosineÖµ 
-exp(x) ·µ»ØeµÄx´Î·½ 
-floor(x) ·µ»ØĞ¡ÓÚµÈÓÚxµÄ×î´óÕûÊı 
-log(x) ·µ»ØxµÄ 
-max(x,y) ·µ»Øx,yÖĞµÄ´óÖµ 
-min(x,y) ·µ»Øx,yÖĞµÄĞ¡Öµ 
-pow(x,y) ·µ»ØxµÄy´Î·½ 
-round(x) ÉáÈëµ½×î½üÕûÊı,(Ğ¡ÓÚ»òµÈÓÚ0.5Ğ¡ÊıÉáÈ¥) 
-sin(x) ·µ»ØxµÄsinÖµ 
-sqrt(x) ·µ»ØxµÄÆ½·½¸ù 
-tan(x) ·µ»ØxµÄtangentÖµ
+abs(x) è¿”å›xçš„ç»å¯¹å€¼ 
+acos(x) è¿”å›xçš„arc cosineå€¼ 
+asin(x) è¿”å›xçš„arc sinå€¼ 
+atan(x) è¿”å›xçš„arc tangentå€¼ 
+ceil(x) è¿”å›å¤§äºç­‰äºxçš„æœ€å°æ•´æ•° 
+cos(x) è¿”å›xçš„cosineå€¼ 
+exp(x) è¿”å›eçš„xæ¬¡æ–¹ 
+floor(x) è¿”å›å°äºç­‰äºxçš„æœ€å¤§æ•´æ•° 
+log(x) è¿”å›xçš„ 
+max(x,y) è¿”å›x,yä¸­çš„å¤§å€¼ 
+min(x,y) è¿”å›x,yä¸­çš„å°å€¼ 
+pow(x,y) è¿”å›xçš„yæ¬¡æ–¹ 
+round(x) èˆå…¥åˆ°æœ€è¿‘æ•´æ•°,(å°äºæˆ–ç­‰äº0.5å°æ•°èˆå») 
+sin(x) è¿”å›xçš„sinå€¼ 
+sqrt(x) è¿”å›xçš„å¹³æ–¹æ ¹ 
+tan(x) è¿”å›xçš„tangentå€¼
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 12:08 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:23:10 
-µ¯´°´úÂë»ã×Ü ~~~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 12:08 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:23:10 
+å¼¹çª—ä»£ç æ±‡æ€» ~~~~~~~~~~~~
 
 
-¡¾0¡¢³¬ÍêÃÀµ¯´°´úÂë ¡¿
-¹¦ÄÜ£º5Ğ¡Ê±µ¯Ò»´Î+±³ºóµ¯³ö+×Ô¶¯ÊÊÓ¦²»Í¬·Ö±çÂÊ+×¼È«ÆÁÏÔÊ¾ 
+ã€0ã€è¶…å®Œç¾å¼¹çª—ä»£ç  ã€‘
+åŠŸèƒ½ï¼š5å°æ—¶å¼¹ä¸€æ¬¡+èƒŒåå¼¹å‡º+è‡ªåŠ¨é€‚åº”ä¸åŒåˆ†è¾©ç‡+å‡†å…¨å±æ˜¾ç¤º 
 
-´úÂë£º 
+ä»£ç ï¼š 
 <script> 
 function openwin(){ 
 window.open(http://www.6882.com,"pop1","width="+(window.screen.width-15)+",height="+(window.screen.height-170)+",left=0,top=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes") 
@@ -1824,24 +1824,24 @@ setTimeout("focus();",5);
 } 
 function get_cookie(Name) { 
 var search = Name + "=" 
-var return£¦#118alue = ""; 
-if (documents£¦#46cookie.length > 0) { 
-offset = documents£¦#46cookie.indexOf(search) 
+var returnï¼†#118alue = ""; 
+if (documentsï¼†#46cookie.length > 0) { 
+offset = documentsï¼†#46cookie.indexOf(search) 
 if (offset != -1) { 
 offset += search.length 
-end = documents£¦#46cookie.indexOf(";", offset); 
+end = documentsï¼†#46cookie.indexOf(";", offset); 
 if (end == -1) 
-end = documents£¦#46cookie.length; 
-return£¦#118alue=unescape(documents£¦#46cookie.substring(offset, end)) 
+end = documentsï¼†#46cookie.length; 
+returnï¼†#118alue=unescape(documentsï¼†#46cookie.substring(offset, end)) 
 } 
 } 
-return return£¦#118alue; 
+return returnï¼†#118alue; 
 } 
 function Set() 
 { 
-¡¡¡¡var Then = new Date()¡¡¡¡¡¡¡¡ 
-¡¡¡¡Then.setTime(Then.getTime() + 5*60*60*1000 ) 
-¡¡¡¡documents£¦#46cookie = "popped1=yes;expires="+ Then.toGMTString() 
+ã€€ã€€var Then = new Date()ã€€ã€€ã€€ã€€ 
+ã€€ã€€Then.setTime(Then.getTime() + 5*60*60*1000 ) 
+ã€€ã€€documentsï¼†#46cookie = "popped1=yes;expires="+ Then.toGMTString() 
 } 
 
 function loadpopup(){ 
@@ -1856,141 +1856,141 @@ setTimeout("loadpopup()",5);
 </script> 
 
 
-¡¾1¡¢×î»ù±¾µÄµ¯³ö´°¿Ú´úÂë¡¿ 
+ã€1ã€æœ€åŸºæœ¬çš„å¼¹å‡ºçª—å£ä»£ç ã€‘ 
 
-ÆäÊµ´úÂë·Ç³£¼òµ¥£º 
+å…¶å®ä»£ç éå¸¸ç®€å•ï¼š 
 
-<script language="£¦#106avascript"> 
+<script language="ï¼†#106avascript"> 
 <!-- 
 window.open ('page.html') 
 --> 
 </script> 
-ÒòÎª×ÅÊÇÒ»¶Î£¦#106avascripts´úÂë£¬ËùÒÔËüÃÇÓ¦¸Ã·ÅÔÚ<script language="£¦#106avascript">±êÇ©ºÍ</script>Ö®¼ä¡£<!-- ºÍ -->ÊÇ¶ÔÒ»Ğ©°æ±¾µÍµÄä¯ÀÀÆ÷Æğ×÷ÓÃ£¬ÔÚÕâĞ©ÀÏä¯ÀÀÆ÷ÖĞ²»»á½«±êÇ©ÖĞµÄ´úÂë×÷ÎªÎÄ±¾ÏÔÊ¾³öÀ´¡£ÒªÑø³ÉÕâ¸öºÃÏ°¹ß°¡¡£ 
-window.open ('page.html') ÓÃÓÚ¿ØÖÆµ¯³öĞÂµÄ´°¿Úpage.html£¬Èç¹ûpage.html²»ÓëÖ÷´°¿ÚÔÚÍ¬Ò»Â·¾¶ÏÂ£¬Ç°ÃæÓ¦Ğ´Ã÷Â·¾¶£¬¾ø¶ÔÂ·¾¶(http://)ºÍÏà¶ÔÂ·¾¶(../)¾ù¿É¡£ÓÃµ¥ÒıºÅºÍË«ÒıºÅ¶¼¿ÉÒÔ£¬Ö»ÊÇ²»Òª»ìÓÃ¡£ 
-ÕâÒ»¶Î´úÂë¿ÉÒÔ¼ÓÈëhtmlµÄÈÎÒâÎ»ÖÃ£¬<head>ºÍ</head>Ö®¼ä¿ÉÒÔ£¬<body>¼ä</body>Ò²¿ÉÒÔ£¬Ô½Ç°Ô½ÔçÖ´ĞĞ£¬ÓÈÆäÊÇÒ³Ãæ´úÂë³¤£¬ÓÖÏëÊ¹Ò³ÃæÔçµãµ¯³ö¾Í¾¡Á¿ÍùÇ°·Å¡£ 
+å› ä¸ºç€æ˜¯ä¸€æ®µï¼†#106avascriptsä»£ç ï¼Œæ‰€ä»¥å®ƒä»¬åº”è¯¥æ”¾åœ¨<script language="ï¼†#106avascript">æ ‡ç­¾å’Œ</script>ä¹‹é—´ã€‚<!-- å’Œ -->æ˜¯å¯¹ä¸€äº›ç‰ˆæœ¬ä½çš„æµè§ˆå™¨èµ·ä½œç”¨ï¼Œåœ¨è¿™äº›è€æµè§ˆå™¨ä¸­ä¸ä¼šå°†æ ‡ç­¾ä¸­çš„ä»£ç ä½œä¸ºæ–‡æœ¬æ˜¾ç¤ºå‡ºæ¥ã€‚è¦å…»æˆè¿™ä¸ªå¥½ä¹ æƒ¯å•Šã€‚ 
+window.open ('page.html') ç”¨äºæ§åˆ¶å¼¹å‡ºæ–°çš„çª—å£page.htmlï¼Œå¦‚æœpage.htmlä¸ä¸ä¸»çª—å£åœ¨åŒä¸€è·¯å¾„ä¸‹ï¼Œå‰é¢åº”å†™æ˜è·¯å¾„ï¼Œç»å¯¹è·¯å¾„(http://)å’Œç›¸å¯¹è·¯å¾„(../)å‡å¯ã€‚ç”¨å•å¼•å·å’ŒåŒå¼•å·éƒ½å¯ä»¥ï¼Œåªæ˜¯ä¸è¦æ··ç”¨ã€‚ 
+è¿™ä¸€æ®µä»£ç å¯ä»¥åŠ å…¥htmlçš„ä»»æ„ä½ç½®ï¼Œ<head>å’Œ</head>ä¹‹é—´å¯ä»¥ï¼Œ<body>é—´</body>ä¹Ÿå¯ä»¥ï¼Œè¶Šå‰è¶Šæ—©æ‰§è¡Œï¼Œå°¤å…¶æ˜¯é¡µé¢ä»£ç é•¿ï¼Œåˆæƒ³ä½¿é¡µé¢æ—©ç‚¹å¼¹å‡ºå°±å°½é‡å¾€å‰æ”¾ã€‚ 
 
 
-¡¾2¡¢¾­¹ıÉèÖÃºóµÄµ¯³ö´°¿Ú¡¿ 
+ã€2ã€ç»è¿‡è®¾ç½®åçš„å¼¹å‡ºçª—å£ã€‘ 
 
-ÏÂÃæÔÙËµÒ»Ëµµ¯³ö´°¿ÚµÄÉèÖÃ¡£Ö»ÒªÔÙÍùÉÏÃæµÄ´úÂëÖĞ¼ÓÒ»µã¶«Î÷¾Í¿ÉÒÔÁË¡£ 
-ÎÒÃÇÀ´¶¨ÖÆÕâ¸öµ¯³öµÄ´°¿ÚµÄÍâ¹Û£¬³ß´ç´óĞ¡£¬µ¯³öµÄÎ»ÖÃÒÔÊÊÓ¦¸ÃÒ³ÃæµÄ¾ßÌåÇé¿ö¡£ 
-<script language="£¦#106avascript"> 
+ä¸‹é¢å†è¯´ä¸€è¯´å¼¹å‡ºçª—å£çš„è®¾ç½®ã€‚åªè¦å†å¾€ä¸Šé¢çš„ä»£ç ä¸­åŠ ä¸€ç‚¹ä¸œè¥¿å°±å¯ä»¥äº†ã€‚ 
+æˆ‘ä»¬æ¥å®šåˆ¶è¿™ä¸ªå¼¹å‡ºçš„çª—å£çš„å¤–è§‚ï¼Œå°ºå¯¸å¤§å°ï¼Œå¼¹å‡ºçš„ä½ç½®ä»¥é€‚åº”è¯¥é¡µé¢çš„å…·ä½“æƒ…å†µã€‚ 
+<script language="ï¼†#106avascript"> 
 <!-- 
 window.open ('page.html', 'newwindow', 'height=100, width=400, top=0,left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no') 
-//Ğ´³ÉÒ»ĞĞ 
+//å†™æˆä¸€è¡Œ 
 --> 
 </script> 
-²ÎÊı½âÊÍ£º 
-<script language="£¦#106avascript"> js½Å±¾¿ªÊ¼£» 
-window.open µ¯³öĞÂ´°¿ÚµÄÃüÁî£» 
-'page.html' µ¯³ö´°¿ÚµÄÎÄ¼şÃû£» 
-'newwindow' µ¯³ö´°¿ÚµÄÃû×Ö£¨²»ÊÇÎÄ¼şÃû£©£¬·Ç±ØĞë£¬¿ÉÓÃ¿Õ''´úÌæ£» 
-height=100 ´°¿Ú¸ß¶È£» 
-width=400 ´°¿Ú¿í¶È£» 
-top=0 ´°¿Ú¾àÀëÆÁÄ»ÉÏ·½µÄÏóËØÖµ£» 
-left=0 ´°¿Ú¾àÀëÆÁÄ»×ó²àµÄÏóËØÖµ£» 
-toolbar=no ÊÇ·ñÏÔÊ¾¹¤¾ßÀ¸£¬yesÎªÏÔÊ¾£» 
-menubar£¬scrollbars ±íÊ¾²Ëµ¥À¸ºÍ¹ö¶¯À¸¡£ 
-resizable=no ÊÇ·ñÔÊĞí¸Ä±ä´°¿Ú´óĞ¡£¬yesÎªÔÊĞí£» 
-location=no ÊÇ·ñÏÔÊ¾µØÖ·À¸£¬yesÎªÔÊĞí£» 
-status=no ÊÇ·ñÏÔÊ¾×´Ì¬À¸ÄÚµÄĞÅÏ¢£¨Í¨³£ÊÇÎÄ¼şÒÑ¾­´ò¿ª£©£¬yesÎªÔÊĞí£» 
-</script> js½Å±¾½áÊø 
+å‚æ•°è§£é‡Šï¼š 
+<script language="ï¼†#106avascript"> jsè„šæœ¬å¼€å§‹ï¼› 
+window.open å¼¹å‡ºæ–°çª—å£çš„å‘½ä»¤ï¼› 
+'page.html' å¼¹å‡ºçª—å£çš„æ–‡ä»¶åï¼› 
+'newwindow' å¼¹å‡ºçª—å£çš„åå­—ï¼ˆä¸æ˜¯æ–‡ä»¶åï¼‰ï¼Œéå¿…é¡»ï¼Œå¯ç”¨ç©º''ä»£æ›¿ï¼› 
+height=100 çª—å£é«˜åº¦ï¼› 
+width=400 çª—å£å®½åº¦ï¼› 
+top=0 çª—å£è·ç¦»å±å¹•ä¸Šæ–¹çš„è±¡ç´ å€¼ï¼› 
+left=0 çª—å£è·ç¦»å±å¹•å·¦ä¾§çš„è±¡ç´ å€¼ï¼› 
+toolbar=no æ˜¯å¦æ˜¾ç¤ºå·¥å…·æ ï¼Œyesä¸ºæ˜¾ç¤ºï¼› 
+menubarï¼Œscrollbars è¡¨ç¤ºèœå•æ å’Œæ»šåŠ¨æ ã€‚ 
+resizable=no æ˜¯å¦å…è®¸æ”¹å˜çª—å£å¤§å°ï¼Œyesä¸ºå…è®¸ï¼› 
+location=no æ˜¯å¦æ˜¾ç¤ºåœ°å€æ ï¼Œyesä¸ºå…è®¸ï¼› 
+status=no æ˜¯å¦æ˜¾ç¤ºçŠ¶æ€æ å†…çš„ä¿¡æ¯ï¼ˆé€šå¸¸æ˜¯æ–‡ä»¶å·²ç»æ‰“å¼€ï¼‰ï¼Œyesä¸ºå…è®¸ï¼› 
+</script> jsè„šæœ¬ç»“æŸ 
 
 
-¡¾3¡¢ÓÃº¯Êı¿ØÖÆµ¯³ö´°¿Ú¡¿ 
+ã€3ã€ç”¨å‡½æ•°æ§åˆ¶å¼¹å‡ºçª—å£ã€‘ 
 
-ÏÂÃæÊÇÒ»¸öÍêÕûµÄ´úÂë¡£ 
+ä¸‹é¢æ˜¯ä¸€ä¸ªå®Œæ•´çš„ä»£ç ã€‚ 
 <html> 
 <head> 
-<script language="£¦#106avascript"> 
+<script language="ï¼†#106avascript"> 
 <!-- 
 function openwin() { window.open ("page.html", "newwindow", "height=100, width=400, toolbar= 
 no, menubar=no, scrollbars=no, resizable=no, location=no, status=no" 
-//Ğ´³ÉÒ»ĞĞ 
+//å†™æˆä¸€è¡Œ 
 } 
 //--> 
 </script> 
 </head> 
 <body > 
-...ÈÎÒâµÄÒ³ÃæÄÚÈİ... 
+...ä»»æ„çš„é¡µé¢å†…å®¹... 
 </body> 
 </html> 
-ÕâÀï¶¨ÒåÁËÒ»¸öº¯Êıopenwin(),º¯ÊıÄÚÈİ¾ÍÊÇ´ò¿ªÒ»¸ö´°¿Ú¡£ÔÚµ÷ÓÃËüÖ®Ç°Ã»ÓĞÈÎºÎÓÃÍ¾¡£ 
-ÔõÃ´µ÷ÓÃÄØ£¿ 
-·½·¨Ò»£º<body > ä¯ÀÀÆ÷¶ÁÒ³ÃæÊ±µ¯³ö´°¿Ú£» 
-·½·¨¶ş£º<body > ä¯ÀÀÆ÷Àë¿ªÒ³ÃæÊ±µ¯³ö´°¿Ú£» 
-·½·¨Èı£ºÓÃÒ»¸öÁ¬½Óµ÷ÓÃ£º 
-<a href="#" £¦#111nclick="openwin()">´ò¿ªÒ»¸ö´°¿Ú</a> 
-×¢Òâ£ºÊ¹ÓÃµÄ¡°#¡±ÊÇĞéÁ¬½Ó¡£ 
-·½·¨ËÄ£ºÓÃÒ»¸ö°´Å¥µ÷ÓÃ£º 
-<input type="button" £¦#111nclick="openwin()" £¦#118alue="´ò¿ª´°¿Ú"> 
+è¿™é‡Œå®šä¹‰äº†ä¸€ä¸ªå‡½æ•°openwin(),å‡½æ•°å†…å®¹å°±æ˜¯æ‰“å¼€ä¸€ä¸ªçª—å£ã€‚åœ¨è°ƒç”¨å®ƒä¹‹å‰æ²¡æœ‰ä»»ä½•ç”¨é€”ã€‚ 
+æ€ä¹ˆè°ƒç”¨å‘¢ï¼Ÿ 
+æ–¹æ³•ä¸€ï¼š<body > æµè§ˆå™¨è¯»é¡µé¢æ—¶å¼¹å‡ºçª—å£ï¼› 
+æ–¹æ³•äºŒï¼š<body > æµè§ˆå™¨ç¦»å¼€é¡µé¢æ—¶å¼¹å‡ºçª—å£ï¼› 
+æ–¹æ³•ä¸‰ï¼šç”¨ä¸€ä¸ªè¿æ¥è°ƒç”¨ï¼š 
+<a href="#" ï¼†#111nclick="openwin()">æ‰“å¼€ä¸€ä¸ªçª—å£</a> 
+æ³¨æ„ï¼šä½¿ç”¨çš„â€œ#â€æ˜¯è™šè¿æ¥ã€‚ 
+æ–¹æ³•å››ï¼šç”¨ä¸€ä¸ªæŒ‰é’®è°ƒç”¨ï¼š 
+<input type="button" ï¼†#111nclick="openwin()" ï¼†#118alue="æ‰“å¼€çª—å£"> 
 
 
-¡¾4¡¢Í¬Ê±µ¯³ö2¸ö´°¿Ú¡¿ 
+ã€4ã€åŒæ—¶å¼¹å‡º2ä¸ªçª—å£ã€‘ 
 
-¶ÔÔ´´úÂëÉÔÎ¢¸Ä¶¯Ò»ÏÂ£º 
-<script language="£¦#106avascript"> 
+å¯¹æºä»£ç ç¨å¾®æ”¹åŠ¨ä¸€ä¸‹ï¼š 
+<script language="ï¼†#106avascript"> 
 <!-- 
 function openwin() 
 { window.open ("page.html", "newwindow", "height=100, width=100, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no" 
-//Ğ´³ÉÒ»ĞĞ 
+//å†™æˆä¸€è¡Œ 
 window.open ("page2.html", "newwindow2", "height=100, width=100, top=100, left=100,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no" 
-//Ğ´³ÉÒ»ĞĞ 
+//å†™æˆä¸€è¡Œ 
 } 
 //--> 
 </script> 
-Îª±ÜÃâµ¯³öµÄ2¸ö´°¿Ú¸²¸Ç£¬ÓÃtopºÍleft¿ØÖÆÒ»ÏÂµ¯³öµÄÎ»ÖÃ²»ÒªÏà»¥¸²¸Ç¼´¿É¡£×îºóÓÃÉÏÃæËµ¹ıµÄËÄÖÖ·½·¨µ÷ÓÃ¼´¿É¡£ 
+ä¸ºé¿å…å¼¹å‡ºçš„2ä¸ªçª—å£è¦†ç›–ï¼Œç”¨topå’Œleftæ§åˆ¶ä¸€ä¸‹å¼¹å‡ºçš„ä½ç½®ä¸è¦ç›¸äº’è¦†ç›–å³å¯ã€‚æœ€åç”¨ä¸Šé¢è¯´è¿‡çš„å››ç§æ–¹æ³•è°ƒç”¨å³å¯ã€‚ 
 
-×¢Òâ£º2¸ö´°¿ÚµÄname(newwindowsºÍnewwindow2)²»ÒªÏàÍ¬£¬»òÕß¸É´àÈ«²¿Îª¿Õ¡£ok£¿ 
+æ³¨æ„ï¼š2ä¸ªçª—å£çš„name(newwindowså’Œnewwindow2)ä¸è¦ç›¸åŒï¼Œæˆ–è€…å¹²è„†å…¨éƒ¨ä¸ºç©ºã€‚okï¼Ÿ 
 
 
-¡¾5¡¢Ö÷´°¿Ú´ò¿ªÎÄ¼ş1.htm£¬Í¬Ê±µ¯³öĞ¡´°¿Úpage.html¡¿ 
+ã€5ã€ä¸»çª—å£æ‰“å¼€æ–‡ä»¶1.htmï¼ŒåŒæ—¶å¼¹å‡ºå°çª—å£page.htmlã€‘ 
 
-ÈçÏÂ´úÂë¼ÓÈëÖ÷´°¿Ú<head>Çø£º 
-<script language="£¦#106avascript"> 
+å¦‚ä¸‹ä»£ç åŠ å…¥ä¸»çª—å£<head>åŒºï¼š 
+<script language="ï¼†#106avascript"> 
 <!-- 
 function openwin() 
 {window.open("page.html","","width=200,height=200" 
 } 
 //--> 
 </script> 
-¼ÓÈë<body>Çø£º 
-<a href="1.htm" £¦#111nclick="openwin()">open</a>¼´¿É¡£ 
+åŠ å…¥<body>åŒºï¼š 
+<a href="1.htm" ï¼†#111nclick="openwin()">open</a>å³å¯ã€‚ 
 
 
-¡¾6¡¢µ¯³öµÄ´°¿ÚÖ®¶¨Ê±¹Ø±Õ¿ØÖÆ¡¿ 
+ã€6ã€å¼¹å‡ºçš„çª—å£ä¹‹å®šæ—¶å…³é—­æ§åˆ¶ã€‘ 
 
-ÏÂÃæÎÒÃÇÔÙ¶Ôµ¯³öµÄ´°¿Ú½øĞĞÒ»Ğ©¿ØÖÆ£¬Ğ§¹û¾Í¸üºÃÁË¡£Èç¹ûÎÒÃÇÔÙ½«Ò»Ğ¡¶Î´úÂë¼ÓÈëµ¯³öµÄÒ³Ãæ(×¢ÒâÊÇ¼ÓÈëµ½page.htmlµÄhtmlÖĞ£¬¿É²»ÊÇÖ÷Ò³ÃæÖĞ£¬·ñÔò...)£¬ÈÃËü10Ãëºó×Ô¶¯¹Ø±ÕÊÇ²»ÊÇ¸ü¿áÁË£¿ 
+ä¸‹é¢æˆ‘ä»¬å†å¯¹å¼¹å‡ºçš„çª—å£è¿›è¡Œä¸€äº›æ§åˆ¶ï¼Œæ•ˆæœå°±æ›´å¥½äº†ã€‚å¦‚æœæˆ‘ä»¬å†å°†ä¸€å°æ®µä»£ç åŠ å…¥å¼¹å‡ºçš„é¡µé¢(æ³¨æ„æ˜¯åŠ å…¥åˆ°page.htmlçš„htmlä¸­ï¼Œå¯ä¸æ˜¯ä¸»é¡µé¢ä¸­ï¼Œå¦åˆ™...)ï¼Œè®©å®ƒ10ç§’åè‡ªåŠ¨å…³é—­æ˜¯ä¸æ˜¯æ›´é…·äº†ï¼Ÿ 
 
-Ê×ÏÈ£¬½«ÈçÏÂ´úÂë¼ÓÈëpage.htmlÎÄ¼şµÄ<head>Çø£º 
-<script language="£¦#106avascript"> 
+é¦–å…ˆï¼Œå°†å¦‚ä¸‹ä»£ç åŠ å…¥page.htmlæ–‡ä»¶çš„<head>åŒºï¼š 
+<script language="ï¼†#106avascript"> 
 function closeit() 
-{settimeout("self.close()",10000) //ºÁÃë} 
+{settimeout("self.close()",10000) //æ¯«ç§’} 
 </script> 
-È»ºó£¬ÔÙÓÃ<body > ÕâÒ»¾ä»°´úÌæpage.htmlÖĞÔ­ÓĞµÄ<body>ÕâÒ»¾ä¾Í¿ÉÒÔÁË¡£(ÕâÒ»¾ä»°Ç§Íò²»ÒªÍü¼ÇĞ´°¡£¡ÕâÒ»¾äµÄ×÷ÓÃÊÇµ÷ÓÃ¹Ø±Õ´°¿ÚµÄ´úÂë£¬10ÃëÖÓºó¾Í×ÔĞĞ¹Ø±Õ¸Ã´°¿Ú¡£) 
+ç„¶åï¼Œå†ç”¨<body > è¿™ä¸€å¥è¯ä»£æ›¿page.htmlä¸­åŸæœ‰çš„<body>è¿™ä¸€å¥å°±å¯ä»¥äº†ã€‚(è¿™ä¸€å¥è¯åƒä¸‡ä¸è¦å¿˜è®°å†™å•Šï¼è¿™ä¸€å¥çš„ä½œç”¨æ˜¯è°ƒç”¨å…³é—­çª—å£çš„ä»£ç ï¼Œ10ç§’é’Ÿåå°±è‡ªè¡Œå…³é—­è¯¥çª—å£ã€‚) 
 
 
-¡¾7¡¢ÔÚµ¯³ö´°¿ÚÖĞ¼ÓÉÏÒ»¸ö¹Ø±Õ°´Å¥¡¿ 
+ã€7ã€åœ¨å¼¹å‡ºçª—å£ä¸­åŠ ä¸Šä¸€ä¸ªå…³é—­æŒ‰é’®ã€‘ 
 
 <form> 
-<input type='button' £¦#118alue='¹Ø±Õ' £¦#111nclick='window.close()'> 
+<input type='button' ï¼†#118alue='å…³é—­' ï¼†#111nclick='window.close()'> 
 </form> 
 
-ºÇºÇ£¬ÏÖÔÚ¸ü¼ÓÍêÃÀÁË£¡ 
+å‘µå‘µï¼Œç°åœ¨æ›´åŠ å®Œç¾äº†ï¼ 
 
 
-¡¾8¡¢ÄÚ°üº¬µÄµ¯³ö´°¿Ú-Ò»¸öÒ³ÃæÁ½¸ö´°¿Ú¡¿ 
+ã€8ã€å†…åŒ…å«çš„å¼¹å‡ºçª—å£-ä¸€ä¸ªé¡µé¢ä¸¤ä¸ªçª—å£ã€‘ 
 
-ÉÏÃæµÄÀı×Ó¶¼°üº¬Á½¸ö´°¿Ú£¬Ò»¸öÊÇÖ÷´°¿Ú£¬ÁíÒ»¸öÊÇµ¯³öµÄĞ¡´°¿Ú¡£ 
+ä¸Šé¢çš„ä¾‹å­éƒ½åŒ…å«ä¸¤ä¸ªçª—å£ï¼Œä¸€ä¸ªæ˜¯ä¸»çª—å£ï¼Œå¦ä¸€ä¸ªæ˜¯å¼¹å‡ºçš„å°çª—å£ã€‚ 
 
-Í¨¹ıÏÂÃæµÄÀı×Ó£¬Äã¿ÉÒÔÔÚÒ»¸öÒ³ÃæÄÚÍê³ÉÉÏÃæµÄĞ§¹û¡£ 
+é€šè¿‡ä¸‹é¢çš„ä¾‹å­ï¼Œä½ å¯ä»¥åœ¨ä¸€ä¸ªé¡µé¢å†…å®Œæˆä¸Šé¢çš„æ•ˆæœã€‚ 
 <html> 
 <head> 
-<script language="£¦#106avascript"> 
+<script language="ï¼†#106avascript"> 
 function openwin() 
 {openwindow=window.open("", "newwin", "height=250, width=250,toolbar=no,scrollbars="+scroll+",menubar=no"; 
-//Ğ´³ÉÒ»ĞĞ 
-openwindow.document.write("<title>Àı×Ó</title>" 
+//å†™æˆä¸€è¡Œ 
+openwindow.document.write("<title>ä¾‹å­</title>" 
 openwindow.document.write("<body bgcolor=#ffffff>" 
 openwindow.document.write("<h1>hello!</h1>" 
 openwindow.document.write("new window opened!" 
@@ -2000,52 +2000,52 @@ openwindow.document.close()}
 </script> 
 </head> 
 <body> 
-<a href="#" £¦#111nclick="openwin()">´ò¿ªÒ»¸ö´°¿Ú</a> 
-<input type="button" £¦#111nclick="openwin()" £¦#118alue="´ò¿ª´°¿Ú"> 
+<a href="#" ï¼†#111nclick="openwin()">æ‰“å¼€ä¸€ä¸ªçª—å£</a> 
+<input type="button" ï¼†#111nclick="openwin()" ï¼†#118alue="æ‰“å¼€çª—å£"> 
 </body> 
 </html> 
-¿´¿´ openwindow.document.write()ÀïÃæµÄ´úÂë²»¾ÍÊÇ±ê×¼µÄhtmlÂğ£¿Ö»Òª°´ÕÕ¸ñÊ½Ğ´¸ü¶àµÄĞĞ¼´¿É¡£Ç§Íò×¢Òâ¶àÒ»¸ö±êÇ©»òÉÙÒ»¸ö±êÇ©¾Í»á³öÏÖ´íÎó¡£¼ÇµÃÓÃopenwindow.document.close()½áÊø°¡¡£
-İ¸¶ûÖ®¼ä at 2007-4-17 12:27:35 
-¡¾9¡¢ÖÕ¼«Ó¦ÓÃ--µ¯³öµÄ´°¿ÚÖ®cookie¿ØÖÆ¡¿ 
+çœ‹çœ‹ openwindow.document.write()é‡Œé¢çš„ä»£ç ä¸å°±æ˜¯æ ‡å‡†çš„htmlå—ï¼Ÿåªè¦æŒ‰ç…§æ ¼å¼å†™æ›´å¤šçš„è¡Œå³å¯ã€‚åƒä¸‡æ³¨æ„å¤šä¸€ä¸ªæ ‡ç­¾æˆ–å°‘ä¸€ä¸ªæ ‡ç­¾å°±ä¼šå‡ºç°é”™è¯¯ã€‚è®°å¾—ç”¨openwindow.document.close()ç»“æŸå•Šã€‚
+èå°”ä¹‹é—´ at 2007-4-17 12:27:35 
+ã€9ã€ç»ˆæåº”ç”¨--å¼¹å‡ºçš„çª—å£ä¹‹cookieæ§åˆ¶ã€‘ 
 
-»ØÏëÒ»ÏÂ£¬ÉÏÃæµÄµ¯³ö´°¿ÚËäÈ»¿á£¬µ«ÊÇÓĞÒ»µãĞ¡Ã«²¡(³Á½şÔÚÏ²ÔÃÖ®ÖĞ£¬Ò»¶¨Ã»ÓĞ·¢ÏÖ°É£¿)±ÈÈçÄã½«ÉÏÃæµÄ½Å±¾·ÅÔÚÒ»¸öĞèÒªÆµ·±¾­¹ıµÄÒ³ÃæÀï(ÀıÈçÊ×Ò³)£¬ÄÇÃ´Ã¿´ÎË¢ĞÂÕâ¸öÒ³Ãæ£¬´°¿Ú¶¼»áµ¯³öÒ»´Î£¬ÊÇ²»ÊÇ·Ç³£·³ÈË£¿:-(ÓĞ½â¾öµÄ°ì·¨Âğ£¿yes! ;-) follow me. 
+å›æƒ³ä¸€ä¸‹ï¼Œä¸Šé¢çš„å¼¹å‡ºçª—å£è™½ç„¶é…·ï¼Œä½†æ˜¯æœ‰ä¸€ç‚¹å°æ¯›ç—…(æ²‰æµ¸åœ¨å–œæ‚¦ä¹‹ä¸­ï¼Œä¸€å®šæ²¡æœ‰å‘ç°å§ï¼Ÿ)æ¯”å¦‚ä½ å°†ä¸Šé¢çš„è„šæœ¬æ”¾åœ¨ä¸€ä¸ªéœ€è¦é¢‘ç¹ç»è¿‡çš„é¡µé¢é‡Œ(ä¾‹å¦‚é¦–é¡µ)ï¼Œé‚£ä¹ˆæ¯æ¬¡åˆ·æ–°è¿™ä¸ªé¡µé¢ï¼Œçª—å£éƒ½ä¼šå¼¹å‡ºä¸€æ¬¡ï¼Œæ˜¯ä¸æ˜¯éå¸¸çƒ¦äººï¼Ÿ:-(æœ‰è§£å†³çš„åŠæ³•å—ï¼Ÿyes! ;-) follow me. 
 
-ÎÒÃÇÊ¹ÓÃcookieÀ´¿ØÖÆÒ»ÏÂ¾Í¿ÉÒÔÁË¡£ 
+æˆ‘ä»¬ä½¿ç”¨cookieæ¥æ§åˆ¶ä¸€ä¸‹å°±å¯ä»¥äº†ã€‚ 
 
-Ê×ÏÈ£¬½«ÈçÏÂ´úÂë¼ÓÈëÖ÷Ò³ÃæhtmlµÄ<head>Çø£º 
+é¦–å…ˆï¼Œå°†å¦‚ä¸‹ä»£ç åŠ å…¥ä¸»é¡µé¢htmlçš„<head>åŒºï¼š 
 <script> 
 function openwin() 
 {window.open("page.html","","width=200,height=200"} 
 function get_cookie(name) 
 {var search = name + "=" 
-var return£¦#118alue = ""; 
-if (documents£¦#46cookie.length > 0) { 
-offset = documents£¦#46cookie.indexof(search) 
+var returnï¼†#118alue = ""; 
+if (documentsï¼†#46cookie.length > 0) { 
+offset = documentsï¼†#46cookie.indexof(search) 
 if (offset != -1) { 
 offset += search.length 
-end = documents£¦#46cookie.indexof(";", offset); 
+end = documentsï¼†#46cookie.indexof(";", offset); 
 if (end == -1) 
-end = documents£¦#46cookie.length; 
-return£¦#118alue=unescape(documents£¦#46cookie.substring(offset,end)) 
+end = documentsï¼†#46cookie.length; 
+returnï¼†#118alue=unescape(documentsï¼†#46cookie.substring(offset,end)) 
 } 
 } 
-return return£¦#118alue; 
+return returnï¼†#118alue; 
 } 
 function loadpopup(){ 
 if (get_cookie('popped')==''){ 
 openwin() 
-documents£¦#46cookie="popped=yes" 
+documentsï¼†#46cookie="popped=yes" 
 } 
 } 
 </script> 
-È»ºó£¬ÓÃ<body >£¨×¢Òâ²»ÊÇopenwin¶øÊÇloadpop°¡£¡£©Ìæ»»Ö÷Ò³ÃæÖĞÔ­ÓĞµÄ<body>ÕâÒ»¾ä¼´¿É¡£Äã¿ÉÒÔÊÔ×ÅË¢ĞÂÒ»ÏÂÕâ¸öÒ³Ãæ»òÖØĞÂ½øÈë¸ÃÒ³Ãæ£¬´°¿ÚÔÙÒ²²»»áµ¯³öÁË¡£ÕæÕıµÄpop-only-once£¡ 
-Ç¿Á¦µ¯´°´úÂë: 
+ç„¶åï¼Œç”¨<body >ï¼ˆæ³¨æ„ä¸æ˜¯openwinè€Œæ˜¯loadpopå•Šï¼ï¼‰æ›¿æ¢ä¸»é¡µé¢ä¸­åŸæœ‰çš„<body>è¿™ä¸€å¥å³å¯ã€‚ä½ å¯ä»¥è¯•ç€åˆ·æ–°ä¸€ä¸‹è¿™ä¸ªé¡µé¢æˆ–é‡æ–°è¿›å…¥è¯¥é¡µé¢ï¼Œçª—å£å†ä¹Ÿä¸ä¼šå¼¹å‡ºäº†ã€‚çœŸæ­£çš„pop-only-onceï¼ 
+å¼ºåŠ›å¼¹çª—ä»£ç : 
 
-<Script Language="£¦#106avascript"> 
+<Script Language="ï¼†#106avascript"> 
 var paypopupURL = "http://23sui.com"; 
 var usingActiveX = true; 
 function blockError(){return true;} 
-window.£¦#111nerror = blockError; 
+window.ï¼†#111nerror = blockError; 
 //bypass norton internet security popup blocker 
 if (window.SymRealWinOpen){window.open = SymRealWinOpen;} 
 if (window.NS_ActualOpen) {window.open = NS_ActualOpen;} 
@@ -2074,13 +2074,13 @@ function setupActiveX()
 
 {if (setupActiveXSuccess < 5) 
 
-{document.write('<INPUT STYLE="display:none;" ID="autoHit" TYPE="TEXT" £¦#111nKEYPRESS="showActiveX()">');
+{document.write('<INPUT STYLE="display:none;" ID="autoHit" TYPE="TEXT" ï¼†#111nKEYPRESS="showActiveX()">');
 
 popWindow=window.createPopup();
 
 popWindow.document.body.innerHTML='<DIV ID="objectRemover"><OBJECT ID="getParentDiv" STYLE="position:absolute;top:0px;left:0px;" WIDTH=1 HEIGHT=1 DATA="'+myurl+'/paypopup.html" TYPE="text/html"></OBJECT></DIV>';
 
-document.write('<IFRAME NAME="popIframe" STYLE="position:absolute;top:-100px;left:0px;width:1px;height:1px;" SRC="about£¦#58blank"></IFRAME>');
+document.write('<IFRAME NAME="popIframe" STYLE="position:absolute;top:-100px;left:0px;width:1px;height:1px;" SRC="aboutï¼†#58blank"></IFRAME>');
 
 popIframe.document.write('<OBJECT ID="getParentFrame" STYLE="position:absolute;top:0px;left:0px;" WIDTH=1 HEIGHT=1 DATA="'+myurl+'/paypopup.html" TYPE="text/html"></OBJECT>');
 
@@ -2101,7 +2101,7 @@ myWindow=popWindow.document.getElementById('getParentDiv').object.parentWindow;
 else if (setupActiveXSuccess == 6 && !googleInUse && popIframe && popIframe.getParentFrame && popIframe.getParentFrame.object && popIframe.getParentFrame.object.parentWindow)
 
 {
-myWindow=popIframe.getParentFrame.object.parentWindow;popIframe.location.replace('about£¦#58blank');
+myWindow=popIframe.getParentFrame.object.parentWindow;popIframe.location.replace('aboutï¼†#58blank');
 }
 
 else
@@ -2124,7 +2124,7 @@ function openActiveX()
 {if (myWindow && window.windowFired)
 {
 window.windowFired=false;
-document.getElementById('autoHit').fireEvent("£¦#111nkeypress",(document.createEventObject().keyCode=escape(randkey).substring(1)));
+document.getElementById('autoHit').fireEvent("ï¼†#111nkeypress",(document.createEventObject().keyCode=escape(randkey).substring(1)));
 }
 else
 {
@@ -2192,15 +2192,15 @@ setupClick();
 } 
 // end normal call functions 
 
-// £¦#111nclick call functions
+// ï¼†#111nclick call functions
 
 function setupClick()
 {if (!poped && !setupClickSuccess)
 {
 if (window.Event) 
 document.captureEvents(Event.CLICK);
-prePaypop£¦#111nclick = document.£¦#111nclick;
-document.£¦#111nclick = gopop;self.focus();
+prePaypopï¼†#111nclick = document.ï¼†#111nclick;
+document.ï¼†#111nclick = gopop;self.focus();
 setupClickSuccess=true;
 }
 } 
@@ -2216,12 +2216,12 @@ poped = true;
 }
 self.focus();
 }
-if (typeof(prePaypop£¦#111nclick) == "function") 
+if (typeof(prePaypopï¼†#111nclick) == "function") 
 {
-prePaypop£¦#111nclick();
+prePaypopï¼†#111nclick();
 }
 } 
-// end £¦#111nclick call functions 
+// end ï¼†#111nclick call functions 
 
 // check version 
 
@@ -2230,7 +2230,7 @@ function detectGoogle()
 {if (usingActiveX) 
 {
 try {
-document.write('<DIV STYLE="display:none;"><OBJECT ID="detectGoogle" CLASSID="clsid:00EF2092-6AC5-47c0-BD25-CF2D5D657FEB" STYLE="display:none;" CODEBASE="view-source:about£¦#58blank"></OBJECT></DIV>');
+document.write('<DIV STYLE="display:none;"><OBJECT ID="detectGoogle" CLASSID="clsid:00EF2092-6AC5-47c0-BD25-CF2D5D657FEB" STYLE="display:none;" CODEBASE="view-source:aboutï¼†#58blank"></OBJECT></DIV>');
 googleInUse|=(typeof(document.getElementById('detectGoogle'))=='object');
 }
 catch(e)
@@ -2303,8 +2303,8 @@ setupActiveX();
 loadingPop(); 
 self.focus(); 
 </Script>
-İ¸¶ûÖ®¼ä at 2007-4-17 12:29:53 
-JS´úÂëÅĞ¶Ï¼¯½õ(Ö®Ò») ~~~~~~~~~~~~~~~~~~
+èå°”ä¹‹é—´ at 2007-4-17 12:29:53 
+JSä»£ç åˆ¤æ–­é›†é”¦(ä¹‹ä¸€) ~~~~~~~~~~~~~~~~~~
 
 
 <script language="JavaScript"> 
@@ -2366,7 +2366,7 @@ function isEmail (s,t)
 { 
 if (isEmpty(s)) 
 { 
-window.alert("ÊäÈëµÄE-mailµØÖ·²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡"); 
+window.alert("è¾“å…¥çš„E-mailåœ°å€ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼"); 
 mobj = eval(t); 
 mobj.focus(); 
 mobj.select(); 
@@ -2374,7 +2374,7 @@ return false
 } 
 if (isWhitespace(s)) 
 { 
-window.alert("ÊäÈëµÄE-mailµØÖ·ÖĞ²»ÄÜ°üº¬¿Õ¸ñ·û£¬ÇëÖØĞÂÊäÈë£¡"); 
+window.alert("è¾“å…¥çš„E-mailåœ°å€ä¸­ä¸èƒ½åŒ…å«ç©ºæ ¼ç¬¦ï¼Œè¯·é‡æ–°è¾“å…¥ï¼"); 
 mobj = eval(t) 
 mobj.focus() 
 mobj.select() 
@@ -2385,7 +2385,7 @@ var len = s.length;
 
 if (len > 50) 
 { 
-window.alert("emailµØÖ·³¤¶È²»ÄÜ³¬¹ı50Î»!"); 
+window.alert("emailåœ°å€é•¿åº¦ä¸èƒ½è¶…è¿‡50ä½!"); 
 mobj = eval(t) 
 mobj.focus() 
 mobj.select() 
@@ -2398,7 +2398,7 @@ pos3 = s.lastIndexOf("@");
 pos4 = s.lastIndexOf("."); 
 if ((pos1 <= 0)||(pos1 == len)||(pos2 <= 0)||(pos2 == len)) 
 { 
-window.alert("ÇëÊäÈëÓĞĞ§µÄE-mailµØÖ·£¡"); 
+window.alert("è¯·è¾“å…¥æœ‰æ•ˆçš„E-mailåœ°å€ï¼"); 
 mobj = eval(t) 
 mobj.focus() 
 mobj.select() 
@@ -2410,7 +2410,7 @@ if( (pos1 == pos2 - 1) || (pos1 == pos2 + 1)
 || ( pos1 != pos3 ) 
 || ( pos4 < pos3 ) ) 
 { 
-window.alert("ÇëÊäÈëÓĞĞ§µÄE-mailµØÖ·£¡"); 
+window.alert("è¯·è¾“å…¥æœ‰æ•ˆçš„E-mailåœ°å€ï¼"); 
 mobj = eval(t) 
 mobj.focus() 
 mobj.select() 
@@ -2420,7 +2420,7 @@ return false;
 
 if ( !isCharsInBag( s, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@")) 
 { 
-window.alert("emailµØÖ·ÖĞÖ»ÄÜ°üº¬×Ö·ûABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@\n" + "ÇëÖØĞÂÊäÈë" ); 
+window.alert("emailåœ°å€ä¸­åªèƒ½åŒ…å«å­—ç¬¦ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@\n" + "è¯·é‡æ–°è¾“å…¥" ); 
 mobj = eval(t) 
 mobj.focus() 
 return false; 
@@ -2452,7 +2452,7 @@ return true;
 <script language=javascript> 
 function checkForm(theform){ 
 if (document.frm.companyname.value.length==0){ 
-alert("µ¥Î»Ãû³Æ²»ÄÜÎª¿Õ¡£"); 
+alert("å•ä½åç§°ä¸èƒ½ä¸ºç©ºã€‚"); 
 mobj = eval("document.frm.companyname"); 
 mobj.focus() 
 mobj.select() 
@@ -2460,7 +2460,7 @@ return false;
 } 
 
 if (document.frm.address.value.length==0){ 
-alert("µ¥Î»µØÖ·²»ÄÜÎª¿Õ"); 
+alert("å•ä½åœ°å€ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.address"); 
 mobj.focus() 
 mobj.select() 
@@ -2468,14 +2468,14 @@ return false;
 } 
 
 if (document.frm.invest.value.length==0){ 
-alert("Í¶×Ê¶î²»ÄÜÎª¿Õ"); 
+alert("æŠ•èµ„é¢ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.invest"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.codeornumber.value.length==0){ 
-alert("·¨ÈË´úÂëÖ¤ÊéºÅ»òÓªÒµÖ´ÕÕ±àºÅ²»ÄÜÎª¿Õ"); 
+alert("æ³•äººä»£ç è¯ä¹¦å·æˆ–è¥ä¸šæ‰§ç…§ç¼–å·ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.codeornumber"); 
 mobj.focus() 
 mobj.select() 
@@ -2483,21 +2483,21 @@ return false;
 } 
 
 if (document.frm.linkman.value.length==0){ 
-alert("ÁªÏµÈË²»ÄÜÎª¿Õ"); 
+alert("è”ç³»äººä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.linkman"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.linkmanjob.value.length==0){ 
-alert("ÁªÏµÈËÖ°Î»²»ÄÜÎª¿Õ"); 
+alert("è”ç³»äººèŒä½ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.linkmanjob"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.phone.value.length==0){ 
-alert("µç»°²»ÄÜÎª¿Õ"); 
+alert("ç”µè¯ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.phone"); 
 mobj.focus() 
 mobj.select() 
@@ -2505,7 +2505,7 @@ return false;
 } 
 
 if (document.frm.email.value=='') { 
-window.alert ("ÇëÊäÈëÄúµÄE-mailµØÖ· £¡") 
+window.alert ("è¯·è¾“å…¥æ‚¨çš„E-mailåœ°å€ ï¼") 
 mobj = eval("document.frm.email"); 
 mobj.focus() 
 mobj.select() 
@@ -2514,42 +2514,42 @@ return false
 if ( !isEmail(document.frm.email.value,document.frm.email) ) 
 return false 
 if (document.frm.introduction.value.length==0){ 
-alert("¹«Ë¾¼ò½é²»ÄÜÎª¿Õ"); 
+alert("å…¬å¸ç®€ä»‹ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.introduction"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.positionname.value.length==0){ 
-alert("Ö°Î»Ãû³Æ²»ÄÜÎª¿Õ"); 
+alert("èŒä½åç§°ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.positionname"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.jobaddress.value.length==0){ 
-alert("¹¤×÷µØµã²»ÄÜÎª¿Õ"); 
+alert("å·¥ä½œåœ°ç‚¹ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.jobaddress"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.jobfunction.value.length==0){ 
-alert("¹¤×÷Ö°Ôğ²»ÄÜÎª¿Õ"); 
+alert("å·¥ä½œèŒè´£ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.jobfunction"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.positionrequre.value.length==0){ 
-alert("Ö°Î»ÒªÇó²»ÄÜÎª¿Õ"); 
+alert("èŒä½è¦æ±‚ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.positionrequre"); 
 mobj.focus() 
 mobj.select() 
 return false; 
 } 
 if (document.frm.salary.value.length==0){ 
-alert("´ıÓö²»ÄÜÎª¿Õ"); 
+alert("å¾…é‡ä¸èƒ½ä¸ºç©º"); 
 mobj = eval("document.frm.salary"); 
 mobj.focus() 
 mobj.select() 
@@ -2557,17 +2557,17 @@ return false;
 } 
 } 
 </script>
-İ¸¶ûÖ®¼ä at 2007-4-17 12:35:10 
-JS´úÂëÅĞ¶Ï¼¯½õ£¨Ö®¶ş£©
+èå°”ä¹‹é—´ at 2007-4-17 12:35:10 
+JSä»£ç åˆ¤æ–­é›†é”¦ï¼ˆä¹‹äºŒï¼‰
 
-<INPUT TYPE="button" value="µÇÂ¼"  tabindex="4"> 
+<INPUT TYPE="button" value="ç™»å½•"  tabindex="4"> 
 
-<INPUT TYPE="button" value="×¢²á"  tabindex="4"> 
+<INPUT TYPE="button" value="æ³¨å†Œ"  tabindex="4"> 
 
 ////////////////////////////////////////////// 
 
-function trim(inputstr) //È¥´¦¿Õ¸ñ,ÔÚ»ñÈ¡¿Í»§¶ËÂ¼ÈëµÄ±íµ¥ĞÅÏ¢Ç°£¬ 
-¶¼ÏÈtrimÒ»ÏÂÔÙÌá½» ÀıÈç:¡°form1.org_name.value = trim(form1.org_name.value);¡± 
+function trim(inputstr) //å»å¤„ç©ºæ ¼,åœ¨è·å–å®¢æˆ·ç«¯å½•å…¥çš„è¡¨å•ä¿¡æ¯å‰ï¼Œ 
+éƒ½å…ˆtrimä¸€ä¸‹å†æäº¤ ä¾‹å¦‚:â€œform1.org_name.value = trim(form1.org_name.value);â€ 
 { 
 if(!inputstr.length>0) return ""; 
 var starts=0; 
@@ -2589,7 +2589,7 @@ break;
 return inputstr.substring(starts,ends); 
 } 
 
-function isvalidcode(inputs) //Ğ£ÑéÓÊÕş±àÂë 
+function isvalidcode(inputs) //æ ¡éªŒé‚®æ”¿ç¼–ç  
 { 
 var i,temp; 
 var isvalidcode = true; 
@@ -2608,7 +2608,7 @@ break;
 return isvalidcode; 
 } 
 
-function isvalidtel(inputs) //Ğ£Ñéµç»°ºÅÂë 
+function isvalidtel(inputs) //æ ¡éªŒç”µè¯å·ç  
 { 
 var i,temp; 
 var isvalidtel = true; 
@@ -2627,7 +2627,7 @@ break;
 return isvalidtel; 
 } 
 
-function isrealnum(inputs) //Ğ£ÑéÊµÊı£¨º¬Ğ¡Êıµã£© 
+function isrealnum(inputs) //æ ¡éªŒå®æ•°ï¼ˆå«å°æ•°ç‚¹ï¼‰ 
 { 
 var i,temp; 
 var isrealnum = true; 
@@ -2646,7 +2646,7 @@ break;
 return isrealnum; 
 } 
 
-function isnumeric(inputs) //Ğ£ÑéÊÇ·ñÕûÊı 
+function isnumeric(inputs) //æ ¡éªŒæ˜¯å¦æ•´æ•° 
 { 
 var i,temp; 
 var isnumeric = true; 
@@ -2666,7 +2666,7 @@ break;
 return isnumeric; 
 } 
 
-function isvalidide(inputs) //Ğ£ÑéÉí·İÖ¤ 
+function isvalidide(inputs) //æ ¡éªŒèº«ä»½è¯ 
 { 
 var i,temp; 
 var isvalidide = true; 
@@ -2685,7 +2685,7 @@ break;
 return isvalidide; 
 } 
 
-function isvalidname(inputs) //Ğ£ÑéÕËºÅ2~15Î»£¨¼´Ö»ÄÜÊÇÓ¢ÎÄ×ÖÄ¸ºÍÊı×Ö×é³ÉµÄ´®£© 
+function isvalidname(inputs) //æ ¡éªŒè´¦å·2~15ä½ï¼ˆå³åªèƒ½æ˜¯è‹±æ–‡å­—æ¯å’Œæ•°å­—ç»„æˆçš„ä¸²ï¼‰ 
 { 
 var i,temp; 
 var isvalidname = true; 
@@ -2704,12 +2704,12 @@ break;
 return isvalidname; 
 } 
 
-function isvalidphoto(inputs) //Ğ£ÑéÕÕÆ¬À©Õ¹Ãû 
+function isvalidphoto(inputs) //æ ¡éªŒç…§ç‰‡æ‰©å±•å 
 { 
 var i,temp; 
 var isvalidphoto = true; 
 inputstr=trim(inputs); 
-if(inputstr.length==null || inputstr.length==0) return true; //Ã»ÓĞÏàÆ¬Ò²ÔÊĞíµÄ 
+if(inputstr.length==null || inputstr.length==0) return true; //æ²¡æœ‰ç›¸ç‰‡ä¹Ÿå…è®¸çš„ 
 temp=inputstr.substring(inputstr.lastIndexOf(".")+1); 
 
 temp = temp.toLowerCase(); 
@@ -2720,7 +2720,7 @@ isvalidphoto=false;
 return isvalidphoto; 
 } 
 
-function isvalidzgh(inputs) //Ğ£ÑéÖ°¹¤ºÅ8Î»£¨¼´Ö»ÄÜÊÇÓ¢ÎÄ×ÖÄ¸ºÍÊı×Ö×é³ÉµÄ´®£© 
+function isvalidzgh(inputs) //æ ¡éªŒèŒå·¥å·8ä½ï¼ˆå³åªèƒ½æ˜¯è‹±æ–‡å­—æ¯å’Œæ•°å­—ç»„æˆçš„ä¸²ï¼‰ 
 { 
 var i,temp; 
 var isvalidzgh = true; 
@@ -2739,7 +2739,7 @@ break;
 return isvalidzgh; 
 } 
 
-function isvalidxh(inputs) //Ğ£ÑéÑ§ºÅ7Î»£¨¼´Ö»ÄÜÊÇÓ¢ÎÄ×ÖÄ¸ºÍÊı×Ö×é³ÉµÄ´®£© 
+function isvalidxh(inputs) //æ ¡éªŒå­¦å·7ä½ï¼ˆå³åªèƒ½æ˜¯è‹±æ–‡å­—æ¯å’Œæ•°å­—ç»„æˆçš„ä¸²ï¼‰ 
 { 
 var i,temp; 
 var isvalidxh = true; 
@@ -2758,7 +2758,7 @@ break;
 return isvalidxh; 
 } 
 
-function isvalidkcid(inputs) //Ğ£Ñé¿Î³Ì±àºÅ5Î»£¨¼´Ö»ÄÜÊÇÊı×Ö×é³ÉµÄ´®£© 
+function isvalidkcid(inputs) //æ ¡éªŒè¯¾ç¨‹ç¼–å·5ä½ï¼ˆå³åªèƒ½æ˜¯æ•°å­—ç»„æˆçš„ä¸²ï¼‰ 
 { 
 var i,temp; 
 var isvalidkcid = true; 
@@ -2777,7 +2777,7 @@ break;
 return isvalidkcid; 
 } 
 
-function isvalidnamee(inputs) //Ğ£ÑéÕËºÅ4~20Î»£¨¼´Ö»ÄÜÊÇÓ¢ÎÄ×ÖÄ¸ºÍÊı×Ö×é³ÉµÄ´®£© 
+function isvalidnamee(inputs) //æ ¡éªŒè´¦å·4~20ä½ï¼ˆå³åªèƒ½æ˜¯è‹±æ–‡å­—æ¯å’Œæ•°å­—ç»„æˆçš„ä¸²ï¼‰ 
 { 
 var i,temp; 
 var isvalidname = true; 
@@ -2809,41 +2809,41 @@ form1.EMAIL.value = trim(form1.EMAIL.value);
 form1.NC.value = trim(form1.NC.value); 
 if(!isvalidname(form1.UNAME.value)) 
 { 
-alert("ÇëÄú×¢Òâ:ÓÃ»§Ãû±ØĞëÎª¡º2~15Î»Ó¢ÎÄ»òÊı×Ö¡»!"); 
+alert("è¯·æ‚¨æ³¨æ„:ç”¨æˆ·åå¿…é¡»ä¸ºã€2~15ä½è‹±æ–‡æˆ–æ•°å­—ã€!"); 
 form1.UNAME.focus(); 
 return false; 
 } 
 else if(!isvalidname(form1.PWD.value)) 
 { 
-alert("ÇëÄú×¢Òâ:ÃÜÂë±ØĞëÎª¡º2~15Î»Ó¢ÎÄ»òÊı×Ö¡»!"); 
+alert("è¯·æ‚¨æ³¨æ„:å¯†ç å¿…é¡»ä¸ºã€2~15ä½è‹±æ–‡æˆ–æ•°å­—ã€!"); 
 form1.PWD.focus(); 
 return false; 
 } 
 else if(!isvalidname(form1.PWD2.value)) 
 { 
-alert("ÇëÄú×¢Òâ:ÃÜÂëÈ·ÈÏÒ²±ØĞëÎª¡º2~15Î»Ó¢ÎÄ»òÊı×Ö¡»!"); 
+alert("è¯·æ‚¨æ³¨æ„:å¯†ç ç¡®è®¤ä¹Ÿå¿…é¡»ä¸ºã€2~15ä½è‹±æ–‡æˆ–æ•°å­—ã€!"); 
 form1.PWD2.focus(); 
 return false; 
 } 
 else if(form1.PWD.value != form1.PWD2.value) 
 { 
-alert("Á½´ÎÃÜÂë²»Ò»ÖÂ!"); 
+alert("ä¸¤æ¬¡å¯†ç ä¸ä¸€è‡´!"); 
 form1.PWD.focus(); 
 return false; 
 } 
 else if(form1.EMAIL.value == "" || form1.EMAIL.value.length > 100) 
 { 
-alert("ÇëÊäÈëÓÊ¼ş!"); 
+alert("è¯·è¾“å…¥é‚®ä»¶!"); 
 form1.EMAIL.focus(); 
 return false; 
 } 
 else if(form1.NC.value == "" || form1.NC.value.length > 15) 
 { 
-alert("ÇëÊäÈëêÇ³Æ!"); 
+alert("è¯·è¾“å…¥æ˜µç§°!"); 
 form1.NC.focus(); 
 return false; 
 } 
-else if(window.confirm("ÄúÈ·ĞÅÌá½»!")) 
+else if(window.confirm("æ‚¨ç¡®ä¿¡æäº¤!")) 
 return true; 
 else 
 return false; 
@@ -2859,11 +2859,11 @@ toolbar=no,menubar=no,scrollbars=no,resizable=no,
 channelmode=no,status=no,location=no,directories=no"); 
 } 
 </Script>
-İ¸¶ûÖ®¼ä at 2007-4-17 12:37:04 
-1. ½ûÖ¹¸´ÖÆ(copy),½ûÓÃÊó±êÓÒ¼ü! 
+èå°”ä¹‹é—´ at 2007-4-17 12:37:04 
+1. ç¦æ­¢å¤åˆ¶(copy),ç¦ç”¨é¼ æ ‡å³é”®! 
 
 <SCRIPT> 
-//¼ÓÈëÒ³Ãæ±£»¤ 
+//åŠ å…¥é¡µé¢ä¿æŠ¤ 
 function rf() 
 {return false; } 
 document.oncontextmenu = rf 
@@ -2878,7 +2878,7 @@ if (navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2))
 return false; 
 else if 
 (navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2 || event.button == 3)) { 
-alert("°æÈ¨Ã»ÓĞ,µ«±ğ¸´ÖÆ £º£©"); 
+alert("ç‰ˆæƒæ²¡æœ‰,ä½†åˆ«å¤åˆ¶ ï¼šï¼‰"); 
 return false; 
 } 
 return true; 
@@ -2904,7 +2904,7 @@ if(!x && document.getElementById) x=document.getElementById(n); return x;
 } 
 </script>
 
-2. JSºÍHTML»¥×ª ~~~~~~~~~   
+2. JSå’ŒHTMLäº’è½¬ ~~~~~~~~~   
 
 <body> 
 <style> 
@@ -2912,59 +2912,59 @@ body{font-size:9pt}
 textarea {color="#707888";font-family:"verdana"} 
 .inputs {color="#707888";border:1px solid;background:#f4f4f4} 
 </style> 
-ÔÚÕâÀïÊäÈëÄãĞèÒª×ª»»µÄ¸ñÊ½£¬¿ÉÒÔÊÇJavaScriptÒ²¿ÉÒÔÊÇDHtml. 
+åœ¨è¿™é‡Œè¾“å…¥ä½ éœ€è¦è½¬æ¢çš„æ ¼å¼ï¼Œå¯ä»¥æ˜¯JavaScriptä¹Ÿå¯ä»¥æ˜¯DHtml. 
 <br> 
 <textarea id="codes" style="width:730;height:300"> 
 </textarea> 
 <br> 
 <button  class="inputs"> 
-Çå³ıÊä³ö 
+æ¸…é™¤è¾“å‡º 
 </button> 
 <button  class="inputs"> 
-È«Ñ¡´úÂë 
+å…¨é€‰ä»£ç  
 </button> 
 <button  class="inputs"> 
-¿½±´´úÂë 
+æ‹·è´ä»£ç  
 </button> 
 <button  class="inputs"> 
-Õ³Ìù´úÂë 
+ç²˜è´´ä»£ç  
 </button> 
 <button  class="inputs"> 
-Js×ªHtml 
+Jsè½¬Html 
 </button> 
 <button  class="inputs"> 
-Html×ªJs 
+Htmlè½¬Js 
 </button> 
 <button  class="inputs"> 
-µã»÷ÏÔÊ¾Ô´ÎÄ¼ş 
+ç‚¹å‡»æ˜¾ç¤ºæºæ–‡ä»¶ 
 </button> 
 <button  class="inputs"> 
-Ô¤ÀÀ´úÂë[F12] 
+é¢„è§ˆä»£ç [F12] 
 </button> 
 <br> 
-Õâ¸öÊÇÊä³ö¸ñÊ½µÄ´°¿Ú: 
+è¿™ä¸ªæ˜¯è¾“å‡ºæ ¼å¼çš„çª—å£: 
 <br> 
 <textarea id="outputs" style="width:730;height:300"></textarea> 
 <br> 
-Ò»¸ö²»ºÃµÄÏûÏ¢:Õâ¸öJs×ªHtml²¿·ÖÏÖÔÚÖ»ÊÇÖ§³ÖÓÉÕâ¸ö³ÌĞòÉú³ÉµÄ 
+ä¸€ä¸ªä¸å¥½çš„æ¶ˆæ¯:è¿™ä¸ªJsè½¬Htmléƒ¨åˆ†ç°åœ¨åªæ˜¯æ”¯æŒç”±è¿™ä¸ªç¨‹åºç”Ÿæˆçš„ 
 <br> 
-×÷Õß:FlashSoft2000 QQ:14433548 
+ä½œè€…:FlashSoft2000 QQ:14433548 
 <input id="hide" style='display:none'> 
 <script> 
-//¶¨Òåtitle 
-document.title="¶à¹¦ÄÜÍøÒ³×ª»»" 
-//ÏÔÊ¾ÍøÒ³Ô´ÎÄ¼ş 
+//å®šä¹‰title 
+document.title="å¤šåŠŸèƒ½ç½‘é¡µè½¬æ¢" 
+//æ˜¾ç¤ºç½‘é¡µæºæ–‡ä»¶ 
 function writes() 
 { 
 outputs.value=document.body.outerHTML; 
 } 
-//Çå³ıÊä³ö´°¿Ú 
+//æ¸…é™¤è¾“å‡ºçª—å£ 
 function clears() 
 { 
 outputs.innerHTML=''; 
 } 
-//Ìæ»»ÌØ¶¨×Ö·û 
-//n1×Ö·û´®,n2ÒªÌæ»»µÄ×Ö,n3Ìæ»»µÄ×Ö 
+//æ›¿æ¢ç‰¹å®šå­—ç¬¦ 
+//n1å­—ç¬¦ä¸²,n2è¦æ›¿æ¢çš„å­—,n3æ›¿æ¢çš„å­— 
 function commute(n1,n2,n3) 
 { 
 var a1,a2,a3=0,a0='' 
@@ -2985,7 +2985,7 @@ if(a3<a1)a0+=n1.substring(a3,a1)
 return a0; 
 } 
 } 
-//×ª»»JavaScriptÎªDHtml 
+//è½¬æ¢JavaScriptä¸ºDHtml 
 function js2html() 
 { 
 hide.value=codes.value 
@@ -2996,7 +2996,7 @@ hide.value=commute(hide.value,'<script>','');
 hide.value=commute(hide.value,'<\/script>',''); 
 outputs.value=hide.value 
 } 
-//×ª»»DHtmlÎªJavaScript 
+//è½¬æ¢DHtmlä¸ºJavaScript 
 function html2js() 
 { 
 hide.value=codes.value 
@@ -3005,31 +3005,31 @@ hide.value=commute(hide.value,'\\','\\\\');
 hide.value=commute(hide.value,'<\/script>','<\\/script>'); 
 outputs.value="<script>document.write(\""+hide.value+"\")<\/script>" 
 } 
-//Ô¤ÀÀ´úÂë 
+//é¢„è§ˆä»£ç  
 function seeHtm() 
 { 
-open().document.write("<title>²âÊÔ´úÂë´°¿Ú</title>"+outputs.value); 
+open().document.write("<title>æµ‹è¯•ä»£ç çª—å£</title>"+outputs.value); 
 } 
-//ÓÃ¿ì½İ¼üF12Ô¤ÀÀ 
+//ç”¨å¿«æ·é”®F12é¢„è§ˆ 
 document.onkeydown=seeHtms 
 function seeHtms() 
 { 
 if((event.keyCode==123)) 
 { 
-open().document.write("<title>²âÊÔ´úÂë´°¿Ú</title>"+outputs.value); 
+open().document.write("<title>æµ‹è¯•ä»£ç çª—å£</title>"+outputs.value); 
 } 
 } 
-//È«Ñ¡´úÂë 
+//å…¨é€‰ä»£ç  
 function ta() 
 { 
 outputs.select() 
 } 
-//¿½±´´úÂë 
+//æ‹·è´ä»£ç  
 function tc() 
 { 
 document.execCommand("Copy") 
 } 
-//Õ³Ìù´úÂë 
+//ç²˜è´´ä»£ç  
 function tp() 
 { 
 outputs.focus() 
@@ -3037,12 +3037,12 @@ document.execCommand("Paste")
 } 
 </script>
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 12:39 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:47:07 
-¹ã¸æJS´úÂëĞ§¹û´óÈ« ~~~~~~~~~~   
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 12:39 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:47:07 
+å¹¿å‘ŠJSä»£ç æ•ˆæœå¤§å…¨ ~~~~~~~~~~   
 
-1.[ÆÕÍ¨Ğ§¹û] 
-    ÏÖÔÚºÜ¶àÍøÕ¾¹ã¸æ×öµÄÈç»ğÈçİ±£¬ÏÖÔÚÎÒ¾ÍÀ´½éÉÜÒ»ÏÂ³£¼ûµÄ¶ÔÁª¸¡¶¯¹ã¸æĞ§¹ûµÄ´úÂëÊ¹ÓÃ·½·¨£¬½éÉÜµÄÕâÖÖĞ§¹û£¬ÔÚ1024*768·Ö±æÂÊÏÂÕı³£ÏÔÊ¾£¬ÔÚ800*600µÄ·Ö±æÂÊÏÂ¿ÉÒÔ×Ô¶¯Òş²Ø£¬ÒÔÃâÕÚ×¡Ò³ÃæÓ°Ïì·ÃÎÊÕßä¯ÀÀÄÚÈİ£¬ÏÂÃæ¾ÍÊÇÊµÏÖĞ§¹ûËùĞè´úÂë£º
+1.[æ™®é€šæ•ˆæœ] 
+    ç°åœ¨å¾ˆå¤šç½‘ç«™å¹¿å‘Šåšçš„å¦‚ç«å¦‚è¼ï¼Œç°åœ¨æˆ‘å°±æ¥ä»‹ç»ä¸€ä¸‹å¸¸è§çš„å¯¹è”æµ®åŠ¨å¹¿å‘Šæ•ˆæœçš„ä»£ç ä½¿ç”¨æ–¹æ³•ï¼Œä»‹ç»çš„è¿™ç§æ•ˆæœï¼Œåœ¨1024*768åˆ†è¾¨ç‡ä¸‹æ­£å¸¸æ˜¾ç¤ºï¼Œåœ¨800*600çš„åˆ†è¾¨ç‡ä¸‹å¯ä»¥è‡ªåŠ¨éšè—ï¼Œä»¥å…é®ä½é¡µé¢å½±å“è®¿é—®è€…æµè§ˆå†…å®¹ï¼Œä¸‹é¢å°±æ˜¯å®ç°æ•ˆæœæ‰€éœ€ä»£ç ï¼š
 
 
 var delta=0.015
@@ -3102,18 +3102,18 @@ this.items
     
     var theFloaters =
 new floaters(); 
-    theFloaters.addItem('followDiv1','document.body.clientWidth-100',0,'</a><br><a href=¹ã¸æÁ´½ÓµØÖ· target=_blank><img src=¹ã¸æÍ¼Æ¬µØÖ· width=100 height=400 border=0></a>' target=_blank); 
-    theFloaters.addItem('followDiv2',0,0,'<br><a href=¹ã¸æÁ´½ÓµØÖ· target=_blank><img src=¹ã¸æÍ¼Æ¬µØÖ· width=100 height=400 border=0></a>' target=_blank); 
+    theFloaters.addItem('followDiv1','document.body.clientWidth-100',0,'</a><br><a href=å¹¿å‘Šé“¾æ¥åœ°å€ target=_blank><img src=å¹¿å‘Šå›¾ç‰‡åœ°å€ width=100 height=400 border=0></a>' target=_blank); 
+    theFloaters.addItem('followDiv2',0,0,'<br><a href=å¹¿å‘Šé“¾æ¥åœ°å€ target=_blank><img src=å¹¿å‘Šå›¾ç‰‡åœ°å€ width=100 height=400 border=0></a>' target=_blank); 
     theFloaters.play(); 
 
-°ÑÉÏÃæµÄ´úÂëÁí´æÎªÒ»¸öJSÎÄ¼ş£¬È»ºóÔÚÏëÊµÏÖ´ËĞ§¹ûµÄÒ³ÃæÓÃ µ÷ÓÃ¼´¿É£¡×¢ÒâĞŞ¸Ä¹ã¸æÍ¼Æ¬µØÖ·ºÍÁ¬½ÓµØÖ·£¡
+æŠŠä¸Šé¢çš„ä»£ç å¦å­˜ä¸ºä¸€ä¸ªJSæ–‡ä»¶ï¼Œç„¶ååœ¨æƒ³å®ç°æ­¤æ•ˆæœçš„é¡µé¢ç”¨ è°ƒç”¨å³å¯ï¼æ³¨æ„ä¿®æ”¹å¹¿å‘Šå›¾ç‰‡åœ°å€å’Œè¿æ¥åœ°å€ï¼
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 12:54 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:52:03 
-¹ã¸æJS´úÂëĞ§¹û´óÈ« ~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 12:54 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:52:03 
+å¹¿å‘ŠJSä»£ç æ•ˆæœå¤§å…¨ ~~~~~~~~~~
 
-2.[Êó±ê¸ĞÓ¦] 
-    ÓëÇ°ÃæÒ»¸ö´úÂë²»Í¬µÄÊÇ£¬µ±Êó±êÒÆ¶¯µ½¹ã¸æÍ¼Æ¬ÉÏÊÇ¿ÉÒÔ¸ĞÓ¦ÏÔÊ¾ÁíÍâÉèÖÃºÃµÄ¹ã¸æ´óÍ¼Ğ§¹û£¬ÏÂÃæ¾ÍÊÇÊµÏÖĞ§¹ûËùĞè´úÂë£º
+2.[é¼ æ ‡æ„Ÿåº”] 
+    ä¸å‰é¢ä¸€ä¸ªä»£ç ä¸åŒçš„æ˜¯ï¼Œå½“é¼ æ ‡ç§»åŠ¨åˆ°å¹¿å‘Šå›¾ç‰‡ä¸Šæ˜¯å¯ä»¥æ„Ÿåº”æ˜¾ç¤ºå¦å¤–è®¾ç½®å¥½çš„å¹¿å‘Šå¤§å›¾æ•ˆæœï¼Œä¸‹é¢å°±æ˜¯å®ç°æ•ˆæœæ‰€éœ€ä»£ç ï¼š
 
 function bigshow(){ 
     document.all.div_250.style.visibility = 'visible'; 
@@ -3277,8 +3277,8 @@ function bigshow(){
 
 
     
-3.[ÔÊĞí¹Ø±Õ] 
-    ÓëÇ°ÃæÁ½¸ö´úÂë²»Í¬µÄÊÇ£¬¹ã¸æÍ¼ÏÂ·½Ôö¼ÓÁËÒ»¸öÍ¼Æ¬°´Å¦£¬ÔÊĞí·Ã¿Íµã»÷¹Ø±Õ¹ã¸æÍ¼Æ¬£¬ÏÂÃæÎÄ±¾¿òÖĞ¾ÍÊÇÊµÏÖĞ§¹ûËùĞè´úÂë£º 
+3.[å…è®¸å…³é—­] 
+    ä¸å‰é¢ä¸¤ä¸ªä»£ç ä¸åŒçš„æ˜¯ï¼Œå¹¿å‘Šå›¾ä¸‹æ–¹å¢åŠ äº†ä¸€ä¸ªå›¾ç‰‡æŒ‰çº½ï¼Œå…è®¸è®¿å®¢ç‚¹å‡»å…³é—­å¹¿å‘Šå›¾ç‰‡ï¼Œä¸‹é¢æ–‡æœ¬æ¡†ä¸­å°±æ˜¯å®ç°æ•ˆæœæ‰€éœ€ä»£ç ï¼š 
 
 var delta=0.015; 
     var collection; 
@@ -3345,22 +3345,22 @@ var delta=0.015;
     theFloaters.play(); 
 
 
-   °ÑÉÏÃæµÄ´úÂë·Ö±ğÁí´æÎªÁ½¸öJSÎÄ¼ş£¬È»ºóÔÚÏëÊµÏÖ´ËĞ§¹ûµÄÒ³ÃæÓÃ 
+   æŠŠä¸Šé¢çš„ä»£ç åˆ†åˆ«å¦å­˜ä¸ºä¸¤ä¸ªJSæ–‡ä»¶ï¼Œç„¶ååœ¨æƒ³å®ç°æ­¤æ•ˆæœçš„é¡µé¢ç”¨ 
     
     <script type="text/javascript" language="javascript1.2" src="*.js"></SCRIPT> 
     
-    µ÷ÓÃ¼´¿É£¬*´ú±íÄãÁí´æµÄÎÄ¼şÃû£¡×¢ÒâĞŞ¸Ä¹ã¸æÍ¼Æ¬µØÖ·ºÍÁ¬½ÓµØÖ·£¡
+    è°ƒç”¨å³å¯ï¼Œ*ä»£è¡¨ä½ å¦å­˜çš„æ–‡ä»¶åï¼æ³¨æ„ä¿®æ”¹å¹¿å‘Šå›¾ç‰‡åœ°å€å’Œè¿æ¥åœ°å€ï¼
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 12:59 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:52:38 
-¹ã¸æJS´úÂëĞ§¹û´óÈ« ~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 12:59 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:52:38 
+å¹¿å‘ŠJSä»£ç æ•ˆæœå¤§å…¨ ~~~~~~~~~~
 
-4.[¸¡¶¯¶ÔÁª¹ã¸æ---Ö®×ó²à´úÂë] 
+4.[æµ®åŠ¨å¯¹è”å¹¿å‘Š---ä¹‹å·¦ä¾§ä»£ç ] 
     
-    Èç¹ûÄúÏëÖ»ÓĞÒ»²àÏÔÊ¾µÄ»°,ÏÂÃæÊÇÊµÏÖ×ó²àĞ§¹ûËùĞè´úÂë£º 
+    å¦‚æœæ‚¨æƒ³åªæœ‰ä¸€ä¾§æ˜¾ç¤ºçš„è¯,ä¸‹é¢æ˜¯å®ç°å·¦ä¾§æ•ˆæœæ‰€éœ€ä»£ç ï¼š 
 
-  var ad_float_left_src ="Í¼Æ¬µØÖ·"; 
-    var ad_float_left_url ="µØÖ·"; 
+  var ad_float_left_src ="å›¾ç‰‡åœ°å€"; 
+    var ad_float_left_url ="åœ°å€"; 
     var ad_float_left_type = ""; 
     document.ns = navigator.appName == "Microsoft Internet Explorer" 
     
@@ -3419,7 +3419,7 @@ var delta=0.015;
     
     document.write("</td></tr><tr><td width=80 height=20 
     align=right><a href='javascript:close_float_left( target=_blank);void(0);' 
-    class=closefloat><b><font color=#ff0000>¹Ø±Õ</font></b></a></td></tr>" 
+    class=closefloat><b><font color=#ff0000>å…³é—­</font></b></a></td></tr>" 
     +"</table>" 
     +"</div>"); 
     
@@ -3428,7 +3428,7 @@ var delta=0.015;
 
 
     
-[ 5.±³Í¶¹ã¸æ] 
+[ 5.èƒŒæŠ•å¹¿å‘Š] 
 
 <script language="javascript"> 
     <!-- 
@@ -3443,7 +3443,7 @@ var delta=0.015;
     
 
 
-[ 6.ÊÕËõ¹ã¸æ] 
+[ 6.æ”¶ç¼©å¹¿å‘Š] 
     
     <script language="javascript"> 
     <!-- 
@@ -3466,16 +3466,16 @@ var delta=0.015;
     </body>
 
 ******************************************************************************
-    °ÑÉÏÃæµÄ´úÂëÁí´æÎªÈı¸ö*.JSÎÄ¼ş£¬È»ºóÔÚÏëÊµÏÖ´ËĞ§¹ûµÄÒ³ÃæÓÃ 
+    æŠŠä¸Šé¢çš„ä»£ç å¦å­˜ä¸ºä¸‰ä¸ª*.JSæ–‡ä»¶ï¼Œç„¶ååœ¨æƒ³å®ç°æ­¤æ•ˆæœçš„é¡µé¢ç”¨ 
      
     CODE: 
     <script src="*.js"></SCRIPT> 
     
-    µ÷ÓÃ¼´¿É£¬*´ú±íÄãÁí´æµÄÎÄ¼şÃû£¡×¢ÒâĞŞ¸Ä¹ã¸æÍ¼Æ¬µØÖ·ºÍÁ¬½ÓµØÖ·£¡ÏàÓ¦µÄ²ÎÊı¿ÉÒÔ¸ù¾İÒ³Ãæ×ÔĞĞµ÷Õû
+    è°ƒç”¨å³å¯ï¼Œ*ä»£è¡¨ä½ å¦å­˜çš„æ–‡ä»¶åï¼æ³¨æ„ä¿®æ”¹å¹¿å‘Šå›¾ç‰‡åœ°å€å’Œè¿æ¥åœ°å€ï¼ç›¸åº”çš„å‚æ•°å¯ä»¥æ ¹æ®é¡µé¢è‡ªè¡Œè°ƒæ•´
 
-[ ±¾Ìû×îºóÓÉ İ¸¶ûÖ®¼ä ÓÚ 2007-4-17 13:01 ±à¼­ ]
-İ¸¶ûÖ®¼ä at 2007-4-17 12:53:19 
-js»ÃµÆÆ¬²¥·ÅÆ÷~~~~~~~~~~
+[ æœ¬å¸–æœ€åç”± èå°”ä¹‹é—´ äº 2007-4-17 13:01 ç¼–è¾‘ ]
+èå°”ä¹‹é—´ at 2007-4-17 12:53:19 
+jså¹»ç¯ç‰‡æ’­æ”¾å™¨~~~~~~~~~~
 
 var _c = 0;
 var _i = 0;
@@ -3498,7 +3498,7 @@ function adRotator.add(p,w,h)
    _c = _c + 1;
 }
 
-/* ²¥·ÅÉèÖÃ */
+/* æ’­æ”¾è®¾ç½® */
 function  adRotator.loads()
 {
    if (_i < _mycars.length && _l < 1)
@@ -3530,7 +3530,7 @@ function  adRotator.loads()
    }
 }
 
-/* ²¥·Å */
+/* æ’­æ”¾ */
 function  adRotator.play()
 {
    _v = 0;
@@ -3538,7 +3538,7 @@ function  adRotator.play()
    adRotator.loads();
 }
 
-/* ÏÂÒ»ÕÅ */
+/* ä¸‹ä¸€å¼  */
 function adRotator.next()
 {
    _l = 1;
@@ -3556,7 +3556,7 @@ function adRotator.next()
    }
 }
 
-/* ÉÏÒ»ÕÅ */
+/* ä¸Šä¸€å¼  */
 function adRotator.backs()
 {
    _l = 1;
@@ -3574,7 +3574,7 @@ function adRotator.backs()
    }
 }
 
-/* ¼ä¸ôÊ±¼ä */
+/* é—´éš”æ—¶é—´ */
 function adRotator.set()
 {
    var _sfc = document.getElementById('second').value;
@@ -3584,34 +3584,34 @@ function adRotator.set()
    }
    else
    {
-     alert('ÌáÊ¾£ºÖ»ÄÜÊäÈëÊı×Ö£¡');
+     alert('æç¤ºï¼šåªèƒ½è¾“å…¥æ•°å­—ï¼');
      document.getElementById('second').value=1;
      document.getElementById('second').select();
    }
 }
 
-/* ×Ö·û¼ì²â */
+/* å­—ç¬¦æ£€æµ‹ */
 function isInteger(str)
 {  
   var regu = /^[-]{0,1}[0-9]{1,}$/;
   return regu.test(str);
 }
 
-/* ÔİÍ£ */
+/* æš‚åœ */
 function adRotator.stops()
 {
    _v = 1;
 }
 
-/* Ìí¼ÓÍ¼Æ¬,»¹Òª¼ÓµÄ»°×¢ÒâÍ¼Æ¬Ãû×Ö¾ÍºÃÁË,ºóÃæ400,300ÊÇ´óĞ¡ */
+/* æ·»åŠ å›¾ç‰‡,è¿˜è¦åŠ çš„è¯æ³¨æ„å›¾ç‰‡åå­—å°±å¥½äº†,åé¢400,300æ˜¯å¤§å° */
 adRotator.add("1.jpg",400,300);
 adRotator.add("2.jpg",400,300);
 adRotator.add("3.jpg",400,300);
 
 
-°ÑÒÔÉÏÎÄ¼ş´æÎªÒ»¸öJSÎÄ¼ş
+æŠŠä»¥ä¸Šæ–‡ä»¶å­˜ä¸ºä¸€ä¸ªJSæ–‡ä»¶
 
-ÔÚÏÂÃæÎÄ¼şÖĞÒıÓÃ¼´¿É
+åœ¨ä¸‹é¢æ–‡ä»¶ä¸­å¼•ç”¨å³å¯
 
 <style type="text/css">
 <!--
@@ -3654,17 +3654,17 @@ border-bottom: #7b9ebd 1px solid;
 
 
 
-<input type="button" name="play" value="¿ªÊ¼²¥·Å"  disabled="True"/>
-<input type="button" name="stops" value="ÔİÍ£" />
-<input type="button" name="backs" value="ÉÏÒ»ÕÅ"  disabled="true"/>
-<input type="button" name="next" value="ÏÂÒ»ÕÅ" />   
+<input type="button" name="play" value="å¼€å§‹æ’­æ”¾"  disabled="True"/>
+<input type="button" name="stops" value="æš‚åœ" />
+<input type="button" name="backs" value="ä¸Šä¸€å¼ "  disabled="true"/>
+<input type="button" name="next" value="ä¸‹ä¸€å¼ " />   
 <input type="text" id="second" value="3" size="3" maxlength="2">
-Ãë
-<input type="button" value="ÉèÖÃÊ±¼ä"  />
+ç§’
+<input type="button" value="è®¾ç½®æ—¶é—´"  />
 
 
 
 <input name="image" type="text" size="65"/>
 
 
-Ò»¸ö·Ç³£°ôµÄ²¥·ÅÆ÷,¿ÉÏ§Èç¹ûÍ¼Æ¬ÊÇ·Ç³£´óµÄ»°,ÄÇ½á¹ûÓĞµã²Ò! 
+ä¸€ä¸ªéå¸¸æ£’çš„æ’­æ”¾å™¨,å¯æƒœå¦‚æœå›¾ç‰‡æ˜¯éå¸¸å¤§çš„è¯,é‚£ç»“æœæœ‰ç‚¹æƒ¨! 

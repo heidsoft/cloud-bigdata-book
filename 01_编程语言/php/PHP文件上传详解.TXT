@@ -1,159 +1,159 @@
 
-ÉÏ´«ÎÄ¼þ·ÖÎªÁ½¸ö²¿·Ö£¬HTMLÏÔÊ¾²¿·ÖºÍPHP´¦Àí²¿·Ö£¬HTML²¿·ÖÖ÷ÒªÊÇÈÃÓÃ»§À´Ñ¡ÔñËùÒªÉÏ´«µÄÎÄ¼þ£¬È»ºóÍ¨¹ýPHPÖÐµÄ$_FILES£¬ÎÒÃÇ¿ÉÒÔ°ÑÎÄ¼þÉÏ´«µ½·þÎñÆ÷µÄÖ¸¶¨Ä¿Â¼¡£ 
-ÏÈÀ´¿´Ò»ÏÂHTML²¿·Ö¡£
+ä¸Šä¼ æ–‡ä»¶åˆ†ä¸ºä¸¤ä¸ªéƒ¨åˆ†ï¼ŒHTMLæ˜¾ç¤ºéƒ¨åˆ†å’ŒPHPå¤„ç†éƒ¨åˆ†ï¼ŒHTMLéƒ¨åˆ†ä¸»è¦æ˜¯è®©ç”¨æˆ·æ¥é€‰æ‹©æ‰€è¦ä¸Šä¼ çš„æ–‡ä»¶ï¼Œç„¶åŽé€šè¿‡PHPä¸­çš„$_FILESï¼Œæˆ‘ä»¬å¯ä»¥æŠŠæ–‡ä»¶ä¸Šä¼ åˆ°æœåŠ¡å™¨çš„æŒ‡å®šç›®å½•ã€‚ 
+å…ˆæ¥çœ‹ä¸€ä¸‹HTMLéƒ¨åˆ†ã€‚
 ?<form action="upload.php" method="post" enctype="multipart/form-data"> 
-ÉÏ´«£º<input type="file" name="myfile" /> 
-<input type="submit" name="submit" value="ÉÏ´«" /> 
+ä¸Šä¼ ï¼š<input type="file" name="myfile" /> 
+<input type="submit" name="submit" value="ä¸Šä¼ " /> 
 </form> 
-ËµÃ÷£º
-form±ê´ðµÄaction="upload.php"ÊÇÖ¸µã»÷Õâ¸öformÖÐµÄsubmitµÄÊ±ºò£¬Õâ¸öÉÏ´«ÃüÁî»á±»·¢ËÍµ½Õâ¸ö½Ð upload.phpµÄÒ³ÃæÈ¥´¦Àí¡£method="post"ÊÇÖ¸ÒÔpost·½Ê½È¥ËÍ£¬enctype="multipart/form-data"ÊôÐÔ¹æ¶¨ÁËÔÚÌá½»Õâ¸ö±íµ¥Ê±ÒªÊ¹ÓÃÄÄÖÖÄÚÈÝÀàÐÍ£¬ÔÚ±íµ¥ÐèÒª¶þ½øÖÆÊý¾ÝÊ±£¬±ÈÈçÎÄ¼þÄÚÈÝ£¬ÇëÊ¹ÓÃ"multipart/form-data"£¬Èç¹ûÒªÉÏ´«ÎÄ¼þ£¬Õâ¸öÊôÐÔÊÇ±ØÒªµÄ¡£inputÖÐµÄtype="file"Ê±£¬¹æ¶¨ÁËÓ¦¸Ã°ÑÊäÈë×÷ÎªÎÄ¼þÀ´´¦Àí£¬²¢ÇÒÔÚinputºóÃæ»áÓÐÒ»¸öä¯ÀÀµÄ°´Å¥¡£
+è¯´æ˜Žï¼š
+formæ ‡ç­”çš„action="upload.php"æ˜¯æŒ‡ç‚¹å‡»è¿™ä¸ªformä¸­çš„submitçš„æ—¶å€™ï¼Œè¿™ä¸ªä¸Šä¼ å‘½ä»¤ä¼šè¢«å‘é€åˆ°è¿™ä¸ªå« upload.phpçš„é¡µé¢åŽ»å¤„ç†ã€‚method="post"æ˜¯æŒ‡ä»¥postæ–¹å¼åŽ»é€ï¼Œenctype="multipart/form-data"å±žæ€§è§„å®šäº†åœ¨æäº¤è¿™ä¸ªè¡¨å•æ—¶è¦ä½¿ç”¨å“ªç§å†…å®¹ç±»åž‹ï¼Œåœ¨è¡¨å•éœ€è¦äºŒè¿›åˆ¶æ•°æ®æ—¶ï¼Œæ¯”å¦‚æ–‡ä»¶å†…å®¹ï¼Œè¯·ä½¿ç”¨"multipart/form-data"ï¼Œå¦‚æžœè¦ä¸Šä¼ æ–‡ä»¶ï¼Œè¿™ä¸ªå±žæ€§æ˜¯å¿…è¦çš„ã€‚inputä¸­çš„type="file"æ—¶ï¼Œè§„å®šäº†åº”è¯¥æŠŠè¾“å…¥ä½œä¸ºæ–‡ä»¶æ¥å¤„ç†ï¼Œå¹¶ä¸”åœ¨inputåŽé¢ä¼šæœ‰ä¸€ä¸ªæµè§ˆçš„æŒ‰é’®ã€‚
 
-ÎÒÃÇÔÙÀ´¿´Ò»¸öPHP´¦ÀíÒ³Ãæ upload.php
+æˆ‘ä»¬å†æ¥çœ‹ä¸€ä¸ªPHPå¤„ç†é¡µé¢ upload.php
 ?<?php 
 if($_FILES['myfile']['name'] != '') { 
-¡¡¡¡if($_FILES['myfile']['error'] > 0) { 
-¡¡¡¡¡¡¡¡echo "´íÎó×´Ì¬£º" . $_FILES['myfile']['error']; 
-¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
-¡¡¡¡¡¡¡¡echo "<script>alert(ÉÏ´«³É¹¦£¡);</script>"; 
-¡¡¡¡} 
+ã€€ã€€if($_FILES['myfile']['error'] > 0) { 
+ã€€ã€€ã€€ã€€echo "é”™è¯¯çŠ¶æ€ï¼š" . $_FILES['myfile']['error']; 
+ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
+ã€€ã€€ã€€ã€€echo "<script>alert(ä¸Šä¼ æˆåŠŸï¼);</script>"; 
+ã€€ã€€} 
 } else{ 
-¡¡¡¡echo "<script>alert(ÇëÉÏ´«ÎÄ¼þ£¡);</script>"; 
+ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ æ–‡ä»¶ï¼);</script>"; 
 } 
 ?> 
-ËµÃ÷£º
-ÔÚ½âÊÍÕâÆª´úÂëÇ°£¬ÎÒÃÇÓÐ±ØÒªÁË½âÒÔÏÂÖªÊ¶¡£
+è¯´æ˜Žï¼š
+åœ¨è§£é‡Šè¿™ç¯‡ä»£ç å‰ï¼Œæˆ‘ä»¬æœ‰å¿…è¦äº†è§£ä»¥ä¸‹çŸ¥è¯†ã€‚
 
-$_FILES['myfile']['name']  ÊÇÖ¸±»ÉÏ´«ÎÄ¼þµÄÃû³Æ
-$_FILES['myfile']['type']  ÊÇÖ¸±»ÉÏ´«ÎÄ¼þµÄÀàÐÍ
-$_FILES['myfile']['size']  ÊÇÖ¸±»ÉÏ´«ÎÄ¼þµÄ´óÐ¡£¬µ¥Î»Îª×Ö½Ú(B)
-$_FILES['myfile']['tmp_name']  ÊÇÖ¸±»ÉÏ´«ÎÄ¼þ´æÔÚ·þÎñÆ÷ÖÐµÄÁÙÊ±¸±±¾ÎÄ¼þÃû³Æ£¬ÎÄ¼þ±»ÒÆ¶¯µ½Ö¸¶¨Ä¿Â¼ºóÁÙÎÄ¼þ½«±»×Ô¶¯Ïû»Ù¡£
-$_FILES['myfile']["error"]  ÊÇÖ¸ÓÉÎÄ¼þÉÏ´«ÖÐÓÐ¿ÉÄÜ³öÏÖµÄ´íÎóµÄ×´Ì¬Âë£¬¹ØÓÚ¸÷×´Ì¬º¬ÒåºóÔÚ»áËµÃ÷¡£
-ÁË½âÁËÕâÐ©£¬ÎÒÃÇÔÙÀ´¿´Ò»ÏÂupload.phpµÄ´úÂë¡£
-Ê×ÏÈ£¬$_FILES['myfile']['name']ÖÐµÄmyfileÊÇÖ¸ÔÚÉÏÃæHTMLÒ³ÃæÖÐÉÏ´«ÎÄ¼þ±êÇ©µÄnameÖµ£¬¸ù¾ÝÕâ¸öÎÒÃÇ²ÅÄÜÖªµÀÎÒÃÇÕýÔÚ´¦ÀíµÄÎÄ¼þÊÇÄÄÒ»¸öinputÌá½»¹ýÀ´µÄ£¬È»ºóÔÙÀ´ÅÐ¶ÏÒ»ÏÂ $_FILES['myfile']['name'] ²»ÊÇ·ñÎª¿Õ£¬¸ù¾ÝÕâ¸öÎÒÃÇ¿ÉÒÔÖªµÀÓÃ»§ÓÐÃ»ÓÐÉÏ´«ÎÄ¼þ£¬´Ó¶øÖ´ÐÐ²»Í¬µÄ²Ù×÷¡£Èç¹ûÉÏ´«ÁËÎÄ¼þ²¢ÇÒ×´Ì¬ÊÇ0¾ÍËµÃ÷ÉÏ´«³É¹¦£¬ÎÒÃÇ¾Í¿ÉÒÔÓÃ move_uploaded_file·½·¨°ÑÉÏ´«µÄÎÄ¼þ´æ·Åµ½Ö¸¶¨Ä¿Â¼£¬ÉÏÃæÕâ¸öÀý×ÓÊÇÖ¸°ÑÉÏ´«µÄÎÄ¼þÒÆ¶¯µ½Í¬Ä¿Â¼ÏÂµÄuploadsÎÄ¼þ¼ÐÏÂ£¬Õâ¸öÂ·¾¶ÊÇÏà¶ÔÓÚÕâ¸öPHPÎÄ¼þ£¨¼Èupload.php£©µÄÏà¶ÔÄ¿Â¼¡£±ÈÈç£¬ÎÒÃÇÏë°ÑÉÏ´«µÄÎÄ¼þÒÆ¶¯µ½upload.phpÉÏÒ»²ã½ÐuserµÄÎÄ¼þ¼ÐÖÐµÄ»°£¬ÎÒÃÇ¾Í¿ÉÒÔÕâÑùÐ´£ºmove_uploaded_file($_FILES['myfile']['tmp_name'] , "../user/" . $FILES['myfile']['name'])£¬ÕâÖÖ·½·¨Ê¹ÓÃÆðÀ´ºÜ·½±ã¡¢Áé»î£¬ÕâÑùÒ»¸öÎÄ¼þ¾Í±»ÉÏ´«µ½·þÎñÆ÷ÖÐÁË£¬¿ÉÒÔ´ò¿ª·þÎñÆ÷ÖÐµÄÄ¿Â¼²é¿´¸ÃÎÄ¼þ¡£
+$_FILES['myfile']['name']  æ˜¯æŒ‡è¢«ä¸Šä¼ æ–‡ä»¶çš„åç§°
+$_FILES['myfile']['type']  æ˜¯æŒ‡è¢«ä¸Šä¼ æ–‡ä»¶çš„ç±»åž‹
+$_FILES['myfile']['size']  æ˜¯æŒ‡è¢«ä¸Šä¼ æ–‡ä»¶çš„å¤§å°ï¼Œå•ä½ä¸ºå­—èŠ‚(B)
+$_FILES['myfile']['tmp_name']  æ˜¯æŒ‡è¢«ä¸Šä¼ æ–‡ä»¶å­˜åœ¨æœåŠ¡å™¨ä¸­çš„ä¸´æ—¶å‰¯æœ¬æ–‡ä»¶åç§°ï¼Œæ–‡ä»¶è¢«ç§»åŠ¨åˆ°æŒ‡å®šç›®å½•åŽä¸´æ–‡ä»¶å°†è¢«è‡ªåŠ¨æ¶ˆæ¯ã€‚
+$_FILES['myfile']["error"]  æ˜¯æŒ‡ç”±æ–‡ä»¶ä¸Šä¼ ä¸­æœ‰å¯èƒ½å‡ºçŽ°çš„é”™è¯¯çš„çŠ¶æ€ç ï¼Œå…³äºŽå„çŠ¶æ€å«ä¹‰åŽåœ¨ä¼šè¯´æ˜Žã€‚
+äº†è§£äº†è¿™äº›ï¼Œæˆ‘ä»¬å†æ¥çœ‹ä¸€ä¸‹upload.phpçš„ä»£ç ã€‚
+é¦–å…ˆï¼Œ$_FILES['myfile']['name']ä¸­çš„myfileæ˜¯æŒ‡åœ¨ä¸Šé¢HTMLé¡µé¢ä¸­ä¸Šä¼ æ–‡ä»¶æ ‡ç­¾çš„nameå€¼ï¼Œæ ¹æ®è¿™ä¸ªæˆ‘ä»¬æ‰èƒ½çŸ¥é“æˆ‘ä»¬æ­£åœ¨å¤„ç†çš„æ–‡ä»¶æ˜¯å“ªä¸€ä¸ªinputæäº¤è¿‡æ¥çš„ï¼Œç„¶åŽå†æ¥åˆ¤æ–­ä¸€ä¸‹ $_FILES['myfile']['name'] ä¸æ˜¯å¦ä¸ºç©ºï¼Œæ ¹æ®è¿™ä¸ªæˆ‘ä»¬å¯ä»¥çŸ¥é“ç”¨æˆ·æœ‰æ²¡æœ‰ä¸Šä¼ æ–‡ä»¶ï¼Œä»Žè€Œæ‰§è¡Œä¸åŒçš„æ“ä½œã€‚å¦‚æžœä¸Šä¼ äº†æ–‡ä»¶å¹¶ä¸”çŠ¶æ€æ˜¯0å°±è¯´æ˜Žä¸Šä¼ æˆåŠŸï¼Œæˆ‘ä»¬å°±å¯ä»¥ç”¨ move_uploaded_fileæ–¹æ³•æŠŠä¸Šä¼ çš„æ–‡ä»¶å­˜æ”¾åˆ°æŒ‡å®šç›®å½•ï¼Œä¸Šé¢è¿™ä¸ªä¾‹å­æ˜¯æŒ‡æŠŠä¸Šä¼ çš„æ–‡ä»¶ç§»åŠ¨åˆ°åŒç›®å½•ä¸‹çš„uploadsæ–‡ä»¶å¤¹ä¸‹ï¼Œè¿™ä¸ªè·¯å¾„æ˜¯ç›¸å¯¹äºŽè¿™ä¸ªPHPæ–‡ä»¶ï¼ˆæ—¢upload.phpï¼‰çš„ç›¸å¯¹ç›®å½•ã€‚æ¯”å¦‚ï¼Œæˆ‘ä»¬æƒ³æŠŠä¸Šä¼ çš„æ–‡ä»¶ç§»åŠ¨åˆ°upload.phpä¸Šä¸€å±‚å«userçš„æ–‡ä»¶å¤¹ä¸­çš„è¯ï¼Œæˆ‘ä»¬å°±å¯ä»¥è¿™æ ·å†™ï¼šmove_uploaded_file($_FILES['myfile']['tmp_name'] , "../user/" . $FILES['myfile']['name'])ï¼Œè¿™ç§æ–¹æ³•ä½¿ç”¨èµ·æ¥å¾ˆæ–¹ä¾¿ã€çµæ´»ï¼Œè¿™æ ·ä¸€ä¸ªæ–‡ä»¶å°±è¢«ä¸Šä¼ åˆ°æœåŠ¡å™¨ä¸­äº†ï¼Œå¯ä»¥æ‰“å¼€æœåŠ¡å™¨ä¸­çš„ç›®å½•æŸ¥çœ‹è¯¥æ–‡ä»¶ã€‚
 
-ÔÊÐíÓÃ»§ÉÏ´«ÎÄ¼þÊÇÒ»¸öÓÐ¾Þ´óµÄ°²È«·çÏÕµÄÐÐÎª£¬Òò´Ë£¬Í¨³£Çé¿öÏÂ£¬ÎÒÃÇ»á¶ÔÓÃ»§ÉÏ´«µÄÎÄ¼þ×öÒ»Ð©ÏÞÖÆ£¬±ÈÈç³£¼ûµÄÏÞÖÆÎÄ¼þ
-ÀàÐÍºÍÎÄ¼þ´óÐ¡£¬À´¿´Ò»ÏÂ¡£
+å…è®¸ç”¨æˆ·ä¸Šä¼ æ–‡ä»¶æ˜¯ä¸€ä¸ªæœ‰å·¨å¤§çš„å®‰å…¨é£Žé™©çš„è¡Œä¸ºï¼Œå› æ­¤ï¼Œé€šå¸¸æƒ…å†µä¸‹ï¼Œæˆ‘ä»¬ä¼šå¯¹ç”¨æˆ·ä¸Šä¼ çš„æ–‡ä»¶åšä¸€äº›é™åˆ¶ï¼Œæ¯”å¦‚å¸¸è§çš„é™åˆ¶æ–‡ä»¶
+ç±»åž‹å’Œæ–‡ä»¶å¤§å°ï¼Œæ¥çœ‹ä¸€ä¸‹ã€‚
 
 ?<?php 
 if($_FILES['myfile']['name'] != '') { 
-¡¡¡¡if($_FILES['myfile']['error'] > 0) { 
-¡¡¡¡¡¡¡¡echo "´íÎó×´Ì¬£º" . $_FILES['myfile']['error']; 
-¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480){ 
-¡¡¡¡¡¡¡¡¡¡¡¡move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
-¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÉÏ´«³É¹¦£¡);</script>"; 
-¡¡¡¡¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÇëÉÏ´«Ð¡ÓÚ2MBµÄjpeg»òGifÀàÐÍµÄ¸½¼þ);<script>"; 
-¡¡¡¡¡¡¡¡} 
-¡¡¡¡} 
+ã€€ã€€if($_FILES['myfile']['error'] > 0) { 
+ã€€ã€€ã€€ã€€echo "é”™è¯¯çŠ¶æ€ï¼š" . $_FILES['myfile']['error']; 
+ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480){ 
+ã€€ã€€ã€€ã€€ã€€ã€€move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
+ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(ä¸Šä¼ æˆåŠŸï¼);</script>"; 
+ã€€ã€€ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ å°äºŽ2MBçš„jpegæˆ–Gifç±»åž‹çš„é™„ä»¶);<script>"; 
+ã€€ã€€ã€€ã€€} 
+ã€€ã€€} 
 } else { 
-¡¡¡¡echo "<script>alert(ÇëÉÏ´«ÎÄ¼þ£¡);</script>"; 
+ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ æ–‡ä»¶ï¼);</script>"; 
 } 
 ?> 
-´ÓÉÏÃæµÄ´úÂë¿ÉÒÔ¿´³ö£¬ÎÒÃÇ¹æ¶¨ÁËÉÏ´«µÄÎÄ¼þÀàÐÍ±ØÐëÊÇjpeg»òÕßGif²¢ÇÒ±ØÐëÐ¡ÓÚ2MBµÄÎÄ¼þ($_FILES['myfile']['size']µÄÄ¬ÈÏµ¥Î»ÊÇ×Ö½Ú)
-ÕâÀï±ØÐëÌáµ½µÄÊÇ£¬¶ÔÓÚIEä¯ÀÀÆ÷£¬ËüÊ¶±ðjpgÎÄ¼þµÄÀàÐÍ±ØÐëÊÇ pjpeg£¬¶ø¶ÔÓÚ FireFox£¬Ôò±ØÐëÊÇ jpeg£¬Òò´Ë£¬ÎÒÃÇ±ØÐë¶ÔjpegºÍpjpeg¶¼×÷ÅÐ¶Ï¡£
-ÕâÑùÒ»À´£¬ÎÒÃÇ¿ÉÒÔÏÞÖÆÓÃ»§ÉÏ´«µÄÒ»Ð©Î£ÏÕµÄ±ÈÈçÄ¾Âí»òÕß²¡¶¾½Å±¾£¬À´±£Ö¤ÁË·þÎñÆ÷µÄ°²È«ÔËÐÐ¡£
-ÏÖÔÚ£¬Ò»¸öÉÏ´«ÎÄ¼þ³ÌÐò¾Í»ù±¾³ÉÐÎÁË¡£µ«Ê±ÔÚÓÐÐ©Ê±ºò£¬¿¼ÂÇµ½ÓÃ»§ÌåÑé£¬ÎÒÃÇ»¹¿ÉÒÔ¶ÔÓÃ»§ÉÏ´«¹ý³ÌÖÐ·¢ÉúµÄ´íÎó×÷³öÒ»Ð©ÌáÐÑ£¬
-ÈÃÓÃ»§Ã÷°×ÊÇÄÄÀï³öÁËÎÊÌâ£¬ÎÒÃÇ»á¶Ô$_FILES['myfile']['error']×÷³öÒ»Ð©ËµÃ÷£¬ÏÈÀ´¿´Ò»ÏÂÔÚPHPÖÐ¶Ô$_FILES['myfile']['error']³£¼û6ÖÖ×´Ì¬µÄ¶¨Òå¡£
+ä»Žä¸Šé¢çš„ä»£ç å¯ä»¥çœ‹å‡ºï¼Œæˆ‘ä»¬è§„å®šäº†ä¸Šä¼ çš„æ–‡ä»¶ç±»åž‹å¿…é¡»æ˜¯jpegæˆ–è€…Gifå¹¶ä¸”å¿…é¡»å°äºŽ2MBçš„æ–‡ä»¶($_FILES['myfile']['size']çš„é»˜è®¤å•ä½æ˜¯å­—èŠ‚)
+è¿™é‡Œå¿…é¡»æåˆ°çš„æ˜¯ï¼Œå¯¹äºŽIEæµè§ˆå™¨ï¼Œå®ƒè¯†åˆ«jpgæ–‡ä»¶çš„ç±»åž‹å¿…é¡»æ˜¯ pjpegï¼Œè€Œå¯¹äºŽ FireFoxï¼Œåˆ™å¿…é¡»æ˜¯ jpegï¼Œå› æ­¤ï¼Œæˆ‘ä»¬å¿…é¡»å¯¹jpegå’Œpjpegéƒ½ä½œåˆ¤æ–­ã€‚
+è¿™æ ·ä¸€æ¥ï¼Œæˆ‘ä»¬å¯ä»¥é™åˆ¶ç”¨æˆ·ä¸Šä¼ çš„ä¸€äº›å±é™©çš„æ¯”å¦‚æœ¨é©¬æˆ–è€…ç—…æ¯’è„šæœ¬ï¼Œæ¥ä¿è¯äº†æœåŠ¡å™¨çš„å®‰å…¨è¿è¡Œã€‚
+çŽ°åœ¨ï¼Œä¸€ä¸ªä¸Šä¼ æ–‡ä»¶ç¨‹åºå°±åŸºæœ¬æˆå½¢äº†ã€‚ä½†æ—¶åœ¨æœ‰äº›æ—¶å€™ï¼Œè€ƒè™‘åˆ°ç”¨æˆ·ä½“éªŒï¼Œæˆ‘ä»¬è¿˜å¯ä»¥å¯¹ç”¨æˆ·ä¸Šä¼ è¿‡ç¨‹ä¸­å‘ç”Ÿçš„é”™è¯¯ä½œå‡ºä¸€äº›æé†’ï¼Œ
+è®©ç”¨æˆ·æ˜Žç™½æ˜¯å“ªé‡Œå‡ºäº†é—®é¢˜ï¼Œæˆ‘ä»¬ä¼šå¯¹$_FILES['myfile']['error']ä½œå‡ºä¸€äº›è¯´æ˜Žï¼Œå…ˆæ¥çœ‹ä¸€ä¸‹åœ¨PHPä¸­å¯¹$_FILES['myfile']['error']å¸¸è§6ç§çŠ¶æ€çš„å®šä¹‰ã€‚
 
-?$_FILES['teacher_pic']['error'] = 1        ÎÄ¼þ´óÐ¡³¬¹ýÁËPHP.iniÖÐµÄÎÄ¼þÏÞÖÆ 
-$_FILES['teacher_pic']['error'] = 2        ÎÄ¼þ´óÐ¡³¬¹ýÁËä¯ÀÀÆ÷ÏÞÖÆ 
-$_FILES['teacher_pic']['error'] = 3        ÎÄ¼þ²¿·Ö±»ÉÏ´« 
-$_FILES['teacher_pic']['error'] = 4        Ã»ÓÐÕÒµ½ÒªÉÏ´«µÄÎÄ¼þ 
-$_FILES['teacher_pic']['error'] = 5        ·þÎñÆ÷ÁÙÊ±ÎÄ¼þ¼Ð¶ªÊ§ 
-$_FILES['teacher_pic']['error'] = 5        ÎÄ¼þÐ´Èëµ½ÁÙÊ±ÎÄ¼þ¼Ð³ö´í 
-´íÎóÐÅÏ¢×´Ì¬Îª1Ê±ËµÃ÷ÉÏ´«µÄÎÄ¼þ³¬¹ýÁËphp.iniÖÐµÄÎÄ¼þ´óÐ¡ÏÞÖÆ£¬ÎÒÃÇ¿ÉÒÔ´ò¿ªphp.iniÕâ¸öÎÄ¼þ¡£
+?$_FILES['teacher_pic']['error'] = 1        æ–‡ä»¶å¤§å°è¶…è¿‡äº†PHP.iniä¸­çš„æ–‡ä»¶é™åˆ¶ 
+$_FILES['teacher_pic']['error'] = 2        æ–‡ä»¶å¤§å°è¶…è¿‡äº†æµè§ˆå™¨é™åˆ¶ 
+$_FILES['teacher_pic']['error'] = 3        æ–‡ä»¶éƒ¨åˆ†è¢«ä¸Šä¼  
+$_FILES['teacher_pic']['error'] = 4        æ²¡æœ‰æ‰¾åˆ°è¦ä¸Šä¼ çš„æ–‡ä»¶ 
+$_FILES['teacher_pic']['error'] = 5        æœåŠ¡å™¨ä¸´æ—¶æ–‡ä»¶å¤¹ä¸¢å¤± 
+$_FILES['teacher_pic']['error'] = 5        æ–‡ä»¶å†™å…¥åˆ°ä¸´æ—¶æ–‡ä»¶å¤¹å‡ºé”™ 
+é”™è¯¯ä¿¡æ¯çŠ¶æ€ä¸º1æ—¶è¯´æ˜Žä¸Šä¼ çš„æ–‡ä»¶è¶…è¿‡äº†php.iniä¸­çš„æ–‡ä»¶å¤§å°é™åˆ¶ï¼Œæˆ‘ä»¬å¯ä»¥æ‰“å¼€php.iniè¿™ä¸ªæ–‡ä»¶ã€‚
 
-À´ÕÒÒ»ÏÂ; Maximum allowed size for uploaded files.upload_max_filesize = 2M
-ÎÒÕâÀïÊÇÔÚµÚ516ÐÐ£¬ÕâÒ»¾äËµ¶¨ÒåÁËPHPÖÐÉÏ´«ÎÄ¼þµÄ×î´ó×Ö½ÚÊý£¬Ä¬ÈÏÇé¿öÏÂÊÇ2MB£¬Õâ¸öÉèÖÃÊÇPHPÈ«¾ÖÉÏ´«ÏÞÖÆ£¬È¨ÏÞ×î¸ß£¬¼´Ê¹$_FILES['myfile']['size']ÉèÎª10MB£¬Ò²Ö»ÄÜÉÏ´«2MBÒÔÏÂµÄÎÄ¼þ¡£±ÈÈç£¬ÔÚÄ¬ÈÏÇé¿öÏÂ£¬Èç¹û¹æ¶¨$_FILES['myfile']['size'] < 10MB£¬ÔÚÓÃ»§ÉÏ´«ÎÄ¼þ´óÓÚ2MBµÄÇé¿öÏÂ£¬¾Í»áÏÖÔÚ$_FILES['teacher_pic']['error'] = 1µÄÇé¿ö£¬Ò»°ãÀ´Ëµ£¬ÎÒÃÇÐëÒª°Ñ$_FILES['myfile']['size']µÄÖµÉè¶¨ÔÚupload_max_filesizeÖµÖ®ÏÂ£¨Éè´óÁËÒ²Ã»ÓÃ£¬ºÇºÇ£©¡£µ±È»£¬ÄãÍêÈ«¿ÉÒÔ°Ñphp.iniÖÐµÄupload_max_filesizeÖµµ÷µÄ¸ü´ó£¬µ«Êµ¼ÊÓ¦ÓÃÖÐ£¬ÎÒÃÇ¿¼ÂÇµ½·þÎñÆ÷µÄ¸ºÔØÄÜÁ¦£¬²»½¨Òéupload_max_filesizeµÄÖµ³¬¹ý20MB£¬ÕâÑù»áÔì³ÉÍøÕ¾¸½¼þÔö´ó£¬ÕâÔÚÂÛÌ³ÉçÇøÉÏ¿ÉÒÔºÜÃ÷ÏÔµÄ¿´³öÀ´¡£
-ÁË½âÁËÕâÐ©£¬ÎÒÃÇ¾Í¿ÉÒÔ¶Ô´íÎó×´Ì¬×÷³ö¶¨Òå£¬ÎÒÃÇÔÙÀ´ÍêÉÆÒ»ÏÂ´úÂë£¬À´¿´Ò»ÏÂ¡£
+æ¥æ‰¾ä¸€ä¸‹; Maximum allowed size for uploaded files.upload_max_filesize = 2M
+æˆ‘è¿™é‡Œæ˜¯åœ¨ç¬¬516è¡Œï¼Œè¿™ä¸€å¥è¯´å®šä¹‰äº†PHPä¸­ä¸Šä¼ æ–‡ä»¶çš„æœ€å¤§å­—èŠ‚æ•°ï¼Œé»˜è®¤æƒ…å†µä¸‹æ˜¯2MBï¼Œè¿™ä¸ªè®¾ç½®æ˜¯PHPå…¨å±€ä¸Šä¼ é™åˆ¶ï¼Œæƒé™æœ€é«˜ï¼Œå³ä½¿$_FILES['myfile']['size']è®¾ä¸º10MBï¼Œä¹Ÿåªèƒ½ä¸Šä¼ 2MBä»¥ä¸‹çš„æ–‡ä»¶ã€‚æ¯”å¦‚ï¼Œåœ¨é»˜è®¤æƒ…å†µä¸‹ï¼Œå¦‚æžœè§„å®š$_FILES['myfile']['size'] < 10MBï¼Œåœ¨ç”¨æˆ·ä¸Šä¼ æ–‡ä»¶å¤§äºŽ2MBçš„æƒ…å†µä¸‹ï¼Œå°±ä¼šçŽ°åœ¨$_FILES['teacher_pic']['error'] = 1çš„æƒ…å†µï¼Œä¸€èˆ¬æ¥è¯´ï¼Œæˆ‘ä»¬é¡»è¦æŠŠ$_FILES['myfile']['size']çš„å€¼è®¾å®šåœ¨upload_max_filesizeå€¼ä¹‹ä¸‹ï¼ˆè®¾å¤§äº†ä¹Ÿæ²¡ç”¨ï¼Œå‘µå‘µï¼‰ã€‚å½“ç„¶ï¼Œä½ å®Œå…¨å¯ä»¥æŠŠphp.iniä¸­çš„upload_max_filesizeå€¼è°ƒçš„æ›´å¤§ï¼Œä½†å®žé™…åº”ç”¨ä¸­ï¼Œæˆ‘ä»¬è€ƒè™‘åˆ°æœåŠ¡å™¨çš„è´Ÿè½½èƒ½åŠ›ï¼Œä¸å»ºè®®upload_max_filesizeçš„å€¼è¶…è¿‡20MBï¼Œè¿™æ ·ä¼šé€ æˆç½‘ç«™é™„ä»¶å¢žå¤§ï¼Œè¿™åœ¨è®ºå›ç¤¾åŒºä¸Šå¯ä»¥å¾ˆæ˜Žæ˜¾çš„çœ‹å‡ºæ¥ã€‚
+äº†è§£äº†è¿™äº›ï¼Œæˆ‘ä»¬å°±å¯ä»¥å¯¹é”™è¯¯çŠ¶æ€ä½œå‡ºå®šä¹‰ï¼Œæˆ‘ä»¬å†æ¥å®Œå–„ä¸€ä¸‹ä»£ç ï¼Œæ¥çœ‹ä¸€ä¸‹ã€‚
 
 ?<?php 
 if($_FILES['myfile']['name'] != ''){ 
-¡¡¡¡if($_FILES['myfile']['error'] > 0){ 
-¡¡¡¡¡¡¡¡switch($_FILES['myfile']['error']){ 
-¡¡¡¡¡¡¡¡¡¡¡¡case 1: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ´óÐ¡³¬¹ýÁËPHP.iniÖÐµÄÎÄ¼þÏÞÖÆ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 2: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ´óÐ¡³¬¹ýÁËä¯ÀÀÆ÷ÏÞÖÆ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 3: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ²¿·Ö±»ÉÏ´«£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 4: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "Ã»ÓÐÕÒµ½ÒªÉÏ´«µÄÎÄ¼þ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 5: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "·þÎñÆ÷ÁÙÊ±ÎÄ¼þ¼Ð¶ªÊ§£¬ÇëÖØÐÂÉÏ´«£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 6: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þÐ´Èëµ½ÁÙÊ±ÎÄ¼þ¼Ð³ö´í£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡} 
-¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480) { 
-¡¡¡¡¡¡¡¡¡¡¡¡move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
-¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÉÏ´«³É¹¦£¡);</script>"; 
-¡¡¡¡¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÇëÉÏ´«Ð¡ÓÚ2MBµÄjpeg»òGifÀàÐÍµÄ¸½¼þ);<script>"; 
-¡¡¡¡¡¡¡¡} 
-¡¡¡¡} 
+ã€€ã€€if($_FILES['myfile']['error'] > 0){ 
+ã€€ã€€ã€€ã€€switch($_FILES['myfile']['error']){ 
+ã€€ã€€ã€€ã€€ã€€ã€€case 1: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å¤§å°è¶…è¿‡äº†PHP.iniä¸­çš„æ–‡ä»¶é™åˆ¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 2: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å¤§å°è¶…è¿‡äº†æµè§ˆå™¨é™åˆ¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 3: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶éƒ¨åˆ†è¢«ä¸Šä¼ ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 4: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ²¡æœ‰æ‰¾åˆ°è¦ä¸Šä¼ çš„æ–‡ä»¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 5: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æœåŠ¡å™¨ä¸´æ—¶æ–‡ä»¶å¤¹ä¸¢å¤±ï¼Œè¯·é‡æ–°ä¸Šä¼ ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 6: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å†™å…¥åˆ°ä¸´æ—¶æ–‡ä»¶å¤¹å‡ºé”™ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€} 
+ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480) { 
+ã€€ã€€ã€€ã€€ã€€ã€€move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
+ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(ä¸Šä¼ æˆåŠŸï¼);</script>"; 
+ã€€ã€€ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ å°äºŽ2MBçš„jpegæˆ–Gifç±»åž‹çš„é™„ä»¶);<script>"; 
+ã€€ã€€ã€€ã€€} 
+ã€€ã€€} 
 } else { 
-¡¡¡¡echo "<script>alert(ÇëÉÏ´«ÎÄ¼þ£¡);</script>"; 
+ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ æ–‡ä»¶ï¼);</script>"; 
 } 
 ?> 
-¿ÉÒÔ¿´³ö£¬ÎÒÃÇÊ¹ÓÃÁËswitchÓï¾äÀ´¶Ô6ÖÖ´í×´Ì¬×÷³ö¶¨Òå£¬ÕâÑùÀ´ÏÂ£¬ÔÚ·¢Éú´íÎóµÄÊ±¼ä£¬ÓÃ»§¾Í»áÃ÷°×£¬ÊÇÄÄÀï³öÁËÎÊÌâ¡£
-µ«ÊÇ»¹ÓÐÒ»ÖÖÇé¿ö¾ÍÊÇ£¬ÓÃ»§ÉÏ´«µÄÎÄ¼þÔÚÖ¸¶¨µÄÄ¿Â¼ÖÐÒÑ¾­´æÔÚ£¬ÕâÀïÎÒÃÇ¿ÉÒÔÊ¹ÓÃfile_exists·½·¨À´ÅÐ¶ÏÒ»ÏÂ£º
+å¯ä»¥çœ‹å‡ºï¼Œæˆ‘ä»¬ä½¿ç”¨äº†switchè¯­å¥æ¥å¯¹6ç§é”™çŠ¶æ€ä½œå‡ºå®šä¹‰ï¼Œè¿™æ ·æ¥ä¸‹ï¼Œåœ¨å‘ç”Ÿé”™è¯¯çš„æ—¶é—´ï¼Œç”¨æˆ·å°±ä¼šæ˜Žç™½ï¼Œæ˜¯å“ªé‡Œå‡ºäº†é—®é¢˜ã€‚
+ä½†æ˜¯è¿˜æœ‰ä¸€ç§æƒ…å†µå°±æ˜¯ï¼Œç”¨æˆ·ä¸Šä¼ çš„æ–‡ä»¶åœ¨æŒ‡å®šçš„ç›®å½•ä¸­å·²ç»å­˜åœ¨ï¼Œè¿™é‡Œæˆ‘ä»¬å¯ä»¥ä½¿ç”¨file_existsæ–¹æ³•æ¥åˆ¤æ–­ä¸€ä¸‹ï¼š
 
 ?<?php 
 if($_FILES['myfile']['name'] != ''){ 
-¡¡¡¡if($_FILES['myfile']['error'] > 0){ 
-¡¡¡¡¡¡¡¡switch($_FILES['myfile']['error']){ 
-¡¡¡¡¡¡¡¡¡¡¡¡case 1: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ´óÐ¡³¬¹ýÁËPHP.iniÖÐµÄÎÄ¼þÏÞÖÆ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 2: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ´óÐ¡³¬¹ýÁËä¯ÀÀÆ÷ÏÞÖÆ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 3: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þ²¿·Ö±»ÉÏ´«£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 4: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "Ã»ÓÐÕÒµ½ÒªÉÏ´«µÄÎÄ¼þ£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 5: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "·þÎñÆ÷ÁÙÊ±ÎÄ¼þ¼Ð¶ªÊ§£¬ÇëÖØÐÂÉÏ´«£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡¡¡¡¡case 6: 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "ÎÄ¼þÐ´Èëµ½ÁÙÊ±ÎÄ¼þ¼Ð³ö´í£¡"; 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡break; 
-¡¡¡¡¡¡¡¡} 
-¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480) { 
-¡¡¡¡¡¡¡¡¡¡¡¡if (!file_exists("uploads/" . $_FILES["myfile"]["name"])) 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÉÏ´«³É¹¦£¡);</script>"; 
-¡¡¡¡¡¡¡¡¡¡¡¡} else{ 
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÄúÉÏ´«µÄÎÄ¼þÒÑ¾­´æÔÚ£¡);</script>"; 
-¡¡¡¡¡¡¡¡¡¡¡¡} 
-¡¡¡¡¡¡¡¡} else { 
-¡¡¡¡¡¡¡¡¡¡¡¡echo "<script>alert(ÇëÉÏ´«Ð¡ÓÚ2MBµÄjpeg»òGifÀàÐÍµÄ¸½¼þ);<script>"; 
-¡¡¡¡¡¡¡¡} 
-¡¡¡¡} 
+ã€€ã€€if($_FILES['myfile']['error'] > 0){ 
+ã€€ã€€ã€€ã€€switch($_FILES['myfile']['error']){ 
+ã€€ã€€ã€€ã€€ã€€ã€€case 1: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å¤§å°è¶…è¿‡äº†PHP.iniä¸­çš„æ–‡ä»¶é™åˆ¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 2: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å¤§å°è¶…è¿‡äº†æµè§ˆå™¨é™åˆ¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 3: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶éƒ¨åˆ†è¢«ä¸Šä¼ ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 4: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ²¡æœ‰æ‰¾åˆ°è¦ä¸Šä¼ çš„æ–‡ä»¶ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 5: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æœåŠ¡å™¨ä¸´æ—¶æ–‡ä»¶å¤¹ä¸¢å¤±ï¼Œè¯·é‡æ–°ä¸Šä¼ ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€ã€€ã€€case 6: 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "æ–‡ä»¶å†™å…¥åˆ°ä¸´æ—¶æ–‡ä»¶å¤¹å‡ºé”™ï¼"; 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€break; 
+ã€€ã€€ã€€ã€€} 
+ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€if($_FILES['myfile']['type'] == 'image/jpeg' or $_FILES['myfile']['type'] == 'image/pjpeg' or $_FILES['myfile']['type'] == 'image/gif' && $_FILES['myfile']['size'] < 20480) { 
+ã€€ã€€ã€€ã€€ã€€ã€€if (!file_exists("uploads/" . $_FILES["myfile"]["name"])) 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€move_uploaded_file($_FILES['myfile']['tmp_name'] , "uploads/" . $FILES['myfile']['name']); 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(ä¸Šä¼ æˆåŠŸï¼);</script>"; 
+ã€€ã€€ã€€ã€€ã€€ã€€} else{ 
+ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(æ‚¨ä¸Šä¼ çš„æ–‡ä»¶å·²ç»å­˜åœ¨ï¼);</script>"; 
+ã€€ã€€ã€€ã€€ã€€ã€€} 
+ã€€ã€€ã€€ã€€} else { 
+ã€€ã€€ã€€ã€€ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ å°äºŽ2MBçš„jpegæˆ–Gifç±»åž‹çš„é™„ä»¶);<script>"; 
+ã€€ã€€ã€€ã€€} 
+ã€€ã€€} 
 } else { 
-¡¡¡¡echo "<script>alert(ÇëÉÏ´«ÎÄ¼þ£¡);</script>"; 
+ã€€ã€€echo "<script>alert(è¯·ä¸Šä¼ æ–‡ä»¶ï¼);</script>"; 
 } 
 ?> 
-ÎÒµÄ¸öÄïÑ½£¬ÖÕÓÚÐ´ÍêÁË£¬Ò»¸öÍêÕûµÄÉÏ´«³ÌÐòÖÕÓÚÍê³ÉÁË£¬ÕâÖ»ÊÇÉÏ´«ÎÄ¼þ×îÔ­Ê¼µÄ·½·¨£¬ÕâÑù¸üÈÝÒ××Ô¼ºÀí½â£¬Ê¹ÓÃÊ±´ó¼Ò¿ÉÒÔ¿¼ÂÇ°ÑËüÐ´³ÉÀà
-ÏÖÔÚÎÒÃÇÔÙÀ´×Ü½áÒ»ÏÂÉÏ´«ÖÐµÄÂß¼­ÅÐ¶ÏË³°É¡£
+æˆ‘çš„ä¸ªå¨˜å‘€ï¼Œç»ˆäºŽå†™å®Œäº†ï¼Œä¸€ä¸ªå®Œæ•´çš„ä¸Šä¼ ç¨‹åºç»ˆäºŽå®Œæˆäº†ï¼Œè¿™åªæ˜¯ä¸Šä¼ æ–‡ä»¶æœ€åŽŸå§‹çš„æ–¹æ³•ï¼Œè¿™æ ·æ›´å®¹æ˜“è‡ªå·±ç†è§£ï¼Œä½¿ç”¨æ—¶å¤§å®¶å¯ä»¥è€ƒè™‘æŠŠå®ƒå†™æˆç±»
+çŽ°åœ¨æˆ‘ä»¬å†æ¥æ€»ç»“ä¸€ä¸‹ä¸Šä¼ ä¸­çš„é€»è¾‘åˆ¤æ–­é¡ºå§ã€‚
 
 
-1. ÏÈÅÐ¶ÏÊÇ·ñÉÏ´«ÎÄ¼þ
-2. Èç¹ûÓÐÔÙÀ´ÅÐ¶ÏÉÏ´«ÖÐÊÇ·ñ³ö´í
-3. Èç¹û³ö´í£¬ÔòÌáÊ¾³ö´íÐÅÏ¢
-4. Èç²éÃ»³ö´í£¬ÔÙÅÐ¶ÏÎÄ¼þÀàÐÍ
-5. Èç¹ûÀàÐÍ·ûºÏÌõ¼þ£¬ÔÙÅÐ¶ÏÖ¸¶¨Ä¿Â¼ÖÐÓÐÃ»ÓÐ´æÔÚ¸ÃÎÄ¼þ
-6. Èç¹ûÃ»ÓÐ¾Í°Ñ¸ÃÎÄ¼þÒÆÖÁÖ¸¶¨Ä¿Â¼
+1. å…ˆåˆ¤æ–­æ˜¯å¦ä¸Šä¼ æ–‡ä»¶
+2. å¦‚æžœæœ‰å†æ¥åˆ¤æ–­ä¸Šä¼ ä¸­æ˜¯å¦å‡ºé”™
+3. å¦‚æžœå‡ºé”™ï¼Œåˆ™æç¤ºå‡ºé”™ä¿¡æ¯
+4. å¦‚æŸ¥æ²¡å‡ºé”™ï¼Œå†åˆ¤æ–­æ–‡ä»¶ç±»åž‹
+5. å¦‚æžœç±»åž‹ç¬¦åˆæ¡ä»¶ï¼Œå†åˆ¤æ–­æŒ‡å®šç›®å½•ä¸­æœ‰æ²¡æœ‰å­˜åœ¨è¯¥æ–‡ä»¶
+6. å¦‚æžœæ²¡æœ‰å°±æŠŠè¯¥æ–‡ä»¶ç§»è‡³æŒ‡å®šç›®å½•
 

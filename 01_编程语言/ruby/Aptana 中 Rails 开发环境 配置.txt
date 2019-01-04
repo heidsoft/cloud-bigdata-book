@@ -1,24 +1,24 @@
-Aptana ÖĞ Rails ¿ª·¢»·¾³ ÅäÖÃ
+Aptana ä¸­ Rails å¼€å‘ç¯å¢ƒ é…ç½®
 
 
-RadRailsÊÇ»ùÓÚeclipseÆ½Ì¨µÄRuby on Rails(ROR) IDE. ÊìÏ¤eclipseµÄ¿ª·¢ÈËÔ±ºÜÈİÒ×Ê¹ÓÃ. ÏÂÃæ¼òµ¥½éÉÜÒ»ÏÂRadRailsÔÚWindowsXPÏÂÃæµÄ°²×°, ÅäÖÃ.
+RadRailsæ˜¯åŸºäºeclipseå¹³å°çš„Ruby on Rails(ROR) IDE. ç†Ÿæ‚‰eclipseçš„å¼€å‘äººå‘˜å¾ˆå®¹æ˜“ä½¿ç”¨. ä¸‹é¢ç®€å•ä»‹ç»ä¸€ä¸‹RadRailsåœ¨WindowsXPä¸‹é¢çš„å®‰è£…, é…ç½®.
   
-1. °²×°RadRails
+1. å®‰è£…RadRails
 
-1.1 °²×°JRE, ÏÂÔØÒ³Ãæhttp://java.sun.com/javase/downloads/index_jdk5.jsp
-1.2 °²×°Ruby One-Click Installer, ÏÂÔØÒ³Ãæhttp://www.ruby-lang.org/en/downloads/
-1.3 °²×°Rails, Windows CMD(¿ªÊ¼-->ÔËĞĞ-->cmd) ÖĞÔËĞĞ"gem install rails --include-dependencies"
-1.4 °²×°RadRails, ÏÂÔØÒ³Ãæhttp://www.aptana.com, ×îºÃÏÂÔØstandalone°æ±¾  
+1.1 å®‰è£…JRE, ä¸‹è½½é¡µé¢http://java.sun.com/javase/downloads/index_jdk5.jsp
+1.2 å®‰è£…Ruby One-Click Installer, ä¸‹è½½é¡µé¢http://www.ruby-lang.org/en/downloads/
+1.3 å®‰è£…Rails, Windows CMD(å¼€å§‹-->è¿è¡Œ-->cmd) ä¸­è¿è¡Œ"gem install rails --include-dependencies"
+1.4 å®‰è£…RadRails, ä¸‹è½½é¡µé¢http://www.aptana.com, æœ€å¥½ä¸‹è½½standaloneç‰ˆæœ¬  
 
-2. ÅäÖÃRadRails
+2. é…ç½®RadRails
 
-ÅäÖÃRadRailsÓ¦¸ÃÊÇ×îÈİÒ×³öÎÊÌâµÄµØ·½£¬ÏÂÃæ½«·ÖÀàËµÃ÷Ruby£¬Rails£¬RakeµÄÅäÖÃ·½·¨. ±¾Ö¸ÄÏÖĞRuby°²×°ÔÚ"D:\ruby", ¸ù¾İÇé¿öĞŞ¸Ä³É¸öÈËµÄRuby°²×°Ä¿Â¼
+é…ç½®RadRailsåº”è¯¥æ˜¯æœ€å®¹æ˜“å‡ºé—®é¢˜çš„åœ°æ–¹ï¼Œä¸‹é¢å°†åˆ†ç±»è¯´æ˜Rubyï¼ŒRailsï¼ŒRakeçš„é…ç½®æ–¹æ³•. æœ¬æŒ‡å—ä¸­Rubyå®‰è£…åœ¨"D:\ruby", æ ¹æ®æƒ…å†µä¿®æ”¹æˆä¸ªäººçš„Rubyå®‰è£…ç›®å½•
 
-2.1 ÅäÖÃRuby
+2.1 é…ç½®Ruby
 
-2.1.1ÅäÖÃInterpreters
-´ò¿ª"Windows-->Preferences", Ñ¡Ôñ"Ruby-->Installed Interpreters" , µã»÷"Add"³öÏÖµÄÌáÊ¾¿òÖĞ
-Java´úÂë
+2.1.1é…ç½®Interpreters
+æ‰“å¼€"Windows-->Preferences", é€‰æ‹©"Ruby-->Installed Interpreters" , ç‚¹å‡»"Add"å‡ºç°çš„æç¤ºæ¡†ä¸­
+Javaä»£ç 
 
     //any name you like  
     Interpreters Name: Ruby   
@@ -26,28 +26,28 @@ Java´úÂë
 
 
 
-2.1.2ÅäÖÃRi/rdoc
-´ò¿ª"Windows-->Preferences", Ñ¡Ôñ"Ruby-->Ri/rdoc"
-Java´úÂë
+2.1.2é…ç½®Ri/rdoc
+æ‰“å¼€"Windows-->Preferences", é€‰æ‹©"Ruby-->Ri/rdoc"
+Javaä»£ç 
 
-    //binÄ¿Â¼ÏÂÃæµÄrdocÎÄ¼ş£¬Ã»ÓĞÀ©Õ¹Ãû£¬²»ÊÇrdoc.bat  
+    //binç›®å½•ä¸‹é¢çš„rdocæ–‡ä»¶ï¼Œæ²¡æœ‰æ‰©å±•åï¼Œä¸æ˜¯rdoc.bat  
     RDoc path: D:\ruby\bin\rdoc  
-    //binÄ¿Â¼ÏÂÃæµÄriÎÄ¼ş£¬Ã»ÓĞÀ©Õ¹Ãû£¬²»ÊÇri.bat  
+    //binç›®å½•ä¸‹é¢çš„riæ–‡ä»¶ï¼Œæ²¡æœ‰æ‰©å±•åï¼Œä¸æ˜¯ri.bat  
     Ri path: D:\ruby\bin\ri  
 
 
 
-2.2 ÅäÖÃRailsºÍRake
-´ò¿ª"Windows-->Preferences", Ñ¡Ôñ"Rails-->Configuration"                       
+2.2 é…ç½®Railså’ŒRake
+æ‰“å¼€"Windows-->Preferences", é€‰æ‹©"Rails-->Configuration"                       
 
-    //binÄ¿Â¼ÏÂÃæµÄrailsÎÄ¼ş, Ã»ÓĞÀ©Õ¹Ãû, ²»ÊÇrails.bat  
+    //binç›®å½•ä¸‹é¢çš„railsæ–‡ä»¶, æ²¡æœ‰æ‰©å±•å, ä¸æ˜¯rails.bat  
     Rails Path: D:\ruby\bin\rails  
-    //binÄ¿Â¼ÏÂÃæµÄrakeÎÄ¼ş, Ã»ÓĞÀ©Õ¹Ãû, ²»ÊÇrake.bat. Èç¹ûÃ»ÓĞrakeÎÄ¼ş,ÔËĞĞgem update rake(°²×°) »òÕß gem install rake(Éı¼¶)   
+    //binç›®å½•ä¸‹é¢çš„rakeæ–‡ä»¶, æ²¡æœ‰æ‰©å±•å, ä¸æ˜¯rake.bat. å¦‚æœæ²¡æœ‰rakeæ–‡ä»¶,è¿è¡Œgem update rake(å®‰è£…) æˆ–è€… gem install rake(å‡çº§)   
     Rake Path: D:\ruby\bin\rake  
-    //binÄ¿Â¼ÏÂÃæµÄmongrel_railsÎÄ¼ş, Ã»ÓĞÀ©Õ¹Ãû. Èç¹ûÃ»ÓĞ,ÔËĞĞgem install mongrel °²×°  
+    //binç›®å½•ä¸‹é¢çš„mongrel_railsæ–‡ä»¶, æ²¡æœ‰æ‰©å±•å. å¦‚æœæ²¡æœ‰,è¿è¡Œgem install mongrel å®‰è£…  
     Mongrel Path: D:\ruby\bin\mongrel_rails  
 
 
 
-3. ×Ü½á
-°²×ªRadRailsºÜ¼òµ¥,µ«ÊÇÅäÖÃ»¹ÊÇºÜÈİÒ×³öÎÊÌâ, ÌØ±ğÊÇ¼¸¸öpath, ³ıÁËruby.exeÓĞÀ©Õ¹ÃûÒÔÍâ, ÆäËûµÄ¶¼Ã»ÓĞÀ©Õ¹Ãû. ³õÑ§ÕßºÜÈİÒ×³öÎÊÌâ, ÔÙ´ÎÇ¿µ÷Ò»±é
+3. æ€»ç»“
+å®‰è½¬RadRailså¾ˆç®€å•,ä½†æ˜¯é…ç½®è¿˜æ˜¯å¾ˆå®¹æ˜“å‡ºé—®é¢˜, ç‰¹åˆ«æ˜¯å‡ ä¸ªpath, é™¤äº†ruby.exeæœ‰æ‰©å±•åä»¥å¤–, å…¶ä»–çš„éƒ½æ²¡æœ‰æ‰©å±•å. åˆå­¦è€…å¾ˆå®¹æ˜“å‡ºé—®é¢˜, å†æ¬¡å¼ºè°ƒä¸€é

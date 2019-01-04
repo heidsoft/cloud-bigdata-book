@@ -1,9 +1,9 @@
-1¡¢ÅäÖÃ·À»ğÇ½£¬¿ªÆô80¶Ë¿Ú¡¢3306¶Ë¿Ú
+1ã€é…ç½®é˜²ç«å¢™ï¼Œå¼€å¯80ç«¯å£ã€3306ç«¯å£
    vi /etc/sysconfig/iptables
-   -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT£¨ÔÊĞí80¶Ë¿ÚÍ¨¹ı·À»ğÇ½£©
-   -A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT£¨ÔÊĞí3306¶Ë¿ÚÍ¨¹ı·À»ğÇ½£©
-ÌØ±ğÌáÊ¾£ººÜ¶àÍøÓÑ°ÑÕâÁ½Ìõ¹æÔòÌí¼Óµ½·À»ğÇ½ÅäÖÃµÄ×îºóÒ»ĞĞ£¬µ¼ÖÂ·À»ğÇ½Æô¶¯Ê§°Ü£¬ÕıÈ·µÄÓ¦¸ÃÊÇÌí¼Óµ½Ä¬ÈÏµÄ22¶Ë¿ÚÕâÌõ¹æÔòµÄÏÂÃæ
-Ìí¼ÓºÃÖ®ºó·À»ğÇ½¹æÔòÈçÏÂËùÊ¾£º
+   -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPTï¼ˆå…è®¸80ç«¯å£é€šè¿‡é˜²ç«å¢™ï¼‰
+   -A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPTï¼ˆå…è®¸3306ç«¯å£é€šè¿‡é˜²ç«å¢™ï¼‰
+ç‰¹åˆ«æç¤ºï¼šå¾ˆå¤šç½‘å‹æŠŠè¿™ä¸¤æ¡è§„åˆ™æ·»åŠ åˆ°é˜²ç«å¢™é…ç½®çš„æœ€åä¸€è¡Œï¼Œå¯¼è‡´é˜²ç«å¢™å¯åŠ¨å¤±è´¥ï¼Œæ­£ç¡®çš„åº”è¯¥æ˜¯æ·»åŠ åˆ°é»˜è®¤çš„22ç«¯å£è¿™æ¡è§„åˆ™çš„ä¸‹é¢
+æ·»åŠ å¥½ä¹‹åé˜²ç«å¢™è§„åˆ™å¦‚ä¸‹æ‰€ç¤ºï¼š
 #########################################################
 
 # Firewall configuration written by system-config-firewall
@@ -23,106 +23,106 @@
 COMMIT
 #########################################################
   
-/etc/init.d/iptables restart  #×îºóÖØÆô·À»ğÇ½Ê¹ÅäÖÃÉúĞ§
-ÏµÍ³ÔËÎ¬  www.osyunwei.com  ÎÂÜ°ÌáĞÑ£ºqihang01Ô­´´ÄÚÈİ?°æÈ¨ËùÓĞ,×ªÔØÇë×¢Ã÷³ö´¦¼°Ô­ÎÄÁ´½Ó
-2¡¢¹Ø±ÕSELINUX
+/etc/init.d/iptables restart  #æœ€åé‡å¯é˜²ç«å¢™ä½¿é…ç½®ç”Ÿæ•ˆ
+ç³»ç»Ÿè¿ç»´  www.osyunwei.com  æ¸©é¦¨æé†’ï¼šqihang01åŸåˆ›å†…å®¹?ç‰ˆæƒæ‰€æœ‰,è½¬è½½è¯·æ³¨æ˜å‡ºå¤„åŠåŸæ–‡é“¾æ¥
+2ã€å…³é—­SELINUX
    vi /etc/selinux/config
-   #SELINUX=enforcing       #×¢ÊÍµô
-   #SELINUXTYPE=targeted    #×¢ÊÍµô
-   SELINUX=disabled         #Ôö¼Ó
-   :wq  ±£´æ£¬¹Ø±Õ
-   shutdown -r now   #ÖØÆôÏµÍ³
+   #SELINUX=enforcing       #æ³¨é‡Šæ‰
+   #SELINUXTYPE=targeted    #æ³¨é‡Šæ‰
+   SELINUX=disabled         #å¢åŠ 
+   :wq  ä¿å­˜ï¼Œå…³é—­
+   shutdown -r now   #é‡å¯ç³»ç»Ÿ
 
-°²×°Æª£º
+å®‰è£…ç¯‡ï¼š
 
-Ò»¡¢°²×°Apache   
-yum install httpd    #¸ù¾İÌáÊ¾£¬ÊäÈëY°²×°¼´¿É³É¹¦°²×° 
-/etc/init.d/httpd start  #Æô¶¯Apache   
-±¸×¢£ºApacheÆô¶¯Ö®ºó»áÌáÊ¾´íÎó£º
-      ÕıÔÚÆô¶¯ httpd:httpd: Could not reliably determine the server's fully qualif domain name, using ::1 for ServerName       
-½â¾ö°ì·¨£º
-      vi /etc/httpd/conf/httpd.conf   #±à¼­
-      ÕÒµ½     #ServerName  www.example.com:80
-      ĞŞ¸ÄÎª    ServerName  www.osyunwei.com:80      
-      :wq!    #±£´æÍË³ö
-chkconfig httpd on   #ÉèÎª¿ª»úÆô¶¯ 
-/etc/init.d/httpd restart  #ÖØÆôApache
-¶ş¡¢°²×°MySQL
-1¡¢°²×°MySQL
+ä¸€ã€å®‰è£…Apache   
+yum install httpd    #æ ¹æ®æç¤ºï¼Œè¾“å…¥Yå®‰è£…å³å¯æˆåŠŸå®‰è£… 
+/etc/init.d/httpd start  #å¯åŠ¨Apache   
+å¤‡æ³¨ï¼šApacheå¯åŠ¨ä¹‹åä¼šæç¤ºé”™è¯¯ï¼š
+      æ­£åœ¨å¯åŠ¨ httpd:httpd: Could not reliably determine the server's fully qualif domain name, using ::1 for ServerName       
+è§£å†³åŠæ³•ï¼š
+      vi /etc/httpd/conf/httpd.conf   #ç¼–è¾‘
+      æ‰¾åˆ°     #ServerName  www.example.com:80
+      ä¿®æ”¹ä¸º    ServerName  www.osyunwei.com:80      
+      :wq!    #ä¿å­˜é€€å‡º
+chkconfig httpd on   #è®¾ä¸ºå¼€æœºå¯åŠ¨ 
+/etc/init.d/httpd restart  #é‡å¯Apache
+äºŒã€å®‰è£…MySQL
+1ã€å®‰è£…MySQL
       yum install mysql mysql-server
-      Ñ¯ÎÊÊÇ·ñÒª°²×°£¬ÊäÈëY¼´¿É×Ô¶¯°²×°,Ö±µ½°²×°Íê³É
-      /etc/init.d/mysqld start   #Æô¶¯MySQL
-      chkconfig mysqld on   #ÉèÎª¿ª»úÆô¶¯
-      cp /usr/share/mysql/my-medium.cnf   /etc/my.cnf  #¿½±´ÅäÖÃÎÄ¼ş£¨×¢Òâ£ºÈç¹û/etcÄ¿Â¼ÏÂÃæÄ¬ÈÏÓĞÒ»¸ömy.cnf£¬Ö±½Ó¸²¸Ç¼´¿É£©
+      è¯¢é—®æ˜¯å¦è¦å®‰è£…ï¼Œè¾“å…¥Yå³å¯è‡ªåŠ¨å®‰è£…,ç›´åˆ°å®‰è£…å®Œæˆ
+      /etc/init.d/mysqld start   #å¯åŠ¨MySQL
+      chkconfig mysqld on   #è®¾ä¸ºå¼€æœºå¯åŠ¨
+      cp /usr/share/mysql/my-medium.cnf   /etc/my.cnf  #æ‹·è´é…ç½®æ–‡ä»¶ï¼ˆæ³¨æ„ï¼šå¦‚æœ/etcç›®å½•ä¸‹é¢é»˜è®¤æœ‰ä¸€ä¸ªmy.cnfï¼Œç›´æ¥è¦†ç›–å³å¯ï¼‰
   
-2¡¢ÎªrootÕË»§ÉèÖÃÃÜÂë
+2ã€ä¸ºrootè´¦æˆ·è®¾ç½®å¯†ç 
       mysql_secure_installation
-      »Ø³µ£¬¸ù¾İÌáÊ¾ÊäÈëY
-      ÊäÈë2´ÎÃÜÂë£¬»Ø³µ
-      ¸ù¾İÌáÊ¾Ò»Â·ÊäÈëY
-      ×îºó³öÏÖ£ºThanks for using MySQL!
-      MySqlÃÜÂëÉèÖÃÍê³É£¬ÖØĞÂÆô¶¯ MySQL£º
-      /etc/init.d/mysqld stop   #Í£Ö¹
-      /etc/init.d/mysqld start  #Æô¶¯
-      /etc/init.d/mysqld restart #ÖØÆô
-Èı¡¢°²×°PHP5
-1¡¢°²×°PHP5
+      å›è½¦ï¼Œæ ¹æ®æç¤ºè¾“å…¥Y
+      è¾“å…¥2æ¬¡å¯†ç ï¼Œå›è½¦
+      æ ¹æ®æç¤ºä¸€è·¯è¾“å…¥Y
+      æœ€åå‡ºç°ï¼šThanks for using MySQL!
+      MySqlå¯†ç è®¾ç½®å®Œæˆï¼Œé‡æ–°å¯åŠ¨ MySQLï¼š
+      /etc/init.d/mysqld stop   #åœæ­¢
+      /etc/init.d/mysqld start  #å¯åŠ¨
+      /etc/init.d/mysqld restart #é‡å¯
+ä¸‰ã€å®‰è£…PHP5
+1ã€å®‰è£…PHP5
        yum install php
-       ¸ù¾İÌáÊ¾ÊäÈëYÖ±µ½°²×°Íê³É  
+       æ ¹æ®æç¤ºè¾“å…¥Yç›´åˆ°å®‰è£…å®Œæˆ  
  
-2¡¢°²×°PHP×é¼ş£¬Ê¹ PHP5 Ö§³Ö MySQL
+2ã€å®‰è£…PHPç»„ä»¶ï¼Œä½¿ PHP5 æ”¯æŒ MySQL
       yum install php-mysql php-gd libjpeg* php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash libmcrypt
-      ÕâÀïÑ¡ÔñÒÔÉÏ°²×°°ü½øĞĞ°²×°
-      ¸ù¾İÌáÊ¾ÊäÈëY»Ø³µ
-      /etc/init.d/mysqld restart  #ÖØÆôMySql
-      /etc/init.d/httpd restart  #ÖØÆôApche
+      è¿™é‡Œé€‰æ‹©ä»¥ä¸Šå®‰è£…åŒ…è¿›è¡Œå®‰è£…
+      æ ¹æ®æç¤ºè¾“å…¥Yå›è½¦
+      /etc/init.d/mysqld restart  #é‡å¯MySql
+      /etc/init.d/httpd restart  #é‡å¯Apche
 
-ÅäÖÃÆª
+é…ç½®ç¯‡
 
-Ò»¡¢ApacheÅäÖÃ
-vi /etc/httpd/conf/httpd.conf ±à¼­ÎÄ¼ş
-   ServerTokens OS¡¡    ÔÚ44ĞĞ  ĞŞ¸ÄÎª£ºServerTokens Prod £¨ÔÚ³öÏÖ´íÎóÒ³µÄÊ±ºò²»ÏÔÊ¾·şÎñÆ÷²Ù×÷ÏµÍ³µÄÃû³Æ£©
-   ServerSignature On¡¡ ÔÚ536ĞĞ ĞŞ¸ÄÎª£ºServerSignature Off £¨ÔÚ´íÎóÒ³ÖĞ²»ÏÔÊ¾ApacheµÄ°æ±¾£©
-   Options Indexes FollowSymLinks¡¡ ÔÚ331ĞĞ ĞŞ¸ÄÎª£ºOptions Includes ExecCGI FollowSymLinks£¨ÔÊĞí·şÎñÆ÷Ö´ĞĞCGI¼°SSI£¬½ûÖ¹ÁĞ³öÄ¿Â¼£©
-   #AddHandler cgi-script .cgi¡¡ÔÚ796ĞĞ ĞŞ¸ÄÎª£ºAddHandler cgi-script .cgi .pl £¨ÔÊĞíÀ©Õ¹ÃûÎª.plµÄCGI½Å±¾ÔËĞĞ£©
-   AllowOverride None¡¡ ÔÚ338ĞĞ ĞŞ¸ÄÎª£ºAllowOverride All £¨ÔÊĞí.htaccess£©
-   AddDefaultCharset UTF-8¡¡ÔÚ759ĞĞ ĞŞ¸ÄÎª£ºAddDefaultCharset GB2312¡¡£¨Ìí¼ÓGB2312ÎªÄ¬ÈÏ±àÂë£©
-¡¡ Options Indexes MultiViews FollowSymLinks ÔÚ554ĞĞ ĞŞ¸ÄÎª Options MultiViews FollowSymLinks£¨²»ÔÚä¯ÀÀÆ÷ÉÏÏÔÊ¾Ê÷×´Ä¿Â¼½á¹¹£©
-   DirectoryIndex index.html index.html.var  ÔÚ402ĞĞ ĞŞ¸ÄÎª£ºDirectoryIndex index.html index.htm Default.html Default.htm index.php Default.php index.html.var  £¨ÉèÖÃÄ¬ÈÏÊ×Ò³ÎÄ¼ş£¬Ôö¼Óindex.php£©
-   KeepAlive Off   ÔÚ76ĞĞ ĞŞ¸ÄÎª£ºKeepAlive On £¨ÔÊĞí³ÌĞòĞÔÁª»ú£©
-   MaxKeepAliveRequests 100   ÔÚ83ĞĞ ĞŞ¸ÄÎª£ºMaxKeepAliveRequests 1000 £¨Ôö¼ÓÍ¬Ê±Á¬½ÓÊı£© 
-:wq!  #±£´æÍË³ö
-   /etc/init.d/httpd restart ÖØÆô
-   rm -f /etc/httpd/conf.d/welcome.conf /var/www/error/noindex.html    #É¾³ıÄ¬ÈÏ²âÊÔÒ³
+ä¸€ã€Apacheé…ç½®
+vi /etc/httpd/conf/httpd.conf ç¼–è¾‘æ–‡ä»¶
+   ServerTokens OSã€€    åœ¨44è¡Œ  ä¿®æ”¹ä¸ºï¼šServerTokens Prod ï¼ˆåœ¨å‡ºç°é”™è¯¯é¡µçš„æ—¶å€™ä¸æ˜¾ç¤ºæœåŠ¡å™¨æ“ä½œç³»ç»Ÿçš„åç§°ï¼‰
+   ServerSignature Onã€€ åœ¨536è¡Œ ä¿®æ”¹ä¸ºï¼šServerSignature Off ï¼ˆåœ¨é”™è¯¯é¡µä¸­ä¸æ˜¾ç¤ºApacheçš„ç‰ˆæœ¬ï¼‰
+   Options Indexes FollowSymLinksã€€ åœ¨331è¡Œ ä¿®æ”¹ä¸ºï¼šOptions Includes ExecCGI FollowSymLinksï¼ˆå…è®¸æœåŠ¡å™¨æ‰§è¡ŒCGIåŠSSIï¼Œç¦æ­¢åˆ—å‡ºç›®å½•ï¼‰
+   #AddHandler cgi-script .cgiã€€åœ¨796è¡Œ ä¿®æ”¹ä¸ºï¼šAddHandler cgi-script .cgi .pl ï¼ˆå…è®¸æ‰©å±•åä¸º.plçš„CGIè„šæœ¬è¿è¡Œï¼‰
+   AllowOverride Noneã€€ åœ¨338è¡Œ ä¿®æ”¹ä¸ºï¼šAllowOverride All ï¼ˆå…è®¸.htaccessï¼‰
+   AddDefaultCharset UTF-8ã€€åœ¨759è¡Œ ä¿®æ”¹ä¸ºï¼šAddDefaultCharset GB2312ã€€ï¼ˆæ·»åŠ GB2312ä¸ºé»˜è®¤ç¼–ç ï¼‰
+ã€€ Options Indexes MultiViews FollowSymLinks åœ¨554è¡Œ ä¿®æ”¹ä¸º Options MultiViews FollowSymLinksï¼ˆä¸åœ¨æµè§ˆå™¨ä¸Šæ˜¾ç¤ºæ ‘çŠ¶ç›®å½•ç»“æ„ï¼‰
+   DirectoryIndex index.html index.html.var  åœ¨402è¡Œ ä¿®æ”¹ä¸ºï¼šDirectoryIndex index.html index.htm Default.html Default.htm index.php Default.php index.html.var  ï¼ˆè®¾ç½®é»˜è®¤é¦–é¡µæ–‡ä»¶ï¼Œå¢åŠ index.phpï¼‰
+   KeepAlive Off   åœ¨76è¡Œ ä¿®æ”¹ä¸ºï¼šKeepAlive On ï¼ˆå…è®¸ç¨‹åºæ€§è”æœºï¼‰
+   MaxKeepAliveRequests 100   åœ¨83è¡Œ ä¿®æ”¹ä¸ºï¼šMaxKeepAliveRequests 1000 ï¼ˆå¢åŠ åŒæ—¶è¿æ¥æ•°ï¼‰ 
+:wq!  #ä¿å­˜é€€å‡º
+   /etc/init.d/httpd restart é‡å¯
+   rm -f /etc/httpd/conf.d/welcome.conf /var/www/error/noindex.html    #åˆ é™¤é»˜è®¤æµ‹è¯•é¡µ
 
 
-¶ş¡¢phpÅäÖÃ
-vi  /etc/php.ini   #±à¼­
-  date.timezone = PRC     #ÔÚ946ĞĞ °ÑÇ°ÃæµÄ·ÖºÅÈ¥µô£¬¸ÄÎªdate.timezone = PRC
+äºŒã€phpé…ç½®
+vi  /etc/php.ini   #ç¼–è¾‘
+  date.timezone = PRC     #åœ¨946è¡Œ æŠŠå‰é¢çš„åˆ†å·å»æ‰ï¼Œæ”¹ä¸ºdate.timezone = PRC
   disable_functions = passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,escapeshellcmd,dll,popen,disk_free_space,checkdnsrr,checkdnsrr,getservbyname,getservbyport,disk_total_space,posix_ctermid,posix_get_last_error,posix_getcwd, posix_getegid,posix_geteuid,posix_getgid, posix_getgrgid,posix_getgrnam,posix_getgroups,posix_getlogin,posix_getpgid,posix_getpgrp,posix_getpid, posix_getppid,posix_getpwnam,posix_getpwuid, posix_getrlimit, posix_getsid,posix_getuid,posix_isatty, posix_kill,posix_mkfifo,posix_setegid,posix_seteuid,posix_setgid, posix_setpgid,posix_setsid,posix_setuid,posix_strerror,posix_times,posix_ttyname,posix_uname
-                          #ÔÚ386ĞĞ ÁĞ³öPHP¿ÉÒÔ½ûÓÃµÄº¯Êı£¬Èç¹ûÄ³Ğ©³ÌĞòĞèÒªÓÃµ½Õâ¸öº¯Êı£¬¿ÉÒÔÉ¾³ı£¬È¡Ïû½ûÓÃ¡£
-  expose_php = Off        #ÔÚ432ĞĞ ½ûÖ¹ÏÔÊ¾php°æ±¾µÄĞÅÏ¢
-  magic_quotes_gpc = On   #ÔÚ745ĞĞ ´ò¿ªmagic_quotes_gpcÀ´·ÀÖ¹SQL×¢Èë
-  open_basedir = .:/tmp/  #ÔÚ380ĞĞ£¬ÉèÖÃ±íÊ¾ÔÊĞí·ÃÎÊµ±Ç°Ä¿Â¼(¼´PHP½Å±¾ÎÄ¼şËùÔÚÖ®Ä¿Â¼)ºÍ/tmp/Ä¿Â¼,¿ÉÒÔ·ÀÖ¹phpÄ¾Âí¿çÕ¾£¬Èç¹û¸ÄÁËÖ®ºó°²×°³ÌĞòÓĞÎÊÌâ£¬¿É×¢Ïú´ËĞĞ£¬»òÕßÖ±½ÓĞ´ÉÏ³ÌĞòÄ¿Â¼Â·¾¶/var/www/html/www.osyunwei.com/:/tmp/
-:wq!  #±£´æÍË³ö
-/etc/init.d/mysqld restart  #ÖØÆôMySql
-/etc/init.d/httpd restart   #ÖØÆôApche
+                          #åœ¨386è¡Œ åˆ—å‡ºPHPå¯ä»¥ç¦ç”¨çš„å‡½æ•°ï¼Œå¦‚æœæŸäº›ç¨‹åºéœ€è¦ç”¨åˆ°è¿™ä¸ªå‡½æ•°ï¼Œå¯ä»¥åˆ é™¤ï¼Œå–æ¶ˆç¦ç”¨ã€‚
+  expose_php = Off        #åœ¨432è¡Œ ç¦æ­¢æ˜¾ç¤ºphpç‰ˆæœ¬çš„ä¿¡æ¯
+  magic_quotes_gpc = On   #åœ¨745è¡Œ æ‰“å¼€magic_quotes_gpcæ¥é˜²æ­¢SQLæ³¨å…¥
+  open_basedir = .:/tmp/  #åœ¨380è¡Œï¼Œè®¾ç½®è¡¨ç¤ºå…è®¸è®¿é—®å½“å‰ç›®å½•(å³PHPè„šæœ¬æ–‡ä»¶æ‰€åœ¨ä¹‹ç›®å½•)å’Œ/tmp/ç›®å½•,å¯ä»¥é˜²æ­¢phpæœ¨é©¬è·¨ç«™ï¼Œå¦‚æœæ”¹äº†ä¹‹åå®‰è£…ç¨‹åºæœ‰é—®é¢˜ï¼Œå¯æ³¨é”€æ­¤è¡Œï¼Œæˆ–è€…ç›´æ¥å†™ä¸Šç¨‹åºç›®å½•è·¯å¾„/var/www/html/www.osyunwei.com/:/tmp/
+:wq!  #ä¿å­˜é€€å‡º
+/etc/init.d/mysqld restart  #é‡å¯MySql
+/etc/init.d/httpd restart   #é‡å¯Apche
 
 
-²âÊÔÆª
+æµ‹è¯•ç¯‡
 
  
 cd  /var/www/html
-vi  index.php   #ĞÂ½¨index.phpÎÄ¼ş
+vi  index.php   #æ–°å»ºindex.phpæ–‡ä»¶
 <?php
 phpinfo();
 ?>
 :wq!
 
 
-ÔÚ¿Í»§¶Ëä¯ÀÀÆ÷ÊäÈë·şÎñÆ÷IPµØÖ·£¬¿ÉÒÔ¿´µ½Ïà¹ØµÄÅäÖÃĞÅÏ¢£¡
-×¢Òâ£ºapacheÄ¬ÈÏµÄ³ÌĞòÄ¿Â¼ÊÇ/var/www/html
-È¨ÏŞÉèÖÃ£ºchown apache.apache -R /var/www/html
-MySQLÊı¾İ¿âÄ¿Â¼ÊÇ£º/var/lib/mysql
-È¨ÏŞÉèÖÃ£ºchown mysql.mysql -R  /var/lib/mysql
+åœ¨å®¢æˆ·ç«¯æµè§ˆå™¨è¾“å…¥æœåŠ¡å™¨IPåœ°å€ï¼Œå¯ä»¥çœ‹åˆ°ç›¸å…³çš„é…ç½®ä¿¡æ¯ï¼
+æ³¨æ„ï¼šapacheé»˜è®¤çš„ç¨‹åºç›®å½•æ˜¯/var/www/html
+æƒé™è®¾ç½®ï¼šchown apache.apache -R /var/www/html
+MySQLæ•°æ®åº“ç›®å½•æ˜¯ï¼š/var/lib/mysql
+æƒé™è®¾ç½®ï¼šchown mysql.mysql -R  /var/lib/mysql
 

@@ -1,66 +1,66 @@
 
 
-jQueryµÄ¿ªÆªÉùÃ÷ÀïÓÐÒ»¶Î·Ç³£ÖØÒªµÄ»°£ºjQueryÊÇÎªÁË¸Ä±äjavascriptµÄ±àÂë·½Ê½¶øÉè¼ÆµÄ¡£´ÓÕâ¶Î»°¿ÉÒÔ¿´³öjQuery±¾Éí²¢²»ÊÇUI×é¼þ¿â»òÆäËûµÄÒ»°ãAJAXÀà¿â¡£jQuery¸Ä±äjavascript±àÂë·½Ê½£¡
+jQueryçš„å¼€ç¯‡å£°æ˜Žé‡Œæœ‰ä¸€æ®µéžå¸¸é‡è¦çš„è¯ï¼šjQueryæ˜¯ä¸ºäº†æ”¹å˜javascriptçš„ç¼–ç æ–¹å¼è€Œè®¾è®¡çš„ã€‚ä»Žè¿™æ®µè¯å¯ä»¥çœ‹å‡ºjQueryæœ¬èº«å¹¶ä¸æ˜¯UIç»„ä»¶åº“æˆ–å…¶ä»–çš„ä¸€èˆ¬AJAXç±»åº“ã€‚jQueryæ”¹å˜javascriptç¼–ç æ–¹å¼ï¼
 
-ÄÇÃ´ËüÊÇÈçºÎÊµÏÖËüµÄÉùÃ÷µÄÄØ£¿ÕâÀï£¬ÓÃÒÔÏÂµÄÒ»¶Î¼ò¶ÌµÄÊ¹ÓÃÁ÷³Ì£º
+é‚£ä¹ˆå®ƒæ˜¯å¦‚ä½•å®žçŽ°å®ƒçš„å£°æ˜Žçš„å‘¢ï¼Ÿè¿™é‡Œï¼Œç”¨ä»¥ä¸‹çš„ä¸€æ®µç®€çŸ­çš„ä½¿ç”¨æµç¨‹ï¼š
 
-1¡¢²éÕÒ(´´½¨)jQuery¶ÔÏó£º$("selector");
+1ã€æŸ¥æ‰¾(åˆ›å»º)jQueryå¯¹è±¡ï¼š$("selector");
 
-2¡¢µ÷ÓÃjQuery¶ÔÏóµÄ·½·¨Íê³ÉÎÒÃÇÐèÒªÍê³ÉµÄ¹¤×÷£º$("selector").doOurWork();
+2ã€è°ƒç”¨jQueryå¯¹è±¡çš„æ–¹æ³•å®Œæˆæˆ‘ä»¬éœ€è¦å®Œæˆçš„å·¥ä½œï¼š$("selector").doOurWork();
 
-ºÃÁË£¬jQuery¾ÍÊÇÒÔÕâÖÖ¿ÉÒÔËµÊÇ×î¼òµ¥µÄ±àÂëÂß¼­À´¸Ä±äjavascript±àÂë·½Ê½µÄ¡£ÕâÁ½¸ö²½ÖèÊÇjQueryµÄ±àÂëÂß¼­ºËÐÄ£¡
+å¥½äº†ï¼ŒjQueryå°±æ˜¯ä»¥è¿™ç§å¯ä»¥è¯´æ˜¯æœ€ç®€å•çš„ç¼–ç é€»è¾‘æ¥æ”¹å˜javascriptç¼–ç æ–¹å¼çš„ã€‚è¿™ä¸¤ä¸ªæ­¥éª¤æ˜¯jQueryçš„ç¼–ç é€»è¾‘æ ¸å¿ƒï¼
 
-ÒªÊµÏÖÕâÖÖ¼ò½à±àÂë·½Ê½£¬´´½¨jQuery¶ÔÏóÕâÒ»»·½ÚÖÁ¹ØÖØÒª¡£Òò´Ë£¬jQueryµÄdomÔªËØ²éÕÒÄÜÁ¦Ïàµ±Ç¿º·¡£´ËÍâ£¬jQuery¶ÔÏóµÄ·½·¨¿Ï¶¨ÊÇÓÐÏÞµÄ£¬ÓÐÏÞµÄ·½·¨Âú×ã²»ÁËÈÕÒæÔö³¤¸÷ÓÐËùÐèµÄÒªÇó£¬ËùÒÔ£¬±ØÐëÌá¹©jQuery¶ÔÏó·½·¨µÄÀ©Õ¹ÄÜÁ¦¡£
+è¦å®žçŽ°è¿™ç§ç®€æ´ç¼–ç æ–¹å¼ï¼Œåˆ›å»ºjQueryå¯¹è±¡è¿™ä¸€çŽ¯èŠ‚è‡³å…³é‡è¦ã€‚å› æ­¤ï¼ŒjQueryçš„domå…ƒç´ æŸ¥æ‰¾èƒ½åŠ›ç›¸å½“å¼ºæ‚ã€‚æ­¤å¤–ï¼ŒjQueryå¯¹è±¡çš„æ–¹æ³•è‚¯å®šæ˜¯æœ‰é™çš„ï¼Œæœ‰é™çš„æ–¹æ³•æ»¡è¶³ä¸äº†æ—¥ç›Šå¢žé•¿å„æœ‰æ‰€éœ€çš„è¦æ±‚ï¼Œæ‰€ä»¥ï¼Œå¿…é¡»æä¾›jQueryå¯¹è±¡æ–¹æ³•çš„æ‰©å±•èƒ½åŠ›ã€‚
 
-Ç¿º·µÄdomÔªËØ²éÕÒÄÜÁ¦£¬ÒÔ¼°ËæÐÄËùÓûµÄ·½·¨À©Õ¹£¬ÕâÁ½µãÕýÊÇjQueryµÄºËÐÄËùÔÚ£¡
+å¼ºæ‚çš„domå…ƒç´ æŸ¥æ‰¾èƒ½åŠ›ï¼Œä»¥åŠéšå¿ƒæ‰€æ¬²çš„æ–¹æ³•æ‰©å±•ï¼Œè¿™ä¸¤ç‚¹æ­£æ˜¯jQueryçš„æ ¸å¿ƒæ‰€åœ¨ï¼
 
-À´Ò»¸ö¼òµ¥µÄÊ¾Àý£¬À´ËµÃ÷jQueryÊÇÈçºÎ¹¤×÷µÄ£º 
+æ¥ä¸€ä¸ªç®€å•çš„ç¤ºä¾‹ï¼Œæ¥è¯´æ˜ŽjQueryæ˜¯å¦‚ä½•å·¥ä½œçš„ï¼š 
 
-< !DOCTYPE html PUBLIC ¡±-//W3C//DTD XHTML 1.0 Transitional//EN¡± ¡±http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd¡±> 
-<html xmlns=¡±http://www.w3.org/1999/xhtml¡± > 
+< !DOCTYPE html PUBLIC â€-//W3C//DTD XHTML 1.0 Transitional//ENâ€ â€http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtdâ€> 
+<html xmlns=â€http://www.w3.org/1999/xhtmlâ€ > 
 <head> 
-<title>ÎÞ±êÌâÒ³</title> 
+<title>æ— æ ‡é¢˜é¡µ</title> 
 </head> 
-<body id=¡±bd¡±> 
-<a href=¡±http://www.baidu.com¡±>baidu</a> 
+<body id=â€bdâ€> 
+<a href=â€http://www.baidu.comâ€>baidu</a> 
 </body> 
 </html> 
-<script type=¡±text/javascript¡± src=¡±../Script/jquery.js¡±></script> 
-<script type=¡±text/javascript¡± > 
+<script type=â€text/javascriptâ€ src=â€../Script/jquery.jsâ€></script> 
+<script type=â€text/javascriptâ€ > 
 $(function(){ 
-$(¡°a¡°).click(function(e){//1)²éÕÒ$(¡±a¡±);2)jQuery¶ÔÏóÊÂ¼þclick;3)jQuery¶ÔÏó·½·¨hide 
-$(this).hide(¡°slow¡°); 
+$(â€œaâ€œ).click(function(e){//1)æŸ¥æ‰¾$(â€aâ€);2)jQueryå¯¹è±¡äº‹ä»¶click;3)jQueryå¯¹è±¡æ–¹æ³•hide 
+$(this).hide(â€œslowâ€œ); 
 return false; 
 }); 
 }); 
 </script> 
 
-jQueryÖÐÓÐÒ»¸ö¡°ÅäÖÃ¡±µÄË¼Ïë£¬ÕâÒ»µãÊ¹µÃ¶ÔÏóµÄÊôÐÔ/ÊÂ¼þµÈÉèÖÃ±äµÃÈÝÒ×Àí½âÇÒÊ®·Ö¼ò±ã£¬ÈçÏÂÒ»¸öÍÏ×§×é¼þµÄ³õÊ¼»¯£º 
+jQueryä¸­æœ‰ä¸€ä¸ªâ€œé…ç½®â€çš„æ€æƒ³ï¼Œè¿™ä¸€ç‚¹ä½¿å¾—å¯¹è±¡çš„å±žæ€§/äº‹ä»¶ç­‰è®¾ç½®å˜å¾—å®¹æ˜“ç†è§£ä¸”ååˆ†ç®€ä¾¿ï¼Œå¦‚ä¸‹ä¸€ä¸ªæ‹–æ‹½ç»„ä»¶çš„åˆå§‹åŒ–ï¼š 
 
 $(document).ready( 
 function() 
 { 
-$(¡¯#drag1¡ä).Draggable({ 
-handle: ¡°ax¡°, //ÊôÐÔÉèÖÃ 
-onStart: function(el,x,y){ //ÊÂ¼þ¼àÌýÆ÷ÉèÖÃ 
+$(â€™#drag1â€²).Draggable({ 
+handle: â€œaxâ€œ, //å±žæ€§è®¾ç½® 
+onStart: function(el,x,y){ //äº‹ä»¶ç›‘å¬å™¨è®¾ç½® 
 } 
 }); 
 } 
 ); 
 
-¿ÉÒÔ¿´µ½£¬$("#drag1")ÊÇ²éÕÒ²¢´´½¨Ò»¸öjquery¶ÔÏó£¬È»ºóµ÷ÓÃDraggable·½·¨½øÐÐÍÏ×§³õÊ¼»¯£¬ÔÚ´Ë·½·¨µ÷ÓÃÊ±£¬´«µÝÒ»¸ö¡°ÅäÖÃ¡±¶ÔÏó£¬½øÐÐÍÏ×§²Ù×÷µÄ³õÊ¼»¯ÅäÖÃ¡£ÕâÒ»¡°ÅäÖÃ¡±µÄË¼Ïë£¬¼«´ó¼ò»¯ÁËÒ»Ð©±àÂë²½Öè£¬²¢Ïàµ±Ö±¹ÛºÍÒ×¶®¡£
+å¯ä»¥çœ‹åˆ°ï¼Œ$("#drag1")æ˜¯æŸ¥æ‰¾å¹¶åˆ›å»ºä¸€ä¸ªjqueryå¯¹è±¡ï¼Œç„¶åŽè°ƒç”¨Draggableæ–¹æ³•è¿›è¡Œæ‹–æ‹½åˆå§‹åŒ–ï¼Œåœ¨æ­¤æ–¹æ³•è°ƒç”¨æ—¶ï¼Œä¼ é€’ä¸€ä¸ªâ€œé…ç½®â€å¯¹è±¡ï¼Œè¿›è¡Œæ‹–æ‹½æ“ä½œçš„åˆå§‹åŒ–é…ç½®ã€‚è¿™ä¸€â€œé…ç½®â€çš„æ€æƒ³ï¼Œæžå¤§ç®€åŒ–äº†ä¸€äº›ç¼–ç æ­¥éª¤ï¼Œå¹¶ç›¸å½“ç›´è§‚å’Œæ˜“æ‡‚ã€‚
 
-ÒÔÏÂÎÒ½øÐÐÈý¸öÎÊ´ð£º
+ä»¥ä¸‹æˆ‘è¿›è¡Œä¸‰ä¸ªé—®ç­”ï¼š
 
-1¡¢ÎÊ£ºÎªÊ²Ã´$(selector)Ö®ºó£¬·µ»ØµÄÊÇjQuery¶ÔÏó£¿
+1ã€é—®ï¼šä¸ºä»€ä¹ˆ$(selector)ä¹‹åŽï¼Œè¿”å›žçš„æ˜¯jQueryå¯¹è±¡ï¼Ÿ
 
-´ð£º´ÓjQueryµÄÔ´´úÂëÖÐ£¬ÎÒÃÇ¿ÉÒÔÖªµÀ£ºvar $ = jQuery ¡£Òò´Ëµ±ÎÒÃÇ$(selector)²Ù×÷Ê±£¬ÆäÊµ¾ÍÊÇjQuery(selector)£¬´´½¨µÄÊÇÒ»¸öjQuery¶ÔÏó¡£µ±È»ÕýÈ·µÄÐ´·¨Ó¦¸ÃÊÇÕâÑùµÄ£ºvar jq = new $(selector); ¶øjQueryÊ¹ÓÃÁËÒ»¸öÐ¡¼¼ÇÉÔÚÍâ²¿±ÜÃâÁËnew£¬ÔÚjquery·½·¨ÄÚ²¿£ºif ( window == this ) return new jQuery(selector);
+ç­”ï¼šä»ŽjQueryçš„æºä»£ç ä¸­ï¼Œæˆ‘ä»¬å¯ä»¥çŸ¥é“ï¼švar $ = jQuery ã€‚å› æ­¤å½“æˆ‘ä»¬$(selector)æ“ä½œæ—¶ï¼Œå…¶å®žå°±æ˜¯jQuery(selector)ï¼Œåˆ›å»ºçš„æ˜¯ä¸€ä¸ªjQueryå¯¹è±¡ã€‚å½“ç„¶æ­£ç¡®çš„å†™æ³•åº”è¯¥æ˜¯è¿™æ ·çš„ï¼švar jq = new $(selector); è€ŒjQueryä½¿ç”¨äº†ä¸€ä¸ªå°æŠ€å·§åœ¨å¤–éƒ¨é¿å…äº†newï¼Œåœ¨jqueryæ–¹æ³•å†…éƒ¨ï¼šif ( window == this ) return new jQuery(selector);
 
-2¡¢ÎÊ£ºÎªÊ²Ã´´´½¨Ò»¸öjQuery¶ÔÏóÖ®ºó£¬ÎÒÃÇ¿ÉÒÔÕâÑùÐ´$(selector).each(function(index){¡­});½øÐÐ±éÀú²Ù×÷ÄØ£¿
-´ð£ºÆäÊµjQuery(selector)·½·¨µ÷ÓÃÊ±£¬ÔÚjQuery(selector)·½·¨ÄÚ²¿£¬×îºó·µ»ØµÄÊÇÒ»¸öÊý×é£ºreturn this.setArray(a); ¶øeach·½·¨ÌåÄÚ²¿ÊÇÒ»¸öforÑ­»·£¬ÔÚÑ­»·ÌåÄÚÊÇÕâÑùµ÷ÓÃµÄ£ºmethod.call(this[i]£¬i) ¡£
+2ã€é—®ï¼šä¸ºä»€ä¹ˆåˆ›å»ºä¸€ä¸ªjQueryå¯¹è±¡ä¹‹åŽï¼Œæˆ‘ä»¬å¯ä»¥è¿™æ ·å†™$(selector).each(function(index){â€¦});è¿›è¡ŒéåŽ†æ“ä½œå‘¢ï¼Ÿ
+ç­”ï¼šå…¶å®žjQuery(selector)æ–¹æ³•è°ƒç”¨æ—¶ï¼Œåœ¨jQuery(selector)æ–¹æ³•å†…éƒ¨ï¼Œæœ€åŽè¿”å›žçš„æ˜¯ä¸€ä¸ªæ•°ç»„ï¼šreturn this.setArray(a); è€Œeachæ–¹æ³•ä½“å†…éƒ¨æ˜¯ä¸€ä¸ªforå¾ªçŽ¯ï¼Œåœ¨å¾ªçŽ¯ä½“å†…æ˜¯è¿™æ ·è°ƒç”¨çš„ï¼šmethod.call(this[i]ï¼Œi) ã€‚
 
-3¡¢ÎÊ£ºÎªÊ²Ã´jQueryÄÜ×öµ½jQuery¶ÔÏóÊôÐÔ/·½·¨/ÊÂ¼þµÄ²å¼þÊ½À©Õ¹£¿
-´ð£ºÈç¹ûÄúÓÐÒ»Ð©javasciprtµÄÃæÏò¶ÔÏó·½ÃæµÄÖªÊ¶£¬¾Í»áÖªµÀ£¬jQuery.prototypeÔ­ÐÍ¶ÔÏóÉÏµÄÀ©Õ¹ÊôÐÔ/·½·¨ºÍÊÂ¼þ£¬½«»á¸øjQueryµÄ¶ÔÏó¡°À©Õ¹¡±¡£»ùÓÚÕâÒ»µã£¬jQueryÊÇÕâÑùÐ´µÄ£ºjQuery.fn = jQuery.prototype ¡£ËùÒÔ£¬µ±ÎÒÃÇÀ©Õ¹Ò»¸ö²å¼þ¹¦ÄÜÊ±£¬ÈçÏÂ£º
+3ã€é—®ï¼šä¸ºä»€ä¹ˆjQueryèƒ½åšåˆ°jQueryå¯¹è±¡å±žæ€§/æ–¹æ³•/äº‹ä»¶çš„æ’ä»¶å¼æ‰©å±•ï¼Ÿ
+ç­”ï¼šå¦‚æžœæ‚¨æœ‰ä¸€äº›javasciprtçš„é¢å‘å¯¹è±¡æ–¹é¢çš„çŸ¥è¯†ï¼Œå°±ä¼šçŸ¥é“ï¼ŒjQuery.prototypeåŽŸåž‹å¯¹è±¡ä¸Šçš„æ‰©å±•å±žæ€§/æ–¹æ³•å’Œäº‹ä»¶ï¼Œå°†ä¼šç»™jQueryçš„å¯¹è±¡â€œæ‰©å±•â€ã€‚åŸºäºŽè¿™ä¸€ç‚¹ï¼ŒjQueryæ˜¯è¿™æ ·å†™çš„ï¼šjQuery.fn = jQuery.prototype ã€‚æ‰€ä»¥ï¼Œå½“æˆ‘ä»¬æ‰©å±•ä¸€ä¸ªæ’ä»¶åŠŸèƒ½æ—¶ï¼Œå¦‚ä¸‹ï¼š
 
 jQuery.fn.check = function() { 
 return this.each(function() { 
@@ -68,7 +68,7 @@ this.checked = true;
 }); 
 }; 
 
-ÆäÊµ¾ÍÊÇ£º
+å…¶å®žå°±æ˜¯ï¼š
 
 jQuery.prototype.check = function() { 
 return this.each(function() { 
@@ -76,26 +76,26 @@ this.checked = true;
 }); 
 }; 
 
-×ÛÉÏËùÊö,jQuery¸øÎÒÃÇ´øÀ´ÁËÒ»¸ö¼ò½à·½±ãµÄ±àÂëÄ£ÐÍ(1>´´½¨jQuery¶ÔÏó;2>Ö±½ÓÊ¹ÓÃjQuery¶ÔÏóµÄÊôÐÔ/·½·¨/ÊÂ¼þ),Ò»¸öÇ¿º·µÄdomÔªËØ²éÕÒÆ÷($),²å¼þÊ½±à³Ì½Ó¿Ú(jQuery.fn),ÒÔ¼°²å¼þ³õÊ¼»¯µÄ¡±ÅäÖÃ¡±¶ÔÏóË¼Ïë.
+ç»¼ä¸Šæ‰€è¿°,jQueryç»™æˆ‘ä»¬å¸¦æ¥äº†ä¸€ä¸ªç®€æ´æ–¹ä¾¿çš„ç¼–ç æ¨¡åž‹(1>åˆ›å»ºjQueryå¯¹è±¡;2>ç›´æŽ¥ä½¿ç”¨jQueryå¯¹è±¡çš„å±žæ€§/æ–¹æ³•/äº‹ä»¶),ä¸€ä¸ªå¼ºæ‚çš„domå…ƒç´ æŸ¥æ‰¾å™¨($),æ’ä»¶å¼ç¼–ç¨‹æŽ¥å£(jQuery.fn),ä»¥åŠæ’ä»¶åˆå§‹åŒ–çš„â€é…ç½®â€å¯¹è±¡æ€æƒ³.
 
-¸½:ÊµÏÖ×Ô¼ºµÄjQuery
+é™„:å®žçŽ°è‡ªå·±çš„jQuery
 
-< !DOCTYPE html PUBLIC ¡±-//W3C//DTD XHTML 1.0 Transitional//EN¡± ¡±http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd¡±> 
+< !DOCTYPE html PUBLIC â€-//W3C//DTD XHTML 1.0 Transitional//ENâ€ â€http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtdâ€> 
 
-<html xmlns=¡±http://www.w3.org/1999/xhtml¡±> 
+<html xmlns=â€http://www.w3.org/1999/xhtmlâ€> 
 <head> 
 <title>Untitled Page</title> 
 </head> 
 <body> 
-<div id=¡±d¡±>divvv</div> 
-<div id=¡±fsd¡±>fdsf</div> 
+<div id=â€dâ€>divvv</div> 
+<div id=â€fsdâ€>fdsf</div> 
 </body> 
 </html> 
-<script type=¡±text/javascript¡±> 
-//ÊµÏÖ×Ô¼ºµÄMyQuery¿ò¼Ü 
+<script type=â€text/javascriptâ€> 
+//å®žçŽ°è‡ªå·±çš„MyQueryæ¡†æž¶ 
 var MyQuery = function(selector){ 
 if ( window == this ) return new MyQuery(selector); 
-//ÕâÀïÖ»ÊµÏÖdomÀàÐÍµÄ¼òµ¥²éÕÒ,ºÙºÙ 
+//è¿™é‡Œåªå®žçŽ°domç±»åž‹çš„ç®€å•æŸ¥æ‰¾,å˜¿å˜¿ 
 var doms = document.getElementsByTagName(selector); 
 var arr = []; 
 for(var i=0; i<doms .length; i++){ 
@@ -111,18 +111,18 @@ return this;
 MyQuery.fn = MyQuery.prototype; 
 var $ = MyQuery; 
 
-//²å¼þÀ©Õ¹1)each 
+//æ’ä»¶æ‰©å±•1)each 
 MyQuery.fn.each = function(method){ 
 for(var i=0,l=this.length; i<l; i++){ 
 method.call(this[i],i); 
 } 
 } 
-//²å¼þÀ©Õ¹2)show 
+//æ’ä»¶æ‰©å±•2)show 
 MyQuery.fn.show = function(){ 
 this.each(function(i){ 
-alert(i+¡°:¡°+this.id+¡°:¡°+this.innerHTML); 
+alert(i+â€œ:â€œ+this.id+â€œ:â€œ+this.innerHTML); 
 }); 
 } 
 //debugger 
-$(¡°div¡°).show(); 
+$(â€œdivâ€œ).show(); 
 </script></doms></script> 

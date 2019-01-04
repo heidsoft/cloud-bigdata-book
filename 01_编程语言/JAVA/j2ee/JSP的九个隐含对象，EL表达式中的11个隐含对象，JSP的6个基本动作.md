@@ -1,156 +1,156 @@
-Ò»¡¢page ¶ÔÏó
-    page¶ÔÏó´ú±íJSP±¾Éí£¬¸ü×¼È·µØËµËü´ú±íJSP±»×ªÒëºóµÄServlet£¬Ëü¿ÉÒÔµ÷ÓÃServletÀàËù¶¨ÒåµÄ·½·¨¡£
+ä¸€ã€page å¯¹è±¡
+    pageå¯¹è±¡ä»£è¡¨JSPæœ¬èº«ï¼Œæ›´å‡†ç¡®åœ°è¯´å®ƒä»£è¡¨JSPè¢«è½¬è¯‘åçš„Servletï¼Œå®ƒå¯ä»¥è°ƒç”¨Servletç±»æ‰€å®šä¹‰çš„æ–¹æ³•ã€‚
         
-    ¶ş¡¢config ¶ÔÏó
-    config ¶ÔÏóÀï´æ·Å×ÅÒ»Ğ©Servlet ³õÊ¼µÄÊı¾İ½á¹¹¡£
-    config ¶ÔÏóÊµÏÖÓÚjavax.servlet.ServletConfig ½Ó¿Ú£¬Ëü¹²ÓĞÏÂÁĞËÄÖÖ·½·¨£º
+    äºŒã€config å¯¹è±¡
+    config å¯¹è±¡é‡Œå­˜æ”¾ç€ä¸€äº›Servlet åˆå§‹çš„æ•°æ®ç»“æ„ã€‚
+    config å¯¹è±¡å®ç°äºjavax.servlet.ServletConfig æ¥å£ï¼Œå®ƒå…±æœ‰ä¸‹åˆ—å››ç§æ–¹æ³•ï¼š
         public String getInitParameter(name)
         public java.util.Enumeration getInitParameterNames( )
         public ServletContext getServletContext( )
         public Sring getServletName( ) 
 
-    Èı¡¢request ¶ÔÏó
-    request ¶ÔÏó°üº¬ËùÓĞÇëÇóµÄĞÅÏ¢£¬Èç£ºÇëÇóµÄÀ´Ô´¡¢±êÍ·¡¢cookiesºÍÇëÇóÏà¹ØµÄ²ÎÊıÖµµÈµÈ¡£
-    request ¶ÔÏóÊµÏÖjavax.servlet.http.HttpServletRequest½Ó¿ÚµÄ£¬ËùÌá¹©µÄ·½·¨¿ÉÒÔ½«Ëü·ÖÎªËÄ´óÀà£º
-    1.´¢´æºÍÈ¡µÃÊôĞÔ·½·¨£»
-        void setAttribute(String name, Object value)    Éè¶¨nameÊôĞÔµÄÖµÎªvalue
-        Enumeration getAttributeNamesInScope(int scope)    È¡µÃËùÓĞscope ·¶Î§µÄÊôĞÔ
-        Object getAttribute(String name)                È¡µÃname ÊôĞÔµÄÖµ
-        void removeAttribute(String name)                ÒÆ³ıname ÊôĞÔµÄÖµ
-    2.È¡µÃÇëÇó²ÎÊıµÄ·½·¨
-        String getParameter(String name)                È¡µÃname µÄ²ÎÊıÖµ
-        Enumeration getParameterNames( )                È¡µÃËùÓĞµÄ²ÎÊıÃû³Æ
-        String [] getParameterValues(String name)         È¡µÃËùÓĞname µÄ²ÎÊıÖµ
-        Map getParameterMap( )                             È¡µÃÒ»¸öÒªÇó²ÎÊıµÄMap
-    3.ÄÜ¹»È¡µÃÇëÇóHTTP ±êÍ·µÄ·½·¨
-        String getHeader(String name)                     È¡µÃname µÄ±êÍ·
-        Enumeration getHeaderNames()                     È¡µÃËùÓĞµÄ±êÍ·Ãû³Æ
-        Enumeration getHeaders(String name)             È¡µÃËùÓĞname µÄ±êÍ·
-        int getIntHeader(String name)                     È¡µÃÕûÊıÀàĞÍname µÄ±êÍ·
-        long getDateHeader(String name)                 È¡µÃÈÕÆÚÀàĞÍname µÄ±êÍ·
-        Cookie [] getCookies( )                         È¡µÃÓëÇëÇóÓĞ¹ØµÄcookies
-    4.ÆäËûµÄ·½·¨
-        String getContextPath( )                         È¡µÃContext Â·¾¶(¼´Õ¾Ì¨Ãû³Æ)
-        String getMethod( )                             È¡µÃHTTP µÄ·½·¨(GET¡¢POST)
-        String getProtocol( )                             È¡µÃÊ¹ÓÃµÄĞ­Òé (HTTP/1.1¡¢HTTP/1.0 )
-        String getQueryString( )                        È¡µÃÇëÇóµÄ²ÎÊı×Ö·û´®£¬²»¹ı£¬HTTPµÄ·½·¨±ØĞëÎªGET
-        String getRequestedSessionId( )                 È¡µÃÓÃ»§¶ËµÄSession ID
-        String getRequestURI( )                            È¡µÃÇëÇóµÄURL£¬µ«ÊÇ²»°üÀ¨ÇëÇóµÄ²ÎÊı×Ö·û´®
-        String getRemoteAddr( )                            È¡µÃÓÃ»§µÄIP µØÖ·
-        String getRemoteHost( )                            È¡µÃÓÃ»§µÄÖ÷»úÃû³Æ
-        int getRemotePort( )                            È¡µÃÓÃ»§µÄÖ÷»ú¶Ë¿Ú
-        String getRemoteUser( )                         È¡µÃÓÃ»§µÄÃû³Æ
-        void etCharacterEncoding(String    encoding)        Éè¶¨±àÂë¸ñÊ½£¬ÓÃÀ´½â¾ö´°Ìå´«µİÖĞÎÄµÄÎÊÌâ
+    ä¸‰ã€request å¯¹è±¡
+    request å¯¹è±¡åŒ…å«æ‰€æœ‰è¯·æ±‚çš„ä¿¡æ¯ï¼Œå¦‚ï¼šè¯·æ±‚çš„æ¥æºã€æ ‡å¤´ã€cookieså’Œè¯·æ±‚ç›¸å…³çš„å‚æ•°å€¼ç­‰ç­‰ã€‚
+    request å¯¹è±¡å®ç°javax.servlet.http.HttpServletRequestæ¥å£çš„ï¼Œæ‰€æä¾›çš„æ–¹æ³•å¯ä»¥å°†å®ƒåˆ†ä¸ºå››å¤§ç±»ï¼š
+    1.å‚¨å­˜å’Œå–å¾—å±æ€§æ–¹æ³•ï¼›
+        void setAttribute(String name, Object value)    è®¾å®šnameå±æ€§çš„å€¼ä¸ºvalue
+        Enumeration getAttributeNamesInScope(int scope)    å–å¾—æ‰€æœ‰scope èŒƒå›´çš„å±æ€§
+        Object getAttribute(String name)                å–å¾—name å±æ€§çš„å€¼
+        void removeAttribute(String name)                ç§»é™¤name å±æ€§çš„å€¼
+    2.å–å¾—è¯·æ±‚å‚æ•°çš„æ–¹æ³•
+        String getParameter(String name)                å–å¾—name çš„å‚æ•°å€¼
+        Enumeration getParameterNames( )                å–å¾—æ‰€æœ‰çš„å‚æ•°åç§°
+        String [] getParameterValues(String name)         å–å¾—æ‰€æœ‰name çš„å‚æ•°å€¼
+        Map getParameterMap( )                             å–å¾—ä¸€ä¸ªè¦æ±‚å‚æ•°çš„Map
+    3.èƒ½å¤Ÿå–å¾—è¯·æ±‚HTTP æ ‡å¤´çš„æ–¹æ³•
+        String getHeader(String name)                     å–å¾—name çš„æ ‡å¤´
+        Enumeration getHeaderNames()                     å–å¾—æ‰€æœ‰çš„æ ‡å¤´åç§°
+        Enumeration getHeaders(String name)             å–å¾—æ‰€æœ‰name çš„æ ‡å¤´
+        int getIntHeader(String name)                     å–å¾—æ•´æ•°ç±»å‹name çš„æ ‡å¤´
+        long getDateHeader(String name)                 å–å¾—æ—¥æœŸç±»å‹name çš„æ ‡å¤´
+        Cookie [] getCookies( )                         å–å¾—ä¸è¯·æ±‚æœ‰å…³çš„cookies
+    4.å…¶ä»–çš„æ–¹æ³•
+        String getContextPath( )                         å–å¾—Context è·¯å¾„(å³ç«™å°åç§°)
+        String getMethod( )                             å–å¾—HTTP çš„æ–¹æ³•(GETã€POST)
+        String getProtocol( )                             å–å¾—ä½¿ç”¨çš„åè®® (HTTP/1.1ã€HTTP/1.0 )
+        String getQueryString( )                        å–å¾—è¯·æ±‚çš„å‚æ•°å­—ç¬¦ä¸²ï¼Œä¸è¿‡ï¼ŒHTTPçš„æ–¹æ³•å¿…é¡»ä¸ºGET
+        String getRequestedSessionId( )                 å–å¾—ç”¨æˆ·ç«¯çš„Session ID
+        String getRequestURI( )                            å–å¾—è¯·æ±‚çš„URLï¼Œä½†æ˜¯ä¸åŒ…æ‹¬è¯·æ±‚çš„å‚æ•°å­—ç¬¦ä¸²
+        String getRemoteAddr( )                            å–å¾—ç”¨æˆ·çš„IP åœ°å€
+        String getRemoteHost( )                            å–å¾—ç”¨æˆ·çš„ä¸»æœºåç§°
+        int getRemotePort( )                            å–å¾—ç”¨æˆ·çš„ä¸»æœºç«¯å£
+        String getRemoteUser( )                         å–å¾—ç”¨æˆ·çš„åç§°
+        void etCharacterEncoding(String    encoding)        è®¾å®šç¼–ç æ ¼å¼ï¼Œç”¨æ¥è§£å†³çª—ä½“ä¼ é€’ä¸­æ–‡çš„é—®é¢˜
 
-    ËÄ¡¢response ¶ÔÏó
-    response ¶ÔÏóÖ÷Òª½«JSP ´¦ÀíÊı¾İºóµÄ½á¹û´«»Øµ½¿Í»§¶Ë¡£
-    response ¶ÔÏóÊÇÊµÏÖjavax.servlet.http.HttpServletResponse ½Ó¿Ú¡£response¶ÔÏóËùÌá¹©µÄ·½·¨¡£
-    1.Éè¶¨±íÍ·µÄ·½·¨
-        void addCookie(Cookie cookie)                     ĞÂÔöcookie
-        void addDateHeader(String name, long date)        ĞÂÔölongÀàĞÍµÄÖµµ½name±êÍ·
-        void addHeader(String name, String value)        ĞÂÔöStringÀàĞÍµÄÖµµ½name±êÍ·
-        void addIntHeader(String name, int value)         ĞÂÔöintÀàĞÍµÄÖµµ½name±êÍ·
-        void setDateHeader(String name, long date)        Ö¸¶¨longÀàĞÍµÄÖµµ½name±êÍ·
-        void setHeader(String name, String value)        Ö¸¶¨StringÀàĞÍµÄÖµµ½name±êÍ·
-        void setIntHeader(String name, int value)         Ö¸¶¨intÀàĞÍµÄÖµµ½name±êÍ·
-    2.Éè¶¨ÏìÓ¦×´Ì¬ÂëµÄ·½·¨
-        void sendError(int sc)                             ´«ËÍ×´Ì¬Âë(status code)
-        void sendError(int sc, String msg)                ´«ËÍ×´Ì¬ÂëºÍ´íÎóĞÅÏ¢
-        void setStatus(int sc)                             Éè¶¨×´Ì¬Âë
-    3.ÓÃÀ´URL ÖØĞ´(rewriting)µÄ·½·¨    
-        String encodeRedirectURL(String    url)            ¶ÔÊ¹ÓÃsendRedirect( )·½·¨µÄURLÓèÒÔ±àÂë
+    å››ã€response å¯¹è±¡
+    response å¯¹è±¡ä¸»è¦å°†JSP å¤„ç†æ•°æ®åçš„ç»“æœä¼ å›åˆ°å®¢æˆ·ç«¯ã€‚
+    response å¯¹è±¡æ˜¯å®ç°javax.servlet.http.HttpServletResponse æ¥å£ã€‚responseå¯¹è±¡æ‰€æä¾›çš„æ–¹æ³•ã€‚
+    1.è®¾å®šè¡¨å¤´çš„æ–¹æ³•
+        void addCookie(Cookie cookie)                     æ–°å¢cookie
+        void addDateHeader(String name, long date)        æ–°å¢longç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+        void addHeader(String name, String value)        æ–°å¢Stringç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+        void addIntHeader(String name, int value)         æ–°å¢intç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+        void setDateHeader(String name, long date)        æŒ‡å®šlongç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+        void setHeader(String name, String value)        æŒ‡å®šStringç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+        void setIntHeader(String name, int value)         æŒ‡å®šintç±»å‹çš„å€¼åˆ°nameæ ‡å¤´
+    2.è®¾å®šå“åº”çŠ¶æ€ç çš„æ–¹æ³•
+        void sendError(int sc)                             ä¼ é€çŠ¶æ€ç (status code)
+        void sendError(int sc, String msg)                ä¼ é€çŠ¶æ€ç å’Œé”™è¯¯ä¿¡æ¯
+        void setStatus(int sc)                             è®¾å®šçŠ¶æ€ç 
+    3.ç”¨æ¥URL é‡å†™(rewriting)çš„æ–¹æ³•    
+        String encodeRedirectURL(String    url)            å¯¹ä½¿ç”¨sendRedirect( )æ–¹æ³•çš„URLäºˆä»¥ç¼–ç 
 
-    Îå¡¢out ¶ÔÏó
-    out ¶ÔÏóÄÜ°Ñ½á¹ûÊä³öµ½ÍøÒ³ÉÏ¡£
-    outÖ÷ÒªÊÇÓÃÀ´¿ØÖÆ¹ÜÀíÊä³öµÄ»º³åÇø(buffer)ºÍÊä³öÁ÷(output stream)¡£
-        void clear( )                                     Çå³ıÊä³ö»º³åÇøµÄÄÚÈİ
-        void clearBuffer( )                             Çå³ıÊä³ö»º³åÇøµÄÄÚÈİ
-        void close( )                                     ¹Ø±ÕÊä³öÁ÷£¬Çå³ıËùÓĞµÄÄÚÈİ
-        int getBufferSize( )                             È¡µÃÄ¿Ç°»º³åÇøµÄ´óĞ¡(KB)
-        int getRemaining( )                             È¡µÃÄ¿Ç°Ê¹ÓÃºó»¹Ê£ÏÂµÄ»º³åÇø´óĞ¡(KB)
-        boolean isAutoFlush( )                            »Ø´«true±íÊ¾»º³åÇøÂúÊ±»á×Ô¶¯Çå³ı£»false±íÊ¾²»»á×Ô¶¯Çå³ı²¢ÇÒ²úÉúÒì³£´¦Àí
+    äº”ã€out å¯¹è±¡
+    out å¯¹è±¡èƒ½æŠŠç»“æœè¾“å‡ºåˆ°ç½‘é¡µä¸Šã€‚
+    outä¸»è¦æ˜¯ç”¨æ¥æ§åˆ¶ç®¡ç†è¾“å‡ºçš„ç¼“å†²åŒº(buffer)å’Œè¾“å‡ºæµ(output stream)ã€‚
+        void clear( )                                     æ¸…é™¤è¾“å‡ºç¼“å†²åŒºçš„å†…å®¹
+        void clearBuffer( )                             æ¸…é™¤è¾“å‡ºç¼“å†²åŒºçš„å†…å®¹
+        void close( )                                     å…³é—­è¾“å‡ºæµï¼Œæ¸…é™¤æ‰€æœ‰çš„å†…å®¹
+        int getBufferSize( )                             å–å¾—ç›®å‰ç¼“å†²åŒºçš„å¤§å°(KB)
+        int getRemaining( )                             å–å¾—ç›®å‰ä½¿ç”¨åè¿˜å‰©ä¸‹çš„ç¼“å†²åŒºå¤§å°(KB)
+        boolean isAutoFlush( )                            å›ä¼ trueè¡¨ç¤ºç¼“å†²åŒºæ»¡æ—¶ä¼šè‡ªåŠ¨æ¸…é™¤ï¼›falseè¡¨ç¤ºä¸ä¼šè‡ªåŠ¨æ¸…é™¤å¹¶ä¸”äº§ç”Ÿå¼‚å¸¸å¤„ç†
         
-    Áù¡¢session ¶ÔÏó
-    session¶ÔÏó±íÊ¾Ä¿Ç°¸ö±ğÓÃ»§µÄ»á»°(session)×´¿ö¡£
-    session¶ÔÏóÊµÏÖjavax.servlet.http.HttpSession½Ó¿Ú£¬HttpSession½Ó¿ÚËùÌá¹©µÄ·½·¨
-        long getCreationTime()                            È¡µÃsession²úÉúµÄÊ±¼ä£¬µ¥Î»ÊÇºÁÃë
-        String getId()                                     È¡µÃsession µÄID
-        long getLastAccessedTime()                        È¡µÃÓÃ»§×îºóÍ¨¹ıÕâ¸ösessionËÍ³öÇëÇóµÄÊ±¼ä
-        long getMaxInactiveInterval()                    È¡µÃ×î´ósession²»»î¶¯µÄÊ±¼ä£¬Èô³¬¹ıÕâÊ±¼ä£¬session ½«»áÊ§Ğ§
-        void invalidate()                                È¡Ïûsession ¶ÔÏó£¬²¢½«¶ÔÏó´æ·ÅµÄÄÚÈİÍêÈ«Å×Æú
-        boolean isNew()                                    ÅĞ¶Ïsession ÊÇ·ñÎª"ĞÂ"µÄ
-        void setMaxInactiveInterval(int    interval)        Éè¶¨×î´ósession²»»î¶¯µÄÊ±¼ä£¬Èô³¬¹ıÕâÊ±¼ä£¬session ½«»áÊ§Ğ§
+    å…­ã€session å¯¹è±¡
+    sessionå¯¹è±¡è¡¨ç¤ºç›®å‰ä¸ªåˆ«ç”¨æˆ·çš„ä¼šè¯(session)çŠ¶å†µã€‚
+    sessionå¯¹è±¡å®ç°javax.servlet.http.HttpSessionæ¥å£ï¼ŒHttpSessionæ¥å£æ‰€æä¾›çš„æ–¹æ³•
+        long getCreationTime()                            å–å¾—sessionäº§ç”Ÿçš„æ—¶é—´ï¼Œå•ä½æ˜¯æ¯«ç§’
+        String getId()                                     å–å¾—session çš„ID
+        long getLastAccessedTime()                        å–å¾—ç”¨æˆ·æœ€åé€šè¿‡è¿™ä¸ªsessioné€å‡ºè¯·æ±‚çš„æ—¶é—´
+        long getMaxInactiveInterval()                    å–å¾—æœ€å¤§sessionä¸æ´»åŠ¨çš„æ—¶é—´ï¼Œè‹¥è¶…è¿‡è¿™æ—¶é—´ï¼Œsession å°†ä¼šå¤±æ•ˆ
+        void invalidate()                                å–æ¶ˆsession å¯¹è±¡ï¼Œå¹¶å°†å¯¹è±¡å­˜æ”¾çš„å†…å®¹å®Œå…¨æŠ›å¼ƒ
+        boolean isNew()                                    åˆ¤æ–­session æ˜¯å¦ä¸º"æ–°"çš„
+        void setMaxInactiveInterval(int    interval)        è®¾å®šæœ€å¤§sessionä¸æ´»åŠ¨çš„æ—¶é—´ï¼Œè‹¥è¶…è¿‡è¿™æ—¶é—´ï¼Œsession å°†ä¼šå¤±æ•ˆ
 
-    Æß¡¢application¶ÔÏó
-    application¶ÔÏó×î³£±»Ê¹ÓÃÔÚ´æÈ¡»·¾³µÄĞÅÏ¢¡£
-    ÒòÎª»·¾³µÄĞÅÏ¢Í¨³£¶¼´¢´æÔÚServletContextÖĞ£¬ËùÒÔ³£ÀûÓÃapplication¶ÔÏóÀ´´æÈ¡ServletContextÖĞµÄĞÅÏ¢¡£
-    application ¶ÔÏóÊµÏÖjavax.servlet.ServletContext ½Ó¿Ú£¬ServletContext½Ó¿ÚÈİÆ÷ËùÌá¹©µÄ·½·¨
-        int getMajorVersion( )                             È¡µÃContainerÖ÷ÒªµÄServlet API°æ±¾
-        int getMinorVersion( )                             È¡µÃContainer´ÎÒªµÄServlet API °æ±¾
-        String getServerInfo( )                         È¡µÃContainerµÄÃû³ÆºÍ°æ±¾
-        String getMimeType(String file)                 È¡µÃÖ¸¶¨ÎÄ¼şµÄMIME ÀàĞÍ
-        ServletContext getContext(String uripath)        È¡µÃÖ¸¶¨Local URLµÄApplication context
-        String getRealPath(String path)                 È¡µÃ±¾µØ¶ËpathµÄ¾ø¶ÔÂ·¾¶
-        void log(String message)                         ½«ĞÅÏ¢Ğ´ÈëlogÎÄ¼şÖĞ
-        void log(String message, Throwable throwable)    ½«stack trace Ëù²úÉúµÄÒì³£ĞÅÏ¢Ğ´ÈëlogÎÄ¼şÖĞ
+    ä¸ƒã€applicationå¯¹è±¡
+    applicationå¯¹è±¡æœ€å¸¸è¢«ä½¿ç”¨åœ¨å­˜å–ç¯å¢ƒçš„ä¿¡æ¯ã€‚
+    å› ä¸ºç¯å¢ƒçš„ä¿¡æ¯é€šå¸¸éƒ½å‚¨å­˜åœ¨ServletContextä¸­ï¼Œæ‰€ä»¥å¸¸åˆ©ç”¨applicationå¯¹è±¡æ¥å­˜å–ServletContextä¸­çš„ä¿¡æ¯ã€‚
+    application å¯¹è±¡å®ç°javax.servlet.ServletContext æ¥å£ï¼ŒServletContextæ¥å£å®¹å™¨æ‰€æä¾›çš„æ–¹æ³•
+        int getMajorVersion( )                             å–å¾—Containerä¸»è¦çš„Servlet APIç‰ˆæœ¬
+        int getMinorVersion( )                             å–å¾—Containeræ¬¡è¦çš„Servlet API ç‰ˆæœ¬
+        String getServerInfo( )                         å–å¾—Containerçš„åç§°å’Œç‰ˆæœ¬
+        String getMimeType(String file)                 å–å¾—æŒ‡å®šæ–‡ä»¶çš„MIME ç±»å‹
+        ServletContext getContext(String uripath)        å–å¾—æŒ‡å®šLocal URLçš„Application context
+        String getRealPath(String path)                 å–å¾—æœ¬åœ°ç«¯pathçš„ç»å¯¹è·¯å¾„
+        void log(String message)                         å°†ä¿¡æ¯å†™å…¥logæ–‡ä»¶ä¸­
+        void log(String message, Throwable throwable)    å°†stack trace æ‰€äº§ç”Ÿçš„å¼‚å¸¸ä¿¡æ¯å†™å…¥logæ–‡ä»¶ä¸­
 
-    °Ë¡¢pageContext¶ÔÏó
-    pageContext¶ÔÏóÄÜ¹»´æÈ¡ÆäËûÒşº¬¶ÔÏó¡£
-    1.pageContext¶ÔÏó´æÈ¡ÆäËûÒşº¬¶ÔÏóÊôĞÔµÄ·½·¨£¬´ËÊ±ĞèÒªÖ¸¶¨·¶Î§µÄ²ÎÊı¡£
+    å…«ã€pageContextå¯¹è±¡
+    pageContextå¯¹è±¡èƒ½å¤Ÿå­˜å–å…¶ä»–éšå«å¯¹è±¡ã€‚
+    1.pageContextå¯¹è±¡å­˜å–å…¶ä»–éšå«å¯¹è±¡å±æ€§çš„æ–¹æ³•ï¼Œæ­¤æ—¶éœ€è¦æŒ‡å®šèŒƒå›´çš„å‚æ•°ã€‚
         Object getAttribute(String name, int scope)
         Enumeration getAttributeNamesInScope(int scope)
         void removeAttribute(String name, int scope)
         void setAttribute(String name, Object value, int scope)
-    ·¶Î§²ÎÊıÓĞËÄ¸ö£¬·Ö±ğ´ú±íËÄÖÖ·¶Î§£ºPAGE_SCOPE¡¢REQUEST_SCOPE¡¢SESSION_SCOPE¡¢APPLICATION_SCOPE
-    2.PageContext¶ÔÏóÈ¡µÃÆäËûÒşº¬¶ÔÏóµÄ·½·¨
-        Exception getException( )                        »Ø´«Ä¿Ç°ÍøÒ³µÄÒì³££¬²»¹ı´ËÍøÒ³ÒªÎªerror page£¬
-        JspWriter getOut( )                             »Ø´«Ä¿Ç°ÍøÒ³µÄÊä³öÁ÷£¬ÀıÈç£ºout 
-        Object getPage( )                                »Ø´«Ä¿Ç°ÍøÒ³µÄServlet ÊµÌå(instance)£¬ÀıÈç£ºpage
-        ServletRequest getRequest( )                    »Ø´«Ä¿Ç°ÍøÒ³µÄÇëÇó£¬ÀıÈç£ºrequest
-        ServletResponse getResponse( )                    »Ø´«Ä¿Ç°ÍøÒ³µÄÏìÓ¦£¬ÀıÈç£ºresponse
-        ServletConfig getServletConfig( )                »Ø´«Ä¿Ç°´ËÍøÒ³µÄServletConfig ¶ÔÏó£¬ÀıÈç£ºconfig
-        ServletContext getServletContext( )                »Ø´«Ä¿Ç°´ËÍøÒ³µÄÖ´ĞĞ»·¾³(context)£¬ÀıÈç£ºapplication
-        HttpSession getSession( )                        »Ø´«ºÍÄ¿Ç°ÍøÒ³ÓĞÁªÏµµÄ»á»°(session)£¬ÀıÈç£ºsession
-    3.PageContext¶ÔÏóÌá¹©È¡µÃÊôĞÔµÄ·½·¨
-        Object getAttribute(String name, int scope)        »Ø´«name ÊôĞÔ£¬·¶Î§ÎªscopeµÄÊôĞÔ¶ÔÏó£¬»Ø´«ÀàĞÍÎªObject
-        Enumeration getAttributeNamesInScope(int scope)    »Ø´«ËùÓĞÊôĞÔ·¶Î§Îªscope µÄÊôĞÔÃû³Æ£¬»Ø´«ÀàĞÍÎªEnumeration
-        int getAttributesScope(String name)             »Ø´«ÊôĞÔÃû³ÆÎªname µÄÊôĞÔ·¶Î§
-        void removeAttribute(String name)                 ÒÆ³ıÊôĞÔÃû³ÆÎªname µÄÊôĞÔ¶ÔÏó
-        void removeAttribute(String name, int scope)    ÒÆ³ıÊôĞÔÃû³ÆÎªname£¬·¶Î§Îªscope µÄÊôĞÔ¶ÔÏó
-        void setAttribute(String name, Object value, int scope)        Ö¸¶¨ÊôĞÔ¶ÔÏóµÄÃû³ÆÎªname¡¢ÖµÎªvalue¡¢·¶Î§Îªscope
-        Object findAttribute(String name)                Ñ°ÕÒÔÚËùÓĞ·¶Î§ÖĞÊôĞÔÃû³ÆÎªname µÄÊôĞÔ¶ÔÏó
+    èŒƒå›´å‚æ•°æœ‰å››ä¸ªï¼Œåˆ†åˆ«ä»£è¡¨å››ç§èŒƒå›´ï¼šPAGE_SCOPEã€REQUEST_SCOPEã€SESSION_SCOPEã€APPLICATION_SCOPE
+    2.PageContextå¯¹è±¡å–å¾—å…¶ä»–éšå«å¯¹è±¡çš„æ–¹æ³•
+        Exception getException( )                        å›ä¼ ç›®å‰ç½‘é¡µçš„å¼‚å¸¸ï¼Œä¸è¿‡æ­¤ç½‘é¡µè¦ä¸ºerror pageï¼Œ
+        JspWriter getOut( )                             å›ä¼ ç›®å‰ç½‘é¡µçš„è¾“å‡ºæµï¼Œä¾‹å¦‚ï¼šout 
+        Object getPage( )                                å›ä¼ ç›®å‰ç½‘é¡µçš„Servlet å®ä½“(instance)ï¼Œä¾‹å¦‚ï¼špage
+        ServletRequest getRequest( )                    å›ä¼ ç›®å‰ç½‘é¡µçš„è¯·æ±‚ï¼Œä¾‹å¦‚ï¼šrequest
+        ServletResponse getResponse( )                    å›ä¼ ç›®å‰ç½‘é¡µçš„å“åº”ï¼Œä¾‹å¦‚ï¼šresponse
+        ServletConfig getServletConfig( )                å›ä¼ ç›®å‰æ­¤ç½‘é¡µçš„ServletConfig å¯¹è±¡ï¼Œä¾‹å¦‚ï¼šconfig
+        ServletContext getServletContext( )                å›ä¼ ç›®å‰æ­¤ç½‘é¡µçš„æ‰§è¡Œç¯å¢ƒ(context)ï¼Œä¾‹å¦‚ï¼šapplication
+        HttpSession getSession( )                        å›ä¼ å’Œç›®å‰ç½‘é¡µæœ‰è”ç³»çš„ä¼šè¯(session)ï¼Œä¾‹å¦‚ï¼šsession
+    3.PageContextå¯¹è±¡æä¾›å–å¾—å±æ€§çš„æ–¹æ³•
+        Object getAttribute(String name, int scope)        å›ä¼ name å±æ€§ï¼ŒèŒƒå›´ä¸ºscopeçš„å±æ€§å¯¹è±¡ï¼Œå›ä¼ ç±»å‹ä¸ºObject
+        Enumeration getAttributeNamesInScope(int scope)    å›ä¼ æ‰€æœ‰å±æ€§èŒƒå›´ä¸ºscope çš„å±æ€§åç§°ï¼Œå›ä¼ ç±»å‹ä¸ºEnumeration
+        int getAttributesScope(String name)             å›ä¼ å±æ€§åç§°ä¸ºname çš„å±æ€§èŒƒå›´
+        void removeAttribute(String name)                 ç§»é™¤å±æ€§åç§°ä¸ºname çš„å±æ€§å¯¹è±¡
+        void removeAttribute(String name, int scope)    ç§»é™¤å±æ€§åç§°ä¸ºnameï¼ŒèŒƒå›´ä¸ºscope çš„å±æ€§å¯¹è±¡
+        void setAttribute(String name, Object value, int scope)        æŒ‡å®šå±æ€§å¯¹è±¡çš„åç§°ä¸ºnameã€å€¼ä¸ºvalueã€èŒƒå›´ä¸ºscope
+        Object findAttribute(String name)                å¯»æ‰¾åœ¨æ‰€æœ‰èŒƒå›´ä¸­å±æ€§åç§°ä¸ºname çš„å±æ€§å¯¹è±¡
 
-    ¾Å¡¢exception¶ÔÏó
-    ÈôÒªÊ¹ÓÃexception ¶ÔÏóÊ±£¬±ØĞëÔÚpage Ö¸ÁîÖĞÉè¶¨¡£<%@ page isErrorPage="true" %>²ÅÄÜÊ¹ÓÃ¡£
-    exceptionÌá¹©µÄÈı¸ö·½·¨£º
+    ä¹ã€exceptionå¯¹è±¡
+    è‹¥è¦ä½¿ç”¨exception å¯¹è±¡æ—¶ï¼Œå¿…é¡»åœ¨page æŒ‡ä»¤ä¸­è®¾å®šã€‚<%@ page isErrorPage="true" %>æ‰èƒ½ä½¿ç”¨ã€‚
+    exceptionæä¾›çš„ä¸‰ä¸ªæ–¹æ³•ï¼š
         getMessage( )
-        getLocalizedMessage( )¡¢
+        getLocalizedMessage( )ã€
         printStackTrace(new java.io.PrintWriter(out))
 
  
 
  
 
-EL±í´ïÊ½ÖĞµÄ11¸öÒşº¬¶ÔÏó
+ELè¡¨è¾¾å¼ä¸­çš„11ä¸ªéšå«å¯¹è±¡
 
 pageContext, pageScope, requestScope, sessionScope, applicationScope, param, paramValues, header, headerValues, cookies, initParam
 
-ÕâÀïµÄÊı¾İ¶¼ÊÇÒÔmap·½Ê½´æ·ÅµÄ£¬»ñÈ¡¿ÉÓÃÈç£ºparam.name, header.User_Agent, cookie.userinfoµÃµ½ÏàÓ¦µÄÊı¾İ¡£
+è¿™é‡Œçš„æ•°æ®éƒ½æ˜¯ä»¥mapæ–¹å¼å­˜æ”¾çš„ï¼Œè·å–å¯ç”¨å¦‚ï¼šparam.name, header.User_Agent, cookie.userinfoå¾—åˆ°ç›¸åº”çš„æ•°æ®ã€‚
 
-${requestScope.origin_uri} »ñÈ¡µ±Ç°URI
+${requestScope.origin_uri} è·å–å½“å‰URI
 
  
 
- JSPµÄ6¸ö»ù±¾¶¯×÷£º
+ JSPçš„6ä¸ªåŸºæœ¬åŠ¨ä½œï¼š
 
-jsp:include         ÔÚÒ³Ãæ±»ÇëÇóµÄÊ±ºòÒıÈëÒ»¸öÎÄ¼ş
+jsp:include         åœ¨é¡µé¢è¢«è¯·æ±‚çš„æ—¶å€™å¼•å…¥ä¸€ä¸ªæ–‡ä»¶
 
-jsp:forward        °ÑÇëÇó×ªµ½Ò»¸öĞÂµÄÒ³Ãæ
+jsp:forward        æŠŠè¯·æ±‚è½¬åˆ°ä¸€ä¸ªæ–°çš„é¡µé¢
 
-jsp:plugin          ¸ù¾İä¯ÀÀÆ÷ÀàĞÍÎªjava²å¼şÉú³Éobject»òembed±ê¼Ç
+jsp:plugin          æ ¹æ®æµè§ˆå™¨ç±»å‹ä¸ºjavaæ’ä»¶ç”Ÿæˆobjectæˆ–embedæ ‡è®°
 
-jsp:useBean     Ñ°ÕÒ»òÊµÀı»¯Ò»¸öJavaBean
+jsp:useBean     å¯»æ‰¾æˆ–å®ä¾‹åŒ–ä¸€ä¸ªJavaBean
 
-jsp:getProperty    Êä³öJavaBeanµÄÄ³¸öÊôĞÔ
+jsp:getProperty    è¾“å‡ºJavaBeançš„æŸä¸ªå±æ€§
 
-jsp:setProperty     ÉèÖÃJavaBeanµÄÄ³¸öÊôĞÔ
+jsp:setProperty     è®¾ç½®JavaBeançš„æŸä¸ªå±æ€§

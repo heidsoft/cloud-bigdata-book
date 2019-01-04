@@ -1,27 +1,27 @@
-struts2µÄnamespaceÎÊÌâ 
+struts2çš„namespaceé—®é¢˜ 
 
 
-Èç¹ûÔÚstruts.xmlÖĞÉè¶¨Ä³actionµÄÃüÃû¿Õ¼ä namespace="/test"£¬Èç£º
+å¦‚æœåœ¨struts.xmlä¸­è®¾å®šæŸactionçš„å‘½åç©ºé—´ namespace="/test"ï¼Œå¦‚ï¼š
 <package name="mywork" extends="struts-default" namespace="/test">
 
-Èç¹ûÔÚ¸ùÄ¿Â¼µÄjspÎÄ¼ş(Èç /login.jsp)ÖĞ½«s:form±êÇ©µÄÖ¸ÏòÄ³actionµÄµØÖ·ÉèÎª£º
+å¦‚æœåœ¨æ ¹ç›®å½•çš„jspæ–‡ä»¶(å¦‚ /login.jsp)ä¸­å°†s:formæ ‡ç­¾çš„æŒ‡å‘æŸactionçš„åœ°å€è®¾ä¸ºï¼š
 <s:form action="test/login.action">
 
-ÔòÉú³ÉµÄÏàÓ¦Ò³Ãæ´úÂëÎª£º
+åˆ™ç”Ÿæˆçš„ç›¸åº”é¡µé¢ä»£ç ä¸ºï¼š
 <form id="login" onsubmit="return true;" action="test/login.action" method="post">
 
-µ±¶à´ÎÖ´ĞĞÕâÒ»Ò³ÃæÊ±(ÈçÃ¿´ÎµÇÂ½ÑéÖ¤¶¼²»Í¨¹ı)£¬Ôòä¯ÀÀÆ÷urlµØÖ·ÖĞµÄnamespace½«»áÖØ¸´³öÏÖ£¬Èç£º
-http£º//localhost:8080/webAppName/test/test/test/test/login.action
+å½“å¤šæ¬¡æ‰§è¡Œè¿™ä¸€é¡µé¢æ—¶(å¦‚æ¯æ¬¡ç™»é™†éªŒè¯éƒ½ä¸é€šè¿‡)ï¼Œåˆ™æµè§ˆå™¨urlåœ°å€ä¸­çš„namespaceå°†ä¼šé‡å¤å‡ºç°ï¼Œå¦‚ï¼š
+httpï¼š//localhost:8080/webAppName/test/test/test/test/login.action
 
 
-¶øÈç¹û½«s:form±êÇ©ÖĞµÄÖ¸ÏòÄ³actionµÄµØÖ·ÉèÎª£º
+è€Œå¦‚æœå°†s:formæ ‡ç­¾ä¸­çš„æŒ‡å‘æŸactionçš„åœ°å€è®¾ä¸ºï¼š
 <s:form action="/test/login.action">
 
-Éú³ÉµÄÏàÓ¦Ò³Ãæ´úÂëÎª£º
+ç”Ÿæˆçš„ç›¸åº”é¡µé¢ä»£ç ä¸ºï¼š
 <form id="login" onsubmit="return true;" action="/webAppName/test/login.action" method="post">
 
-´ËÊ±¶à´ÎÖ´ĞĞÕâÒ»Ò³ÃæurlµØÖ·ÖĞµÄnamespaceÒ²²»»áÖØ¸´³öÏÖ£¬ä¯ÀÀÆ÷urlµØÖ·Îª
+æ­¤æ—¶å¤šæ¬¡æ‰§è¡Œè¿™ä¸€é¡µé¢urlåœ°å€ä¸­çš„namespaceä¹Ÿä¸ä¼šé‡å¤å‡ºç°ï¼Œæµè§ˆå™¨urlåœ°å€ä¸º
 
-http£º//localhost:8080/webAppName/test/login.action
+httpï¼š//localhost:8080/webAppName/test/login.action
 
-ÔËĞĞÕı³£¡£
+è¿è¡Œæ­£å¸¸ã€‚

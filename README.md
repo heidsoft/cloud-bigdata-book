@@ -1,5 +1,5 @@
 -   [cloud-blockchain-book](#cloud-blockchain-book)
-    -   [[01\_编程语言](01_编程语言/index.md)
+    -   [01\_编程语言](01_编程语言/index.md)
 -   [复习记录](#复习记录)
     -   [基础层](#基础层)
         -   [网络协议](#网络协议)

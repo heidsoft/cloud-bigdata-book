@@ -48,16 +48,33 @@ cloud-blockchain-book
 ------
 
 ### 网络协议
+```
+四次挥手
+滑动窗口
+```
 
 #### dns
+```
+dns 类型
+```
+
+* [dns原理入门]（http://www.ruanyifeng.com/blog/2016/06/dns.html） 
 
 #### http
 
-#### tcp/ip/udp
+#### tcp
+* [How to Adjust the TCP Window Size Limit on Linux](https://netbeez.net/blog/tcp-window-size/)
 
 ### 数据结构算法
 
+#### 平衡二叉树
+```
+平衡二叉树是基于二分法的策略提高数据的查找速度的二叉树的数据结构；
+```
 #### B树
+```
+
+```
 
 #### 动态划归
 

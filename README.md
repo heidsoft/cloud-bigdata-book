@@ -14,22 +14,23 @@ cloud-blockchain-book
 ------
 
 ### 网络协议
-```
-四次挥手
-滑动窗口
-```
-
 #### dns
-```
-dns 类型
-```
-
 * [dns原理入门]（http://www.ruanyifeng.com/blog/2016/06/dns.html） 
+* dns 类型
+* dns 解析流程
 
 #### http
+* http 包结构
+* http 常用头
+* http 状态码类型
 
 #### tcp
-* [How to Adjust the TCP Window Size Limit on Linux](https://netbeez.net/blog/tcp-window-size/)
+* 四次挥手
+- 四次挥手产生机制
+
+* 滑动窗口
+- 滑动窗口作用
+- [How to Adjust the TCP Window Size Limit on Linux](https://netbeez.net/blog/tcp-window-size/)
 
 ### 数据结构算法
 

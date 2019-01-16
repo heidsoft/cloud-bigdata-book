@@ -80,13 +80,20 @@ cloud-blockchain-book
 
 ###### spring cloud
 
-```
+* 限流
+* 熔断
+* 监测
 
-```
 
 ###### elasticsearch
 
+
 ###### kafka
+* kafka 的作用
+* kafka 产生的使用场景
+* kafka 的基本原理
+* kafka 能解决什么问题
+* kafka 的缺点
 
 ###### redis
 

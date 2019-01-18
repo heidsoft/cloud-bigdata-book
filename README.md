@@ -7,7 +7,6 @@ cloud-blockchain-book
 * [C++](01_编程语言/C++/index.md)
 * [golang](01_编程语言/golang/index.md)
 
-
 ### 算法
 * [数据结构算法](19_算法/index.md)
 

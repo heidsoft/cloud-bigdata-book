@@ -6,7 +6,7 @@ cloud-blockchain-book
 
 ### 网络协议
 #### dns
-* [dns原理入门]（http://www.ruanyifeng.com/blog/2016/06/dns.html） 
+* [dns原理入门](http://www.ruanyifeng.com/blog/2016/06/dns.html) 
 * dns 类型
 * dns 解析流程
 
@@ -25,7 +25,7 @@ cloud-blockchain-book
 
 ### 算法
 
-* [算法清单](19_算法\index.md)
+* [算法清单](19_算法/index.md)
 
 ##### io与nio
 

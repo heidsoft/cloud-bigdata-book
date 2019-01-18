@@ -2,10 +2,10 @@ cloud-blockchain-book
 =====================
 
 ### 编程语言
-* [java](JAVA/index.md)
-* [C](JAVA/index.md)
-* [C++](JAVA/index.md)
-* [golang]JAVA/index.md)
+* [java](01_编程语言/JAVA/index.md)
+* [C](01_编程语言/C/index.md)
+* [C++](01_编程语言/C++/index.md)
+* [golang](01_编程语言/golang/index.md)
 
 ### 网络协议
 #### dns

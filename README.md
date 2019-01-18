@@ -7,6 +7,10 @@ cloud-blockchain-book
 * [C++](01_编程语言/C++/index.md)
 * [golang](01_编程语言/golang/index.md)
 
+
+### 算法
+* [数据结构算法](19_算法/index.md)
+
 ### 网络协议
 #### dns
 * [dns原理入门](http://www.ruanyifeng.com/blog/2016/06/dns.html) 
@@ -25,8 +29,6 @@ cloud-blockchain-book
 - 滑动窗口作用
 - [How to Adjust the TCP Window Size Limit on Linux](https://netbeez.net/blog/tcp-window-size/)
 
-### 算法
-* [算法清单](19_算法/index.md)
 
 ### 重构
 ### 领域驱动

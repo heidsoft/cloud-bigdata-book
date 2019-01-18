@@ -34,16 +34,13 @@ cloud-blockchain-book
 
 ### 数据结构算法
 
-#### 平衡二叉树
-```
-平衡二叉树是基于二分法的策略提高数据的查找速度的二叉树的数据结构；
-```
-#### B树
-```
+- 平衡二叉树
 
-```
+平衡二叉树是基于二分法的策略提高数据的查找速度的二叉树的数据结构
 
-#### 动态划归
+- B树
+
+- 动态划归
 
 
 ##### io与nio
@@ -55,15 +52,19 @@ cloud-blockchain-book
 * [Java 8 Concurrency Tutorial: Atomic Variables and ConcurrentMap](https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/)
 
 ##### 异常处理
+- 系统错误处理
+- 统一的日志监测
 
 ##### 设计模式
+- 行为模式
+- 创建模式
+- 状态模式
 
 ##### jvm
+- 栈与堆
 
-###### 栈与堆
+ 栈是运行时的单位，而堆是存储的单位。栈解决程序的运行问题，即程序如何执行，或者说如何处理数据；堆解决的是数据存储的问题，即数据怎么放、放在哪儿。
 
-    栈是运行时的单位，而堆是存储的单位。
-    栈解决程序的运行问题，即程序如何执行，或者说如何处理数据；堆解决的是数据存储的问题，即数据怎么放、放在哪儿。
 
 ##### 重构
 
@@ -84,8 +85,8 @@ cloud-blockchain-book
 * 熔断
 * 监测
 
-
-###### elasticsearch
+######  mysql
+- 存储类型
 
 
 ###### kafka
@@ -94,6 +95,9 @@ cloud-blockchain-book
 * kafka 的基本原理
 * kafka 能解决什么问题
 * kafka 的缺点
+
+
+###### elasticsearch
 
 ###### redis
 
@@ -114,26 +118,13 @@ cloud-blockchain-book
 应用层
 ======
 
-日志监控
---------
+- 日志监控
+- 链路监控
+- 性能监控
 
-链路监控
---------
-
-性能监控
---------
-
-平台层
+微服务
 ======
 
-service mesh
-------------
+- service mesh
 
-k8s
----
-
-### 应用部署与架构
-
-### 网络组件
-
-### 存储组件
+- k8s

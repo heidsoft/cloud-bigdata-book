@@ -1,83 +1,83 @@
-RSA�㷨����ʵ��
+RSA算法基础实践
 
 
-<һ>����
+<一>基础
 
-RSA�㷨�ǳ��򵥣��������£�
-��������p��q
-ȡn=p*q
-ȡt=(p-1)*(q-1)
-ȡ�κ�һ����e,Ҫ������e<t����e��t���أ������������Ϊ1��
-ȡd*e%t==1
+RSA算法非常简单，概述如下：
+找两素数p和q
+取n=p*q
+取t=(p-1)*(q-1)
+取任何一个数e,要求满足e<t并且e与t互素（就是最大公因数为1）
+取d*e%t==1
 
-�������յõ��������� n  d  e
+这样最终得到三个数： n  d  e
 
-����ϢΪ��M (M <n)
-��c=(M**d)%n�͵õ��˼��ܺ����Ϣc 
-��m=(c**e)%n�� m == M���Ӷ���ɶ�c�Ľ��ܡ�
-ע��**��ʾ�η�,������ʽ�е�d��e���Ի�����
+设消息为数M (M <n)
+设c=(M**d)%n就得到了加密后的消息c 
+设m=(c**e)%n则 m == M，从而完成对c的解密。
+注：**表示次方,上面两式中的d和e可以互换。
 
-�ڶԳƼ����У�
-n d���������ɹ�Կ�����Ը��߱��ˣ�
-n e����������˽Կ��e�Լ������������κ���֪����
-�����˷��͵���Ϣʹ��e���ܣ�ֻҪ��������d�⿪��֤����Ϣ�����㷢�͵ģ�������ǩ�����ơ�
-���˸��㷢����Ϣʱʹ��d���ܣ�����ֻ��ӵ��e�����ܹ�������ܡ�
+在对称加密中：
+n d两个数构成公钥，可以告诉别人；
+n e两个数构成私钥，e自己保留，不让任何人知道。
+给别人发送的信息使用e加密，只要别人能用d解开就证明信息是由你发送的，构成了签名机制。
+别人给你发送信息时使用d加密，这样只有拥有e的你能够对其解密。
 
-rsa�İ�ȫ�����ڶ���һ������n��û����Ч�ķ����ܹ�����ֽ�
-�Ӷ�����֪n d��������޷����e��ͬ������֪n e��������޷�
-���d��
+rsa的安全性在于对于一个大数n，没有有效的方法能够将其分解
+从而在已知n d的情况下无法获得e；同样在已知n e的情况下无法
+求得d。
 
 
 
-<��>ʵ��
+<二>实践
 
-������������һ��ʵ��������ʵ�ʵĲ�����
-������������
+接下来我们来一个实践，看看实际的操作：
+找两个素数：
 p=47
 q=59
-����
+这样
 n=p*q=2773
 t=(p-1)*(q-1)=2668
-ȡe=63������e<t����e��t����
-��perl����ٿ��Ի������ e*d%t ==1����d��
+取e=63，满足e<t并且e和t互素
+用perl简单穷举可以获得满主 e*d%t ==1的数d：
 C:\Temp>perl -e "foreach $i (1..9999){ print($i),last if $i*63%2668==1 }"
 847
-��d��847
+即d＝847
 
-�������ǻ�ùؼ���
+最终我们获得关键的
 n=2773
 d=847
 e=63
 
-ȡ��ϢM=244���ǿ���
+取消息M=244我们看看
 
-���ܣ�
+加密：
 
 c=M**d%n = 244**847%2773
-��perl�Ĵ�����������һ�£�
+用perl的大数计算来算一下：
 C:\Temp>perl -Mbigint -e "print 244**847%2773"
 465
-����d��M���ܺ��ü�����Ϣc��465
+即用d对M加密后获得加密信息c＝465
 
-���ܣ�
+解密：
 
-���ǿ�����e���Լ��ܺ��c���н��ܣ���ԭM��
-m=c**e%n=465**63%2773 ��
+我们可以用e来对加密后的c进行解密，还原M：
+m=c**e%n=465**63%2773 ：
 C:\Temp>perl -Mbigint -e "print 465**63%2773"
 244
-����e��c���ܺ���m=244 , ��ֵ��ԭʼ��ϢM��ȡ�
+即用e对c解密后获得m=244 , 该值和原始信息M相等。
 
 
-<��>�ַ�������
+<三>字符串加密
 
-������Ĺ��̼���һ�����Ǿ���ʵ��һ�����ַ������ܽ��ܵ�ʾ���ˡ�
-ÿ��ȡ�ַ����е�һ���ַ���asciiֵ��ΪM���м��㣬�����Ϊ���ܺ�16����
-�������ַ�����ʽ����3�ֽڱ�ʾ����01F
+把上面的过程集成一下我们就能实现一个对字符串加密解密的示例了。
+每次取字符串中的一个字符的ascii值作为M进行计算，其输出为加密后16进制
+的数的字符串形式，按3字节表示，如01F
 
-�������£�
+代码如下：
 
 #!/usr/bin/perl -w
-#RSA �������ѧϰ�����д�Ĳ��Գ���
+#RSA 计算过程学习程序编写的测试程序
 #watercloud 2003-8-12
 #
 use strict;
@@ -124,39 +124,39 @@ sub RSA_DECRYPT
     return \$dmess;
 }
 
-my $mess="RSA �޹�����������";
+my $mess="RSA 娃哈哈哈～～～";
 $mess=$ARGV[0] if @ARGV >= 1;
-print "ԭʼ����",$mess,"\n";
+print "原始串：",$mess,"\n";
 
 my $r_cmess = RSA_ENCRYPT(\$mess);
-print "���ܴ���",$$r_cmess,"\n";
+print "加密串：",$$r_cmess,"\n";
 
 my $r_dmess = RSA_DECRYPT($r_cmess);
-print "���ܴ���",$$r_dmess,"\n";
+print "解密串：",$$r_dmess,"\n";
 
 #EOF
 
-����һ�£�
+测试一下：
 C:\Temp>perl rsa-test.pl
 N=2773  D=847  E=63
-ԭʼ����RSA �޹�����������
-���ܴ���5CB6CD6BC58A7709470AA74A0AA74A0AA74A6C70A46C70A46C70A4
-���ܴ���RSA �޹�����������
+原始串：RSA 娃哈哈哈～～～
+加密串：5CB6CD6BC58A7709470AA74A0AA74A0AA74A6C70A46C70A46C70A4
+解密串：RSA 娃哈哈哈～～～
 
 
-C:\Temp>perl rsa-test.pl ��ȫ���㣨xfocus��
+C:\Temp>perl rsa-test.pl 安全焦点（xfocus）
 N=2773  D=847  E=63
-ԭʼ������ȫ���㣨xfocus��
-���ܴ���3393EC12F0A466E0AA9510D025D7BA0712DC3379F47D51C325D67B
-���ܴ�����ȫ���㣨xfocus��
+原始串：安全焦点（xfocus）
+加密串：3393EC12F0A466E0AA9510D025D7BA0712DC3379F47D51C325D67B
+解密串：安全焦点（xfocus）
 
 
 
-<��>���
+<四>提高
 
-ǰ���Ѿ��ᵽ��rsa�İ�ȫ��Դ��n�㹻�����ǲ�����ʹ�õ�n�Ƿǳ�С�ģ��������ܱ��ϰ�ȫ�ԣ�
-���ǿ���ͨ��RSAKit��RSATool֮��Ĺ��߻���㹻���N ��D E��
-ͨ�����ߣ����ǻ��1024λ��N��D E������һ�£�
+前面已经提到，rsa的安全来源于n足够大，我们测试中使用的n是非常小的，根本不能保障安全性，
+我们可以通过RSAKit、RSATool之类的工具获得足够大的N 及D E。
+通过工具，我们获得1024位的N及D E来测试一下：
 
 n=0x328C74784DF31119C526D18098EBEBB943B0032B599CEE13CC2BCE7B5FCD15F90B66EC3A85F5005D
 BDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F017F9CCF1538D4C2013433B383B
@@ -171,12 +171,12 @@ C4D70D8B1C69C50A9D8B4B7A3C9EE05FFF3A16AFC023731D80634763DA1DCABE9861A4789BD782A5
 1965
 
 
-��ԭʼ��Ϣ
+设原始信息
 M=0x11111111111122222222222233333333333
 
-�����ô�����ֵļ��������ڴ�������⣬��perl������ǳ��򵥣�
+完成这么大数字的计算依赖于大数运算库，用perl来运算非常简单：
 
-A) ��d��M���м������£�
+A) 用d对M进行加密如下：
 c=M**d%n :
 C:\Temp>perl -Mbigint -e " $x=Math::BigInt->bmodpow(0x11111111111122222222222233
 333333333, 0x10001, 0x328C74784DF31119C526D18098EBEBB943B0032B599CEE13CC2BCE7B5F
@@ -188,7 +188,7 @@ CD15F90B66EC3A85F5005DBDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F0
 3028f9461a3b1533ec0cb476441465f10d8ad47452a12db0601c5e8beda686dd96d2acd59ea89b91
 f1834580c3f6d90898
 
-����d��M���ܺ���ϢΪ��
+即用d对M加密后信息为：
 c=0x17b287be418c69ecd7c39227ab681ac422fcc84bb35d8a632543b304de288a8d4434b73d2576bd
 45692b007f3a2f7c5f5aa1d99ef3866af26a8e876712ed1d4cc4b293e26bc0a1dc67e247715caa6b
 3028f9461a3b1533ec0cb476441465f10d8ad47452a12db0601c5e8beda686dd96d2acd59ea89b91
@@ -196,9 +196,9 @@ f1834580c3f6d90898
 
 
 
-B) ��e��c���н������£�
+B) 用e对c进行解密如下：
 
-m=c**e%n ��
+m=c**e%n ：
 C:\Temp>perl -Mbigint -e " $x=Math::BigInt->bmodpow(0x17b287be418c69ecd7c39227ab
 681ac422fcc84bb35d8a632543b304de288a8d4434b73d2576bd45692b007f3a2f7c5f5aa1d99ef3
 866af26a8e876712ed1d4cc4b293e26bc0a1dc67e247715caa6b3028f9461a3b1533ec0cb4764414
@@ -211,18 +211,18 @@ B66EC3A85F5005DBDCDED9BDFCB3C4C265AF164AD55884D8278F791C7A6BFDAD55EDBC4F017F9CCF
 1538D4C2013433B383B47D80EC74B51276CA05B5D6346B9EE5AD2D7BE7ABFB36E37108DD60438941
 D2ED173CCA50E114705D7E2BC511951);print $x->as_hex"
 0x11111111111122222222222233333333333
-(�ҵ�P4 1.6G�Ļ����ϼ�����Լ5���ӣ�
+(我的P4 1.6G的机器上计算了约5秒钟）
 
-�õ���e���ܺ��m=0x11111111111122222222222233333333333  == M
-
-
-C) RSAͨ����ʵ��
-RSA������ţ��������ٶȱȽ�����ͨ�������в�����ֱ��ʹ��RSA �������е���Ϣ���м��ܣ�
-�����������������һ���ԳƼ��ܵ���Կ��Ȼ��ʹ�öԳƼ����㷨����Ϣ���ܣ�֮����
-RSA�Ըղŵļ�����Կ���м��ܡ�
+得到用e解密后的m=0x11111111111122222222222233333333333  == M
 
 
-�����Ҫ˵�����ǣ���ǰС��1024λ��N�Ѿ���֤���ǲ���ȫ��
-�Լ�ʹ���в�Ҫʹ��С��1024λ��RSA�����ʹ��2048λ�ġ�
+C) RSA通常的实现
+RSA简洁幽雅，但计算速度比较慢，通常加密中并不是直接使用RSA 来对所有的信息进行加密，
+最常见的情况是随机产生一个对称加密的密钥，然后使用对称加密算法对信息加密，之后用
+RSA对刚才的加密密钥进行加密。
+
+
+最后需要说明的是，当前小于1024位的N已经被证明是不安全的
+自己使用中不要使用小于1024位的RSA，最好使用2048位的。
 
 

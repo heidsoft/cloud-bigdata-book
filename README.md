@@ -1,15 +1,6 @@
 cloud-blockchain-book
 =====================
 
-[01\_编程语言](01_编程语言/index.md)
-------------------------------------
-
-[02\_API设计](https://raw.githubusercontent.com/heidsoft/cloud-blockchain-book/master/02_API%E8%AE%BE%E8%AE%A1/OAuth%E5%BC%80%E5%8F%91%E4%B8%8E%E9%9B%86%E6%88%90.md)
----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-复习记录
-========
-
 基础层
 ------
 
@@ -32,16 +23,9 @@ cloud-blockchain-book
 - 滑动窗口作用
 - [How to Adjust the TCP Window Size Limit on Linux](https://netbeez.net/blog/tcp-window-size/)
 
-### 数据结构算法
+### 算法
 
-- 平衡二叉树
-
-平衡二叉树是基于二分法的策略提高数据的查找速度的二叉树的数据结构
-
-- B树
-
-- 动态划归
-
+* [算法清单](19_算法\index.md)
 
 ##### io与nio
 
@@ -85,6 +69,11 @@ cloud-blockchain-book
 * 熔断
 * 监测
 
+######  dubbo
+
+
+######  redis
+
 ######  mysql
 - 存储类型
 
@@ -98,8 +87,6 @@ cloud-blockchain-book
 
 
 ###### elasticsearch
-
-###### redis
 
 ###### flink
 

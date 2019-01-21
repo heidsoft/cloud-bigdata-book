@@ -1,0 +1,1 @@
+* [mysql使用多版本控制协议实现,保证强一致性](https://draveness.me/database-concurrency-control)

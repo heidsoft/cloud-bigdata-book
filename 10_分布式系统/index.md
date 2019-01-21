@@ -1,3 +1,5 @@
 * [分布式系统的特点以及设计理念](https://www.infoq.cn/article/features-and-design-concept-of-distributed-system)
 * [并发控制](https://draveness.me/database-concurrency-control#)
 * [mysql 多版本并发控制协议](http://www.xiaojiong.net/2016/04/13/mysql-%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AEmvcc/)
+* [从分布式一致性谈到CAP理论、BASE理论！](https://mp.weixin.qq.com/s?src=11&timestamp=1548043431&ver=1317&signature=GpfbgpbMMpf0joS-41BATYoqgHYDmKs*smfux6maOP4Icgyul9IbY78v4uz5zpS3f5jBfItxiCR-kEoL*r3gqX3X6M5p5eM4**Jz*2uGD1ZtuUiNUjCD0*UuZ9PNcKU5&new=1)
+* [终于找全了：ACID原则、CAP定理、BASE原理、最终一致性和五分钟法则 ](https://mp.weixin.qq.com/s?src=3&timestamp=1548043431&ver=1&signature=xA90B*GCkm6JiPoR1KPx7DA855wOunTZgILcVW6Twi6uGTLUlDA3MjPZU2hGeY229vMAkmzRalYlbNbmsue7FfMfAgvEqxNcJXXFbCX8WKiyF9tsPhBVCUNmY9MupaYzCKO-bPhmN26Wzz5vBhGcRAc5J*9DHNX6*Kp0D5fVn3A=)
